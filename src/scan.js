@@ -4,7 +4,7 @@ import { join, relative, resolve, sep } from 'node:path';
 import { RULES } from './rules.js';
 
 const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.next', '.nuxt', '.output', '.vercel', '.turbo', 'coverage', 'vendor', '.venv', '__pycache__', '.cache']);
-const TEXT = /\.(c|m)?(j|t)sx?$|\.vue$|\.svelte$|\.astro$|\.py$|\.sql$|\.json$|\.ya?ml$|\.toml$|\.html$|\.md$|\.txt$|\.sh$|(^|\/)\.env(\.[a-z]+)?$/i;
+const TEXT = /\.(c|m)?(j|t)sx?$|\.vue$|\.svelte$|\.astro$|\.py$|\.sql$|\.json$|\.ya?ml$|\.toml$|\.html$|\.md$|\.txt$|\.sh$|\.rules$|\.tf$|(^|\/)\.env(\.[a-z]+)?$/i;
 const MAX_BYTES = 1_000_000;
 
 const toPosix = (p) => p.split(sep).join('/');
@@ -79,14 +79,15 @@ function loadContext(root) {
   return { root, paths, tracked, files, sql, pkg, deps, usesSupabase };
 }
 
-export function scan(target = '.') {
+export function scan(target = '.', { extraRules = [] } = {}) {
   const root = resolve(target);
   if (!existsSync(root) || !lstatSync(root).isDirectory()) {
     throw new Error(`Folder not found: ${target}`);
   }
   const started = performance.now();
   const ctx = loadContext(root);
-  const findings = RULES.flatMap((rule) =>
+  const rules = [...RULES, ...extraRules];
+  const findings = rules.flatMap((rule) =>
     rule.run(ctx).map((hit) => ({
       id: rule.id,
       severity: rule.severity,
@@ -105,7 +106,7 @@ export function scan(target = '.') {
   return {
     root,
     filesRead: ctx.files.length,
-    checksRun: RULES.length,
+    checksRun: rules.length,
     ms: Math.round(performance.now() - started),
     counts,
     findings,

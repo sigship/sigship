@@ -4,6 +4,7 @@ import { createInterface } from 'node:readline';
 import { scan } from './scan.js';
 import { toJson, toPrompt } from './report.js';
 import { RULES_BY_ID } from './rules.js';
+import { loadPro } from './pro.js';
 
 const VERSIONS = ['2025-11-25', '2025-06-18', '2025-03-26', '2024-11-05'];
 
@@ -45,13 +46,14 @@ const text = (value, isError = false) => ({
   ...(isError ? { isError: true } : {}),
 });
 
-function callTool(name, args = {}) {
+async function callTool(name, args = {}) {
   try {
     if (name === 'sigship_check') {
       if (typeof args.path !== 'string') return text('path is required.', true);
       const options = { strict: args.strict === true };
-      const result = scan(args.path);
-      return text({ ...toJson(result, options), fixPrompt: toPrompt(result, options) });
+      const pro = await loadPro(args.path);
+      const result = scan(args.path, { extraRules: pro.rules });
+      return text({ ...toJson(result, { ...options, pro }), fixPrompt: toPrompt(result, options) });
     }
     if (name === 'sigship_explain') {
       const rule = RULES_BY_ID[args.id];
@@ -64,7 +66,7 @@ function callTool(name, args = {}) {
   }
 }
 
-function respond(message, version) {
+async function respond(message, version) {
   const { id, method, params } = message;
   const reply = (result) => ({ jsonrpc: '2.0', id, result });
   switch (method) {
@@ -80,7 +82,7 @@ function respond(message, version) {
     case 'tools/list':
       return reply({ tools: TOOLS });
     case 'tools/call':
-      return reply(callTool(params?.name, params?.arguments));
+      return reply(await callTool(params?.name, params?.arguments));
     default:
       if (id === undefined) return null; // Notifications get no reply.
       return { jsonrpc: '2.0', id, error: { code: -32601, message: `Method not found: ${method}` } };
@@ -99,8 +101,9 @@ export function startMcp(version) {
       send({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'Parse error' } });
       return;
     }
-    const reply = respond(message, version);
-    if (reply) send(reply);
+    respond(message, version).then((reply) => {
+      if (reply) send(reply);
+    });
   });
   return new Promise((resolve) => lines.on('close', resolve));
 }

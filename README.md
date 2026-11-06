@@ -63,6 +63,20 @@ Cursor, in `.cursor/mcp.json`:
 
 The agent gets two tools, `sigship_check` and `sigship_explain`, and an instruction not to say it is done while the verdict is NO-GO.
 
+## Solo and Team
+
+Set `SIGSHIP_KEY` to your licence key from [sigship.dev](https://sigship.dev/#pricing) to add the Pro pack of extra checks.
+
+```bash
+SIGSHIP_KEY=your-key npx sigship            # free checks plus the Pro pack
+SIGSHIP_KEY=your-key npx sigship --report   # also write sigship-report.html for a client
+npx sigship init --pro                      # pull request comments and a nightly check
+```
+
+With a key, SIGSHIP sends the key and a one-way repo fingerprint to api.sigship.dev, and nothing else: no code, file names or findings. Without a key it makes no network calls. If the server can't be reached, it uses the last Pro pack it downloaded, or the free checks, and never fails the scan because of it.
+
+For the nightly check and pull request comments, add the key as the repository secret `SIGSHIP_KEY`. On Team, add `SLACK_WEBHOOK_URL` for Slack alerts.
+
 ## What it checks
 
 SEV-1: live secrets in code, a committed `.env` with secrets, server secrets with browser-visible names, AI keys in the browser, missing Supabase row level security, policies that let anyone write, unverified Stripe webhooks, and user input inside SQL.

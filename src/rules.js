@@ -1,16 +1,16 @@
 // Every SIGSHIP check lives here. A check is plain data plus one small function.
 // Checks only read files. They never call the network and never print a secret.
 
-const CODE = /\.(c|m)?(j|t)sx?$|\.vue$|\.svelte$|\.astro$|\.py$/;
-const SERVER_PATH = /(^|\/)(api|server|functions|edge|backend|routes)(\/|$)|route\.(t|j)s$|\.server\.(t|j)sx?$/;
+export const CODE = /\.(c|m)?(j|t)sx?$|\.vue$|\.svelte$|\.astro$|\.py$/;
+export const SERVER_PATH = /(^|\/)(api|server|functions|edge|backend|routes)(\/|$)|route\.(t|j)s$|\.server\.(t|j)sx?$/;
 // Tests, samples and docs are not what ships, so the code checks skip them.
-const NOT_SHIPPED = /(\.example|\.sample|\.template|\.dist)$|(^|\/)(examples?|samples?|fixtures?|mocks?|tests?|e2e|spec|__tests__|__mocks__|docs?|demo)(\/|$)|\.(test|spec|stories)\.[a-z]+$/i;
+export const NOT_SHIPPED = /(\.example|\.sample|\.template|\.dist)$|(^|\/)(examples?|samples?|fixtures?|mocks?|tests?|e2e|spec|__tests__|__mocks__|docs?|demo)(\/|$)|\.(test|spec|stories)\.[a-z]+$/i;
 
 const WEB_FRAMEWORK = /^(react|next|vue|nuxt|svelte|@sveltejs\/kit|express|fastify|hono|@nestjs\/core|astro)$/;
 
 const lineOf = (text, index) => text.slice(0, index).split('\n').length;
 
-function findAll(file, regex) {
+export function findAll(file, regex) {
   const flags = regex.flags.includes('g') ? regex.flags : regex.flags + 'g';
   return [...file.text.matchAll(new RegExp(regex.source, flags))].map((m) => ({
     file: file.path,
