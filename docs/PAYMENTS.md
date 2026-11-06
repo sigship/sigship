@@ -1,6 +1,6 @@
 # Paid plans
 
-Status: live. sigship 0.2.0 is on npm, the licence server runs at api.sigship.dev, and the Solo and Team buttons go to Polar checkout.
+Status: paused for SIGSHIP Cloud. The CLI Pro pack, licence server and Polar products still work, but the site now shows Solo ($19), Team ($59) and Agency ($149) as Cloud plans with a waitlist. Keys already sold keep working. Reopen sales when Cloud ships, with new Polar products at the new prices.
 
 The Pro pack and the licence server live in the private repo `sigship/sigship-pro`, so buyers get the checks and this public repo never shows them.
 

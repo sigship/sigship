@@ -9,10 +9,12 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem('sigship-theme')}catch(e){}if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')})()</script>
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#edf2f6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#060b14" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="/style.css">
+<script src="/site.js" defer></script>
 <meta property="og:title" content="SIGSHIP: the go/no-go check for AI-built apps">
 <meta property="og:description" content="The postmortem, before the outage. Runs on your machine. Exits 0 only when it finds nothing serious.">
 <meta property="og:image" content="https://sigship.dev/og.png">
@@ -38,9 +40,11 @@
   <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
   <nav aria-label="Main">
     <a href="#checks">Checks</a>
+    <a class="wide" href="#cloud">Cloud</a>
     <a href="#pricing">Pricing</a>
-    <a href="https://github.com/sigship/sigship">GitHub</a>
+    <a class="wide" href="https://github.com/sigship/sigship">GitHub</a>
     <a class="wide" href="https://zoof04.com">by zoof04</a>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
   </nav>
 </header>
 
@@ -72,7 +76,9 @@
     </ol>
   </div>
 
-  <figure class="console">
+  <div class="ticker" aria-hidden="true"><div class="ticker-track" data-ticker><span><b class="t1">SEV-1</b>A live secret is sitting in your code</span><span><b class="t1">SEV-1</b>Your .env file is committed</span><span><b class="t1">SEV-1</b>A server secret has a browser-visible name</span><span><b class="t1">SEV-1</b>Your AI key runs in the browser</span><span><b class="t1">SEV-1</b>A database table has no row level security</span><span><b class="t1">SEV-1</b>A database policy lets anyone write</span><span><b class="t1">SEV-1</b>Your Stripe webhook accepts anything</span><span><b class="t1">SEV-1</b>User input may be pasted into a SQL query</span><span><b class="t2">SEV-2</b>Your AI route has no spending brake</span><span><b class="t2">SEV-2</b>Admin access is decided in the browser</span><span><b class="t2">SEV-2</b>Raw HTML goes straight onto the page</span><span><b class="t3">SEV-3</b>Any website can call your API</span><span><b class="t3">SEV-3</b>A secret may be going to your logs</span><span><b class="t3">SEV-3</b>One crash takes down the whole screen</span><span><b class="t3">SEV-3</b>You will hear about errors from your users</span><span><b class="t3">SEV-3</b>Nothing checks that a change did not break login</span><span><b class="t3">SEV-3</b>Your deploys are not repeatable</span><span><b class="t1">SEV-1</b>A live secret is sitting in your code</span><span><b class="t1">SEV-1</b>Your .env file is committed</span><span><b class="t1">SEV-1</b>A server secret has a browser-visible name</span><span><b class="t1">SEV-1</b>Your AI key runs in the browser</span><span><b class="t1">SEV-1</b>A database table has no row level security</span><span><b class="t1">SEV-1</b>A database policy lets anyone write</span><span><b class="t1">SEV-1</b>Your Stripe webhook accepts anything</span><span><b class="t1">SEV-1</b>User input may be pasted into a SQL query</span><span><b class="t2">SEV-2</b>Your AI route has no spending brake</span><span><b class="t2">SEV-2</b>Admin access is decided in the browser</span><span><b class="t2">SEV-2</b>Raw HTML goes straight onto the page</span><span><b class="t3">SEV-3</b>Any website can call your API</span><span><b class="t3">SEV-3</b>A secret may be going to your logs</span><span><b class="t3">SEV-3</b>One crash takes down the whole screen</span><span><b class="t3">SEV-3</b>You will hear about errors from your users</span><span><b class="t3">SEV-3</b>Nothing checks that a change did not break login</span><span><b class="t3">SEV-3</b>Your deploys are not repeatable</span></div></div>
+
+  <figure class="console" data-reveal>
     <div class="console-bar">
       <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
       <div role="tablist" aria-label="Example run">
@@ -111,6 +117,15 @@
 <span class="dim">This means these checks found nothing that blocks launch. It does not prove the app is safe.</span></code></pre>
     <figcaption class="term-note">Shortened output from a small demo app, before and after its fixes.</figcaption>
   </figure>
+
+  <section class="stats" aria-label="SIGSHIP in numbers">
+    <dl>
+      <div data-reveal><dt><span data-count="17">17</span></dt><dd>checks, chosen for how AI-built apps fail</dd></div>
+      <div data-reveal><dt>0 bytes</dt><dd>of your code uploaded by the free tool</dd></div>
+      <div data-reveal><dt>1 command</dt><dd>no signup, no config, no dependencies</dd></div>
+      <div data-reveal><dt>Exit 0</dt><dd>means GO, so your coding agent knows when it is done</dd></div>
+    </dl>
+  </section>
 
   <section class="split" id="why">
     <div class="signals">
@@ -151,9 +166,9 @@
   <section id="checks">
     <h2>17 checks, chosen for how AI-built apps actually fail.</h2>
     <div class="sevs">
-      <div class="sev1"><h3><span>SEV-1</span></h3><p>Blocks launch. Exposes data or money.</p><ul data-sev="1"><li><a href="/checks/secret-in-code/"><b>A live secret is sitting in your code</b><span>Someone reads it from your repo or your JavaScript bundle, and the bill or the data breach arrives before you do.</span></a></li><li><a href="/checks/env-file-committed/"><b>Your .env file is committed</b><span>Every secret in that file is now in your git history, including every fork and clone of it.</span></a></li><li><a href="/checks/public-env-secret/"><b>A server secret has a browser-visible name</b><span>Your build tool copies it into the JavaScript every visitor downloads, where anyone can read it.</span></a></li><li><a href="/checks/ai-key-in-browser/"><b>Your AI key runs in the browser</b><span>A stranger copies your key from the network tab and spends your credit on their own project.</span></a></li><li><a href="/checks/rls-missing/"><b>A database table has no row level security</b><span>Anyone with your public Supabase key can read this table. That key ships in your JavaScript.</span></a></li><li><a href="/checks/rls-open-write/"><b>A database policy lets anyone write</b><span>Row level security is on, but this policy says yes to everyone, so a stranger can edit or delete your data.</span></a></li><li><a href="/checks/stripe-webhook-unverified/"><b>Your Stripe webhook accepts anything</b><span>Someone posts a fake &quot;payment succeeded&quot; event to your endpoint and gets your paid plan for free.</span></a></li><li><a href="/checks/sql-string-concat/"><b>User input may be pasted into a SQL query</b><span>Someone types a crafted value into a form and your database runs it as a command.</span></a></li></ul></div>
-      <div class="sev2"><h3><span>SEV-2</span></h3><p>Blocks launch. Abuse is easy.</p><ul data-sev="2"><li><a href="/checks/ai-route-no-rate-limit/"><b>Your AI route has no spending brake</b><span>One script loops on this endpoint overnight and you wake up to the invoice.</span></a></li><li><a href="/checks/role-in-local-storage/"><b>Admin access is decided in the browser</b><span>Someone opens dev tools, changes one value, and becomes an admin.</span></a></li><li><a href="/checks/unsanitized-html/"><b>Raw HTML goes straight onto the page</b><span>A comment or profile field carries a script, and it runs in the browser of every visitor who sees it.</span></a></li></ul></div>
-      <div class="sev3"><h3><span>SEV-3</span></h3><p>Reported. Blocks only with --strict.</p><ul data-sev="3"><li><a href="/checks/cors-wildcard/"><b>Any website can call your API</b><span>Another site calls your endpoints from its own pages, and you never see it in your logs as a problem.</span></a></li><li><a href="/checks/secret-in-logs/"><b>A secret may be going to your logs</b><span>Passwords or tokens end up in a log service that more people can read than your database.</span></a></li><li><a href="/checks/no-error-boundary/"><b>One crash takes down the whole screen</b><span>A single bad record gives your users a white page, and nobody tells you.</span></a></li><li><a href="/checks/no-error-tracking/"><b>You will hear about errors from your users</b><span>Your app fails for a week before someone is annoyed enough to email you.</span></a></li><li><a href="/checks/no-tests/"><b>Nothing checks that a change did not break login</b><span>A small fix goes live on Friday and signup is broken until Monday.</span></a></li><li><a href="/checks/no-lockfile/"><b>Your deploys are not repeatable</b><span>A dependency updates itself on the next deploy and production breaks with no code change.</span></a></li></ul></div>
+      <div class="sev1" data-reveal><h3><span>SEV-1</span></h3><p>Blocks launch. Exposes data or money.</p><ul data-sev="1"><li><a href="/checks/secret-in-code/"><b>A live secret is sitting in your code</b><span>Someone reads it from your repo or your JavaScript bundle, and the bill or the data breach arrives before you do.</span></a></li><li><a href="/checks/env-file-committed/"><b>Your .env file is committed</b><span>Every secret in that file is now in your git history, including every fork and clone of it.</span></a></li><li><a href="/checks/public-env-secret/"><b>A server secret has a browser-visible name</b><span>Your build tool copies it into the JavaScript every visitor downloads, where anyone can read it.</span></a></li><li><a href="/checks/ai-key-in-browser/"><b>Your AI key runs in the browser</b><span>A stranger copies your key from the network tab and spends your credit on their own project.</span></a></li><li><a href="/checks/rls-missing/"><b>A database table has no row level security</b><span>Anyone with your public Supabase key can read this table. That key ships in your JavaScript.</span></a></li><li><a href="/checks/rls-open-write/"><b>A database policy lets anyone write</b><span>Row level security is on, but this policy says yes to everyone, so a stranger can edit or delete your data.</span></a></li><li><a href="/checks/stripe-webhook-unverified/"><b>Your Stripe webhook accepts anything</b><span>Someone posts a fake &quot;payment succeeded&quot; event to your endpoint and gets your paid plan for free.</span></a></li><li><a href="/checks/sql-string-concat/"><b>User input may be pasted into a SQL query</b><span>Someone types a crafted value into a form and your database runs it as a command.</span></a></li></ul></div>
+      <div class="sev2" data-reveal><h3><span>SEV-2</span></h3><p>Blocks launch. Abuse is easy.</p><ul data-sev="2"><li><a href="/checks/ai-route-no-rate-limit/"><b>Your AI route has no spending brake</b><span>One script loops on this endpoint overnight and you wake up to the invoice.</span></a></li><li><a href="/checks/role-in-local-storage/"><b>Admin access is decided in the browser</b><span>Someone opens dev tools, changes one value, and becomes an admin.</span></a></li><li><a href="/checks/unsanitized-html/"><b>Raw HTML goes straight onto the page</b><span>A comment or profile field carries a script, and it runs in the browser of every visitor who sees it.</span></a></li></ul></div>
+      <div class="sev3" data-reveal><h3><span>SEV-3</span></h3><p>Reported. Blocks only with --strict.</p><ul data-sev="3"><li><a href="/checks/cors-wildcard/"><b>Any website can call your API</b><span>Another site calls your endpoints from its own pages, and you never see it in your logs as a problem.</span></a></li><li><a href="/checks/secret-in-logs/"><b>A secret may be going to your logs</b><span>Passwords or tokens end up in a log service that more people can read than your database.</span></a></li><li><a href="/checks/no-error-boundary/"><b>One crash takes down the whole screen</b><span>A single bad record gives your users a white page, and nobody tells you.</span></a></li><li><a href="/checks/no-error-tracking/"><b>You will hear about errors from your users</b><span>Your app fails for a week before someone is annoyed enough to email you.</span></a></li><li><a href="/checks/no-tests/"><b>Nothing checks that a change did not break login</b><span>A small fix goes live on Friday and signup is broken until Monday.</span></a></li><li><a href="/checks/no-lockfile/"><b>Your deploys are not repeatable</b><span>A dependency updates itself on the next deploy and production breaks with no code change.</span></a></li></ul></div>
     </div>
   </section>
 
@@ -166,45 +181,78 @@
     </ul>
   </section>
 
+  <section class="cloud" id="cloud">
+    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Coming soon</p>
+    <h2>SIGSHIP Cloud. Connect once, and it keeps watch.</h2>
+    <p class="note">For people who build with AI tools and don't live in a terminal. Connect your project, and SIGSHIP checks every change, watches your live site and tells you what to fix in plain English.</p>
+    <ol class="steps">
+      <li data-reveal><span class="step-n">01</span><h3>Connect</h3><p>Sign in with GitHub and pick a repo. Projects from AI builders connect through their GitHub sync, and projects from AI editors through the repo you push to.</p></li>
+      <li data-reveal><span class="step-n">02</span><h3>Watch</h3><p>SIGSHIP checks your code on every push and every night. It also checks your live site from the outside, the way an attacker would.</p></li>
+      <li data-reveal><span class="step-n">03</span><h3>Fix</h3><p>Each problem comes in plain English with a fix prompt ready for the tool you build with. Fix it, and SIGSHIP checks again on its own.</p></li>
+    </ol>
+    <div class="tools">
+      <p>Planned to work with projects built in</p>
+      <ul>
+        <li>GitHub</li><li>Lovable</li><li>Bolt</li><li>Replit</li><li>v0</li><li>Cursor</li><li>Claude Code</li><li>Codex</li><li>Copilot</li><li>Windsurf</li>
+      </ul>
+      <small>Names belong to their owners. SIGSHIP is not affiliated with them.</small>
+    </div>
+    <p class="cloud-privacy">The free tool stays fully on your machine. In Cloud, your code is read in an isolated runner and deleted within minutes. Only the findings are kept.</p>
+  </section>
+
   <section id="pricing">
-    <h2>Free to run. Paid when you want it to keep watch.</h2>
-    <p class="note">Solo and Team give you a licence key right after checkout. Set it as <code>SIGSHIP_KEY</code> and the Pro pack switches on. Cancel anytime, with a full refund within 14 days.</p>
+    <h2>Free on your machine. Cloud when you want it to keep watch.</h2>
+    <p class="note">The free tool works today. Paid plans are SIGSHIP Cloud and open soon. Join the waitlist for early access and launch pricing.</p>
     <div class="plans">
-      <article class="plan now">
-        <h3>Free <span class="tag">No signup</span></h3>
+      <article class="plan now" data-reveal>
+        <h3>Free <span class="tag">Available now</span></h3>
         <p class="price">$0</p>
         <ul>
           <li>17 core checks</li>
           <li>Unlimited repos, on your machine</li>
-          <li>Terminal output, JSON and fix prompt</li>
+          <li>Terminal, browser dashboard, JSON and fix prompt</li>
           <li>Pull request check and MCP server</li>
         </ul>
         <a class="btn" href="https://github.com/sigship/sigship">Read the code</a>
       </article>
-      <article class="plan">
-        <h3>Solo</h3>
-        <p class="price">$10 <span class="per">a month</span></p>
+      <article class="plan" data-reveal>
+        <h3>Solo <span class="tag">Waitlist</span></h3>
+        <p class="price">$19 <span class="per">a month</span></p>
         <ul>
-          <li>Core checks plus the Pro pack</li>
-          <li>3 private repos</li>
-          <li>A report you can send to a client</li>
-          <li>Email when a repo turns NO-GO</li>
+          <li>3 projects in Cloud</li>
+          <li>Checks on every push and every night</li>
+          <li>Live site check for 1 site, daily</li>
+          <li>Pro pack of extra checks</li>
+          <li>Email alerts and client reports</li>
         </ul>
-        <a class="btn" href="https://buy.polar.sh/polar_cl_Xxty8vimy8zncfeJKXcc6ypNkMwiyoPzTyvqH4EfWSX">Start Solo</a>
+        <a class="btn alt" href="#waitlist" data-plan="solo">Join the waitlist</a>
       </article>
-      <article class="plan">
-        <h3>Team</h3>
-        <p class="price">$49 <span class="per">a month</span></p>
+      <article class="plan" data-reveal>
+        <h3>Team <span class="tag">Waitlist</span></h3>
+        <p class="price">$59 <span class="per">a month</span></p>
         <ul>
-          <li>Core checks plus the Pro pack</li>
-          <li>10 private repos</li>
-          <li>Reports and pull request comments</li>
-          <li>Slack and email alerts</li>
+          <li>10 projects and 5 seats</li>
+          <li>Live site checks for 10 sites, hourly</li>
+          <li>Pull request comments and merge block</li>
+          <li>Slack, Discord and email alerts</li>
+          <li>Everything in Solo</li>
         </ul>
-        <a class="btn" href="https://buy.polar.sh/polar_cl_3gseyxllDjiLJj1lmqJW1dn0MwJozE0rYWQSp4b0PX4">Start Team</a>
+        <a class="btn alt" href="#waitlist" data-plan="team">Join the waitlist</a>
+      </article>
+      <article class="plan" data-reveal>
+        <h3>Agency <span class="tag">Waitlist</span></h3>
+        <p class="price">$149 <span class="per">a month</span></p>
+        <ul>
+          <li>30 projects and 15 seats</li>
+          <li>Live site checks for 30 sites, hourly</li>
+          <li>White-label client reports</li>
+          <li>An alert channel per client</li>
+          <li>Everything in Team</li>
+        </ul>
+        <a class="btn alt" href="#waitlist" data-plan="agency">Join the waitlist</a>
       </article>
     </div>
-    <div class="pilot">
+    <div class="pilot" data-reveal>
       <svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>
       <div>
         <h3>Flag G means “I require a pilot.”</h3>
@@ -216,16 +264,63 @@
       </div>
     </div>
   </section>
+
+  <section class="waitlist" id="waitlist">
+    <div class="wl-copy" data-reveal>
+      <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> SIGSHIP Cloud</p>
+      <h2>Get early access.</h2>
+      <p>We will email you when your plan opens, with launch pricing. Nothing else. Ask us at support@sigship.dev to remove you at any time.</p>
+    </div>
+    <form class="wl-form" method="post" action="/api/waitlist" data-waitlist data-reveal>
+      <label><span>Email</span><input type="email" name="email" required autocomplete="email" maxlength="254" placeholder="you@yourapp.com"></label>
+      <label><span>Name <em>(optional)</em></span><input name="name" autocomplete="name" maxlength="80"></label>
+      <label><span>Plan</span><select name="plan" required>
+        <option value="solo">Solo, $19 a month</option>
+        <option value="team">Team, $59 a month</option>
+        <option value="agency">Agency, $149 a month</option>
+      </select></label>
+      <label><span>What do you build with? <em>(optional)</em></span><select name="tool">
+        <option value="">Choose one</option>
+        <option value="lovable">Lovable</option>
+        <option value="bolt">Bolt</option>
+        <option value="replit">Replit</option>
+        <option value="v0">v0</option>
+        <option value="cursor">Cursor</option>
+        <option value="claude-code">Claude Code</option>
+        <option value="codex">Codex</option>
+        <option value="copilot">Copilot</option>
+        <option value="windsurf">Windsurf</option>
+        <option value="other">Something else</option>
+      </select></label>
+      <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="started" value="">
+      <button class="btn" type="submit">Join the waitlist</button>
+      <p class="wl-status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
 </main>
 
-<footer>
-  <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  <nav aria-label="Footer">
-    <a href="/privacy/">Privacy</a>
-    <a href="/terms/">Terms and refunds</a>
-    <a href="/brand/">Brand</a>
-    <a href="mailto:support@sigship.dev">support@sigship.dev</a>
-  </nav>
+<footer class="site-foot">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--on-panel)"/><rect x="16" width="3" height="20" fill="var(--on-panel)"/><rect x="71" width="3" height="20" fill="var(--on-panel)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+      <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
+      <code class="foot-cmd">npx sigship</code>
+      <div class="foot-flags" aria-hidden="true"><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></svg><svg viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></svg></div>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="/#checks">Checks</a><a href="/#cloud">SIGSHIP Cloud</a><a href="/#pricing">Pricing</a><a href="/#waitlist">Join the waitlist</a></div>
+      <div><p class="foot-h">Developers</p><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://www.npmjs.com/package/sigship">npm</a><a href="/llms.txt">llms.txt</a></div>
+      <div><p class="foot-h">Company</p><a href="https://zoof04.com">zoof04</a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></div>
+      <div><p class="foot-h">Legal</p><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
+    </nav>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Zoof04 Inc.</span>
+    <span class="foot-status"><i aria-hidden="true"></i>The free tool runs on your machine. Nothing leaves it.</span>
+    <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
+  </div>
+  <div class="foot-word" aria-hidden="true">SIGSHIP</div>
 </footer>
 
 <script>

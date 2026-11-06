@@ -17,6 +17,16 @@ const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, 
 const css = readFileSync(join(site, 'style.css'), 'utf8');
 const token = tokens(css);
 const MARK = mark({ blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--ink)' }, ' aria-hidden="true"');
+const FOOT_MARK = mark({ blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--on-panel)' }, ' aria-hidden="true"');
+
+// The flag patterns come from the home page's hero, so the footer flags always match it.
+const homeFile = join(site, 'index.html');
+const FLAGS = Object.fromEntries([...readFileSync(homeFile, 'utf8').matchAll(/<symbol id="flag-([a-z])" viewBox="0 0 90 60">([\s\S]*?)<\/symbol>/g)].map((m) => [m[1], m[2]]));
+const flagRow = [...'sigship'].map((f) => `<svg viewBox="0 0 90 60">${FLAGS[f]}</svg>`).join('');
+
+// Picks dark or light before the page paints, so there is no flash. The toggle in site.js changes it.
+const THEME_SCRIPT = `<script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem('sigship-theme')}catch(e){}if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')})()</script>`;
+const TOGGLE = '<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>';
 
 // A page without a path, such as the 404 page, is kept out of search results.
 const shell = ({ title, description, path, body }) => `<!doctype html>
@@ -30,15 +40,17 @@ ${path ? `<link rel="canonical" href="${ORIGIN}${path}">` : '<meta name="robots"
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+${THEME_SCRIPT}
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#edf2f6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#060b14" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="/style.css">
+<script src="/site.js" defer></script>
 </head>
 <body>
 <header class="mast">
   <a class="brand" href="/">${MARK}SIGSHIP</a>
-  <nav aria-label="Main"><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a><a class="wide" href="https://zoof04.com">by zoof04</a></nav>
+  <nav aria-label="Main"><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a class="wide" href="https://github.com/sigship/sigship">GitHub</a><a class="wide" href="https://zoof04.com">by zoof04</a>${TOGGLE}</nav>
 </header>
 <main class="page">
 ${body}
@@ -48,9 +60,28 @@ ${FOOTER}
 </html>
 `;
 
-const FOOTER = `<footer>
-  <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></nav>
+// One footer for every page, the home page included.
+const FOOTER = `<footer class="site-foot">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a class="brand" href="/">${FOOT_MARK}SIGSHIP</a>
+      <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
+      <code class="foot-cmd">npx sigship</code>
+      <div class="foot-flags" aria-hidden="true">${flagRow}</div>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="/#checks">Checks</a><a href="/#cloud">SIGSHIP Cloud</a><a href="/#pricing">Pricing</a><a href="/#waitlist">Join the waitlist</a></div>
+      <div><p class="foot-h">Developers</p><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://www.npmjs.com/package/sigship">npm</a><a href="/llms.txt">llms.txt</a></div>
+      <div><p class="foot-h">Company</p><a href="https://zoof04.com">zoof04</a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></div>
+      <div><p class="foot-h">Legal</p><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
+    </nav>
+  </div>
+  <div class="foot-bottom">
+    <span>© ${new Date().getFullYear()} Zoof04 Inc.</span>
+    <span class="foot-status"><i aria-hidden="true"></i>The free tool runs on your machine. Nothing leaves it.</span>
+    <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
+  </div>
+  <div class="foot-word" aria-hidden="true">SIGSHIP</div>
 </footer>`;
 
 function write(path, html) {
@@ -145,6 +176,8 @@ write('privacy', shell({
 <p>We pass the key to Polar to check it and to count the repository against your plan's limit. We keep the fingerprint and Polar's activation ID so each repository is counted once. The Pro pack is cached on your machine for 24 hours.</p>
 <h2>This website</h2>
 <p>This site uses Cloudflare Web Analytics, which counts visits without cookies.</p>
+<h2>Waitlist</h2>
+<p>If you join the SIGSHIP Cloud waitlist, we keep your email address, your name if you give it, the plan you picked, the tool you build with if you give it, your country as reported by Cloudflare, and the time. It is stored in a Google Sheet that only Zoof04 can open. We use it only to email you when your plan opens. Email <a href="mailto:support@sigship.dev">support@sigship.dev</a> and we will delete it.</p>
 <h2>Payments</h2>
 <p>Polar is the merchant of record. Polar collects your payment details and shares your name, email and order with us so we can provide the service.</p>
 <h2>Pilot review</h2>
@@ -188,9 +221,12 @@ ${RULES.map((r) => `- [${r.title}](${ORIGIN}/checks/${r.id}/): SEV-${r.severity}
 `);
 writeFileSync(join(site, 'favicon.svg'), icon({ blue: token('blue'), paper: token('paper'), ink: token('ink') }, ' xmlns="http://www.w3.org/2000/svg"'));
 
-// Fill the check lists on the home page.
-const home = join(site, 'index.html');
+// Fill the check lists, the ticker and the footer on the home page.
+const home = homeFile;
 let html = readFileSync(home, 'utf8');
+const tick = RULES.map((r) => `<span><b class="t${r.severity}">SEV-${r.severity}</b>${esc(r.title)}</span>`).join('');
+html = html.replace(/<div class="ticker-track" data-ticker>[\s\S]*?<\/div><\/div>/, `<div class="ticker-track" data-ticker>${tick}${tick}</div></div>`);
+html = html.replace(/<footer[\s\S]*?<\/footer>/, FOOTER);
 for (const sev of [1, 2, 3]) {
   const list = RULES.filter((r) => r.severity === sev).map((r) => `<li><a href="/checks/${r.id}/"><b>${esc(r.title)}</b><span>${esc(r.forecast)}</span></a></li>`).join('');
   html = html.replace(new RegExp(`<ul data-sev="${sev}">[\\s\\S]*?</ul>`), `<ul data-sev="${sev}">${list}</ul>`);
