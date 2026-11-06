@@ -1,6 +1,6 @@
 # Paid plans
 
-Status: built, not live. The CLI, Pro pack and licence server are done and tested. Solo and Team stay "open in January 2027" on the site until the server is deployed and a real purchase works end to end.
+Status: live. sigship 0.2.0 is on npm, the licence server runs at api.sigship.dev, and the Solo and Team buttons go to Polar checkout.
 
 The Pro pack and the licence server live in the private repo `sigship/sigship-pro`, so buyers get the checks and this public repo never shows them.
 
@@ -48,7 +48,7 @@ The Pro pack must be data, such as patterns and messages. The CLI must never dow
 4. Done: `--report` for a client-ready HTML report.
 5. Done: `npx sigship init --pro` adds pull request comments and a nightly check, with a Slack step for Team.
 6. Done: the privacy page says that paid plans send the licence key and a repo fingerprint.
-7. Owner: publish sigship 0.2.0 to npm.
-8. Owner: create the KV namespace, set `POLAR_ORG_ID` in `sigship-pro/wrangler.jsonc`, and deploy the Worker with `npm run deploy`.
-9. Put the Solo and Team checkout links on their buttons in `site/index.html`, drop the "January 2027" tags, and remove the line with `id="soon"`.
+7. Done: sigship 0.2.0 is on npm.
+8. Done: the KV namespace exists, `POLAR_ORG_ID` is set, and the Worker is live at api.sigship.dev.
+9. Done: the Solo and Team buttons go to their own Polar checkout links.
 10. The owner buys Solo with a real card, confirms it works, then refunds it.
