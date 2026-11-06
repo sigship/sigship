@@ -422,6 +422,7 @@ footer {
   font-size: 0.97rem;
 }
 footer a { color: var(--paper); }
+footer a:hover { color: var(--yellow); }
 footer { align-items: center; }
 .made-by { display: inline-flex; align-items: center; gap: 10px; color: #c7d3df; text-decoration: none; }
 .made-by:hover { color: var(--paper); }
