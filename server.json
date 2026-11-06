@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.YOUR_GITHUB_USERNAME/sigship",
+  "description": "Go/no-go check for AI-built apps. Finds production problems locally and returns fixes.",
+  "repository": {
+    "url": "https://github.com/YOUR_GITHUB_USERNAME/sigship",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "sigship",
+      "version": "0.1.0",
+      "packageArguments": [{ "type": "positional", "value": "mcp" }],
+      "transport": { "type": "stdio" }
+    }
+  ]
+}

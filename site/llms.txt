@@ -1,0 +1,25 @@
+# SIGSHIP
+
+> The go/no-go check for AI-built apps, by zoof04. It reads a repo locally, reports production problems with fixes, and exits 0 only when no SEV-1 or SEV-2 finding remains.
+
+Run it with: npx sigship
+Add it to a coding agent with: claude mcp add sigship -- npx -y sigship mcp
+
+## Checks
+- [A live secret is sitting in your code](https://sigship.dev/checks/secret-in-code/): SEV-1
+- [Your .env file is committed](https://sigship.dev/checks/env-file-committed/): SEV-1
+- [A server secret has a browser-visible name](https://sigship.dev/checks/public-env-secret/): SEV-1
+- [Your AI key runs in the browser](https://sigship.dev/checks/ai-key-in-browser/): SEV-1
+- [A database table has no row level security](https://sigship.dev/checks/rls-missing/): SEV-1
+- [A database policy lets anyone write](https://sigship.dev/checks/rls-open-write/): SEV-1
+- [Your Stripe webhook accepts anything](https://sigship.dev/checks/stripe-webhook-unverified/): SEV-1
+- [User input may be pasted into a SQL query](https://sigship.dev/checks/sql-string-concat/): SEV-1
+- [Your AI route has no spending brake](https://sigship.dev/checks/ai-route-no-rate-limit/): SEV-2
+- [Admin access is decided in the browser](https://sigship.dev/checks/role-in-local-storage/): SEV-2
+- [Raw HTML goes straight onto the page](https://sigship.dev/checks/unsanitized-html/): SEV-2
+- [Any website can call your API](https://sigship.dev/checks/cors-wildcard/): SEV-3
+- [A secret may be going to your logs](https://sigship.dev/checks/secret-in-logs/): SEV-3
+- [One crash takes down the whole screen](https://sigship.dev/checks/no-error-boundary/): SEV-3
+- [You will hear about errors from your users](https://sigship.dev/checks/no-error-tracking/): SEV-3
+- [Nothing checks that a change did not break login](https://sigship.dev/checks/no-tests/): SEV-3
+- [Your deploys are not repeatable](https://sigship.dev/checks/no-lockfile/): SEV-3

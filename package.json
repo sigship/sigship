@@ -1,0 +1,47 @@
+{
+  "name": "sigship",
+  "version": "0.1.0",
+  "description": "The go/no-go check for AI-built apps. Reads your repo, writes the postmortem before the outage, and exits 0 only when it finds nothing serious.",
+  "type": "module",
+  "bin": {
+    "sigship": "bin/sigship.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "docs": "node scripts/build-docs.js",
+    "setup": "node scripts/setup.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "production-readiness",
+    "security",
+    "supabase",
+    "lovable",
+    "cursor",
+    "claude-code",
+    "mcp",
+    "cli"
+  ],
+  "homepage": "https://sigship.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_GITHUB_USERNAME/sigship.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR_GITHUB_USERNAME/sigship/issues"
+  },
+  "author": "zoof04",
+  "license": "MIT",
+  "mcpName": "io.github.YOUR_GITHUB_USERNAME/sigship",
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0"
+  }
+}
