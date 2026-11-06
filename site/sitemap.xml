@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://sigship.dev/</loc></url>
+  <url><loc>https://sigship.dev/privacy/</loc></url>
+  <url><loc>https://sigship.dev/terms/</loc></url>
+  <url><loc>https://sigship.dev/checks/secret-in-code/</loc></url>
+  <url><loc>https://sigship.dev/checks/env-file-committed/</loc></url>
+  <url><loc>https://sigship.dev/checks/public-env-secret/</loc></url>
+  <url><loc>https://sigship.dev/checks/ai-key-in-browser/</loc></url>
+  <url><loc>https://sigship.dev/checks/rls-missing/</loc></url>
+  <url><loc>https://sigship.dev/checks/rls-open-write/</loc></url>
+  <url><loc>https://sigship.dev/checks/stripe-webhook-unverified/</loc></url>
+  <url><loc>https://sigship.dev/checks/sql-string-concat/</loc></url>
+  <url><loc>https://sigship.dev/checks/ai-route-no-rate-limit/</loc></url>
+  <url><loc>https://sigship.dev/checks/role-in-local-storage/</loc></url>
+  <url><loc>https://sigship.dev/checks/unsanitized-html/</loc></url>
+  <url><loc>https://sigship.dev/checks/cors-wildcard/</loc></url>
+  <url><loc>https://sigship.dev/checks/secret-in-logs/</loc></url>
+  <url><loc>https://sigship.dev/checks/no-error-boundary/</loc></url>
+  <url><loc>https://sigship.dev/checks/no-error-tracking/</loc></url>
+  <url><loc>https://sigship.dev/checks/no-tests/</loc></url>
+  <url><loc>https://sigship.dev/checks/no-lockfile/</loc></url>
+</urlset>
