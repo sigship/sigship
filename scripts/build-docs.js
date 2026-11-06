@@ -40,7 +40,7 @@ ${FOOTER}
 `;
 
 const FOOTER = `<footer>
-  <p>SIGSHIP is a zoof04 product. zoof04 is a software studio founded by Smitesh More, with its engineering base in Navi Mumbai, India.</p>
+  <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
   <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
 </footer>`;
 
