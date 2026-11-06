@@ -128,7 +128,7 @@ writeFileSync(join(site, 'favicon.svg'), flagP(token('blue'), token('paper')).re
 const home = join(site, 'index.html');
 let html = readFileSync(home, 'utf8');
 for (const sev of [1, 2, 3]) {
-  const list = RULES.filter((r) => r.severity === sev).map((r) => `<li><a href="/checks/${r.id}/">${esc(r.title)}</a></li>`).join('');
+  const list = RULES.filter((r) => r.severity === sev).map((r) => `<li><a href="/checks/${r.id}/"><b>${esc(r.title)}</b><span>${esc(r.forecast)}</span></a></li>`).join('');
   html = html.replace(new RegExp(`<ul data-sev="${sev}">[\\s\\S]*?</ul>`), `<ul data-sev="${sev}">${list}</ul>`);
 }
 writeFileSync(home, html);
