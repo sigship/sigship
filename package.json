@@ -1,6 +1,6 @@
 {
   "name": "sigship",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The go/no-go check for AI-built apps. Reads your repo, writes the postmortem before the outage, and exits 0 only when it finds nothing serious.",
   "type": "module",
   "bin": {
@@ -10,7 +10,8 @@
     "bin",
     "src",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "test": "node --test",
@@ -18,21 +19,28 @@
     "brand": "node scripts/build-brand.js",
     "build": "npm run docs && npm run brand",
     "preview": "npm run docs && npx wrangler dev",
-    "ship": "npm run build && npm test && node bin/sigship.js . && npx wrangler deploy",
-    "setup": "node scripts/setup.js"
+    "ship": "npm run build && npm test && node bin/sigship.js . && npx wrangler deploy"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "keywords": [
     "production-readiness",
+    "go-no-go",
     "security",
+    "secrets",
     "supabase",
+    "stripe",
+    "vibe-coding",
+    "ai-generated-code",
     "lovable",
+    "bolt",
     "cursor",
     "claude-code",
     "mcp",
-    "cli"
+    "mcp-server",
+    "cli",
+    "ci"
   ],
   "homepage": "https://sigship.dev",
   "repository": {
@@ -42,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/sigship/sigship/issues"
   },
-  "author": "zoof04",
+  "author": "Zoof04 Inc. <support@sigship.dev> (https://zoof04.com)",
   "license": "MIT",
   "mcpName": "io.github.sigship/sigship",
   "devDependencies": {

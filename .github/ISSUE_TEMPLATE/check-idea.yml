@@ -1,0 +1,20 @@
+name: Idea for a check
+description: A way AI-built apps fail that SIGSHIP should catch.
+labels: [new check]
+body:
+  - type: textarea
+    id: failure
+    attributes:
+      label: What goes wrong in production
+      description: One or two sentences, from the point of view of the app owner.
+    validations:
+      required: true
+  - type: textarea
+    id: pattern
+    attributes:
+      label: What it looks like in code
+      render: text
+  - type: textarea
+    id: fix
+    attributes:
+      label: How to fix it

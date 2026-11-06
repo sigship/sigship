@@ -1,0 +1,31 @@
+name: Bug
+description: SIGSHIP crashed, hung or did something wrong that isn't about a check's result.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to make it happen
+      placeholder: "1. Run npx sigship ...\n2. ..."
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SIGSHIP version
+      description: Run npx sigship --version
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Operating system and Node.js version
+      placeholder: macOS 15, Node 22
+    validations:
+      required: true

@@ -1,62 +1,108 @@
-# SIGSHIP
+<p align="center">
+  <a href="https://sigship.dev"><img src="https://raw.githubusercontent.com/sigship/sigship/main/brand/sigship-logo.png" alt="SIGSHIP" width="320"></a>
+</p>
 
-The go/no-go check for AI-built apps. By [zoof04](https://zoof04.com).
+<p align="center"><strong>The go/no-go check for AI-built apps.</strong><br>The postmortem, before the outage.</p>
 
-SIGSHIP reads your repo on your own machine and writes the postmortem before the outage. It exits `0` only when it finds nothing serious, which gives your coding agent a real test for done.
+<p align="center">
+  <a href="https://www.npmjs.com/package/sigship"><img src="https://img.shields.io/npm/v/sigship?color=123f9c&label=npm" alt="npm version"></a>
+  <a href="https://github.com/sigship/sigship/actions/workflows/test.yml"><img src="https://img.shields.io/github/actions/workflow/status/sigship/sigship/test.yml?branch=main&label=tests" alt="Tests"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2e9e5b" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/runtime%20dependencies-0-f6c500" alt="Zero runtime dependencies">
+</p>
+
+---
+
+SIGSHIP reads your repo on your own machine and lists what will break in production: leaked keys, open databases, unverified webhooks, AI routes with no spending brake. It exits `0` only when it finds nothing serious, which gives you and your coding agent a real test for done.
 
 ```bash
 npx sigship
 ```
 
-No signup. No telemetry. No dependencies. Your code never leaves your machine.
+No signup, no telemetry, no runtime dependencies. The free tool never touches the network.
+
+## Contents
+
+- [What you get](#what-you-get)
+- [Quick start](#quick-start)
+- [Commands](#commands)
+- [Pull requests](#pull-requests)
+- [Coding agents (MCP)](#coding-agents-mcp)
+- [What it checks](#what-it-checks)
+- [Privacy](#privacy)
+- [SIGSHIP Cloud and licence keys](#sigship-cloud-and-licence-keys)
+- [Limits](#limits)
+- [Contributing and security](#contributing-and-security)
 
 ## What you get
 
 ```text
-SEV-1  A database table has no row level security
-       supabase/migrations/001_init.sql:1  Table profiles is created without row level security.
-       Anyone with your public Supabase key can read this table. That key ships in your JavaScript.
+SIGSHIP read 6 files in 22 ms, ran 17 checks
 
-NO-GO  1 SEV-1, 0 SEV-2, 2 SEV-3. Exit 1.
+Postmortem, written before the outage. Worst first.
+
+SEV-1  Your Stripe webhook accepts anything
+       src/api/stripe-webhook.ts:3  Handles Stripe events with no signature check in this file.
+       Someone posts a fake "payment succeeded" event to your endpoint and
+       gets your paid plan for free.
+
+SEV-2  Your AI route has no spending brake
+       src/api/chat.ts:2  This route calls a paid AI API and the project has no rate limiter.
+       One script loops on this endpoint overnight and you wake up to the invoice.
+
+NO-GO  1 SEV-1, 1 SEV-2, 0 SEV-3. Exit 1.
+Paste the fixes into your AI tool: npx sigship --prompt
 ```
 
 | Exit code | Meaning |
 | --- | --- |
-| `0` | GO. No SEV-1 or SEV-2 findings. |
-| `1` | NO-GO. Something blocks launch. |
-| `2` | SIGSHIP could not run. |
+| `0` | **GO.** No SEV-1 or SEV-2 findings. |
+| `1` | **NO-GO.** Something blocks launch. |
+| `2` | SIGSHIP could not run, for example the folder does not exist. |
 
-GO means these checks found nothing that blocks launch. It does not prove the app is safe.
+A GO means these checks found nothing that blocks launch. It does not prove the app is safe.
 
-## Use it four ways
+## Quick start
 
-**In your terminal**
-
-```bash
-npx sigship              # check this folder
-npx sigship --prompt     # print every fix as one prompt for your AI tool
-npx sigship --json       # machine-readable output
-npx sigship --strict     # also block on SEV-3
-```
-
-**In your browser**
+Requires Node.js 22 or later.
 
 ```bash
-npx sigship ui           # open the dashboard for this folder
-npx sigship ui ../app    # or for another folder
+npx sigship                 # check the current folder
+npx sigship path/to/app     # check another folder
+npx sigship --prompt        # turn every fix into one prompt for Lovable, Cursor, Bolt or Claude Code
+npx sigship ui              # open the same results as a dashboard in your browser
 ```
 
-The dashboard shows the verdict and every finding with its file, line, forecast and fix. It has a button to copy the fix prompt, a re-run button and a box to check another folder. It runs on your computer only: it listens on 127.0.0.1, answers only the link it prints, and serves findings, never your files. Press Ctrl+C to stop it. Add `--no-open` to print the link without opening a browser.
+## Commands
 
-**On every pull request**
+| Command | What it does |
+| --- | --- |
+| `npx sigship [folder]` | Check a project and print the postmortem. |
+| `npx sigship ui [folder]` | Open a local dashboard: verdict, findings, a copy-the-fix-prompt button and re-run. |
+| `npx sigship init [folder]` | Add a pull request check and a definition of done to `AGENTS.md`. |
+| `npx sigship mcp` | Start the MCP server for coding agents. |
+
+| Option | What it does |
+| --- | --- |
+| `--prompt` | Print the fixes as one prompt for your AI tool. |
+| `--json` | Print the result as JSON. |
+| `--markdown` | Print the result as Markdown, for pull request comments. |
+| `--strict` | Also block on SEV-3 findings. |
+| `--report` | Also write `sigship-report.html` for a client. Needs a licence key. |
+| `--no-open` | With `ui`, print the dashboard link without opening a browser. |
+| `--version`, `--help` | Print the version or the help. |
+
+The dashboard listens on `127.0.0.1` only, answers only the private link it prints, and serves findings, never file contents. Press Ctrl+C to stop it.
+
+## Pull requests
 
 ```bash
 npx sigship init
 ```
 
-This adds a GitHub Actions workflow and a definition of done in `AGENTS.md`. It never overwrites an existing file.
+Adds `.github/workflows/sigship.yml`, which fails a pull request that brings back a SEV-1 or SEV-2 problem, and a definition of done in `AGENTS.md` that tells coding agents to run SIGSHIP before saying they are finished. It never overwrites an existing file.
 
-**Inside your coding agent**
+## Coding agents (MCP)
 
 Claude Code:
 
@@ -70,32 +116,69 @@ Cursor, in `.cursor/mcp.json`:
 { "mcpServers": { "sigship": { "command": "npx", "args": ["-y", "sigship", "mcp"] } } }
 ```
 
-The agent gets two tools, `sigship_check` and `sigship_explain`, and an instruction not to say it is done while the verdict is NO-GO.
-
-## Solo and Team
-
-Set `SIGSHIP_KEY` to your licence key from [sigship.dev](https://sigship.dev/#pricing) to add the Pro pack of extra checks.
-
-```bash
-SIGSHIP_KEY=your-key npx sigship            # free checks plus the Pro pack
-SIGSHIP_KEY=your-key npx sigship --report   # also write sigship-report.html for a client
-npx sigship init --pro                      # pull request comments and a nightly check
-```
-
-With a key, SIGSHIP sends the key and a one-way repo fingerprint to api.sigship.dev, and nothing else: no code, file names or findings. Without a key it makes no network calls. If the server can't be reached, it uses the last Pro pack it downloaded, or the free checks, and never fails the scan because of it.
-
-For the nightly check and pull request comments, add the key as the repository secret `SIGSHIP_KEY`. On Team, add `SLACK_WEBHOOK_URL` for Slack alerts.
+The agent gets two tools, `sigship_check` and `sigship_explain`, and one instruction: don't say it's done while the verdict is NO-GO. SIGSHIP is listed in the MCP Registry as `io.github.sigship/sigship`.
 
 ## What it checks
 
-SEV-1: live secrets in code, a committed `.env` with secrets, server secrets with browser-visible names, AI keys in the browser, missing Supabase row level security, policies that let anyone write, unverified Stripe webhooks, and user input inside SQL.
+17 checks, chosen for how AI-built apps actually fail. Each links to a page with what goes wrong and how to fix it.
 
-SEV-2: AI routes with no rate limit, roles stored in `localStorage`, and unsanitised HTML.
+**SEV-1: blocks launch, exposes data or money**
+[Live secret in code](https://sigship.dev/checks/secret-in-code/) ·
+[Committed `.env`](https://sigship.dev/checks/env-file-committed/) ·
+[Server secret with a browser-visible name](https://sigship.dev/checks/public-env-secret/) ·
+[AI key in the browser](https://sigship.dev/checks/ai-key-in-browser/) ·
+[Table with no row level security](https://sigship.dev/checks/rls-missing/) ·
+[Policy that lets anyone write](https://sigship.dev/checks/rls-open-write/) ·
+[Unverified Stripe webhook](https://sigship.dev/checks/stripe-webhook-unverified/) ·
+[User input in SQL](https://sigship.dev/checks/sql-string-concat/)
 
-SEV-3: wildcard CORS, secrets in logs, no error boundary, no error tracking, no tests, and no lockfile.
+**SEV-2: blocks launch, abuse is easy**
+[AI route with no rate limit](https://sigship.dev/checks/ai-route-no-rate-limit/) ·
+[Admin role in `localStorage`](https://sigship.dev/checks/role-in-local-storage/) ·
+[Unsanitised HTML](https://sigship.dev/checks/unsanitized-html/)
 
-SIGSHIP uses pattern checks. It can miss real problems and flag safe code. It reads code, so it can't see settings changed only in a dashboard.
+**SEV-3: reported, blocks only with `--strict`**
+[Wildcard CORS](https://sigship.dev/checks/cors-wildcard/) ·
+[Secret in logs](https://sigship.dev/checks/secret-in-logs/) ·
+[No error boundary](https://sigship.dev/checks/no-error-boundary/) ·
+[No error tracking](https://sigship.dev/checks/no-error-tracking/) ·
+[No tests](https://sigship.dev/checks/no-tests/) ·
+[No lockfile](https://sigship.dev/checks/no-lockfile/)
+
+## Privacy
+
+- The free tool, dashboard and MCP server run entirely on your machine. They make no network calls and have no telemetry.
+- SIGSHIP never prints a secret value, in any output format.
+- With a licence key, and only then, SIGSHIP sends the key and a one-way repo fingerprint to `api.sigship.dev`. It never sends code, file names or findings.
+
+Full details: [sigship.dev/privacy](https://sigship.dev/privacy/).
+
+## SIGSHIP Cloud and licence keys
+
+**SIGSHIP Cloud** is coming: connect a repo from GitHub, Lovable, Bolt, Replit and other AI tools, and SIGSHIP checks every push, watches your live site and tells you what to fix in plain English. Plans are Solo ($19), Team ($59) and Agency ($149) a month. [Join the waitlist](https://sigship.dev/#waitlist).
+
+If you already have a licence key, set it to add the Pro pack of extra checks:
+
+```bash
+SIGSHIP_KEY=your-key npx sigship            # free checks plus the Pro pack
+SIGSHIP_KEY=your-key npx sigship --report   # also write a client-ready HTML report
+npx sigship init --pro                      # pull request comments and a nightly check
+```
+
+For the nightly check and pull request comments, add the key as the repository secret `SIGSHIP_KEY`, and optionally `SLACK_WEBHOOK_URL` for Slack alerts. If the licence server can't be reached, SIGSHIP uses its last download of the Pro pack, or the free checks. A network problem never fails a scan.
+
+## Limits
+
+- SIGSHIP uses pattern checks. It can miss real problems and flag safe code.
+- It reads your repo, so it can't see settings changed only in a dashboard, such as Supabase policies created in the web console.
+- A GO is not a security audit. For a human review, see the [pilot review](https://sigship.dev/#pricing).
+
+## Contributing and security
+
+- Found a false positive or a missed problem? [Open an issue](https://github.com/sigship/sigship/issues/new/choose).
+- Want to add a check or fix a bug? See [CONTRIBUTING.md](CONTRIBUTING.md).
+- Found a security problem in SIGSHIP itself? Please follow [SECURITY.md](SECURITY.md) and don't open a public issue.
 
 ## License
 
-MIT
+[MIT](LICENSE) © Zoof04 Inc. · [sigship.dev](https://sigship.dev) · support@sigship.dev

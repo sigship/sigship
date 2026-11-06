@@ -1,0 +1,39 @@
+name: False positive or missed problem
+description: A check flagged safe code, or missed a real problem.
+labels: [checks]
+body:
+  - type: input
+    id: check
+    attributes:
+      label: Check id
+      description: Shown in the output, such as stripe-webhook-unverified. Leave empty for a missed problem.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What happened
+      options:
+        - It flagged safe code (false positive)
+        - It missed a real problem
+    validations:
+      required: true
+  - type: textarea
+    id: code
+    attributes:
+      label: The smallest code that shows it
+      description: Remove every real secret, key and customer detail first.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SIGSHIP version
+      description: Run npx sigship --version
+    validations:
+      required: true

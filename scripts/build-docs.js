@@ -214,7 +214,9 @@ writeFileSync(join(site, 'llms.txt'), `# SIGSHIP
 > The go/no-go check for AI-built apps, by zoof04. It reads a repo locally, reports production problems with fixes, and exits 0 only when no SEV-1 or SEV-2 finding remains.
 
 Run it with: npx sigship
+Open the local dashboard with: npx sigship ui
 Add it to a coding agent with: claude mcp add sigship -- npx -y sigship mcp
+Add the pull request check with: npx sigship init
 
 ## Checks
 ${RULES.map((r) => `- [${r.title}](${ORIGIN}/checks/${r.id}/): SEV-${r.severity}`).join('\n')}
