@@ -50,7 +50,7 @@ ${THEME_SCRIPT}
 <body>
 <header class="mast">
   <a class="brand" href="/">${MARK}SIGSHIP</a>
-  <nav aria-label="Main"><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a class="wide" href="https://github.com/sigship/sigship">GitHub</a><a class="wide" href="https://zoof04.com">by zoof04</a>${TOGGLE}</nav>
+  <nav aria-label="Main"><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a class="wide" href="https://github.com/sigship/sigship">GitHub</a><a class="wide" href="https://zoof04.com" target="_blank" rel="noopener">by zoof04<span class="sr"> (opens in a new tab)</span></a>${TOGGLE}</nav>
 </header>
 <main class="page">
 ${body}
@@ -72,14 +72,14 @@ const FOOTER = `<footer class="site-foot">
     <nav class="foot-cols" aria-label="Footer">
       <div><p class="foot-h">Product</p><a href="/#checks">Checks</a><a href="/#cloud">SIGSHIP Cloud</a><a href="/#pricing">Pricing</a><a href="/#waitlist">Join the waitlist</a></div>
       <div><p class="foot-h">Developers</p><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://www.npmjs.com/package/sigship">npm</a><a href="/llms.txt">llms.txt</a></div>
-      <div><p class="foot-h">Company</p><a href="https://zoof04.com">zoof04</a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></div>
+      <div><p class="foot-h">Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></div>
       <div><p class="foot-h">Legal</p><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
     </nav>
   </div>
   <div class="foot-bottom">
     <span>© ${new Date().getFullYear()} Zoof04 Inc.</span>
     <span class="foot-status"><i aria-hidden="true"></i>The free tool runs on your machine. Nothing leaves it.</span>
-    <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
+    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
   </div>
   <div class="foot-word" aria-hidden="true">SIGSHIP</div>
 </footer>`;
