@@ -29,7 +29,7 @@ const shell = ({ title, description, path, body }) => `<!doctype html>
 <body>
 <header class="mast">
   <a class="brand" href="/">${FLAG_P}SIGSHIP</a>
-  <nav aria-label="Main"><a href="/#pricing">Pricing</a><a href="https://github.com/YOUR_GITHUB_USERNAME/sigship">GitHub</a><a href="https://zoof04.com">by zoof04</a></nav>
+  <nav aria-label="Main"><a href="/#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://zoof04.com">by zoof04</a></nav>
 </header>
 <main class="page">
 ${body}
@@ -41,7 +41,7 @@ ${FOOTER}
 
 const FOOTER = `<footer>
   <p>SIGSHIP is a zoof04 product. zoof04 is a software studio founded by Smitesh More, with its engineering base in Navi Mumbai, India.</p>
-  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="mailto:connect@zoof04.com">connect@zoof04.com</a></nav>
+  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
 </footer>`;
 
 function write(path, html) {
@@ -72,7 +72,7 @@ write('privacy', shell({
   description: 'SIGSHIP runs on your machine and sends nothing anywhere.',
   path: '/privacy/',
   body: `<h1>Privacy</h1>
-<p>Last updated: UPDATE_THIS_DATE.</p>
+<p>Last updated: 2026-11-06.</p>
 <h2>The command line tool and MCP server</h2>
 <p>They run on your machine. They have no telemetry and make no network calls. Your code, findings and secrets stay with you.</p>
 <h2>This website</h2>
@@ -82,7 +82,7 @@ write('privacy', shell({
 <h2>Pilot review</h2>
 <p>If you buy a pilot review, you choose what code to share with us. We use it only for that review and delete it when the review ends, unless you ask us to keep it.</p>
 <h2>Contact</h2>
-<p>LEGAL_ENTITY_NAME. Email <a href="mailto:connect@zoof04.com">connect@zoof04.com</a>.</p>`,
+<p>Zoof04 Inc. Email <a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a>.</p>`,
 }));
 
 write('terms', shell({
@@ -90,7 +90,7 @@ write('terms', shell({
   description: 'The terms for using SIGSHIP and how refunds work.',
   path: '/terms/',
   body: `<h1>Terms and refunds</h1>
-<p>Last updated: UPDATE_THIS_DATE.</p>
+<p>Last updated: 2026-11-06.</p>
 <h2>The tool</h2>
 <p>The open source tool is licensed under MIT. SIGSHIP uses pattern checks. A GO result is not a security audit and does not prove your app is safe. You stay responsible for your app.</p>
 <h2>Paid plans</h2>
@@ -98,7 +98,7 @@ write('terms', shell({
 <h2>Refunds</h2>
 <p>Ask within 14 days of your first payment and we refund it in full. A pilot review can be refunded in full until work starts.</p>
 <h2>Who you are dealing with</h2>
-<p>Polar is the merchant of record for payments. The service is provided by LEGAL_ENTITY_NAME. Email <a href="mailto:connect@zoof04.com">connect@zoof04.com</a>.</p>`,
+<p>Polar is the merchant of record for payments. The service is provided by Zoof04 Inc. Email <a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a>.</p>`,
 }));
 
 const urls = ['/', '/privacy/', '/terms/', ...RULES.map((r) => `/checks/${r.id}/`)];
