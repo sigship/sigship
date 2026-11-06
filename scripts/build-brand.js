@@ -89,7 +89,7 @@ const extra = `
   .g h2 { font-size: 42px; font-weight: 700; font-stretch: 120%; letter-spacing: -.02em; line-height: 1.05; }
   .g pre { flex: 1; margin: 0; padding: 26px 30px; overflow: hidden; background: var(--ink); color: #dfe7ef; border-radius: 6px; font-size: 15.5px; line-height: 1.5; white-space: pre-wrap; }
   .g.big pre { display: flex; flex-direction: column; justify-content: center; font-size: 27px; }
-  pre .s1 { color: #ff8a80; font-weight: 600; } pre .s2 { color: var(--yellow); font-weight: 600; } pre .go { color: #7fd6a0; font-weight: 600; } pre b { color: #fff; font-weight: 600; }
+  pre .s1 { color: var(--sev1-dark); font-weight: 600; } pre .s2 { color: var(--yellow); font-weight: 600; } pre .go { color: var(--go); font-weight: 600; } pre b { color: #fff; font-weight: 600; }
   .o { box-sizing: border-box; height: 100vh; padding: 64px; background: var(--sail); display: flex; flex-direction: column; justify-content: space-between; }
   .o .h { font-size: 92px; font-weight: 700; font-stretch: 125%; line-height: 1; letter-spacing: -.03em; }
   .o .f { font-size: 30px; }

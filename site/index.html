@@ -61,9 +61,24 @@
       <div class="cmd"><span>npx sigship</span><button type="button" id="copy">Copy</button></div>
       <small>No signup. Nothing leaves your machine.</small>
     </div>
+    <ol class="verdict" aria-label="Every run ends in one of two verdicts">
+      <li class="no"><b>NO-GO</b><span>Exit 1. Your fix list is ready.</span></li>
+      <li class="to" aria-hidden="true">→</li>
+      <li class="go"><b>GO</b><span>Exit 0. Nothing serious found.</span></li>
+    </ol>
   </div>
 
-  <pre class="term" tabindex="0" aria-label="Example SIGSHIP output"><code><b>SIGSHIP</b> <span class="dim">read 6 files in 22 ms, ran 17 checks</span>
+  <figure class="console">
+    <div class="console-bar">
+      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div role="tablist" aria-label="Example run">
+        <button type="button" role="tab" id="tab-before" aria-selected="true" aria-controls="run-before">Before</button>
+        <button type="button" role="tab" id="tab-after" aria-selected="false" aria-controls="run-after" tabindex="-1">After fixes</button>
+      </div>
+    </div>
+  <pre class="term" id="run-before" role="tabpanel" aria-labelledby="tab-before" tabindex="0"><code><b>$ npx sigship</b>
+
+<b>SIGSHIP</b> <span class="dim">read 6 files in 22 ms, ran 17 checks</span>
 
 <span class="dim">Postmortem, written before the outage. Worst first.</span>
 
@@ -84,10 +99,23 @@
 
 <span class="s1">NO-GO</span>  3 SEV-1, 1 SEV-2, 3 SEV-3. Exit 1.
 <span class="dim">Paste the fixes into your AI tool: npx sigship --prompt</span></code></pre>
-  <p class="term-note">Shortened output from a small demo app.</p>
+  <pre class="term done" id="run-after" role="tabpanel" aria-labelledby="tab-after" tabindex="0" hidden><code><b>$ npx sigship</b>
+
+<b>SIGSHIP</b> <span class="dim">read 6 files in 32 ms, ran 17 checks</span>
+
+<span class="go">GO</span>  0 SEV-1, 0 SEV-2, 0 SEV-3. Exit 0.
+<span class="dim">This means these checks found nothing that blocks launch. It does not prove the app is safe.</span></code></pre>
+    <figcaption class="term-note">Shortened output from a small demo app, before and after its fixes.</figcaption>
+  </figure>
 
   <section class="split" id="why">
-    <svg viewBox="0 0 90 60" role="img" aria-label="Signal flag P, the Blue Peter"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--paper)"/></svg>
+    <div class="signals">
+      <div class="sig"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg><p><b>In harbour</b>Flag P: the vessel is about to sail.</p></div>
+      <span class="op" aria-hidden="true">+</span>
+      <div class="sig"><code>SIGTERM</code><p><b>In Unix</b>A signal a program has to act on.</p></div>
+      <span class="op" aria-hidden="true">=</span>
+      <div class="sig out"><strong>SIGSHIP</strong><p>Ready to leave port, or not yet.</p></div>
+    </div>
     <div>
       <h2>Ships raise a flag before they leave port. Software never did.</h2>
       <p>In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In Unix, a signal tells a running program something it has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn’t yet.</p>
@@ -115,9 +143,9 @@
   <section id="checks">
     <h2>17 checks, chosen for how AI-built apps actually fail.</h2>
     <div class="sevs">
-      <div class="sev1"><h3>SEV-1</h3><p>Blocks launch. Exposes data or money.</p><ul data-sev="1"><li><a href="/checks/secret-in-code/">A live secret is sitting in your code</a></li><li><a href="/checks/env-file-committed/">Your .env file is committed</a></li><li><a href="/checks/public-env-secret/">A server secret has a browser-visible name</a></li><li><a href="/checks/ai-key-in-browser/">Your AI key runs in the browser</a></li><li><a href="/checks/rls-missing/">A database table has no row level security</a></li><li><a href="/checks/rls-open-write/">A database policy lets anyone write</a></li><li><a href="/checks/stripe-webhook-unverified/">Your Stripe webhook accepts anything</a></li><li><a href="/checks/sql-string-concat/">User input may be pasted into a SQL query</a></li></ul></div>
-      <div class="sev2"><h3>SEV-2</h3><p>Blocks launch. Abuse is easy.</p><ul data-sev="2"><li><a href="/checks/ai-route-no-rate-limit/">Your AI route has no spending brake</a></li><li><a href="/checks/role-in-local-storage/">Admin access is decided in the browser</a></li><li><a href="/checks/unsanitized-html/">Raw HTML goes straight onto the page</a></li></ul></div>
-      <div class="sev3"><h3>SEV-3</h3><p>Reported. Blocks only with --strict.</p><ul data-sev="3"><li><a href="/checks/cors-wildcard/">Any website can call your API</a></li><li><a href="/checks/secret-in-logs/">A secret may be going to your logs</a></li><li><a href="/checks/no-error-boundary/">One crash takes down the whole screen</a></li><li><a href="/checks/no-error-tracking/">You will hear about errors from your users</a></li><li><a href="/checks/no-tests/">Nothing checks that a change did not break login</a></li><li><a href="/checks/no-lockfile/">Your deploys are not repeatable</a></li></ul></div>
+      <div class="sev1"><h3><span>SEV-1</span></h3><p>Blocks launch. Exposes data or money.</p><ul data-sev="1"><li><a href="/checks/secret-in-code/"><b>A live secret is sitting in your code</b><span>Someone reads it from your repo or your JavaScript bundle, and the bill or the data breach arrives before you do.</span></a></li><li><a href="/checks/env-file-committed/"><b>Your .env file is committed</b><span>Every secret in that file is now in your git history, including every fork and clone of it.</span></a></li><li><a href="/checks/public-env-secret/"><b>A server secret has a browser-visible name</b><span>Your build tool copies it into the JavaScript every visitor downloads, where anyone can read it.</span></a></li><li><a href="/checks/ai-key-in-browser/"><b>Your AI key runs in the browser</b><span>A stranger copies your key from the network tab and spends your credit on their own project.</span></a></li><li><a href="/checks/rls-missing/"><b>A database table has no row level security</b><span>Anyone with your public Supabase key can read this table. That key ships in your JavaScript.</span></a></li><li><a href="/checks/rls-open-write/"><b>A database policy lets anyone write</b><span>Row level security is on, but this policy says yes to everyone, so a stranger can edit or delete your data.</span></a></li><li><a href="/checks/stripe-webhook-unverified/"><b>Your Stripe webhook accepts anything</b><span>Someone posts a fake &quot;payment succeeded&quot; event to your endpoint and gets your paid plan for free.</span></a></li><li><a href="/checks/sql-string-concat/"><b>User input may be pasted into a SQL query</b><span>Someone types a crafted value into a form and your database runs it as a command.</span></a></li></ul></div>
+      <div class="sev2"><h3><span>SEV-2</span></h3><p>Blocks launch. Abuse is easy.</p><ul data-sev="2"><li><a href="/checks/ai-route-no-rate-limit/"><b>Your AI route has no spending brake</b><span>One script loops on this endpoint overnight and you wake up to the invoice.</span></a></li><li><a href="/checks/role-in-local-storage/"><b>Admin access is decided in the browser</b><span>Someone opens dev tools, changes one value, and becomes an admin.</span></a></li><li><a href="/checks/unsanitized-html/"><b>Raw HTML goes straight onto the page</b><span>A comment or profile field carries a script, and it runs in the browser of every visitor who sees it.</span></a></li></ul></div>
+      <div class="sev3"><h3><span>SEV-3</span></h3><p>Reported. Blocks only with --strict.</p><ul data-sev="3"><li><a href="/checks/cors-wildcard/"><b>Any website can call your API</b><span>Another site calls your endpoints from its own pages, and you never see it in your logs as a problem.</span></a></li><li><a href="/checks/secret-in-logs/"><b>A secret may be going to your logs</b><span>Passwords or tokens end up in a log service that more people can read than your database.</span></a></li><li><a href="/checks/no-error-boundary/"><b>One crash takes down the whole screen</b><span>A single bad record gives your users a white page, and nobody tells you.</span></a></li><li><a href="/checks/no-error-tracking/"><b>You will hear about errors from your users</b><span>Your app fails for a week before someone is annoyed enough to email you.</span></a></li><li><a href="/checks/no-tests/"><b>Nothing checks that a change did not break login</b><span>A small fix goes live on Friday and signup is broken until Monday.</span></a></li><li><a href="/checks/no-lockfile/"><b>Your deploys are not repeatable</b><span>A dependency updates itself on the next deploy and production breaks with no code change.</span></a></li></ul></div>
     </div>
   </section>
 
@@ -134,8 +162,8 @@
     <h2>Free to run. Paid when you want it to keep watch.</h2>
     <p class="note" id="soon">Solo and Team open in January 2027. The free tool and pilot reviews are available now.</p>
     <div class="plans">
-      <article class="plan">
-        <h3>Free</h3>
+      <article class="plan now">
+        <h3>Free <span class="tag">Available now</span></h3>
         <p class="price">$0</p>
         <ul>
           <li>17 core checks</li>
@@ -146,7 +174,7 @@
         <a class="btn" href="https://github.com/sigship/sigship">Read the code</a>
       </article>
       <article class="plan">
-        <h3>Solo</h3>
+        <h3>Solo <span class="tag">January 2027</span></h3>
         <p class="price">$10 <span class="per">a month</span></p>
         <ul>
           <li>Core checks plus the Pro pack</li>
@@ -154,10 +182,10 @@
           <li>A report you can send to a client</li>
           <li>Email when a repo turns NO-GO</li>
         </ul>
-        <a class="btn" href="mailto:sigship@zoof04.com?subject=SIGSHIP%20Solo">Start Solo</a>
+        <a class="btn alt" href="mailto:sigship@zoof04.com?subject=SIGSHIP%20Solo%20waitlist">Join the waitlist</a>
       </article>
       <article class="plan">
-        <h3>Team</h3>
+        <h3>Team <span class="tag">January 2027</span></h3>
         <p class="price">$49 <span class="per">a month</span></p>
         <ul>
           <li>Core checks plus the Pro pack</li>
@@ -165,12 +193,19 @@
           <li>Reports and pull request comments</li>
           <li>Slack and email alerts</li>
         </ul>
-        <a class="btn" href="mailto:sigship@zoof04.com?subject=SIGSHIP%20Team">Start Team</a>
+        <a class="btn alt" href="mailto:sigship@zoof04.com?subject=SIGSHIP%20Team%20waitlist">Join the waitlist</a>
       </article>
     </div>
     <div class="pilot">
       <svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>
-      <p><b>Flag G means "I require a pilot."</b> A senior zoof04 engineer reads your repo by hand and sends a ranked, written review within 48 hours, with a 30-minute call. From $499. <a href="mailto:sigship@zoof04.com?subject=SIGSHIP%20pilot%20review">Request a pilot review</a></p>
+      <div>
+        <h3>Flag G means “I require a pilot.”</h3>
+        <p>A senior zoof04 engineer reads your repo by hand and sends a ranked, written review within 48 hours, with a 30-minute call. Available now.</p>
+      </div>
+      <div class="pilot-buy">
+        <p class="price">From $499</p>
+        <a class="btn" href="mailto:sigship@zoof04.com?subject=SIGSHIP%20pilot%20review">Request a pilot review</a>
+      </div>
     </div>
   </section>
 </main>
@@ -204,6 +239,22 @@
       copy.textContent = 'Press Cmd+C';
     }
     setTimeout(() => { copy.textContent = 'Copy'; }, 1600);
+  });
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const select = (tab) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    tab.focus();
+  };
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(tab));
+    tab.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') select(tabs[(i + 1) % tabs.length]);
+    });
   });
 </script>
 </body>
