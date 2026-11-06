@@ -18,9 +18,12 @@
 </header>
 <main class="page">
 <h1>Privacy</h1>
-<p>Last updated: 2026-11-06.</p>
+<p>Last updated: 2026-11-07.</p>
 <h2>The command line tool and MCP server</h2>
-<p>They run on your machine. They have no telemetry and make no network calls. Your code, findings and secrets stay with you.</p>
+<p>They run on your machine and have no telemetry. Without a licence key they make no network calls at all. Your code, findings and secrets stay with you.</p>
+<h2>Solo and Team</h2>
+<p>If you set <code>SIGSHIP_KEY</code>, the tool sends two things to api.sigship.dev: your licence key, and a one-way fingerprint of the repository made from its git address mixed with your key. It sends no code, file names or findings.</p>
+<p>We pass the key to Polar to check it and to count the repository against your plan's limit. We keep the fingerprint and Polar's activation ID so each repository is counted once. The Pro pack is cached on your machine for 24 hours.</p>
 <h2>This website</h2>
 <p>This site uses Cloudflare Web Analytics, which counts visits without cookies.</p>
 <h2>Payments</h2>
