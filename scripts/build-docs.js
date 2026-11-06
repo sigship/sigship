@@ -47,7 +47,7 @@ ${FOOTER}
 
 const FOOTER = `<footer>
   <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="/brand/">Brand</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
+  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></nav>
 </footer>`;
 
 function write(path, html) {
@@ -126,7 +126,7 @@ ${SWATCHES.map(([name, label, use]) => `  <li><span style="background:var(--${na
   <li>Use the logo to suggest SIGSHIP has reviewed or approved an app.</li>
 </ul>
 <h2>Contact</h2>
-<p>For press and partnerships, email <a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a>.</p>`,
+<p>For press and partnerships, email <a href="mailto:support@sigship.dev">support@sigship.dev</a>.</p>`,
 }));
 
 write('privacy', shell({
@@ -147,7 +147,7 @@ write('privacy', shell({
 <h2>Pilot review</h2>
 <p>If you buy a pilot review, you choose what code to share with us. We use it only for that review and delete it when the review ends, unless you ask us to keep it.</p>
 <h2>Contact</h2>
-<p>Zoof04 Inc. Email <a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a>.</p>`,
+<p>Zoof04 Inc. Email <a href="mailto:support@sigship.dev">support@sigship.dev</a>.</p>`,
 }));
 
 write('terms', shell({
@@ -163,7 +163,7 @@ write('terms', shell({
 <h2>Refunds</h2>
 <p>Ask within 14 days of your first payment and we refund it in full. A pilot review can be refunded in full until work starts.</p>
 <h2>Who you are dealing with</h2>
-<p>Polar is the merchant of record for payments. The service is provided by Zoof04 Inc. Email <a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a>.</p>`,
+<p>Polar is the merchant of record for payments. The service is provided by Zoof04 Inc. Email <a href="mailto:support@sigship.dev">support@sigship.dev</a>.</p>`,
 }));
 
 const urls = ['/', '/privacy/', '/terms/', '/brand/', ...RULES.map((r) => `/checks/${r.id}/`)];
