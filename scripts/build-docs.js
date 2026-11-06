@@ -12,7 +12,11 @@ const SEV_NAME = { 1: 'SEV-1: blocks launch', 2: 'SEV-2: blocks launch', 3: 'SEV
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-const FLAG_P = `<svg viewBox="0 0 90 60" aria-hidden="true"><rect width="90" height="60" fill="#123f9c"/><rect x="30" y="20" width="30" height="20" fill="#fff"/></svg>`;
+// Colours come from the :root tokens in site/style.css, the one source for the brand.
+const css = readFileSync(join(site, 'style.css'), 'utf8');
+const token = (name) => css.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{3,8})`))[1];
+const flagP = (blue, white) => `<svg viewBox="0 0 90 60" aria-hidden="true"><rect width="90" height="60" fill="${blue}"/><rect x="30" y="20" width="30" height="20" fill="${white}"/></svg>`;
+const FLAG_P = flagP('var(--blue)', 'var(--paper)');
 
 const shell = ({ title, description, path, body }) => `<!doctype html>
 <html lang="en">
@@ -118,7 +122,7 @@ Add it to a coding agent with: claude mcp add sigship -- npx -y sigship mcp
 ## Checks
 ${RULES.map((r) => `- [${r.title}](${ORIGIN}/checks/${r.id}/): SEV-${r.severity}`).join('\n')}
 `);
-writeFileSync(join(site, 'favicon.svg'), FLAG_P.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" '));
+writeFileSync(join(site, 'favicon.svg'), flagP(token('blue'), token('paper')).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" '));
 
 // Fill the check lists on the home page.
 const home = join(site, 'index.html');
