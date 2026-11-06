@@ -19,11 +19,12 @@ Use Polar as merchant of record, so it handles checkout and global tax.
 
 These need the owner's own accounts, so only the owner can do them:
 
-1. Create the Polar account and organisation.
+1. Create the Polar account and organisation. Done.
 2. Connect a payout account. The bank must be in the business's country and use its local currency. Wise, Payoneer and similar accounts usually fail.
-3. Create the Solo and Team monthly products.
-4. Add the License Keys benefit to each product.
-5. Add the organisation ID as the Worker setting `POLAR_ORG_ID`. It goes in Cloudflare, not in code.
+3. Create the Solo and Team monthly products. Solo exists at $10 a month. Team exists but is set as a one-time $49 purchase, and must be changed to $49 a month.
+4. Make one checkout link per product, so each button opens only its own plan. A link holding both products shows a plan picker.
+5. Add the License Keys benefit to each product.
+6. Add the organisation ID as the Worker setting `POLAR_ORG_ID`. It goes in Cloudflare, not in code.
 
 ## How it works
 
