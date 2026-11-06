@@ -46,4 +46,4 @@ The website builds a page for each check from `src/rules.js`. Run `npm run docs`
 
 ## Releases
 
-Maintainers bump the version in `package.json`, `package-lock.json` and both fields in `server.json`, update the changelog, tag the release, and publish to npm and the MCP Registry.
+Maintainers bump the version in `package.json`, `package-lock.json` and both fields in `server.json`, update the changelog, publish to npm, then tag and publish a GitHub release. Publishing the release runs the **Publish to MCP Registry** workflow, which updates the registry listing.
