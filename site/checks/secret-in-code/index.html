@@ -7,13 +7,14 @@
 <meta name="description" content="Someone reads it from your repo or your JavaScript bundle, and the bill or the data breach arrives before you do. How to find it and fix it.">
 <link rel="canonical" href="https://sigship.dev/checks/secret-in-code/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header class="mast">
-  <a class="brand" href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--paper)"/></svg>SIGSHIP</a>
-  <nav aria-label="Main"><a href="/#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://zoof04.com">by zoof04</a></nav>
+  <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--paper)"/></svg>SIGSHIP</a>
+  <nav aria-label="Main"><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a><a class="wide" href="https://zoof04.com">by zoof04</a></nav>
 </header>
 <main class="page">
 <p class="sev">SEV-1: blocks launch</p>
@@ -23,12 +24,13 @@
 <h2>How to fix it</h2>
 <p class="fix">Rotate this key now, because it is already exposed. Move it to a server-side environment variable, read it only from server code, and remove it from the code.</p>
 <h2>Check your app</h2>
-<p>Run <code>npx sigship</code> in your project. It runs on your machine and reports this check as <code>secret-in-code</code>.</p>
+<div class="try"><code class="cmd">npx sigship</code><p>Run it in your project. It reports this check as <code>secret-in-code</code>, along with 16 others. Nothing leaves your machine.</p></div>
+<nav class="pager" aria-label="More checks"><a href="/checks/no-lockfile/"><span>Previous</span>Your deploys are not repeatable</a><a href="/checks/env-file-committed/"><span>Next</span>Your .env file is committed</a></nav>
 <p><a href="/#checks">See every check</a></p>
 </main>
 <footer>
   <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
+  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="/brand/">Brand</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
 </footer>
 </body>
 </html>

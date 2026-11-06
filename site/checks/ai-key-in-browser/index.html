@@ -7,13 +7,14 @@
 <meta name="description" content="A stranger copies your key from the network tab and spends your credit on their own project. How to find it and fix it.">
 <link rel="canonical" href="https://sigship.dev/checks/ai-key-in-browser/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header class="mast">
-  <a class="brand" href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--paper)"/></svg>SIGSHIP</a>
-  <nav aria-label="Main"><a href="/#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://zoof04.com">by zoof04</a></nav>
+  <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--paper)"/></svg>SIGSHIP</a>
+  <nav aria-label="Main"><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a><a class="wide" href="https://zoof04.com">by zoof04</a></nav>
 </header>
 <main class="page">
 <p class="sev">SEV-1: blocks launch</p>
@@ -23,12 +24,13 @@
 <h2>How to fix it</h2>
 <p class="fix">Remove dangerouslyAllowBrowser. Create a server route that holds the key, checks who is asking, and calls the AI provider for the browser.</p>
 <h2>Check your app</h2>
-<p>Run <code>npx sigship</code> in your project. It runs on your machine and reports this check as <code>ai-key-in-browser</code>.</p>
+<div class="try"><code class="cmd">npx sigship</code><p>Run it in your project. It reports this check as <code>ai-key-in-browser</code>, along with 16 others. Nothing leaves your machine.</p></div>
+<nav class="pager" aria-label="More checks"><a href="/checks/public-env-secret/"><span>Previous</span>A server secret has a browser-visible name</a><a href="/checks/rls-missing/"><span>Next</span>A database table has no row level security</a></nav>
 <p><a href="/#checks">See every check</a></p>
 </main>
 <footer>
   <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
+  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="/brand/">Brand</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
 </footer>
 </body>
 </html>
