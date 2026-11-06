@@ -28,7 +28,7 @@ NO-GO  1 SEV-1, 0 SEV-2, 2 SEV-3. Exit 1.
 
 GO means these checks found nothing that blocks launch. It does not prove the app is safe.
 
-## Use it three ways
+## Use it four ways
 
 **In your terminal**
 
@@ -38,6 +38,15 @@ npx sigship --prompt     # print every fix as one prompt for your AI tool
 npx sigship --json       # machine-readable output
 npx sigship --strict     # also block on SEV-3
 ```
+
+**In your browser**
+
+```bash
+npx sigship ui           # open the dashboard for this folder
+npx sigship ui ../app    # or for another folder
+```
+
+The dashboard shows the verdict and every finding with its file, line, forecast and fix. It has a button to copy the fix prompt, a re-run button and a box to check another folder. It runs on your computer only: it listens on 127.0.0.1, answers only the link it prints, and serves findings, never your files. Press Ctrl+C to stop it. Add `--no-open` to print the link without opening a browser.
 
 **On every pull request**
 

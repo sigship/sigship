@@ -1,6 +1,6 @@
 {
   "name": "sigship",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "The go/no-go check for AI-built apps. Reads your repo, writes the postmortem before the outage, and exits 0 only when it finds nothing serious.",
   "type": "module",
   "bin": {
