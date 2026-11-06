@@ -7,13 +7,14 @@
 <meta name="description" content="A small fix goes live on Friday and signup is broken until Monday. How to find it and fix it.">
 <link rel="canonical" href="https://sigship.dev/checks/no-tests/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header class="mast">
-  <a class="brand" href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--paper)"/></svg>SIGSHIP</a>
-  <nav aria-label="Main"><a href="/#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://zoof04.com">by zoof04</a></nav>
+  <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--paper)"/></svg>SIGSHIP</a>
+  <nav aria-label="Main"><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a><a class="wide" href="https://zoof04.com">by zoof04</a></nav>
 </header>
 <main class="page">
 <p class="sev">SEV-3: reported, blocks only with --strict</p>
@@ -23,12 +24,13 @@
 <h2>How to fix it</h2>
 <p class="fix">Add one test for each money path: sign up, log in, and pay. Run them on every pull request.</p>
 <h2>Check your app</h2>
-<p>Run <code>npx sigship</code> in your project. It runs on your machine and reports this check as <code>no-tests</code>.</p>
+<div class="try"><code class="cmd">npx sigship</code><p>Run it in your project. It reports this check as <code>no-tests</code>, along with 16 others. Nothing leaves your machine.</p></div>
+<nav class="pager" aria-label="More checks"><a href="/checks/no-error-tracking/"><span>Previous</span>You will hear about errors from your users</a><a href="/checks/no-lockfile/"><span>Next</span>Your deploys are not repeatable</a></nav>
 <p><a href="/#checks">See every check</a></p>
 </main>
 <footer>
   <a class="made-by" href="https://zoof04.com" aria-label="SIGSHIP by zoof04"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
+  <nav aria-label="Footer"><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="/brand/">Brand</a><a href="mailto:sigship@zoof04.com">sigship@zoof04.com</a></nav>
 </footer>
 </body>
 </html>

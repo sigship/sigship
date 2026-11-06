@@ -64,7 +64,7 @@ code, pre, kbd { font-family: 'Spline Sans Mono', ui-monospace, monospace; }
   letter-spacing: 0.01em;
   text-decoration: none;
 }
-.brand svg { width: 30px; height: 20px; display: block; }
+.brand svg { width: 30px; height: 27px; display: block; margin-top: -6px; }
 .mast nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px 22px; font-size: 0.95rem; }
 .mast nav a { color: var(--ink); text-decoration: none; }
 .mast nav a:hover { text-decoration: underline; }
@@ -436,6 +436,47 @@ footer nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
 .page ul { padding-left: 1.2em; list-style: disc; }
 .page .fix { padding: 16px; background: var(--paper); border-left: 4px solid var(--blue); }
 .page .sev { color: var(--slate); }
+.try {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-top: 14px;
+  padding: 18px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+}
+.page .try p { flex: 1 1 22ch; margin: 0; }
+code.cmd { display: inline-block; padding: 12px 16px; font-size: 1.05rem; }
+.pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 32px; }
+.pager a {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.pager a:last-child { text-align: right; }
+.pager a:hover { border-color: var(--ink); }
+.pager span { display: block; margin-bottom: 4px; color: var(--slate); font-size: 0.85rem; font-weight: 400; }
+.flag-u { display: block; width: 120px; height: 80px; margin-bottom: 24px; }
+.logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: 16px; margin-top: 16px; }
+.logos figure { margin: 0; }
+.logos .tile { display: grid; place-items: center; aspect-ratio: 4 / 3; padding: 18px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+.logos .tile.dark { background: var(--ink); border-color: var(--ink); }
+.logos img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; }
+.logos img[src$=".svg"] { width: 45%; }
+.logos figcaption { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 8px; font-weight: 600; }
+.logos figcaption a { font-weight: 400; }
+.page ul.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr)); gap: 12px; padding: 0; list-style: none; }
+.swatches li { display: grid; gap: 2px; padding: 10px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+.swatches span { height: 56px; margin-bottom: 8px; border: 1px solid var(--line); border-radius: 3px; }
+.swatches small { color: var(--slate); }
 
 @media (max-width: 760px) {
   .split, .sevs, .plans { grid-template-columns: minmax(0, 1fr); }
@@ -445,6 +486,8 @@ footer nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
   .pilot svg { width: 66px; height: 44px; }
   .ways > div { grid-template-columns: minmax(0, 1fr); }
   .mast nav .wide { display: none; }
+  .pager { grid-template-columns: minmax(0, 1fr); }
+  .pager a:last-child { text-align: left; }
 }
 
 /* Phones: SIG on one rope, SHIP on the next, so the flags stay big enough to read. */
