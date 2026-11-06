@@ -17,6 +17,8 @@ Usage
   npx sigship init [folder]   Add the pull request check and the agent rule.
                               With --pro, the check comments on pull requests and
                               a nightly check runs too (Solo and Team).
+  npx sigship ui [folder]     Open the dashboard in your browser. It runs on this
+                              computer only. Press Ctrl+C to stop it.
   npx sigship mcp             Start the MCP server for Claude Code, Cursor and others.
 
 Options
@@ -25,6 +27,7 @@ Options
   --markdown   Print the result as Markdown, for pull request comments.
   --report     Also write sigship-report.html to send to a client (Solo and Team).
   --strict     Also block on SEV-3 findings.
+  --no-open    With ui, print the dashboard link without opening a browser.
   --version    Print the version.
   --help       Print this help.
 
@@ -41,7 +44,7 @@ async function main() {
   if (flags.has('--help') || flags.has('-h')) return void process.stdout.write(HELP);
   if (flags.has('--version') || flags.has('-v')) return void console.log(version);
 
-  const known = new Set(['--prompt', '--json', '--markdown', '--strict', '--report', '--pro']);
+  const known = new Set(['--prompt', '--json', '--markdown', '--strict', '--report', '--pro', '--no-open']);
   const unknown = [...flags].filter((f) => !known.has(f));
   if (unknown.length) {
     console.error(`Unknown option ${unknown[0]}. Run npx sigship --help to see the options.`);
@@ -52,6 +55,19 @@ async function main() {
   if (words[0] === 'mcp') {
     const { startMcp } = await import('../src/mcp.js');
     return startMcp(version);
+  }
+  if (words[0] === 'ui') {
+    const { startUi, openBrowser } = await import('../src/ui.js');
+    const ui = await startUi({ target: words[1] ?? '.', strict: flags.has('--strict'), version });
+    console.log(`SIGSHIP dashboard: ${ui.url}`);
+    console.log('It only answers this computer, through that link. Press Ctrl+C to stop.');
+    if (!flags.has('--no-open')) openBrowser(ui.url);
+    process.once('SIGINT', async () => {
+      await ui.close();
+      console.log('\nStopped the dashboard.');
+      process.exit(0);
+    });
+    return;
   }
   if (words[0] === 'init') {
     for (const line of init(words[1], { pro: flags.has('--pro') })) console.log(line);
