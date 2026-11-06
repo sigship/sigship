@@ -16,7 +16,7 @@ const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, 
 // Colours come from the :root tokens in site/style.css, the one source for the brand.
 const css = readFileSync(join(site, 'style.css'), 'utf8');
 const token = tokens(css);
-const MARK = mark({ blue: 'var(--blue)', paper: 'var(--paper)', ink: 'var(--ink)' }, ' aria-hidden="true"');
+const MARK = mark({ blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--ink)' }, ' aria-hidden="true"');
 
 // A page without a path, such as the 404 page, is kept out of search results.
 const shell = ({ title, description, path, body }) => `<!doctype html>
@@ -30,6 +30,9 @@ ${path ? `<link rel="canonical" href="${ORIGIN}${path}">` : '<meta name="robots"
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#edf2f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060b14" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -76,7 +79,7 @@ RULES.forEach((r, i) => {
   }));
 });
 
-const FLAG_U = '<svg class="flag-u" viewBox="0 0 90 60" role="img" aria-label="Signal flag U"><rect width="90" height="60" fill="var(--paper)"/><rect width="45" height="30" fill="var(--red)"/><rect x="45" y="30" width="45" height="30" fill="var(--red)"/></svg>';
+const FLAG_U = '<svg class="flag-u" viewBox="0 0 90 60" role="img" aria-label="Signal flag U"><rect width="90" height="60" fill="var(--flag-white)"/><rect width="45" height="30" fill="var(--red)"/><rect x="45" y="30" width="45" height="30" fill="var(--red)"/></svg>';
 writeFileSync(join(site, '404.html'), shell({
   title: 'Page not found | SIGSHIP',
   description: 'This page does not exist.',
@@ -113,7 +116,7 @@ write('brand', shell({
 </div>
 <h2>Colours</h2>
 <ul class="swatches">
-${SWATCHES.map(([name, label, use]) => `  <li><span style="background:var(--${name})"></span><b>${label}</b><code>${token(name)}</code><small>${use}</small></li>`).join('\n')}
+${SWATCHES.map(([name, label, use]) => `  <li><span style="background:${token(name)}"></span><b>${label}</b><code>${token(name)}</code><small>${use}</small></li>`).join('\n')}
 </ul>
 <h2>Type</h2>
 <p>Archivo for headings and text, set wide for headings. Spline Sans Mono for commands and output. Both are open source and served from this site.</p>

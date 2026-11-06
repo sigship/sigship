@@ -32,8 +32,8 @@ const HOIST = `<svg width="0" height="0" style="position:absolute">${FLAG_DEFS}<
   .join('')}</ol>`;
 const VERDICT = '<ol class="verdict"><li class="no"><b>NO-GO</b><span>Exit 1. Your fix list is ready.</span></li><li class="to">→</li><li class="go"><b>GO</b><span>Exit 0. Nothing serious found.</span></li></ol>';
 
-const ON_LIGHT = { blue: 'var(--blue)', paper: 'var(--paper)', ink: 'var(--ink)' };
-const ON_DARK = { blue: 'var(--blue)', paper: 'var(--paper)', ink: 'var(--paper)' };
+const ON_LIGHT = { blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--ink)' };
+const ON_DARK = { blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--flag-white)' };
 const HEX = { blue: token('blue'), paper: token('paper'), ink: token('ink') };
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
