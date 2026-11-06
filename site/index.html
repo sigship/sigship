@@ -40,6 +40,7 @@
   <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
   <nav aria-label="Main">
     <a href="#checks">Checks</a>
+    <a class="wide" href="#how">How it works</a>
     <a class="wide" href="#cloud">Cloud</a>
     <a href="#pricing">Pricing</a>
     <a class="wide" href="https://github.com/sigship/sigship">GitHub</a>
@@ -63,6 +64,7 @@
 
 <main>
   <div class="hero">
+    <canvas class="particles" aria-hidden="true"></canvas>
     <h1>The postmortem, before the outage.</h1>
     <p class="lede">SIGSHIP reads your AI-built app on your own machine and lists what will break in production. It exits 0 only when it finds nothing serious, which gives your coding agent a real test for done.</p>
     <div class="run">
@@ -77,6 +79,37 @@
   </div>
 
   <div class="ticker" aria-hidden="true"><div class="ticker-track" data-ticker><span><b class="t1">SEV-1</b>A live secret is sitting in your code</span><span><b class="t1">SEV-1</b>Your .env file is committed</span><span><b class="t1">SEV-1</b>A server secret has a browser-visible name</span><span><b class="t1">SEV-1</b>Your AI key runs in the browser</span><span><b class="t1">SEV-1</b>A database table has no row level security</span><span><b class="t1">SEV-1</b>A database policy lets anyone write</span><span><b class="t1">SEV-1</b>Your Stripe webhook accepts anything</span><span><b class="t1">SEV-1</b>User input may be pasted into a SQL query</span><span><b class="t2">SEV-2</b>Your AI route has no spending brake</span><span><b class="t2">SEV-2</b>Admin access is decided in the browser</span><span><b class="t2">SEV-2</b>Raw HTML goes straight onto the page</span><span><b class="t3">SEV-3</b>Any website can call your API</span><span><b class="t3">SEV-3</b>A secret may be going to your logs</span><span><b class="t3">SEV-3</b>One crash takes down the whole screen</span><span><b class="t3">SEV-3</b>You will hear about errors from your users</span><span><b class="t3">SEV-3</b>Nothing checks that a change did not break login</span><span><b class="t3">SEV-3</b>Your deploys are not repeatable</span><span><b class="t1">SEV-1</b>A live secret is sitting in your code</span><span><b class="t1">SEV-1</b>Your .env file is committed</span><span><b class="t1">SEV-1</b>A server secret has a browser-visible name</span><span><b class="t1">SEV-1</b>Your AI key runs in the browser</span><span><b class="t1">SEV-1</b>A database table has no row level security</span><span><b class="t1">SEV-1</b>A database policy lets anyone write</span><span><b class="t1">SEV-1</b>Your Stripe webhook accepts anything</span><span><b class="t1">SEV-1</b>User input may be pasted into a SQL query</span><span><b class="t2">SEV-2</b>Your AI route has no spending brake</span><span><b class="t2">SEV-2</b>Admin access is decided in the browser</span><span><b class="t2">SEV-2</b>Raw HTML goes straight onto the page</span><span><b class="t3">SEV-3</b>Any website can call your API</span><span><b class="t3">SEV-3</b>A secret may be going to your logs</span><span><b class="t3">SEV-3</b>One crash takes down the whole screen</span><span><b class="t3">SEV-3</b>You will hear about errors from your users</span><span><b class="t3">SEV-3</b>Nothing checks that a change did not break login</span><span><b class="t3">SEV-3</b>Your deploys are not repeatable</span></div></div>
+
+  <section class="how" id="how">
+    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> How it works</p>
+    <h2>Reads your repo. Finds what will break. Hands you the fix.</h2>
+    <div class="scan" data-scan data-reveal>
+      <div class="scan-files" role="img" aria-label="Animation: SIGSHIP reads six files of a demo app, flags two SEV-1 problems and one SEV-2, says NO-GO, then turns GO once they are fixed.">
+        <div class="scan-bar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span class="scan-name">demo-app</span><span class="scan-phase" data-phase>Ready</span></div>
+        <ul aria-hidden="true">
+          <li data-sev="1" data-title="Stripe webhook accepts anything"><code>src/api/stripe-webhook.ts</code><b></b></li>
+          <li><code>src/App.tsx</code><b></b></li>
+          <li data-sev="1" data-title="Table has no row level security"><code>supabase/migrations/001_init.sql</code><b></b></li>
+          <li><code>package.json</code><b></b></li>
+          <li data-sev="2" data-title="AI route has no spending brake"><code>src/api/chat.ts</code><b></b></li>
+          <li><code>package-lock.json</code><b></b></li>
+        </ul>
+        <div class="beam" aria-hidden="true"></div>
+      </div>
+      <div class="scan-side" aria-hidden="true">
+        <div class="scan-stat"><span data-files>0</span><small>files read</small></div>
+        <div class="scan-stat"><span>17</span><small>checks run</small></div>
+        <div class="scan-stat"><span data-found>0</span><small>launch blockers</small></div>
+        <div class="scan-verdict" data-verdict><b>Waiting</b><small>Press play on your repo: npx sigship</small></div>
+      </div>
+    </div>
+    <ol class="how-steps">
+      <li data-reveal><span>01</span><b>Read</b> every file in your repo, on your machine.</li>
+      <li data-reveal><span>02</span><b>Match</b> 17 patterns from how AI-built apps fail.</li>
+      <li data-reveal><span>03</span><b>Write</b> the postmortem, worst first, with a fix for each.</li>
+      <li data-reveal><span>04</span><b>Exit 0</b> only when nothing serious is left.</li>
+    </ol>
+  </section>
 
   <figure class="console" data-reveal>
     <div class="console-bar">
