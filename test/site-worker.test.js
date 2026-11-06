@@ -77,6 +77,13 @@ describe('waitlist', () => {
     assert.equal(s.rows[0].row.name, `'=HYPERLINK("x")`);
   });
 
+  it('works with only the sheet address, sending no secret', async () => {
+    const s = sheet();
+    const res = await waitlist(post(good), { WAITLIST_URL: ENV.WAITLIST_URL }, { fetch: s.fetch, now: NOW });
+    assert.equal(res.status, 200);
+    assert.equal('secret' in s.rows[0].row, false);
+  });
+
   it('says the waitlist is not open when the secrets are missing', async () => {
     const res = await waitlist(post(good), {}, { fetch: sheet().fetch, now: NOW });
     assert.equal(res.status, 503);

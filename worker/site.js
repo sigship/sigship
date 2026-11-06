@@ -1,6 +1,6 @@
 // The sigship.dev Worker. It serves the static site and takes waitlist sign-ups.
-// Sign-ups go to a Google Sheet through an Apps Script web app. Its address and shared secret
-// live in Worker secrets (WAITLIST_URL, WAITLIST_SECRET), never in the page.
+// Sign-ups go to a Google Sheet through an Apps Script web app. Its address is the Worker secret
+// WAITLIST_URL and never appears in the page. WAITLIST_SECRET is an optional second lock.
 const PLANS = new Set(['solo', 'team', 'agency']);
 const TOOLS = new Set(['lovable', 'bolt', 'replit', 'v0', 'cursor', 'claude-code', 'codex', 'copilot', 'windsurf', 'other']);
 const EMAIL = /^[^\s@<>"']{1,64}@[^\s@<>"']{1,190}\.[a-z]{2,24}$/i;
@@ -44,10 +44,10 @@ export async function waitlist(request, env, { fetch = globalThis.fetch, now = D
   if (!EMAIL.test(email)) return reply(400, false, 'Enter a valid email address.');
   if (!PLANS.has(plan)) return reply(400, false, 'Choose a plan.');
 
-  if (!env.WAITLIST_URL || !env.WAITLIST_SECRET) return reply(503, false, 'The waitlist is not open yet. Email support@sigship.dev and we will add you.');
+  if (!env.WAITLIST_URL) return reply(503, false, 'The waitlist is not open yet. Email support@sigship.dev and we will add you.');
 
   const row = {
-    secret: env.WAITLIST_SECRET,
+    ...(env.WAITLIST_SECRET ? { secret: env.WAITLIST_SECRET } : {}),
     email: cell(email),
     name: cell(clean(data.name, 80)),
     plan,
