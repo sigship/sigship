@@ -3,19 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SIGSHIP: the go/no-go check for AI-built apps</title>
-<meta name="description" content="SIGSHIP reads your AI-built app on your machine, writes the postmortem before the outage, and exits 0 only when it finds nothing serious.">
+<title>SIGSHIP: free security check for vibe-coded and AI-built apps</title>
+<meta name="description" content="Free security check for apps built with Lovable, Bolt, Cursor, Replit or Claude Code. Finds leaked API keys, open Supabase tables and fake payments before launch.">
 <link rel="canonical" href="https://sigship.dev/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:title" content="SIGSHIP: the go/no-go check for AI-built apps">
-<meta property="og:description" content="The postmortem, before the outage. Runs on your machine. Exits 0 only when it finds nothing serious.">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Zoof04 Inc.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SIGSHIP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="SIGSHIP: free security check for vibe-coded and AI-built apps">
+<meta property="og:description" content="Find what will leak, break or cost you money before launch. One command, runs on your computer, gives your AI tool the fixes.">
 <meta property="og:image" content="https://sigship.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SIGSHIP signal flags and the line: The postmortem, before the outage.">
 <meta property="og:url" content="https://sigship.dev/">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SIGSHIP","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Linux, Windows","description":"The go/no-go check for AI-built apps.","url":"https://sigship.dev/","publisher":{"@type":"Organization","name":"zoof04","url":"https://zoof04.com"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
-</script>
+<meta name="twitter:title" content="SIGSHIP: free security check for vibe-coded and AI-built apps">
+<meta name="twitter:description" content="Find what will leak, break or cost you money before launch. Free, open source, runs on your computer.">
+<meta name="twitter:image" content="https://sigship.dev/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://sigship.dev/#org","name":"Zoof04 Inc.","alternateName":"zoof04","url":"https://zoof04.com","email":"support@sigship.dev","logo":"https://sigship.dev/apple-touch-icon.png","sameAs":["https://github.com/sigship/sigship","https://www.npmjs.com/package/sigship","https://discord.gg/hKG6rNM4W"]},{"@type":"WebSite","@id":"https://sigship.dev/#site","name":"SIGSHIP","url":"https://sigship.dev/","publisher":{"@id":"https://sigship.dev/#org"},"inLanguage":"en"},{"@type":"SoftwareApplication","@id":"https://sigship.dev/#app","name":"SIGSHIP","url":"https://sigship.dev/","description":"Free, open source safety check for apps built with AI tools like Lovable, Bolt, Cursor, Replit, v0 and Claude Code. Finds leaked keys, open databases and unverified payments before launch, on your own computer.","applicationCategory":"DeveloperApplication","applicationSubCategory":"Security scanner","operatingSystem":"macOS, Windows, Linux","softwareVersion":"0.3.1","downloadUrl":"https://www.npmjs.com/package/sigship","installUrl":"https://sigship.dev/docs/#start","license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true,"image":"https://sigship.dev/og.png","publisher":{"@id":"https://sigship.dev/#org"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"},"keywords":"vibe coding security, AI-built app security, Lovable security, Supabase RLS check, leaked API key scanner, Stripe webhook verification, pre-launch checklist, MCP server"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is SIGSHIP?","acceptedAnswer":{"@type":"Answer","text":"A free safety check for apps built with AI tools like Lovable, Bolt, Cursor, Replit, v0 and Claude Code. It reads your app's code on your own computer and tells you, in plain English, what could leak, break or cost you money once real people use it, and how to fix each one."}},{"@type":"Question","name":"Is my vibe-coded app safe to launch?","acceptedAnswer":{"@type":"Answer","text":"Maybe not yet. AI tools often leave the same few mistakes behind: API keys in the code, database tables anyone can read, payment events nobody checks, and AI features with no spending limit. SIGSHIP looks for those and says GO when none are left. A GO doesn't prove the app is safe, but it means these common mistakes are gone."}},{"@type":"Question","name":"Does it work with Lovable, Bolt, Replit and v0?","acceptedAnswer":{"@type":"Answer","text":"Yes. Connect your project to GitHub (most AI builders have a button for it), download the code to your computer, and run npx sigship in that folder. It also works in Cursor, Claude Code and any project with JavaScript or TypeScript code."}},{"@type":"Question","name":"Do I need to know how to code?","acceptedAnswer":{"@type":"Answer","text":"No. You run one command, and it gives you one prompt to paste into your AI tool, which makes the fixes for you. Then you run the check again until it says GO."}},{"@type":"Question","name":"Does SIGSHIP upload my code?","acceptedAnswer":{"@type":"Answer","text":"No. The free tool runs entirely on your computer and makes no network calls. Your code, keys and results never leave your machine."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The tool is open source under the MIT licence, with no signup, no card and no limit on projects. Paid plans with extra checks are on the waitlist."}}]}]}</script>
 <meta name="theme-color" content="#edf2f6">
 <meta name="color-scheme" content="light dark">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
@@ -46,7 +57,7 @@
     <div class="mini"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><i class="on"></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><i></i></span></div>
     <span class="chip"><span class="lamp vlamp"></span><span><span class="dim">DEMO ·</span> <span data-chip>NO-GO · 3 to fix</span></span></span>
   </div>
-  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
   <div class="acts">
     <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
     <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
@@ -73,13 +84,13 @@
   <section class="hero" id="start" data-stage="0" aria-labelledby="h1">
     <h1 id="h1">The postmortem, before the outage.</h1>
     <div class="copy">
-      <p class="lede">SIGSHIP reads your AI-built app on your own machine and lists what will break in production.</p>
-      <p class="lede">It exits 0 only when it finds nothing serious, which gives your coding agent a real test for done.</p>
+      <p class="lede">Built your app with Lovable, Bolt, Cursor, Replit or Claude Code? SIGSHIP checks it on your own computer and tells you, in plain English, what will leak, break or cost you money once real people use it.</p>
+      <p class="lede">Paste the fixes into your AI tool and run it again until it says <b>GO</b>. <span class="dev">For developers: it exits 0 only on GO, so your coding agent gets a real test for done.</span></p>
       <div class="pad" id="pad">
         <div class="pad-tabs" role="tablist" aria-label="How to run it"><button role="tab" aria-selected="true" type="button" data-cmd="npx sigship">Terminal</button><button role="tab" aria-selected="false" tabindex="-1" type="button" data-cmd="Run npx sigship in this project. Fix every SEV-1 and SEV-2 it reports, in order, changing only what each fix needs. Run it again and keep going until it exits 0 (GO). If a fix needs a key rotated or a dashboard changed, stop and tell me what to do." data-agent>Coding agent</button><button role="tab" aria-selected="false" tabindex="-1" type="button" data-cmd="claude mcp add sigship -- npx -y sigship mcp">MCP</button></div>
         <div class="pad-row" role="tabpanel" aria-label="Command"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship" data-pad-copy>Copy</button></div>
       </div>
-      <p class="pad-note">No signup. The free tool runs on your machine and uploads nothing.<span class="node"> Needs Node.js 22+.</span> <a href="#where">Never used a terminal?</a></p>
+      <p class="pad-note">Free. No signup. Runs on your computer and uploads nothing.<span class="node"> Needs Node.js 22+.</span> <a href="#where">Never used a terminal?</a></p>
       <ul class="spec"><li>Free · MIT</li><li><button type="button" popovertarget="pv-spec-checks" interestfor="pv-spec-checks" style="anchor-name:--a-pv-spec-checks">17 checks</button></li><li>Exit 0 = GO</li><li class="ver"><button type="button" popovertarget="pv-spec-ver" interestfor="pv-spec-ver" style="anchor-name:--a-pv-spec-ver">v0.3.1</button></li></ul>
     </div>
     <div class="con-col">
@@ -178,7 +189,7 @@
 
   <section class="sect" id="how" data-stage="1" aria-labelledby="how-h">
     <p class="cap"><b>02</b><span>The fixes</span><i></i><span>Fig. 2</span></p>
-    <h2 id="how-h">Three things block this launch. <span>Here is each line, what goes wrong and the fix.</span></h2>
+    <h2 id="how-h">Three things block this launch. <span>Here's each problem in plain English, what happens if you ship it, and the fix.</span></h2>
     <div class="plates">
 <article class="plate" id="fix-0" data-state="before">
   <div class="plate-code">
@@ -246,7 +257,7 @@
 <details class="grp g1" open><summary><span class="lamp red" aria-hidden="true"></span><span class="gs">SEV-1</span><span class="gl">Blocks launch. Exposes data or money.</span><span class="gn">8</span></summary><ul><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>A live secret is sitting in your code</b><code>secret-in-code</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>Your .env file is committed</b><code>env-file-committed</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>A server secret has a browser-visible name</b><code>public-env-secret</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>Your AI key runs in the browser</b><code>ai-key-in-browser</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>A database table has no row level security</b><code>rls-missing</code><a class="in-demo" href="#fix-1">In the demo</a></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>A database policy lets anyone write</b><code>rls-open-write</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>Your Stripe webhook accepts anything</b><code>stripe-webhook-unverified</code><a class="in-demo" href="#fix-0">In the demo</a></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>User input may be pasted into a SQL query</b><code>sql-string-concat</code></li></ul></details>
 <details class="grp g2"><summary><span class="lamp yellow" aria-hidden="true"></span><span class="gs">SEV-2</span><span class="gl">Blocks launch. Costs you or your users.</span><span class="gn">3</span></summary><ul><li><span class="lamp yellow" aria-hidden="true"></span><span class="chip-sev s2">SEV-2</span><b>Your AI route has no spending brake</b><code>ai-route-no-rate-limit</code><a class="in-demo" href="#fix-2">In the demo</a></li><li><span class="lamp yellow" aria-hidden="true"></span><span class="chip-sev s2">SEV-2</span><b>Admin access is decided in the browser</b><code>role-in-local-storage</code></li><li><span class="lamp yellow" aria-hidden="true"></span><span class="chip-sev s2">SEV-2</span><b>Raw HTML goes straight onto the page</b><code>unsanitized-html</code></li></ul></details>
 <details class="grp g3"><summary><span class="lamp slate" aria-hidden="true"></span><span class="gs">SEV-3</span><span class="gl">Notes. Worth fixing; does not block.</span><span class="gn">6</span></summary><ul><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>Any website can call your API</b><code>cors-wildcard</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>A secret may be going to your logs</b><code>secret-in-logs</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>One crash takes down the whole screen</b><code>no-error-boundary</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>You will hear about errors from your users</b><code>no-error-tracking</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>Nothing checks that a change did not break login</b><code>no-tests</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>Your deploys are not repeatable</b><code>no-lockfile</code></li></ul></details>
-<details class="grp g0"><summary><span class="lamp hollow" aria-hidden="true"></span><span class="gs">Not checked</span><span class="gl">What SIGSHIP cannot see</span><span class="gn">4</span></summary><ul><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Settings changed only in a dashboard</b><span class="nc">It reads your repo, not your Supabase or Stripe dashboard.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Your live, deployed site</b><span class="nc">Planned for Cloud, on the waitlist.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Secrets already in your git history</b><span class="nc">Planned for Pro, on the waitlist.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Your business logic</b><span class="nc">Whether the app does the right thing is yours to test.</span></li></ul></details>
+<details class="grp g0"><summary><span class="lamp hollow" aria-hidden="true"></span><span class="gs">Not checked</span><span class="gl">What SIGSHIP cannot see</span><span class="gn">4</span></summary><ul><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Settings changed only in a dashboard</b><span class="nc">It reads your code, not your Supabase or Stripe dashboard settings.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Your live, deployed site</b><span class="nc">Planned for Cloud, on the waitlist.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Secrets already in your git history</b><span class="nc">Planned for Pro, on the waitlist.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Your business logic</b><span class="nc">Whether the app does the right thing is yours to test.</span></li></ul></details>
     </div>
   </section>
 
@@ -256,9 +267,9 @@
     <div class="log">
       <h3>A GO means these checks found nothing that blocks launch. <span>It does not prove the app is safe.</span></h3>
       <ol>
-        <li><code>FR-1</code><p>Pattern checks can miss real problems and flag safe code. <a href="https://github.com/sigship/sigship/issues">Report a false positive</a></p></li>
-        <li><code>FR-2</code><p>It reads your repo, so it can't see settings you changed only in a dashboard. Use your database provider's own advisor too.</p></li>
-        <li><code>FR-3</code><p>It reads code, not your live site.</p></li>
+        <li><code>FR-1</code><p>It looks for known mistakes, so it can miss a real problem, or warn about code that's actually fine. <a href="https://github.com/sigship/sigship/issues">Tell us when it's wrong</a></p></li>
+        <li><code>FR-2</code><p>It reads your code, so it can't see settings you changed only on a website dashboard, like Supabase. Run your database provider's own security advisor too.</p></li>
+        <li><code>FR-3</code><p>It checks your code, not the live website your users visit.</p></li>
       </ol>
       <p class="log-foot">Ask for a <a href="#pricing">pilot review</a> when the stakes are high.</p>
     </div>
@@ -268,12 +279,12 @@
     <p class="cap"><b>05</b><span>Where it runs</span><i></i><span>Fig. 5</span></p>
     <h2 id="where-h">It runs where the work happens. <span>Your coding agent, your terminal, your browser, your pull requests.</span></h2>
     <div class="ways">
-      <article class="way agent"><h3>Your coding agent</h3><p>Give your agent the check over MCP, with one rule: it is not done while the verdict is NO-GO. Exit 0 is your agent's test for done.</p><div class="cmdline"><code>claude mcp add sigship -- npx -y sigship mcp</code><button class="copy-btn" type="button" data-copy="claude mcp add sigship -- npx -y sigship mcp" data-copy-label="the MCP command">Copy</button></div></article>
-      <article class="way"><h3>Your terminal</h3><p>Check any project, then paste the fixes into your AI tool as one prompt.</p><div class="cmdline"><code>npx sigship --prompt</code><button class="copy-btn" type="button" data-copy="npx sigship --prompt" data-copy-label="npx sigship --prompt">Copy</button></div></article>
-      <article class="way"><h3>Your browser</h3><p>A dashboard with the verdict, every finding and the fix prompt. It runs on this computer only and uploads nothing.</p><div class="cmdline"><code>npx sigship ui</code><button class="copy-btn" type="button" data-copy="npx sigship ui" data-copy-label="npx sigship ui">Copy</button></div></article>
-      <article class="way"><h3>Pull requests</h3><p>A GitHub check that fails when a change brings a serious problem back.</p><div class="cmdline"><code>npx sigship init</code><button class="copy-btn" type="button" data-copy="npx sigship init" data-copy-label="npx sigship init">Copy</button></div></article>
+      <article class="way agent"><h3>Your coding agent</h3><p>Connect it to Claude Code, Cursor or another AI coding tool (over MCP), with one rule: the job isn't done until SIGSHIP says GO.</p><div class="cmdline"><code>claude mcp add sigship -- npx -y sigship mcp</code><button class="copy-btn" type="button" data-copy="claude mcp add sigship -- npx -y sigship mcp" data-copy-label="the MCP command">Copy</button></div></article>
+      <article class="way"><h3>Your terminal</h3><p>Check any project, then copy every fix as one prompt for your AI tool.</p><div class="cmdline"><code>npx sigship --prompt</code><button class="copy-btn" type="button" data-copy="npx sigship --prompt" data-copy-label="npx sigship --prompt">Copy</button></div></article>
+      <article class="way"><h3>Your browser</h3><p>Prefer buttons to commands? A private page with the verdict, every problem and the fixes. It runs on your computer only and uploads nothing.</p><div class="cmdline"><code>npx sigship ui</code><button class="copy-btn" type="button" data-copy="npx sigship ui" data-copy-label="npx sigship ui">Copy</button></div></article>
+      <article class="way"><h3>Pull requests</h3><p>On GitHub, it checks every change before it goes live and stops anything that brings a serious problem back.</p><div class="cmdline"><code>npx sigship init</code><button class="copy-btn" type="button" data-copy="npx sigship init" data-copy-label="npx sigship init">Copy</button></div></article>
     </div>
-    <p class="ways-note">Building in Lovable, Bolt or Replit? Sync to GitHub, then run <code>npx sigship ui</code> on your computer.</p>
+    <p class="ways-note">Building in Lovable, Bolt or Replit? Sync to GitHub, download the code, then run <code>npx sigship ui</code> on your computer. <a href="/guides/check-lovable-bolt-replit-app/">Step-by-step guide</a></p>
   </section>
 
   <section class="sect" id="pricing" data-stage="5" aria-labelledby="pricing-h">
@@ -292,7 +303,7 @@
         <p class="status"><span class="lamp green" aria-hidden="true"></span>Available now</p>
         <div class="pilot-flag" aria-hidden="true"><span class="pf"><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg></span></div>
         <h3>Flag G means “I require a pilot.”</h3>
-        <p>A senior zoof04 engineer reads your repo by hand and sends a ranked, written review within 48 hours, with a 30-minute call.</p>
+        <p>A senior zoof04 engineer reads your code by hand and sends a ranked, written review within 48 hours, with a 30-minute call.</p>
         <p class="price"><b>From $499</b></p>
         <div class="plan-acts"><a class="btn-line" href="mailto:support@sigship.dev?subject=SIGSHIP%20pilot%20review">Request a pilot review</a></div>
       </article>
@@ -321,12 +332,24 @@
     </div>
   </section>
 
+  <section class="sect" id="faq" aria-labelledby="faq-h">
+    <p class="cap"><b>?</b><span>Questions</span><i></i><span>New to this?</span></p>
+    <h2 id="faq-h">Questions, answered simply. <span>No jargon, promise.</span></h2>
+    <div class="faq"><details><summary>What is SIGSHIP?</summary><div class="acc-body"><p>A free safety check for apps built with AI tools like Lovable, Bolt, Cursor, Replit, v0 and Claude Code. It reads your app's code on your own computer and tells you, in plain English, what could leak, break or cost you money once real people use it, and how to fix each one.</p></div></details>
+<details><summary>Is my vibe-coded app safe to launch?</summary><div class="acc-body"><p>Maybe not yet. AI tools often leave the same few mistakes behind: API keys in the code, database tables anyone can read, payment events nobody checks, and AI features with no spending limit. SIGSHIP looks for those and says GO when none are left. A GO doesn't prove the app is safe, but it means these common mistakes are gone.</p></div></details>
+<details><summary>Does it work with Lovable, Bolt, Replit and v0?</summary><div class="acc-body"><p>Yes. Connect your project to GitHub (most AI builders have a button for it), download the code to your computer, and run npx sigship in that folder. It also works in Cursor, Claude Code and any project with JavaScript or TypeScript code.</p></div></details>
+<details><summary>Do I need to know how to code?</summary><div class="acc-body"><p>No. You run one command, and it gives you one prompt to paste into your AI tool, which makes the fixes for you. Then you run the check again until it says GO.</p></div></details>
+<details><summary>Does SIGSHIP upload my code?</summary><div class="acc-body"><p>No. The free tool runs entirely on your computer and makes no network calls. Your code, keys and results never leave your machine.</p></div></details>
+<details><summary>Is it really free?</summary><div class="acc-body"><p>Yes. The tool is open source under the MIT licence, with no signup, no card and no limit on projects. Paid plans with extra checks are on the waitlist.</p></div></details></div>
+    <p class="faq-more">Still stuck on a word? <a href="/glossary/">Every term, explained in plain English</a> · <a href="/guides/vibe-coding-security-checklist/">The vibe coding security checklist</a></p>
+  </section>
+
   <section class="finale" id="why" data-stage="6" aria-labelledby="why-h">
     <div class="fin-inner">
       <div class="fin-copy">
         <p class="cap"><b>07</b><span>Ready to sail</span><i></i><span>Fig. 7</span></p>
         <h2 id="why-h">Ships raise a flag before they leave port. <span>Software never did.</span></h2>
-        <p class="fin-p">In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In Unix, a signal tells a running program something it has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn't yet.</p>
+        <p class="fin-p">In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In computing, a "signal" is a message a running program has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn't yet.</p>
         <ul class="eq" aria-label="Flag P plus SIGTERM equals SIGSHIP"><li><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Flag P</li><li class="op" aria-hidden="true">+</li><li><code>SIGTERM</code></li><li class="op" aria-hidden="true">=</li><li><strong>SIGSHIP</strong></li></ul>
         <div class="fin-pad"><p class="fin-turn">Your turn.</p><div class="pad-row"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div></div>
         <p class="fin-go">A GO means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits"><svg class="g dag" aria-hidden="true"><use href="#g-dagger"/></svg><span class="sr">Footnote: </span> What a GO doesn't mean</a></p>
@@ -353,7 +376,7 @@
     </div>
     <nav class="foot-cols" aria-label="Footer">
       <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
-      <div><p>Resources</p><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
       <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="https://discord.gg/hKG6rNM4W">Discord</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
       <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
     </nav>

@@ -9,6 +9,7 @@ import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DEMO, writeDemo } from './demo.js';
+import { HOME_FAQ, ORG, appLd, faqFromHtml, ld } from './seo.js';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const HOME = join(REPO, 'scripts/home');
@@ -165,7 +166,7 @@ const group = (sev, label, open) => {
   return `<details class="grp g${sev}"${open ? ' open' : ''}><summary><span class="lamp ${lampCls(sev)}" aria-hidden="true"></span><span class="gs">SEV-${sev}</span><span class="gl">${label}</span><span class="gn">${rs.length}</span></summary><ul>${rs.map((r) => `<li><span class="lamp ${lampCls(sev)}" aria-hidden="true"></span><span class="chip-sev ${sevCls(sev)}">SEV-${sev}</span><b>${esc(r.title)}</b><code>${r.id}</code>${tripped.has(r.id) ? `<a class="in-demo" href="#fix-${tripped.get(r.id)}">In the demo</a>` : ''}</li>`).join('')}</ul></details>`;
 };
 const NOT_CHECKED = [
-  ['Settings changed only in a dashboard', 'It reads your repo, not your Supabase or Stripe dashboard.'],
+  ['Settings changed only in a dashboard', 'It reads your code, not your Supabase or Stripe dashboard settings.'],
   ['Your live, deployed site', 'Planned for Cloud, on the waitlist.'],
   ['Secrets already in your git history', 'Planned for Pro, on the waitlist.'],
   ['Your business logic', 'Whether the app does the right thing is yours to test.'],
@@ -183,7 +184,7 @@ const free = TRACKS[0].plans.find((p) => p.id === 'free');
 // The pilot review's words and price are the current site's own copy.
 const PLANS_LIVE = [
   { ...free, live: true, status: 'Live' },
-  { id: 'pilot', live: true, status: 'Available now', name: 'Pilot review', price: 'From $499', heading: 'Flag G means “I require a pilot.”', text: 'A senior zoof04 engineer reads your repo by hand and sends a ranked, written review within 48 hours, with a 30-minute call.', href: 'mailto:support@sigship.dev?subject=SIGSHIP%20pilot%20review' },
+  { id: 'pilot', live: true, status: 'Available now', name: 'Pilot review', price: 'From $499', heading: 'Flag G means “I require a pilot.”', text: 'A senior zoof04 engineer reads your code by hand and sends a ranked, written review within 48 hours, with a 30-minute call.', href: 'mailto:support@sigship.dev?subject=SIGSHIP%20pilot%20review' },
 ];
 const liveCard = (p) => p.id === 'free'
   ? `<article class="plan live" data-live="${p.live}" data-plan-id="${p.id}">
@@ -230,7 +231,17 @@ const scal = {
   freePrice: esc(free.price), freePer: esc(free.per), freeTag: esc(free.tagline),
   freeItems: free.items.slice(0, 5).map((it) => `<li>${esc(it)}</li>`).join(''),
 };
-const blocks = { rows, raw1, raw2, peeks, plates, board, liveRow, plannedSelf: planned('self'), plannedCloud: planned('cloud'), formPlans, rundata: JSON.stringify(runData).replace(/</g, '\\u003c') };
+const homeFaq = HOME_FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="acc-body"><p>${esc(a)}</p></div></details>`).join('\n');
+const homeLd = ld({
+  '@context': 'https://schema.org',
+  '@graph': [
+    ORG,
+    { '@type': 'WebSite', '@id': 'https://sigship.dev/#site', name: 'SIGSHIP', url: 'https://sigship.dev/', publisher: { '@id': 'https://sigship.dev/#org' }, inLanguage: 'en' },
+    appLd({ version: pkg.version, description: 'Free, open source safety check for apps built with AI tools like Lovable, Bolt, Cursor, Replit, v0 and Claude Code. Finds leaked keys, open databases and unverified payments before launch, on your own computer.' }),
+    faqFromHtml(homeFaq),
+  ],
+});
+const blocks = { homeFaq, homeLd, rows, raw1, raw2, peeks, plates, board, liveRow, plannedSelf: planned('self'), plannedCloud: planned('cloud'), formPlans, rundata: JSON.stringify(runData).replace(/</g, '\\u003c') };
 
 let html = readFileSync(join(HOME, 'page.html'), 'utf8');
 html = html.replace(/<!--@(\w+)-->/g, (_, k) => { if (!(k in blocks)) throw new Error(`Unknown block ${k}`); return blocks[k]; });

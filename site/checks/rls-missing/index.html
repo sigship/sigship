@@ -3,14 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A database table has no row level security | SIGSHIP</title>
-<meta name="description" content="Anyone with your public Supabase key can read this table. That key ships in your JavaScript. How to find it and fix it.">
+<title>Supabase table without row level security (RLS): fix it | SIGSHIP</title>
+<meta name="description" content="Row level security is Supabase's lock that decides who can see each row of a table. This table has no lock, and the public key that unlocks your database is…">
 <link rel="canonical" href="https://sigship.dev/checks/rls-missing/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SIGSHIP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Supabase table without row level security (RLS): fix it | SIGSHIP">
+<meta property="og:description" content="Row level security is Supabase's lock that decides who can see each row of a table. This table has no lock, and the public key that unlocks your database is…">
+<meta property="og:url" content="https://sigship.dev/checks/rls-missing/">
+<meta property="og:image" content="https://sigship.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Supabase table without row level security (RLS): fix it | SIGSHIP">
+<meta name="twitter:description" content="Row level security is Supabase's lock that decides who can see each row of a table. This table has no lock, and the public key that unlocks your database is…">
+<meta name="twitter:image" content="https://sigship.dev/og.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <meta name="theme-color" content="#edf2f6">
 <meta name="color-scheme" content="light dark">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sigship.dev/"},{"@type":"ListItem","position":2,"name":"Checks","item":"https://sigship.dev/#checks"},{"@type":"ListItem","position":3,"name":"A database table has no row level security","item":"https://sigship.dev/checks/rls-missing/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is row level security in Supabase?","acceptedAnswer":{"@type":"Answer","text":"A set of rules on each table that decides which rows a person can see or change, for example \"users can only see their own orders\". Without it, the public key can read the whole table."}},{"@type":"Question","name":"How do I turn on RLS?","acceptedAnswer":{"@type":"Answer","text":"Enable row level security on the table, then add a policy, such as only letting a user read rows where user_id matches their login. Supabase's own security advisor in the dashboard can confirm it."}}]},{"@type":"TechArticle","headline":"Supabase table without row level security (RLS): fix it","description":"Row level security is Supabase's lock that decides who can see each row of a table. This table has no lock, and the public key that unlocks your database is inside your website, so anyone can read everything in it.","url":"https://sigship.dev/checks/rls-missing/","inLanguage":"en","datePublished":"2026-11-08","dateModified":"2026-11-08","author":{"@id":"https://sigship.dev/#org"},"publisher":{"@type":"Organization","@id":"https://sigship.dev/#org","name":"Zoof04 Inc.","alternateName":"zoof04","url":"https://zoof04.com","email":"support@sigship.dev","logo":"https://sigship.dev/apple-touch-icon.png","sameAs":["https://github.com/sigship/sigship","https://www.npmjs.com/package/sigship","https://discord.gg/hKG6rNM4W"]},"about":"A database table has no row level security","proficiencyLevel":"Beginner"}]}</script>
 <script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#060b14':'#edf2f6';if(m==='off')d.dataset.motion='off';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
 <link rel="stylesheet" href="/home.css">
 <link rel="stylesheet" href="/page.css">
@@ -34,7 +50,7 @@
 </defs></svg>
 <header class="mast" id="top">
   <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
   <div class="acts">
     <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
     <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
@@ -42,16 +58,24 @@
   </div>
 </header>
 <main class="page" id="main">
-<p class="sev">SEV-1: blocks launch</p>
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/#checks">Checks</a></li><li aria-current="page">A database table has no row level security</li></ol></nav>
+<p class="sev">SEV-1 · Critical: fix before launch</p>
 <h1>A database table has no row level security</h1>
-<h2>What goes wrong</h2>
+<p class="plain"><b>In plain English:</b> Row level security is Supabase's lock that decides who can see each row of a table. This table has no lock, and the public key that unlocks your database is inside your website, so anyone can read everything in it.</p>
+<h2>What happens if you ship it</h2>
 <p>Anyone with your public Supabase key can read this table. That key ships in your JavaScript.</p>
-<h2>How to fix it</h2>
+<h2>How to fix it <span class="dev-tag">Technical</span></h2>
 <p class="fix">Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner.</p>
+<h2>Let your AI tool fix it</h2>
+<p>Paste this into Lovable, Bolt, Cursor, Replit or Claude Code:</p>
+<div class="code"><div class="code-bar"><span>Prompt for your AI tool</span><button class="copy-btn" type="button" data-copy="Fix this problem in my project: A database table has no row level security. Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner. Change only what this fix needs, then tell me what you changed and anything I have to do myself." data-copy-label="Prompt for your AI tool">Copy</button></div><pre><code>Fix this problem in my project: A database table has no row level security. Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner. Change only what this fix needs, then tell me what you changed and anything I have to do myself.</code></pre></div>
 <h2>Check your app</h2>
-<div class="try"><code class="cmd">npx sigship</code><p>Run it in your project. It reports this check as <code>rls-missing</code>, along with 16 others. Nothing leaves your machine.</p></div>
+<div class="try"><code class="cmd">npx sigship</code><p>Run it in your project folder. It reports this problem as <code>rls-missing</code>, along with 16 other checks. Nothing leaves your computer. <a href="/guides/check-lovable-bolt-replit-app/">New to the terminal?</a></p></div>
+<h2>Questions</h2>
+<div class="acc"><details><summary>What is row level security in Supabase?</summary><div class="acc-body"><p>A set of rules on each table that decides which rows a person can see or change, for example &quot;users can only see their own orders&quot;. Without it, the public key can read the whole table.</p></div></details>
+<details><summary>How do I turn on RLS?</summary><div class="acc-body"><p>Enable row level security on the table, then add a policy, such as only letting a user read rows where user_id matches their login. Supabase's own security advisor in the dashboard can confirm it.</p></div></details></div>
 <nav class="pager" aria-label="More checks"><a href="/checks/ai-key-in-browser/"><span>Previous</span>Your AI key runs in the browser</a><a href="/checks/rls-open-write/"><span>Next</span>A database policy lets anyone write</a></nav>
-<p><a href="/#checks">See every check</a></p>
+<p><a href="/#checks">See every check</a> · <a href="/glossary/">Jargon, explained</a></p>
 </main>
 <footer class="site-foot">
   <div class="foot-top">
@@ -63,7 +87,7 @@
     </div>
     <nav class="foot-cols" aria-label="Footer">
       <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
-      <div><p>Resources</p><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
       <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="https://discord.gg/hKG6rNM4W">Discord</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
       <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
     </nav>

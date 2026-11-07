@@ -1,0 +1,368 @@
+# SIGSHIP: full text
+
+SIGSHIP is a free, open source safety check for apps built with AI tools such as Lovable, Bolt, Cursor, Replit, v0 and Claude Code. It reads a project on the user's own computer, explains in plain English what will leak, break or cost money in production, gives the fix for each problem (including one prompt to paste into an AI tool), and ends with a verdict: GO or NO-GO. It exits 0 only on GO. A GO means its checks found nothing that blocks launch; it does not prove an app is safe. Made by Zoof04 Inc. Contact: support@sigship.dev.
+
+## Commands
+- Check a project: `npx sigship`
+- Get every fix as one prompt for an AI tool: `npx sigship --prompt`
+- Open the private browser dashboard: `npx sigship ui`
+- Add it to Claude Code: `claude mcp add sigship -- npx -y sigship mcp`
+- Add a GitHub pull request check and an AGENTS.md rule: `npx sigship init`
+- Requires Node.js 22 or newer. The free tool makes no network calls and never prints a secret value.
+
+## Common questions
+### What is SIGSHIP?
+A free safety check for apps built with AI tools like Lovable, Bolt, Cursor, Replit, v0 and Claude Code. It reads your app's code on your own computer and tells you, in plain English, what could leak, break or cost you money once real people use it, and how to fix each one.
+
+### Is my vibe-coded app safe to launch?
+Maybe not yet. AI tools often leave the same few mistakes behind: API keys in the code, database tables anyone can read, payment events nobody checks, and AI features with no spending limit. SIGSHIP looks for those and says GO when none are left. A GO doesn't prove the app is safe, but it means these common mistakes are gone.
+
+### Does it work with Lovable, Bolt, Replit and v0?
+Yes. Connect your project to GitHub (most AI builders have a button for it), download the code to your computer, and run npx sigship in that folder. It also works in Cursor, Claude Code and any project with JavaScript or TypeScript code.
+
+### Do I need to know how to code?
+No. You run one command, and it gives you one prompt to paste into your AI tool, which makes the fixes for you. Then you run the check again until it says GO.
+
+### Does SIGSHIP upload my code?
+No. The free tool runs entirely on your computer and makes no network calls. Your code, keys and results never leave your machine.
+
+### Is it really free?
+Yes. The tool is open source under the MIT licence, with no signup, no card and no limit on projects. Paid plans with extra checks are on the waitlist.
+
+## Checks
+### A live secret is sitting in your code (secret-in-code, SEV-1)
+In plain English: A secret key (a password that lets your app use a paid service, like OpenAI or Stripe) is written directly in your code. Anyone who can see the code, or the JavaScript your site sends to visitors, can copy it and use it on your bill.
+What happens if you ship it: Someone reads it from your repo or your JavaScript bundle, and the bill or the data breach arrives before you do.
+How to fix it: Rotate this key now, because it is already exposed. Move it to a server-side environment variable, read it only from server code, and remove it from the code.
+Q: How do I know if my API key is exposed?
+A: If the key is written in a file that ships to the browser, or in a public GitHub repo, treat it as exposed. SIGSHIP points to the file and line, without printing the key itself.
+Q: Is deleting the key from my code enough?
+A: No. Once a key has been exposed, copies may already exist. Create a new key in the provider's dashboard, delete the old one, and keep the new one in a server-side environment variable.
+
+### Your .env file is committed (env-file-committed, SEV-1)
+In plain English: Your .env file holds your app's secret keys. It has been saved into git, the history of your project, so anyone with a copy of the project, now or later, can read every key in it.
+What happens if you ship it: Every secret in that file is now in your git history, including every fork and clone of it.
+How to fix it: Add .env to .gitignore, run git rm --cached on the file, and rotate every value it contained. Deleting the file later does not remove it from history.
+Q: Does deleting the .env file fix it?
+A: No. Git keeps every old version, so the keys stay in the history. Stop tracking the file, add it to .gitignore, and replace every key it contained with a new one.
+Q: What is .gitignore?
+A: A list of files that git should never save. Your .env file belongs on it, so secrets stay on your computer and your host's settings, not in the project history.
+
+### A server secret has a browser-visible name (public-env-secret, SEV-1)
+In plain English: Some setting names start with a word like NEXT_PUBLIC_ or VITE_, which tells your build tool to copy the value into the website every visitor downloads. A secret with one of those names is public, even if it looks hidden.
+What happens if you ship it: Your build tool copies it into the JavaScript every visitor downloads, where anyone can read it.
+How to fix it: Rename this variable without the public prefix, and move the call that needs it into a server route or edge function.
+Q: Which prefixes make a variable public?
+A: Common ones are NEXT_PUBLIC_ in Next.js, VITE_ in Vite, PUBLIC_ in SvelteKit and Astro, REACT_APP_ in Create React App, and EXPO_PUBLIC_ in Expo. Only values that are safe for anyone to see should use them.
+Q: Is the Supabase anon key safe to make public?
+A: It is designed to be public, but only if row level security is on for every table. Your service role key must never be public.
+
+### Your AI key runs in the browser (ai-key-in-browser, SEV-1)
+In plain English: Your app calls an AI service like OpenAI straight from the visitor's browser, which means your AI key is sent to every visitor. Anyone can copy it from their browser and run up your bill.
+What happens if you ship it: A stranger copies your key from the network tab and spends your credit on their own project.
+How to fix it: Remove dangerouslyAllowBrowser. Create a server route that holds the key, checks who is asking, and calls the AI provider for the browser.
+Q: Why is calling OpenAI from the frontend dangerous?
+A: Anything the browser can use, the visitor can read. Your key shows up in the browser's developer tools, and a stranger can use it for their own projects.
+Q: What is the safe way to call an AI API?
+A: Create a small server route (or edge function) that keeps the key, checks who is asking, limits how often they can ask, and calls the AI service for them.
+
+### A database table has no row level security (rls-missing, SEV-1)
+In plain English: Row level security is Supabase's lock that decides who can see each row of a table. This table has no lock, and the public key that unlocks your database is inside your website, so anyone can read everything in it.
+What happens if you ship it: Anyone with your public Supabase key can read this table. That key ships in your JavaScript.
+How to fix it: Add "alter table <name> enable row level security;" in a new migration, then write a policy that limits each row to its owner.
+Q: What is row level security in Supabase?
+A: A set of rules on each table that decides which rows a person can see or change, for example "users can only see their own orders". Without it, the public key can read the whole table.
+Q: How do I turn on RLS?
+A: Enable row level security on the table, then add a policy, such as only letting a user read rows where user_id matches their login. Supabase's own security advisor in the dashboard can confirm it.
+
+### A database policy lets anyone write (rls-open-write, SEV-1)
+In plain English: Your table has a lock (row level security), but one of its rules says "yes" to everyone. That means a stranger can add, change or delete your data.
+What happens if you ship it: Row level security is on, but this policy says yes to everyone, so a stranger can edit or delete your data.
+How to fix it: Replace true with a real condition, such as auth.uid() = user_id, on both the using and with check clauses.
+Q: What does "using (true)" mean in a policy?
+A: It means the rule always passes, for everyone, including people who are not logged in. It turns the lock into an open door.
+Q: What should the policy say instead?
+A: Usually that the logged-in person owns the row, such as auth.uid() = user_id, for both reading and writing.
+
+### Your Stripe webhook accepts anything (stripe-webhook-unverified, SEV-1)
+In plain English: A webhook is the message Stripe sends your app when someone pays. Your app trusts any message that arrives, without checking it really came from Stripe, so someone can fake a "payment succeeded" message and get your paid plan for free.
+What happens if you ship it: Someone posts a fake "payment succeeded" event to your endpoint and gets your paid plan for free.
+How to fix it: Verify every event with stripe.webhooks.constructEvent, using the raw request body and your webhook signing secret, before you act on it.
+Q: How do I verify a Stripe webhook?
+A: Use Stripe's library to check the signature on every event with your webhook signing secret and the raw request body, and reject anything that fails before you act on it.
+Q: Where do I find the webhook signing secret?
+A: In the Stripe dashboard, under Developers, then Webhooks, on the page for your endpoint. Keep it in a server-side environment variable.
+
+### User input may be pasted into a SQL query (sql-string-concat, SEV-1)
+In plain English: Text someone types into your app is being glued straight into a database command. A person can type something crafted that your database runs as a command of its own, such as reading or deleting data. This is called SQL injection.
+What happens if you ship it: Someone types a crafted value into a form and your database runs it as a command.
+How to fix it: Use a parameterised query. Pass values as parameters and never build SQL with template strings.
+Q: What is SQL injection?
+A: A way to trick a database into running commands by typing them into a form or a link. It happens when an app builds database commands by joining text together.
+Q: How do I prevent SQL injection?
+A: Use parameterised queries, where the command and the values are sent separately, or a query builder that does it for you. Never build SQL with template strings.
+
+### Your AI route has no spending brake (ai-route-no-rate-limit, SEV-2)
+In plain English: Your app has a feature that calls a paid AI service, and nothing limits how often it can be used. One script left running overnight can spend hundreds or thousands of dollars of your credit.
+What happens if you ship it: One script loops on this endpoint overnight and you wake up to the invoice.
+How to fix it: Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard.
+Q: What is a rate limit?
+A: A rule that only lets each person (or each address) make a certain number of requests in a period, such as 20 a minute. Anything above that is refused.
+Q: How do I stop a surprise AI bill?
+A: Add a rate limit in front of the AI route, require a login for it, and set a monthly spending cap in your AI provider's dashboard.
+
+### Admin access is decided in the browser (role-in-local-storage, SEV-2)
+In plain English: Your app decides who is an admin using a value kept in the visitor's own browser. Anyone can change that value in a few seconds and give themselves admin powers.
+What happens if you ship it: Someone opens dev tools, changes one value, and becomes an admin.
+How to fix it: Store roles in the database and check them on the server for every protected action. Treat anything in the browser as user input.
+Q: Why is localStorage not safe for roles?
+A: Visitors control everything in their browser, including localStorage. Anything stored there should be treated as something the user typed.
+Q: Where should user roles live?
+A: In your database, checked by your server or by database rules every time someone tries a protected action.
+
+### Raw HTML goes straight onto the page (unsanitized-html, SEV-2)
+In plain English: Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can steal their login. This is called XSS (cross-site scripting).
+What happens if you ship it: A comment or profile field carries a script, and it runs in the browser of every visitor who sees it.
+How to fix it: Sanitise the value with DOMPurify before rendering it, or render it as plain text.
+Q: What is XSS?
+A: Cross-site scripting: when an attacker gets their own code to run on your site in other people's browsers, usually through text your app shows without cleaning it first.
+Q: How do I fix it?
+A: Show user text as plain text, or clean it with a library such as DOMPurify before showing it as HTML.
+
+### Any website can call your API (cors-wildcard, SEV-3)
+In plain English: CORS is the setting that says which websites can talk to your app's server from a browser. Yours says "any website", so other sites can call your server.
+What happens if you ship it: Another site calls your endpoints from its own pages, and you never see it in your logs as a problem.
+How to fix it: Replace the wildcard with the exact origins of your app.
+Q: Is Access-Control-Allow-Origin * always bad?
+A: Not for truly public data. For anything tied to a user or that changes data, list the exact web addresses of your own app instead.
+Q: What should I put instead of *?
+A: The full address of your site, such as https://yourapp.com, and any other domains you actually use.
+
+### A secret may be going to your logs (secret-in-logs, SEV-3)
+In plain English: Your app may be writing a password or secret key into its logs, the running notes your server keeps. More people and tools can usually read logs than your database.
+What happens if you ship it: Passwords or tokens end up in a log service that more people can read than your database.
+How to fix it: Remove this log line, or log only that the action happened.
+Q: Why are secrets in logs a problem?
+A: Logs are copied to hosting dashboards and log services, kept for a long time and shared with teammates, so a secret in a log spreads quietly.
+Q: What should I log instead?
+A: That the action happened, and maybe who did it, but never the password, token or key itself.
+
+### One crash takes down the whole screen (no-error-boundary, SEV-3)
+In plain English: If one part of your page hits an error, the whole screen goes blank, and your user sees a white page with no explanation. An error boundary catches the error and shows a friendly message instead.
+What happens if you ship it: A single bad record gives your users a white page, and nobody tells you.
+How to fix it: Add a React error boundary around your routes, or error.tsx in a Next.js app, with a friendly message and a retry.
+Q: What is an error boundary?
+A: A React component that catches errors in the parts of the page inside it and shows a fallback, like "Something went wrong, try again", instead of a blank screen.
+Q: How do I add one in Next.js?
+A: Add an error.tsx file next to your pages. Next.js uses it as the error boundary for that part of the app.
+
+### You will hear about errors from your users (no-error-tracking, SEV-3)
+In plain English: Nothing tells you when your app breaks for a user. Without error tracking, you only find out when someone is annoyed enough to email you, if they ever do.
+What happens if you ship it: Your app fails for a week before someone is annoyed enough to email you.
+How to fix it: Add an error tracker such as Sentry on both the client and the server.
+Q: What is error tracking?
+A: A service that records errors from your app as they happen, with details, and alerts you. Sentry is a common example.
+Q: Do I need it before launch?
+A: It is not a blocker, but it is the cheapest way to see what breaks in the first week with real users.
+
+### Nothing checks that a change did not break login (no-tests, SEV-3)
+In plain English: Nothing checks automatically that a change didn't break the most important parts of your app, like signing up, logging in and paying. A small fix can quietly break them.
+What happens if you ship it: A small fix goes live on Friday and signup is broken until Monday.
+How to fix it: Add one test for each money path: sign up, log in, and pay. Run them on every pull request.
+Q: Which tests matter most?
+A: One for each path that brings in money or users: sign up, log in and pay. A few tests there catch the breakages that hurt.
+Q: Can my AI tool write the tests?
+A: Yes. Ask it for one end-to-end test for each of those paths, and to run them on every change.
+
+### Your deploys are not repeatable (no-lockfile, SEV-3)
+In plain English: A lockfile records the exact version of every package your app uses. Without one, each deploy can quietly install newer versions, and your live app can break with no change from you.
+What happens if you ship it: A dependency updates itself on the next deploy and production breaks with no code change.
+How to fix it: Commit your lockfile: package-lock.json, pnpm-lock.yaml, yarn.lock or bun.lockb.
+Q: What is package-lock.json?
+A: The lockfile npm creates. It pins every package to an exact version so every install, on any computer or server, gets the same code.
+Q: Should I commit the lockfile?
+A: Yes. Commit package-lock.json, pnpm-lock.yaml, yarn.lock or bun.lockb, whichever your project uses.
+
+## Guides
+### Vibe coding security checklist: 10 checks before launch
+https://sigship.dev/guides/vibe-coding-security-checklist/
+AI tools build fast, and they leave the same few mistakes behind again and again. Here are the ten worth checking before real people use your app, in order of how much they can hurt.
+
+The five that can cost you money or data
+
+No secret keys in your code. Keys for OpenAI, Stripe and other paid services belong in environment variables on your server, never in code the browser downloads. How to fix it.
+
+Your .env file isn't saved in git. If it is, every key in it is in your project's history. Replace the keys and stop tracking the file. How to fix it.
+
+Every database table is locked. In Supabase, turn on row level security for every table and add rules for who can read and change each row. Supabase RLS, explained simply.
+
+Payments are verified. Your app should only unlock paid features after checking that the payment message really came from Stripe. How to fix it.
+
+AI features have a spending limit. Put a rate limit in front of any feature that calls a paid AI service, and set a monthly cap with your AI provider. How to fix it.
+
+The five that make abuse easy or hide problems
+
+Admin access is checked on the server, not decided by a value in the visitor's browser. Why.
+
+User text is shown as text, not raw HTML, so nobody can hide a script in a comment. Why.
+
+Only your site can call your server. Replace a CORS setting of "*" with your real web address. Why.
+
+You'll hear about errors before your users do. Add error tracking and a friendly error screen. Why.
+
+Signup, login and payments are tested. One automatic test for each catches the breakages that hurt most. Why.
+
+Check all ten in one go
+
+SIGSHIP checks for these and more on your own computer, for free. Open a terminal in your project folder and run:
+
+npx sigship
+
+Then run npx sigship --prompt and paste the result into your AI tool. It fixes everything in order. Run the check again until it says GO. A GO means these checks found nothing that blocks launch. It does not prove the app is safe.
+Q: Is vibe coding safe for production apps?
+A: It can be, if you check the result. AI tools write working code quickly, but they often skip security steps like locking database tables or verifying payments. A checklist and an automatic check catch most of them.
+Q: What is the most common security mistake in AI-built apps?
+A: Secret keys and open databases. AI tools often put API keys where the browser can see them, and create Supabase tables without row level security.
+
+### How to check an app built with Lovable, Bolt, Replit or v0
+https://sigship.dev/guides/check-lovable-bolt-replit-app/
+Your app lives inside an AI builder, but checking it takes the code on your own computer. It takes about five minutes, and you don't need to know how to code.
+
+1. Get your code onto your computer
+
+Lovable or Bolt: use the GitHub button in the builder to connect your project to a GitHub repository. Then, on GitHub, click Code and Download ZIP, and unzip it.
+
+Replit: download your project as a ZIP file from the Files menu, or connect it to GitHub and download from there.
+
+v0: download the generated code, or push it to GitHub, and download the project.
+
+Button names change from time to time. If you can't find them, ask the builder's own assistant: "How do I download my code or sync it to GitHub?"
+
+2. Install Node.js once
+
+Download Node.js version 22 or newer from nodejs.org and install it like any app. It's free.
+
+3. Run the check
+
+Open the Terminal app (Mac) or PowerShell (Windows). Type cd and a space, drag your project folder into the window, and press Enter. Then run:
+
+npx sigship ui
+
+This opens a private page in your browser with the verdict, every problem in plain English, and a button to copy the fixes. It runs on your computer only. Nothing is uploaded.
+
+4. Let your AI builder fix it
+
+Copy the fix prompt and paste it into the builder's chat. When it's done, sync and download again, and re-run the check until it says GO.
+
+5. Check the settings in your dashboards too
+
+SIGSHIP reads your code, so it can't see settings you changed only on a website, like Supabase table rules made in the dashboard. Run Supabase's own security advisor as well. Supabase RLS, explained simply.
+Q: Can SIGSHIP check my Lovable app without downloading it?
+A: Not yet. The free tool reads code on your computer, so you download the project first. SIGSHIP Cloud, on the waitlist, is planned to connect to builders directly.
+Q: Will running SIGSHIP change my app?
+A: No. It only reads your files. Your AI tool makes the fixes.
+
+### Supabase row level security (RLS), explained simply
+https://sigship.dev/guides/supabase-rls-explained/
+If your app uses Supabase, row level security is the single most important setting to get right. Here's what it is and how to check yours, without the jargon.
+
+What it is
+
+Your Supabase database comes with a public key that lives inside your website. That's normal: it's how your site talks to the database. Row level security (RLS) is the lock that decides what that public key is allowed to do, table by table and row by row.
+
+Without RLS, the public key can read every row in the table. With RLS on and a good rule (a policy), each person only sees their own data.
+
+Why AI-built apps often miss it
+
+AI tools create tables quickly so your app works right away. Turning on RLS and writing policies is a separate step, and it's easy to skip when everything already seems to work.
+
+How to turn it on
+
+For each table, ask your AI tool, or run this in the Supabase SQL editor (replace orders with your table name):
+
+alter table orders enable row level security;
+
+create policy "Users read their own orders"
+  on orders for select
+  using (auth.uid() = user_id);
+
+This turns on the lock, then lets a logged-in person read only the rows where user_id is their own ID. Add similar policies for adding, changing and deleting rows.
+
+The open-door mistake
+
+A policy that says using (true) lets everyone through, so RLS looks on but protects nothing. Why it matters.
+
+How to check yours
+
+Run npx sigship in your project. It finds tables in your migration files without RLS, and policies that let anyone write.
+
+Open Supabase's security advisor in your dashboard, which checks the live database, including settings made there.
+Q: Is the Supabase anon key a secret?
+A: No, it is designed to be public. It is only safe when row level security is on for every table that holds private data. The service role key is the secret one.
+Q: Does RLS slow down my app?
+A: For most apps, not noticeably. Simple policies like matching the user ID are fast, especially with an index on that column.
+
+### Leaked an API key? What to do in the next 10 minutes
+https://sigship.dev/guides/leaked-api-key/
+It happens to everyone. A key ended up in your code, on GitHub or in your website. Here's what to do, in order.
+
+1. Replace the key, right now
+
+Go to the dashboard of the service (OpenAI, Anthropic, Stripe, Resend and so on). Create a new key, then delete or disable the old one. Deleting the key from your code is not enough: copies may already exist, and git keeps old versions.
+
+2. Check for damage
+
+Look at the service's usage and billing page for spending you don't recognise. Set a spending limit if the service offers one. If you see abuse, contact the service's support.
+
+3. Put the new key somewhere safe
+
+Store it as an environment variable in your host's settings (Vercel, Netlify, Supabase, Replit Secrets and similar), and only use it in server code. Never give it a public prefix like NEXT_PUBLIC_ or VITE_. Why.
+
+4. Clean up the code
+
+Remove the key from your code and make sure your .env file is on the .gitignore list. How.
+
+5. Make sure it's the only one
+
+Run npx sigship in your project. It looks for keys in your code, committed .env files and secrets with public names, and tells you where they are without printing them.
+Q: Does GitHub tell me if I leak a key?
+A: GitHub's secret scanning catches many known key formats in public repositories and may alert you or the provider. Don't rely on it: replace the key yourself as soon as you know.
+Q: Can I just make the repository private?
+A: It helps going forward, but anyone who saw or copied the key while it was public still has it. Replace the key first.
+
+## Glossary
+- API key: A secret password that lets your app use a paid service, such as OpenAI, Stripe or Resend. Whoever has it can spend your money, so it must never be in code that visitors can see.
+- Environment variable (.env): A setting kept outside your code, often in a file called .env or in your host's dashboard. It is where secret keys belong.
+- Frontend and backend: The frontend is what runs in the visitor's browser, so anyone can see it. The backend (or server) runs on your host, out of sight. Secrets belong only in the backend.
+- Server route, API route or edge function: A small piece of backend code your website calls. It can keep secrets, check who is asking and talk to paid services safely.
+- Repo (repository): The folder that holds your app's code, usually tracked with git and often stored on GitHub.
+- Git and git history: A tool that saves every version of your code. Old versions stay in the history, so something deleted later can still be found.
+- Commit: A saved snapshot of your code in git, with a short note about what changed.
+- Pull request (PR): A proposed change on GitHub that can be reviewed and checked before it is added to the main code.
+- CI and GitHub checks: Automatic checks that run on every change, like tests or SIGSHIP. A failing check warns you before the change goes live.
+- Terminal: The text window where you type commands. On a Mac it is the Terminal app; on Windows it is PowerShell.
+- Node.js: The free program that runs JavaScript tools on your computer. SIGSHIP needs it, version 22 or newer, from nodejs.org.
+- npx: A command that comes with Node.js and runs a tool without installing it first. npx sigship downloads and runs SIGSHIP in one step.
+- Supabase: A popular database and login service used by many AI app builders, including Lovable and Bolt.
+- Row level security (RLS): Supabase's lock on each table that decides who can see or change each row. Without it, anyone with your public key can read the whole table.
+- Policy: One rule inside row level security, such as "people can only read their own orders".
+- Anon key and service role key: Supabase gives you two keys. The anon key is meant to be public and is only safe with row level security on. The service role key skips every lock and must stay on the server.
+- Webhook: A message one service sends to your app when something happens, such as Stripe telling you a payment went through. Your app must check it really came from that service.
+- Rate limit: A cap on how often each person can use a feature, such as 20 times a minute. It stops scripts from running up your bill.
+- CORS: A setting that says which websites may call your server from a browser. "*" means any website.
+- SQL injection: Tricking a database into running a command by typing it into a form. It happens when apps glue user text into database commands.
+- XSS (cross-site scripting): When someone gets their own script to run on your site in other people's browsers, usually through text your app shows as raw HTML.
+- localStorage: A small storage space in the visitor's browser. Visitors can read and change it, so it can't be trusted for things like admin access.
+- Logs: Running notes your app and host keep about what happened. Many people and tools can read them, so secrets don't belong there.
+- Error boundary: A safety net in a React app that shows a friendly message when part of the page fails, instead of a blank white screen.
+- Error tracking: A service, such as Sentry, that records errors from your live app and alerts you.
+- Lockfile: A file, such as package-lock.json, that pins every package your app uses to an exact version, so deploys don't change by surprise.
+- Deploy and production: Deploying means putting your app online. Production is the live version real people use.
+- MCP (Model Context Protocol): A standard way to give AI coding tools extra abilities. SIGSHIP's MCP server lets Claude Code, Cursor and others run the check themselves.
+- Coding agent: An AI tool that writes and changes code for you, such as Claude Code, Cursor, or the agents inside Lovable, Bolt and Replit.
+- GO and NO-GO: SIGSHIP's verdict. NO-GO means something serious blocks launch. GO means these checks found nothing that blocks launch. It does not prove the app is safe.
+- SEV-1, SEV-2 and SEV-3: How serious a problem is. SEV-1 exposes data or money, SEV-2 makes abuse easy, and both block launch. SEV-3 is worth fixing but doesn't block.
+- Exit code: A number a command returns when it finishes. SIGSHIP returns 0 for GO and 1 for NO-GO, so scripts and AI agents can tell the result.
+- False positive: A warning about something that is actually fine. Pattern checks sometimes get it wrong, and you can report it.
+- Self-hosted and Cloud: Self-hosted runs on your own computer, like an app you install. Cloud is run for you on someone else's servers, like Gmail.
+- Open source (MIT): The code is public for anyone to read, use and change. MIT is a short, permissive open source licence.

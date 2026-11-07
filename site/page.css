@@ -315,3 +315,30 @@
 @media (prefers-reduced-motion: reduce) { .page a.card:hover { transform: none; } }
 :root[data-motion="off"] .page a.card:hover { transform: none; }
 .tool-params dt code { justify-self: start; }
+
+/* Plain-English intro, breadcrumbs, guides and the glossary. */
+.crumbs ol { display: flex; flex-wrap: wrap; gap: 4px 8px; margin: 0 0 22px; padding: 0; list-style: none; color: var(--slate); font-size: 0.88rem; }
+.page .crumbs li { margin: 0; }
+.crumbs li + li::before { content: '/'; margin-right: 8px; opacity: .5; }
+.page .crumbs a { color: var(--slate); text-decoration: none; }
+.page .crumbs a:hover { color: var(--ink); text-decoration: underline; }
+.page .plain { margin-top: 18px; padding: 18px 20px; border-radius: var(--r-plate); background: color-mix(in srgb, var(--link) 8%, var(--paper)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--link) 22%, transparent); font-size: 1.08rem; line-height: 1.6; }
+.page h2 .dev-tag { vertical-align: middle; margin-left: 8px; }
+.guide-a { max-width: 760px; }
+.guide-a h1 { font-size: clamp(2rem, 4.6vw, 3.1rem); }
+.page .steps { padding-left: 1.4em; }
+.page .steps li { margin: 12px 0; padding-left: 4px; line-height: 1.6; }
+.page .cmd-block { margin: 14px 0; padding: 16px 18px; border-radius: var(--r-plate); background: var(--panel); color: var(--on-panel); overflow-x: auto; }
+.page .cmd-block code { background: none; box-shadow: none; padding: 0; color: inherit; font-size: 0.95rem; white-space: pre; }
+.page .related { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; list-style: none; }
+.page .related li { margin: 0; }
+.page .related a { display: inline-flex; min-height: 44px; align-items: center; padding: 0 16px; border-radius: var(--r-ctl); box-shadow: inset 0 0 0 1px var(--line-strong); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 0.92rem; }
+.gloss-index { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.page .gloss-index a { padding: 6px 12px; border-radius: 99px; background: var(--paper); box-shadow: 0 0 0 1px var(--line); color: var(--ink); text-decoration: none; font-size: 0.86rem; font-weight: 600; }
+.page .gloss-index a:hover { box-shadow: 0 0 0 1px var(--link); }
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 32px; }
+.gloss > div { padding: 20px 22px; border-radius: 14px; background: var(--paper); box-shadow: 0 0 0 1px var(--line); scroll-margin-top: calc(var(--mast-h) + 20px); }
+.gloss > div:target { box-shadow: 0 0 0 2px var(--link); }
+.gloss dt { font-weight: 750; font-size: 1.08rem; }
+.gloss dd { margin: 8px 0 0; color: var(--slate); line-height: 1.55; }
+@media (max-width: 799px) { .gloss { grid-template-columns: minmax(0, 1fr); } }

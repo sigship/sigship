@@ -3,19 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SIGSHIP: the go/no-go check for AI-built apps</title>
-<meta name="description" content="SIGSHIP reads your AI-built app on your machine, writes the postmortem before the outage, and exits 0 only when it finds nothing serious.">
+<title>SIGSHIP: free security check for vibe-coded and AI-built apps</title>
+<meta name="description" content="Free security check for apps built with Lovable, Bolt, Cursor, Replit or Claude Code. Finds leaked API keys, open Supabase tables and fake payments before launch.">
 <link rel="canonical" href="https://sigship.dev/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:title" content="SIGSHIP: the go/no-go check for AI-built apps">
-<meta property="og:description" content="The postmortem, before the outage. Runs on your machine. Exits 0 only when it finds nothing serious.">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Zoof04 Inc.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SIGSHIP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="SIGSHIP: free security check for vibe-coded and AI-built apps">
+<meta property="og:description" content="Find what will leak, break or cost you money before launch. One command, runs on your computer, gives your AI tool the fixes.">
 <meta property="og:image" content="https://sigship.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SIGSHIP signal flags and the line: The postmortem, before the outage.">
 <meta property="og:url" content="https://sigship.dev/">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SIGSHIP","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Linux, Windows","description":"The go/no-go check for AI-built apps.","url":"https://sigship.dev/","publisher":{"@type":"Organization","name":"zoof04","url":"https://zoof04.com"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
-</script>
+<meta name="twitter:title" content="SIGSHIP: free security check for vibe-coded and AI-built apps">
+<meta name="twitter:description" content="Find what will leak, break or cost you money before launch. Free, open source, runs on your computer.">
+<meta name="twitter:image" content="https://sigship.dev/og.png">
+<!--@homeLd-->
 <meta name="theme-color" content="#edf2f6">
 <meta name="color-scheme" content="light dark">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
@@ -129,7 +140,8 @@ html:not(.js) .needs-js { display: none !important; }
 .chip { display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 11px 0 10px; border-radius: var(--r-ctl); background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); font: 700 .7rem 'Spline Sans Mono', monospace; letter-spacing: .06em; color: var(--ink); white-space: nowrap; }
 .chip .lamp { --s: 8px; }
 .chip .dim { color: var(--slate); font-weight: 600; }
-@media (max-width: 1279px) { .mini { display: none; } }
+@media (max-width: 1439px) { .mini { display: none; } }
+.pill-cmd { flex: none; white-space: nowrap; }
 @media (max-width: 767px) { .hud { display: none; } }
 .nav { display: flex; gap: 22px; margin-left: auto; font-size: .95rem; }
 .nav a { color: var(--ink); text-decoration: none; padding: 10px 0; }
@@ -447,6 +459,17 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .cap i { flex: 1; height: 1px; background: var(--line); }
 .sect h2, .finale h2 { margin-top: 14px; max-width: 22em; font-size: clamp(1.75rem, 3.6vw, 2.75rem); font-weight: 650; font-stretch: 112%; line-height: 1.06; letter-spacing: -.02em; text-wrap: balance; }
 .sect h2 span { color: var(--slate); font-weight: 500; }
+.lede .dev { display: block; margin-top: 8px; color: var(--slate); font-size: .86em; }
+.faq { max-width: 860px; margin-top: 28px; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 14px 0; font-weight: 650; font-size: 1.05rem; cursor: pointer; list-style: none; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; flex: none; color: var(--link); font: 500 1.4rem 'Spline Sans Mono', monospace; transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq summary:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; border-radius: 4px; }
+.faq .acc-body { padding: 0 0 20px; max-width: 70ch; color: var(--slate); line-height: 1.6; }
+.faq-more { margin-top: 22px; color: var(--slate); }
+.faq-more a { color: var(--link); }
 .btn-ink { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--r-ctl); background: var(--ink); color: var(--sail); font: 700 .9rem 'Archivo', sans-serif; text-decoration: none; cursor: pointer; }
 .btn-line { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--line-strong); border-radius: var(--r-ctl); background: transparent; color: var(--ink); font: 600 .9rem 'Archivo', sans-serif; text-decoration: none; cursor: pointer; }
 .btn-line:hover { border-color: var(--ink); }
@@ -774,7 +797,7 @@ html:has(dialog[open]) { overflow: clip; }
     <div class="mini"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><i class="on"></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><i></i></span></div>
     <span class="chip"><span class="lamp vlamp"></span><span><span class="dim">DEMO ·</span> <span data-chip>NO-GO · {{r1block}} to fix</span></span></span>
   </div>
-  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
   <div class="acts">
     <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
     <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
@@ -801,13 +824,13 @@ html:has(dialog[open]) { overflow: clip; }
   <section class="hero" id="start" data-stage="0" aria-labelledby="h1">
     <h1 id="h1">The postmortem, before the outage.</h1>
     <div class="copy">
-      <p class="lede">SIGSHIP reads your AI-built app on your own machine and lists what will break in production.</p>
-      <p class="lede">It exits 0 only when it finds nothing serious, which gives your coding agent a real test for done.</p>
+      <p class="lede">Built your app with Lovable, Bolt, Cursor, Replit or Claude Code? SIGSHIP checks it on your own computer and tells you, in plain English, what will leak, break or cost you money once real people use it.</p>
+      <p class="lede">Paste the fixes into your AI tool and run it again until it says <b>GO</b>. <span class="dev">For developers: it exits 0 only on GO, so your coding agent gets a real test for done.</span></p>
       <div class="pad" id="pad">
         <div class="pad-tabs" role="tablist" aria-label="How to run it"><button role="tab" aria-selected="true" type="button" data-cmd="npx sigship">Terminal</button><button role="tab" aria-selected="false" tabindex="-1" type="button" data-cmd="Run npx sigship in this project. Fix every SEV-1 and SEV-2 it reports, in order, changing only what each fix needs. Run it again and keep going until it exits 0 (GO). If a fix needs a key rotated or a dashboard changed, stop and tell me what to do." data-agent>Coding agent</button><button role="tab" aria-selected="false" tabindex="-1" type="button" data-cmd="claude mcp add sigship -- npx -y sigship mcp">MCP</button></div>
         <div class="pad-row" role="tabpanel" aria-label="Command"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship" data-pad-copy>Copy</button></div>
       </div>
-      <p class="pad-note">No signup. The free tool runs on your machine and uploads nothing.<span class="node"> Needs Node.js {{node}}+.</span> <a href="#where">Never used a terminal?</a></p>
+      <p class="pad-note">Free. No signup. Runs on your computer and uploads nothing.<span class="node"> Needs Node.js {{node}}+.</span> <a href="#where">Never used a terminal?</a></p>
       <ul class="spec"><li>Free · {{lic}}</li><li><button type="button" popovertarget="pv-spec-checks" interestfor="pv-spec-checks" style="anchor-name:--a-pv-spec-checks">{{rtotal}} checks</button></li><li>Exit 0 = GO</li><li class="ver"><button type="button" popovertarget="pv-spec-ver" interestfor="pv-spec-ver" style="anchor-name:--a-pv-spec-ver">v{{ver}}</button></li></ul>
     </div>
     <div class="con-col">
@@ -875,7 +898,7 @@ html:has(dialog[open]) { overflow: clip; }
 
   <section class="sect" id="how" data-stage="1" aria-labelledby="how-h">
     <p class="cap"><b>02</b><span>The fixes</span><i></i><span>Fig. 2</span></p>
-    <h2 id="how-h">{{nfixWord}} things block this launch. <span>Here is each line, what goes wrong and the fix.</span></h2>
+    <h2 id="how-h">{{nfixWord}} things block this launch. <span>Here's each problem in plain English, what happens if you ship it, and the fix.</span></h2>
     <div class="plates">
 <!--@plates-->
     </div>
@@ -897,9 +920,9 @@ html:has(dialog[open]) { overflow: clip; }
     <div class="log">
       <h3>A GO means these checks found nothing that blocks launch. <span>It does not prove the app is safe.</span></h3>
       <ol>
-        <li><code>FR-1</code><p>Pattern checks can miss real problems and flag safe code. <a href="https://github.com/sigship/sigship/issues">Report a false positive</a></p></li>
-        <li><code>FR-2</code><p>It reads your repo, so it can't see settings you changed only in a dashboard. Use your database provider's own advisor too.</p></li>
-        <li><code>FR-3</code><p>It reads code, not your live site.</p></li>
+        <li><code>FR-1</code><p>It looks for known mistakes, so it can miss a real problem, or warn about code that's actually fine. <a href="https://github.com/sigship/sigship/issues">Tell us when it's wrong</a></p></li>
+        <li><code>FR-2</code><p>It reads your code, so it can't see settings you changed only on a website dashboard, like Supabase. Run your database provider's own security advisor too.</p></li>
+        <li><code>FR-3</code><p>It checks your code, not the live website your users visit.</p></li>
       </ol>
       <p class="log-foot">Ask for a <a href="#pricing">pilot review</a> when the stakes are high.</p>
     </div>
@@ -909,12 +932,12 @@ html:has(dialog[open]) { overflow: clip; }
     <p class="cap"><b>05</b><span>Where it runs</span><i></i><span>Fig. 5</span></p>
     <h2 id="where-h">It runs where the work happens. <span>Your coding agent, your terminal, your browser, your pull requests.</span></h2>
     <div class="ways">
-      <article class="way agent"><h3>Your coding agent</h3><p>Give your agent the check over MCP, with one rule: it is not done while the verdict is NO-GO. Exit 0 is your agent's test for done.</p><div class="cmdline"><code>claude mcp add sigship -- npx -y sigship mcp</code><button class="copy-btn" type="button" data-copy="claude mcp add sigship -- npx -y sigship mcp" data-copy-label="the MCP command">Copy</button></div></article>
-      <article class="way"><h3>Your terminal</h3><p>Check any project, then paste the fixes into your AI tool as one prompt.</p><div class="cmdline"><code>npx sigship --prompt</code><button class="copy-btn" type="button" data-copy="npx sigship --prompt" data-copy-label="npx sigship --prompt">Copy</button></div></article>
-      <article class="way"><h3>Your browser</h3><p>A dashboard with the verdict, every finding and the fix prompt. It runs on this computer only and uploads nothing.</p><div class="cmdline"><code>npx sigship ui</code><button class="copy-btn" type="button" data-copy="npx sigship ui" data-copy-label="npx sigship ui">Copy</button></div></article>
-      <article class="way"><h3>Pull requests</h3><p>A GitHub check that fails when a change brings a serious problem back.</p><div class="cmdline"><code>npx sigship init</code><button class="copy-btn" type="button" data-copy="npx sigship init" data-copy-label="npx sigship init">Copy</button></div></article>
+      <article class="way agent"><h3>Your coding agent</h3><p>Connect it to Claude Code, Cursor or another AI coding tool (over MCP), with one rule: the job isn't done until SIGSHIP says GO.</p><div class="cmdline"><code>claude mcp add sigship -- npx -y sigship mcp</code><button class="copy-btn" type="button" data-copy="claude mcp add sigship -- npx -y sigship mcp" data-copy-label="the MCP command">Copy</button></div></article>
+      <article class="way"><h3>Your terminal</h3><p>Check any project, then copy every fix as one prompt for your AI tool.</p><div class="cmdline"><code>npx sigship --prompt</code><button class="copy-btn" type="button" data-copy="npx sigship --prompt" data-copy-label="npx sigship --prompt">Copy</button></div></article>
+      <article class="way"><h3>Your browser</h3><p>Prefer buttons to commands? A private page with the verdict, every problem and the fixes. It runs on your computer only and uploads nothing.</p><div class="cmdline"><code>npx sigship ui</code><button class="copy-btn" type="button" data-copy="npx sigship ui" data-copy-label="npx sigship ui">Copy</button></div></article>
+      <article class="way"><h3>Pull requests</h3><p>On GitHub, it checks every change before it goes live and stops anything that brings a serious problem back.</p><div class="cmdline"><code>npx sigship init</code><button class="copy-btn" type="button" data-copy="npx sigship init" data-copy-label="npx sigship init">Copy</button></div></article>
     </div>
-    <p class="ways-note">Building in Lovable, Bolt or Replit? Sync to GitHub, then run <code>npx sigship ui</code> on your computer.</p>
+    <p class="ways-note">Building in Lovable, Bolt or Replit? Sync to GitHub, download the code, then run <code>npx sigship ui</code> on your computer. <a href="/guides/check-lovable-bolt-replit-app/">Step-by-step guide</a></p>
   </section>
 
   <section class="sect" id="pricing" data-stage="5" aria-labelledby="pricing-h">
@@ -947,12 +970,19 @@ html:has(dialog[open]) { overflow: clip; }
     </div>
   </section>
 
+  <section class="sect" id="faq" aria-labelledby="faq-h">
+    <p class="cap"><b>?</b><span>Questions</span><i></i><span>New to this?</span></p>
+    <h2 id="faq-h">Questions, answered simply. <span>No jargon, promise.</span></h2>
+    <div class="faq"><!--@homeFaq--></div>
+    <p class="faq-more">Still stuck on a word? <a href="/glossary/">Every term, explained in plain English</a> · <a href="/guides/vibe-coding-security-checklist/">The vibe coding security checklist</a></p>
+  </section>
+
   <section class="finale" id="why" data-stage="6" aria-labelledby="why-h">
     <div class="fin-inner">
       <div class="fin-copy">
         <p class="cap"><b>07</b><span>Ready to sail</span><i></i><span>Fig. 7</span></p>
         <h2 id="why-h">Ships raise a flag before they leave port. <span>Software never did.</span></h2>
-        <p class="fin-p">In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In Unix, a signal tells a running program something it has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn't yet.</p>
+        <p class="fin-p">In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In computing, a "signal" is a message a running program has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn't yet.</p>
         <ul class="eq" aria-label="Flag P plus SIGTERM equals SIGSHIP"><li><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Flag P</li><li class="op" aria-hidden="true">+</li><li><code>SIGTERM</code></li><li class="op" aria-hidden="true">=</li><li><strong>SIGSHIP</strong></li></ul>
         <div class="fin-pad"><p class="fin-turn">Your turn.</p><div class="pad-row"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div></div>
         <p class="fin-go">A GO means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits">{{dag}}<span class="sr">Footnote: </span> What a GO doesn't mean</a></p>
@@ -979,7 +1009,7 @@ html:has(dialog[open]) { overflow: clip; }
     </div>
     <nav class="foot-cols" aria-label="Footer">
       <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
-      <div><p>Resources</p><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
       <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="https://discord.gg/hKG6rNM4W">Discord</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
       <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
     </nav>

@@ -1,27 +1,49 @@
 # SIGSHIP
 
-> The go/no-go check for AI-built apps, by zoof04. It reads a repo locally, reports production problems with fixes, and exits 0 only when no SEV-1 or SEV-2 finding remains.
+> SIGSHIP is a free, open source safety check for apps built with AI tools such as Lovable, Bolt, Cursor, Replit, v0 and Claude Code. It reads a project on the user's own computer, explains in plain English what will leak, break or cost money in production, gives the fix for each problem (including one prompt to paste into an AI tool), and ends with a verdict: GO or NO-GO. It exits 0 only on GO. A GO means its checks found nothing that blocks launch; it does not prove an app is safe. Made by Zoof04 Inc. Contact: support@sigship.dev.
 
-Run it with: npx sigship
-Open the local dashboard with: npx sigship ui
-Add it to a coding agent with: claude mcp add sigship -- npx -y sigship mcp
-Add the pull request check with: npx sigship init
+- Check a project: `npx sigship`
+- Get every fix as one prompt for an AI tool: `npx sigship --prompt`
+- Open the private browser dashboard: `npx sigship ui`
+- Add it to Claude Code: `claude mcp add sigship -- npx -y sigship mcp`
+- Add a GitHub pull request check and an AGENTS.md rule: `npx sigship init`
+- Requires Node.js 22 or newer. The free tool makes no network calls and never prints a secret value.
+
+## Start here
+- [Features](https://sigship.dev/features/): what it checks and where it runs
+- [Docs](https://sigship.dev/docs/): install, commands, reading the report, exit codes
+- [AI agents](https://sigship.dev/ai-agents/): MCP setup for Claude Code, Cursor and other agents
+- [Pricing](https://sigship.dev/pricing/): free today; self-hosted and Cloud plans on the waitlist
+- [Glossary](https://sigship.dev/glossary/): app security terms in plain English
+- [Full text for language models](https://sigship.dev/llms-full.txt)
+
+## Guides
+- [Vibe coding security checklist: 10 checks before launch](https://sigship.dev/guides/vibe-coding-security-checklist/): A plain-English checklist for apps built with Lovable, Bolt, Cursor, Replit or v0: the ten mistakes AI tools leave behind most, and how to fix each one.
+- [How to check an app built with Lovable, Bolt, Replit or v0](https://sigship.dev/guides/check-lovable-bolt-replit-app/): Step by step: get the code of your Lovable, Bolt, Replit or v0 app onto your computer and check it for leaked keys, open databases and other launch blockers, free.
+- [Supabase row level security (RLS), explained simply](https://sigship.dev/guides/supabase-rls-explained/): What Supabase row level security is, why AI-built apps often ship without it, and how to turn it on and write a basic policy, in plain English.
+- [Leaked an API key? What to do in the next 10 minutes](https://sigship.dev/guides/leaked-api-key/): You pushed an OpenAI, Stripe or other API key to GitHub or your website. Here is exactly what to do, in order, to stop the damage and keep it from happening again.
 
 ## Checks
-- [A live secret is sitting in your code](https://sigship.dev/checks/secret-in-code/): SEV-1
-- [Your .env file is committed](https://sigship.dev/checks/env-file-committed/): SEV-1
-- [A server secret has a browser-visible name](https://sigship.dev/checks/public-env-secret/): SEV-1
-- [Your AI key runs in the browser](https://sigship.dev/checks/ai-key-in-browser/): SEV-1
-- [A database table has no row level security](https://sigship.dev/checks/rls-missing/): SEV-1
-- [A database policy lets anyone write](https://sigship.dev/checks/rls-open-write/): SEV-1
-- [Your Stripe webhook accepts anything](https://sigship.dev/checks/stripe-webhook-unverified/): SEV-1
-- [User input may be pasted into a SQL query](https://sigship.dev/checks/sql-string-concat/): SEV-1
-- [Your AI route has no spending brake](https://sigship.dev/checks/ai-route-no-rate-limit/): SEV-2
-- [Admin access is decided in the browser](https://sigship.dev/checks/role-in-local-storage/): SEV-2
-- [Raw HTML goes straight onto the page](https://sigship.dev/checks/unsanitized-html/): SEV-2
-- [Any website can call your API](https://sigship.dev/checks/cors-wildcard/): SEV-3
-- [A secret may be going to your logs](https://sigship.dev/checks/secret-in-logs/): SEV-3
-- [One crash takes down the whole screen](https://sigship.dev/checks/no-error-boundary/): SEV-3
-- [You will hear about errors from your users](https://sigship.dev/checks/no-error-tracking/): SEV-3
-- [Nothing checks that a change did not break login](https://sigship.dev/checks/no-tests/): SEV-3
-- [Your deploys are not repeatable](https://sigship.dev/checks/no-lockfile/): SEV-3
+- [A live secret is sitting in your code](https://sigship.dev/checks/secret-in-code/): SEV-1. A secret key (a password that lets your app use a paid service, like OpenAI or Stripe) is written directly in your code. Anyone who can see the code, or the JavaScript your site sends to visitors, can copy it and use it on your bill.
+- [Your .env file is committed](https://sigship.dev/checks/env-file-committed/): SEV-1. Your .env file holds your app's secret keys. It has been saved into git, the history of your project, so anyone with a copy of the project, now or later, can read every key in it.
+- [A server secret has a browser-visible name](https://sigship.dev/checks/public-env-secret/): SEV-1. Some setting names start with a word like NEXT_PUBLIC_ or VITE_, which tells your build tool to copy the value into the website every visitor downloads. A secret with one of those names is public, even if it looks hidden.
+- [Your AI key runs in the browser](https://sigship.dev/checks/ai-key-in-browser/): SEV-1. Your app calls an AI service like OpenAI straight from the visitor's browser, which means your AI key is sent to every visitor. Anyone can copy it from their browser and run up your bill.
+- [A database table has no row level security](https://sigship.dev/checks/rls-missing/): SEV-1. Row level security is Supabase's lock that decides who can see each row of a table. This table has no lock, and the public key that unlocks your database is inside your website, so anyone can read everything in it.
+- [A database policy lets anyone write](https://sigship.dev/checks/rls-open-write/): SEV-1. Your table has a lock (row level security), but one of its rules says "yes" to everyone. That means a stranger can add, change or delete your data.
+- [Your Stripe webhook accepts anything](https://sigship.dev/checks/stripe-webhook-unverified/): SEV-1. A webhook is the message Stripe sends your app when someone pays. Your app trusts any message that arrives, without checking it really came from Stripe, so someone can fake a "payment succeeded" message and get your paid plan for free.
+- [User input may be pasted into a SQL query](https://sigship.dev/checks/sql-string-concat/): SEV-1. Text someone types into your app is being glued straight into a database command. A person can type something crafted that your database runs as a command of its own, such as reading or deleting data. This is called SQL injection.
+- [Your AI route has no spending brake](https://sigship.dev/checks/ai-route-no-rate-limit/): SEV-2. Your app has a feature that calls a paid AI service, and nothing limits how often it can be used. One script left running overnight can spend hundreds or thousands of dollars of your credit.
+- [Admin access is decided in the browser](https://sigship.dev/checks/role-in-local-storage/): SEV-2. Your app decides who is an admin using a value kept in the visitor's own browser. Anyone can change that value in a few seconds and give themselves admin powers.
+- [Raw HTML goes straight onto the page](https://sigship.dev/checks/unsanitized-html/): SEV-2. Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can steal their login. This is called XSS (cross-site scripting).
+- [Any website can call your API](https://sigship.dev/checks/cors-wildcard/): SEV-3. CORS is the setting that says which websites can talk to your app's server from a browser. Yours says "any website", so other sites can call your server.
+- [A secret may be going to your logs](https://sigship.dev/checks/secret-in-logs/): SEV-3. Your app may be writing a password or secret key into its logs, the running notes your server keeps. More people and tools can usually read logs than your database.
+- [One crash takes down the whole screen](https://sigship.dev/checks/no-error-boundary/): SEV-3. If one part of your page hits an error, the whole screen goes blank, and your user sees a white page with no explanation. An error boundary catches the error and shows a friendly message instead.
+- [You will hear about errors from your users](https://sigship.dev/checks/no-error-tracking/): SEV-3. Nothing tells you when your app breaks for a user. Without error tracking, you only find out when someone is annoyed enough to email you, if they ever do.
+- [Nothing checks that a change did not break login](https://sigship.dev/checks/no-tests/): SEV-3. Nothing checks automatically that a change didn't break the most important parts of your app, like signing up, logging in and paying. A small fix can quietly break them.
+- [Your deploys are not repeatable](https://sigship.dev/checks/no-lockfile/): SEV-3. A lockfile records the exact version of every package your app uses. Without one, each deploy can quietly install newer versions, and your live app can break with no change from you.
+
+## Optional
+- [Changelog](https://sigship.dev/changelog/)
+- [Roadmap](https://sigship.dev/roadmap/)
+- [Source code on GitHub](https://github.com/sigship/sigship)
+- [npm package](https://www.npmjs.com/package/sigship)
