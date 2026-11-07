@@ -161,7 +161,7 @@
 .pc-more[open] summary::after { content: '–'; }
 .cmp-title { margin-top: 56px; font-size: clamp(1.4rem, 3vw, 1.9rem); }
 .cmp-wrap { margin-top: 18px; }
-.cmp-head { position: sticky; top: var(--mast-h); z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) repeat(3, minmax(64px, 140px)); align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line-strong); background: var(--deck); }
+.cmp-head { position: sticky; top: var(--mast-h); z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) repeat(3, minmax(64px, 140px)); align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line-strong); background: var(--sail); }
 .cmp-head span { color: var(--slate); font: 700 0.68rem 'Spline Sans Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
 .cmp-head b { text-align: center; font-weight: 750; }
 .cmp { width: 100%; border-collapse: collapse; table-layout: fixed; }
