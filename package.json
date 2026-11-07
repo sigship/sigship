@@ -19,8 +19,9 @@
     "brand": "node scripts/build-brand.js",
     "build": "npm run docs && npm run brand",
     "preview": "npm run docs && npx wrangler dev",
-    "ship": "npm run build && npm test && node bin/sigship.js . && npx wrangler deploy",
-    "capture": "node scripts/capture-demo.js"
+    "ship": "npm run build && npm test && node bin/sigship.js . && npx wrangler deploy && (node scripts/indexnow.js || true)",
+    "capture": "node scripts/capture-demo.js",
+    "indexnow": "node scripts/indexnow.js"
   },
   "engines": {
     "node": ">=22"
