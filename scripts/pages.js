@@ -72,8 +72,8 @@ const sevCol = (n) => {
 const promptSample = capture.run1.prompt.trim();
 const features = {
   path: '/features/',
-  title: 'Features | SIGSHIP',
-  description: 'Everything SIGSHIP does, in plain English: catches the expensive mistakes in AI-built apps, turns them into fixes for your AI tool, and runs on your machine.',
+  title: 'Features: what SIGSHIP checks in your AI-built app | SIGSHIP',
+  description: 'What SIGSHIP finds in apps built with Lovable, Bolt, Cursor or Replit: leaked API keys, open Supabase tables, fake payments and runaway AI bills, plus the fix.',
   body: `${hero('Features', 'Everything it does. <span>In plain English.</span>',
     `SIGSHIP reads the code your AI tool wrote and tells you, before launch, what will leak, break or cost you money. <b>Then it hands you the fix.</b>`,
     btnInk('/docs/', 'Get started free') + btnLine('/pricing/', 'See pricing'))}
@@ -94,14 +94,14 @@ const features = {
 <div class="card">${icon('terminal')}<h3>Your terminal</h3><p>One command, no signup. A clear GO or NO-GO in seconds.</p></div>
 <div class="card">${icon('browser')}<h3>Your browser</h3><p>Prefer buttons? <code>npx sigship ui</code> opens a private dashboard on your own computer.</p></div>
 <div class="card">${icon('pr')}<h3>Every pull request</h3><p>A GitHub check that fails when a change brings a serious problem back.</p></div>
-<div class="card">${icon('agent')}<h3>Your AI coding agent</h3><p>Over MCP, with one rule: don't say it's done until SIGSHIP says GO.</p><a class="more" href="/ai-agents/">AI agents →</a></div>
+<div class="card">${icon('agent')}<h3>Your AI coding agent</h3><p>Connect it to Claude Code, Cursor and others, with one rule: the job isn't done until SIGSHIP says GO.</p><a class="more" href="/ai-agents/">AI agents →</a></div>
 </div></section>
 
 <section class="block"><h2>Private <span>by design.</span></h2>
 <div class="cards">
 <div class="card">${icon('lock')}<h3>Nothing leaves your machine</h3><p>The free tool makes no network calls. Your code, keys and findings stay with you.</p></div>
 <div class="card">${icon('eye')}<h3>Never prints a secret</h3><p>When it finds a leaked key it tells you where, never what.</p></div>
-<div class="card">${icon('code')}<h3>Open source</h3><p>MIT licensed with zero dependencies. Read every line it runs.</p><a class="more" href="${GH}">GitHub →</a></div>
+<div class="card">${icon('code')}<h3>Open source</h3><p>Free to use, with all the code public on GitHub, so anyone can check what it does.</p><a class="more" href="${GH}">GitHub →</a></div>
 <div class="card">${icon('shield')}<h3>An honest verdict</h3><p>GO means these checks found nothing that blocks launch. It does not prove your app is safe, and we say so.</p></div>
 </div></section>
 
@@ -136,7 +136,7 @@ const setup = [
 ];
 const agents = {
   path: '/ai-agents/',
-  title: 'AI agents | SIGSHIP',
+  title: 'AI agents: connect SIGSHIP to Claude Code, Cursor and MCP | SIGSHIP',
   description: 'Give your AI coding agent a real test for done: it runs SIGSHIP, fixes what it finds and keeps going until your app is GO.',
   body: `${hero('AI agents', 'A real test for <span>"done".</span>',
     'AI agents say they are finished when the code runs. SIGSHIP gives them a stricter finish line: <b>no leaked keys, no open database, no fake payments.</b> The agent keeps fixing until SIGSHIP says GO.',
@@ -155,7 +155,7 @@ ${setup.map(([id, , html], i) => `<div role="tabpanel" id="p-${id}" aria-labelle
 <div class="callout"><p><b>Make it a habit for every agent.</b> <code>npx sigship init</code> adds this rule to your project's <code>AGENTS.md</code>, which most coding agents read, plus a pull request check.</p>${code('AGENTS.md', agentRule)}</div></section>
 
 <section class="block"><h2>What your agent gets <span class="dev-tag">For developers</span></h2>
-<p class="sub">The MCP server runs locally over stdio, has no dependencies, never changes your files and makes no network calls without a licence key.</p>
+<p class="sub">The technical details for the curious. The MCP server runs locally over stdio, has no dependencies, never changes your files and makes no network calls without a licence key.</p>
 <div class="tools">${tools.map((t) => `<article class="tool"><div class="tool-name"><code>${t.name}</code><p>${esc(t.description)}</p></div>
 <dl class="tool-params">${t.params.map((p) => `<div><dt><code>${p.name}</code><span>${p.type}${p.required ? '' : ' · optional'}</span></dt><dd>${esc(p.description)}</dd></div>`).join('')}</dl></article>`).join('')}</div>
 <p class="sub">The server also tells the agent: don't say it's done while the verdict is NO-GO.</p></section>
@@ -208,8 +208,8 @@ ${groups.slice(0, 2).map(table).join('\n')}
 };
 const pricing = {
   path: '/pricing/',
-  title: 'Pricing | SIGSHIP',
-  description: 'Start free with the open source tool. Self-hosted and Cloud plans are on the waitlist.',
+  title: 'Pricing: free forever, plus self-hosted and Cloud plans | SIGSHIP',
+  description: 'SIGSHIP is free and open source, with no signup. Self-hosted Pro and Business, and SIGSHIP Cloud for vibe coders and teams, are on the waitlist.',
   body: `${hero('Pricing', 'Simple pricing. <span>Start free.</span>',
     'The free tool works today with no signup and no card. Paid plans are on the waitlist and open soon. <b>First, pick how you want to run it.</b>')}
 
@@ -265,9 +265,9 @@ const tocList = `<ol>${DOC_SECTIONS.map(([id, t]) => `<li><a href="#${id}">${t}<
 const nodeMin = pkg.engines.node.replace('>=', '');
 const docs = {
   path: '/docs/',
-  title: 'Docs | SIGSHIP',
+  title: 'Docs: install and run SIGSHIP in one command | SIGSHIP',
   description: 'How to install, run and read SIGSHIP, fix what it finds with your AI tool, and add it to pull requests and coding agents.',
-  body: `${hero('Docs', 'Get started <span>in one command.</span>', 'Everything you need to run SIGSHIP, read what it says and fix what it finds. If you have never used a terminal, start with <b>Quick start</b>.')}
+  body: `${hero('Docs', 'Get started <span>in one command.</span>', 'Everything you need to run SIGSHIP, read what it says and fix what it finds. If you have never used a terminal, start with <b>Quick start</b>, and keep the <a href="/glossary/">plain-English glossary</a> open for any word you don\'t know.')}
 <details class="toc-m"><summary>On this page</summary>${tocList}</details>
 <div class="docs"><nav class="toc" aria-label="On this page"><p>On this page</p>${tocList}</nav><div class="doc-body">
 
@@ -365,8 +365,8 @@ const releases = changelogMd.split(/^## /m).slice(1).map((chunk) => {
 const inline = (s) => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
 const changelog = {
   path: '/changelog/',
-  title: 'Changelog | SIGSHIP',
-  description: 'Every SIGSHIP release and what changed.',
+  title: 'Changelog: every SIGSHIP release | SIGSHIP',
+  description: 'Every SIGSHIP release, newest first: new checks, the browser dashboard, licence keys, MCP support and what changed in each version.',
   body: `${hero('Changelog', 'What\'s new <span>in SIGSHIP.</span>', `Every release, newest first. You are on version <b>${pkg.version}</b> if you run <code>npx sigship@latest</code>.`,
     btnLine(`${GH}/releases`, 'GitHub releases') + btnLine('https://www.npmjs.com/package/sigship', 'npm package') + btnLine('/roadmap/', "What's next"))}
 <div class="timeline">${releases.map((r, i) => `<article class="tl-item${i === 0 ? ' latest' : ''}" id="v${r.version.replace(/\./g, '-')}">
@@ -390,7 +390,7 @@ const LATER = ['Connect a repo from GitHub, Lovable, Bolt or Replit', 'Checks on
 const lane = (items) => items.map((i) => `<li>${esc(i)}</li>`).join('');
 const roadmap = {
   path: '/roadmap/',
-  title: 'Roadmap | SIGSHIP',
+  title: 'Roadmap: what is live and what is next | SIGSHIP',
   description: 'What SIGSHIP has shipped, what is planned next, and how to suggest ideas.',
   body: `${hero('Roadmap', 'Where SIGSHIP <span>is going.</span>', 'What is live, what is planned next, and what comes after. Plans can change and <b>we don\'t promise dates</b>. Tell us what matters to you in Discussions.',
     btnInk(`${GH}/discussions`, 'Suggest an idea') + btnLine('/changelog/', 'See the changelog'))}
@@ -410,10 +410,12 @@ ${CTA}`,
 // ---------- Resources ----------
 const resources = {
   path: '/resources/',
-  title: 'Resources | SIGSHIP',
+  title: 'Resources: guides, docs, changelog and roadmap | SIGSHIP',
   description: 'Docs, changelog, roadmap, releases, community and brand resources for SIGSHIP.',
   body: `${hero('Resources', 'Everything around <span>SIGSHIP.</span>', 'Guides, release notes, plans and the people building it.')}
 <div class="cards">
+<a class="card" href="/guides/">${icon('spark')}<h3>Guides</h3><p>Plain-English guides: the pre-launch checklist, Supabase RLS, leaked keys and more.</p></a>
+<a class="card" href="/glossary/">${icon('book')}<h3>Jargon, explained</h3><p>Every technical term on this site, in one or two plain sentences.</p></a>
 <a class="card" href="/docs/">${icon('book')}<h3>Docs</h3><p>Install, run, read the report and fix what it finds.</p></a>
 <a class="card" href="/changelog/">${icon('clock')}<h3>Changelog</h3><p>Every release and what changed.</p></a>
 <a class="card" href="/roadmap/">${icon('map')}<h3>Roadmap</h3><p>What is live, what is next, and what comes after.</p></a>
@@ -434,8 +436,8 @@ const discordCard = DISCORD_URL
   : `<div class="card dark">${LOGO.discord}<span class="tagline">Opening soon</span><h3>Discord</h3><p>A place to chat with other builders and the team. Opening soon; until then, Discussions is the place to talk.</p></div>`;
 const community = {
   path: '/community/',
-  title: 'Community and help | SIGSHIP',
-  description: 'Get help with SIGSHIP, ask questions, suggest checks and contribute.',
+  title: 'Community and help: GitHub, Discord and support | SIGSHIP',
+  description: 'Get help with SIGSHIP: ask questions on GitHub Discussions or Discord, report a false positive, suggest a new check, or contribute code.',
   body: `${hero('Community', 'Built in the open, <span>with builders.</span>', 'Ask a question, suggest a check, report something it got wrong, or help build it. <b>Every message is read by the team.</b>',
     btnInk(`${GH}/discussions`, 'Ask a question') + btnLine('/docs/', 'Read the docs'))}
 <div class="cards">

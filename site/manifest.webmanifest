@@ -1,0 +1,21 @@
+{
+  "name": "SIGSHIP",
+  "short_name": "SIGSHIP",
+  "description": "Free security check for vibe-coded and AI-built apps.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#edf2f6",
+  "theme_color": "#edf2f6",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

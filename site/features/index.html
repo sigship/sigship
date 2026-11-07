@@ -3,14 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Features | SIGSHIP</title>
-<meta name="description" content="Everything SIGSHIP does, in plain English: catches the expensive mistakes in AI-built apps, turns them into fixes for your AI tool, and runs on your machine.">
+<title>Features: what SIGSHIP checks in your AI-built app | SIGSHIP</title>
+<meta name="description" content="What SIGSHIP finds in apps built with Lovable, Bolt, Cursor or Replit: leaked API keys, open Supabase tables, fake payments and runaway AI bills, plus the fix.">
 <link rel="canonical" href="https://sigship.dev/features/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SIGSHIP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Features: what SIGSHIP checks in your AI-built app | SIGSHIP">
+<meta property="og:description" content="What SIGSHIP finds in apps built with Lovable, Bolt, Cursor or Replit: leaked API keys, open Supabase tables, fake payments and runaway AI bills, plus the fix.">
+<meta property="og:url" content="https://sigship.dev/features/">
+<meta property="og:image" content="https://sigship.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Features: what SIGSHIP checks in your AI-built app | SIGSHIP">
+<meta name="twitter:description" content="What SIGSHIP finds in apps built with Lovable, Bolt, Cursor or Replit: leaked API keys, open Supabase tables, fake payments and runaway AI bills, plus the fix.">
+<meta name="twitter:image" content="https://sigship.dev/og.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <meta name="theme-color" content="#edf2f6">
 <meta name="color-scheme" content="light dark">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sigship.dev/"},{"@type":"ListItem","position":2,"name":"Features","item":"https://sigship.dev/features/"}]}]}</script>
 <script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#060b14':'#edf2f6';if(m==='off')d.dataset.motion='off';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
 <link rel="stylesheet" href="/home.css">
 <link rel="stylesheet" href="/page.css">
@@ -34,7 +50,7 @@
 </defs></svg>
 <header class="mast" id="top">
   <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
   <div class="acts">
     <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
     <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
@@ -92,14 +108,14 @@ If a fix needs a key rotated or a dashboard changed, stop and tell me what to do
 <div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6l5 6-5 6M12 18h8"/></svg></span><h3>Your terminal</h3><p>One command, no signup. A clear GO or NO-GO in seconds.</p></div>
 <div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span><h3>Your browser</h3><p>Prefer buttons? <code>npx sigship ui</code> opens a private dashboard on your own computer.</p></div>
 <div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 8.5v7M18 15.5V9a3 3 0 0 0-3-3h-4M13 4l-2 2 2 2"/></svg></span><h3>Every pull request</h3><p>A GitHub check that fails when a change brings a serious problem back.</p></div>
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9 16h6"/></svg></span><h3>Your AI coding agent</h3><p>Over MCP, with one rule: don't say it's done until SIGSHIP says GO.</p><a class="more" href="/ai-agents/">AI agents →</a></div>
+<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9 16h6"/></svg></span><h3>Your AI coding agent</h3><p>Connect it to Claude Code, Cursor and others, with one rule: the job isn't done until SIGSHIP says GO.</p><a class="more" href="/ai-agents/">AI agents →</a></div>
 </div></section>
 
 <section class="block"><h2>Private <span>by design.</span></h2>
 <div class="cards">
 <div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><h3>Nothing leaves your machine</h3><p>The free tool makes no network calls. Your code, keys and findings stay with you.</p></div>
 <div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><h3>Never prints a secret</h3><p>When it finds a leaked key it tells you where, never what.</p></div>
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span><h3>Open source</h3><p>MIT licensed with zero dependencies. Read every line it runs.</p><a class="more" href="https://github.com/sigship/sigship">GitHub →</a></div>
+<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span><h3>Open source</h3><p>Free to use, with all the code public on GitHub, so anyone can check what it does.</p><a class="more" href="https://github.com/sigship/sigship">GitHub →</a></div>
 <div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 9.5C8 19.3 5 15.5 5 11V6l7-3z"/></svg></span><h3>An honest verdict</h3><p>GO means these checks found nothing that blocks launch. It does not prove your app is safe, and we say so.</p></div>
 </div></section>
 
@@ -127,7 +143,7 @@ If a fix needs a key rotated or a dashboard changed, stop and tell me what to do
     </div>
     <nav class="foot-cols" aria-label="Footer">
       <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
-      <div><p>Resources</p><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
       <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="https://discord.gg/hKG6rNM4W">Discord</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
       <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
     </nav>

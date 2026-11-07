@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vibe coding security checklist: 10 checks before launch | SIGSHIP</title>
+<meta name="description" content="A plain-English checklist for apps built with Lovable, Bolt, Cursor, Replit or v0: the ten mistakes AI tools leave behind most, and how to fix each one.">
+<link rel="canonical" href="https://sigship.dev/guides/vibe-coding-security-checklist/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SIGSHIP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Vibe coding security checklist: 10 checks before launch | SIGSHIP">
+<meta property="og:description" content="A plain-English checklist for apps built with Lovable, Bolt, Cursor, Replit or v0: the ten mistakes AI tools leave behind most, and how to fix each one.">
+<meta property="og:url" content="https://sigship.dev/guides/vibe-coding-security-checklist/">
+<meta property="og:image" content="https://sigship.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vibe coding security checklist: 10 checks before launch | SIGSHIP">
+<meta name="twitter:description" content="A plain-English checklist for apps built with Lovable, Bolt, Cursor, Replit or v0: the ten mistakes AI tools leave behind most, and how to fix each one.">
+<meta name="twitter:image" content="https://sigship.dev/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#edf2f6">
+<meta name="color-scheme" content="light dark">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sigship.dev/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sigship.dev/guides/"},{"@type":"ListItem","position":3,"name":"Vibe coding security checklist","item":"https://sigship.dev/guides/vibe-coding-security-checklist/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is vibe coding safe for production apps?","acceptedAnswer":{"@type":"Answer","text":"It can be, if you check the result. AI tools write working code quickly, but they often skip security steps like locking database tables or verifying payments. A checklist and an automatic check catch most of them."}},{"@type":"Question","name":"What is the most common security mistake in AI-built apps?","acceptedAnswer":{"@type":"Answer","text":"Secret keys and open databases. AI tools often put API keys where the browser can see them, and create Supabase tables without row level security."}}]},{"@type":"Article","headline":"Vibe coding security checklist: 10 checks before launch","description":"A plain-English checklist for apps built with Lovable, Bolt, Cursor, Replit or v0: the ten mistakes AI tools leave behind most, and how to fix each one.","url":"https://sigship.dev/guides/vibe-coding-security-checklist/","mainEntityOfPage":"https://sigship.dev/guides/vibe-coding-security-checklist/","image":"https://sigship.dev/og.png","inLanguage":"en","datePublished":"2026-11-08","dateModified":"2026-11-08","wordCount":378,"author":{"@id":"https://sigship.dev/#org"},"publisher":{"@type":"Organization","@id":"https://sigship.dev/#org","name":"Zoof04 Inc.","alternateName":"zoof04","url":"https://zoof04.com","email":"support@sigship.dev","logo":"https://sigship.dev/apple-touch-icon.png","sameAs":["https://github.com/sigship/sigship","https://www.npmjs.com/package/sigship","https://discord.gg/hKG6rNM4W"]}}]}</script>
+<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#060b14':'#edf2f6';if(m==='off')d.dataset.motion='off';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
+<link rel="stylesheet" href="/home.css">
+<link rel="stylesheet" href="/page.css">
+<script src="/page.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></symbol>
+<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
+<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></symbol>
+<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></symbol>
+<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
+<symbol id="g-dagger" viewBox="0 0 10 18"><path d="M4.1 0h1.8v4.6h3.6v1.8H5.9V18H4.1V6.4H.5V4.6h3.6z"/></symbol>
+<symbol id="g-right" viewBox="0 0 16 16"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></symbol>
+<symbol id="g-down" viewBox="0 0 16 16"><path d="M8 2.5V13M4 9l4 4 4-4"/></symbol>
+<symbol id="g-up" viewBox="0 0 16 16"><path d="M8 13.5V3M4 7l4-4 4 4"/></symbol>
+<symbol id="g-prev" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></symbol>
+<symbol id="g-next" viewBox="0 0 16 16"><path d="M6 3.5l4.5 4.5L6 12.5"/></symbol>
+<symbol id="g-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+</defs></svg>
+<header class="mast" id="top">
+  <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/docs/"><b>Docs</b><span>Install, run and fix</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div><a href="/community/">Community</a></nav>
+  <div class="acts">
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+    <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
+    <button class="icon-btn menu-btn" type="button" commandfor="menu" command="show-modal" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
+  </div>
+</header>
+<main class="page" id="main">
+<article class="guide-a"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/guides/">Guides</a></li><li aria-current="page">Vibe coding security checklist</li></ol></nav>
+<p class="sev">Guide · 2 min read · Updated <time datetime="2026-11-08">November 8, 2026</time></p>
+<h1>Vibe coding security checklist: 10 checks before launch</h1>
+<p class="plain">AI tools build fast, and they leave the same few mistakes behind again and again. Here are the ten worth checking before real people use your app, in order of how much they can hurt.</p>
+<h2>The five that can cost you money or data</h2>
+<ol class="steps">
+<li><b>No secret keys in your code.</b> Keys for OpenAI, Stripe and other paid services belong in environment variables on your server, never in code the browser downloads. <a href="/checks/secret-in-code/">How to fix it</a>.</li>
+<li><b>Your .env file isn't saved in git.</b> If it is, every key in it is in your project's history. Replace the keys and stop tracking the file. <a href="/checks/env-file-committed/">How to fix it</a>.</li>
+<li><b>Every database table is locked.</b> In Supabase, turn on row level security for every table and add rules for who can read and change each row. <a href="/guides/supabase-rls-explained/">Supabase RLS, explained simply</a>.</li>
+<li><b>Payments are verified.</b> Your app should only unlock paid features after checking that the payment message really came from Stripe. <a href="/checks/stripe-webhook-unverified/">How to fix it</a>.</li>
+<li><b>AI features have a spending limit.</b> Put a rate limit in front of any feature that calls a paid AI service, and set a monthly cap with your AI provider. <a href="/checks/ai-route-no-rate-limit/">How to fix it</a>.</li>
+</ol>
+<h2>The five that make abuse easy or hide problems</h2>
+<ol class="steps" start="6">
+<li><b>Admin access is checked on the server,</b> not decided by a value in the visitor's browser. <a href="/checks/role-in-local-storage/">Why</a>.</li>
+<li><b>User text is shown as text,</b> not raw HTML, so nobody can hide a script in a comment. <a href="/checks/unsanitized-html/">Why</a>.</li>
+<li><b>Only your site can call your server.</b> Replace a CORS setting of "*" with your real web address. <a href="/checks/cors-wildcard/">Why</a>.</li>
+<li><b>You'll hear about errors before your users do.</b> Add error tracking and a friendly error screen. <a href="/checks/no-error-tracking/">Why</a>.</li>
+<li><b>Signup, login and payments are tested.</b> One automatic test for each catches the breakages that hurt most. <a href="/checks/no-tests/">Why</a>.</li>
+</ol>
+<h2>Check all ten in one go</h2>
+<p>SIGSHIP checks for these and more on your own computer, for free. Open a terminal in your project folder and run:</p>
+<pre class="cmd-block"><code>npx sigship</code></pre>
+<p>Then run <code>npx sigship --prompt</code> and paste the result into your AI tool. It fixes everything in order. Run the check again until it says <b>GO</b>. A GO means these checks found nothing that blocks launch. It does not prove the app is safe.</p>
+<h2>Questions</h2>
+<div class="acc"><details><summary>Is vibe coding safe for production apps?</summary><div class="acc-body"><p>It can be, if you check the result. AI tools write working code quickly, but they often skip security steps like locking database tables or verifying payments. A checklist and an automatic check catch most of them.</p></div></details>
+<details><summary>What is the most common security mistake in AI-built apps?</summary><div class="acc-body"><p>Secret keys and open databases. AI tools often put API keys where the browser can see them, and create Supabase tables without row level security.</p></div></details></div>
+<h2>More guides</h2>
+<ul class="related"><li><a href="/guides/check-lovable-bolt-replit-app/">Check a Lovable, Bolt, Replit or v0 app</a></li><li><a href="/guides/supabase-rls-explained/">Supabase RLS, explained simply</a></li><li><a href="/guides/leaked-api-key/">Leaked an API key? What to do now</a></li><li><a href="/glossary/">Jargon, explained</a></li></ul>
+</article>
+<section class="cta-band" aria-labelledby="cta-h">
+<div><h2 id="cta-h">Check your app before your users do.</h2><p>Free, open source, and nothing leaves your computer.</p></div>
+<div><div class="cta-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+<div class="cta-links"><a href="/guides/check-lovable-bolt-replit-app/">Never used a terminal?</a><a href="/glossary/">Jargon, explained</a><a href="/docs/">Read the docs</a></div></div>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+      <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
+      <div class="foot-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+      <p class="ver-chip">v0.3.1 · <a href="/changelog/">Changelog</a></p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
+      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="https://discord.gg/hKG6rNM4W">Discord</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
+      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
+    </nav>
+  </div>
+  <div class="foot-ctl">
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-f" value="system"><span>System</span></label><label><input type="radio" name="theme-f" value="light"><span>Day</span></label><label><input type="radio" name="theme-f" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-f" value="on"><span>On</span></label><label><input type="radio" name="motion-f" value="off"><span>Off</span></label></span></fieldset>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Zoof04 Inc.</span>
+    <span class="foot-status"><span class="lamp warm" aria-hidden="true"></span>The free tool runs on your machine. Nothing leaves it.</span>
+    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
+  </div>
+  <div class="foot-word" aria-hidden="true"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><b>G</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><b>H</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><b>P</b></span></div>
+</footer>
+<dialog class="menu" id="menu" aria-label="Menu" closedby="any">
+  <div class="menu-in">
+    <div class="menu-head"><span>Menu</span><button class="icon-btn" type="button" commandfor="menu" command="close" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <ol class="menu-list">
+      <li><a href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Home</a></li>
+      <li><a href="/features/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Features</a></li>
+      <li><a href="/ai-agents/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>AI agents</a></li>
+      <li><a href="/pricing/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Pricing</a></li>
+      <li><a href="/docs/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg>Docs</a></li>
+      <li><a href="/resources/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Resources</a></li>
+      <li><a href="/community/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Community</a></li>
+    </ol>
+    <button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-m" value="system"><span>System</span></label><label><input type="radio" name="theme-m" value="light"><span>Day</span></label><label><input type="radio" name="theme-m" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-m" value="on"><span>On</span></label><label><input type="radio" name="motion-m" value="off"><span>Off</span></label></span></fieldset>
+    <p class="menu-by">SIGSHIP is made by zoof04.</p>
+  </div>
+</dialog>
+<p class="sr" id="live" aria-live="polite"></p>
+</body>
+</html>
