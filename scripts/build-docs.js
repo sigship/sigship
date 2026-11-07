@@ -20,8 +20,8 @@ const token = tokens(css);
 const MARK = mark({ blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--ink)' }, ' aria-hidden="true"');
 const FOOT_MARK = mark({ blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--on-panel)' }, ' aria-hidden="true"');
 
-// The flag patterns come from the home page's hero, so the footer flags always match it.
-const homeFile = join(site, 'index.html');
+// The flag patterns come from the home page template, so the footer flags always match its hero.
+const homeFile = join(here, 'home/page.html');
 const FLAGS = Object.fromEntries([...readFileSync(homeFile, 'utf8').matchAll(/<symbol id="flag-([a-z])" viewBox="0 0 90 60">([\s\S]*?)<\/symbol>/g)].map((m) => [m[1], m[2]]));
 const flagRow = [...'sigship'].map((f) => `<svg viewBox="0 0 90 60">${FLAGS[f]}</svg>`).join('');
 
@@ -287,17 +287,5 @@ ${RULES.map((r) => `- [${r.title}](${ORIGIN}/checks/${r.id}/): SEV-${r.severity}
 `);
 writeFileSync(join(site, 'favicon.svg'), icon({ blue: token('blue'), paper: token('paper'), ink: token('ink') }, ' xmlns="http://www.w3.org/2000/svg"'));
 
-// Fill the check lists, the ticker and the footer on the home page.
-const home = homeFile;
-let html = readFileSync(home, 'utf8');
-const tick = RULES.map((r) => `<span><b class="t${r.severity}">SEV-${r.severity}</b>${esc(r.title)}</span>`).join('');
-html = html.replace(/<div class="ticker-track" data-ticker>[\s\S]*?<\/div><\/div>/, `<div class="ticker-track" data-ticker>${tick}${tick}</div></div>`);
-html = html.replace(/<footer[\s\S]*?<\/footer>/, FOOTER);
-html = html.replace(/<header class="mast">[\s\S]*?<\/header>/, HEADER);
-html = html.replace(/<!-- pricing:start -->[\s\S]*?<!-- pricing:end -->/, `<!-- pricing:start -->\n    ${PRICING}\n    <!-- pricing:end -->`);
-for (const sev of [1, 2, 3]) {
-  const list = RULES.filter((r) => r.severity === sev).map((r) => `<li><a href="/checks/${r.id}/"><b>${esc(r.title)}</b><span>${esc(r.forecast)}</span></a></li>`).join('');
-  html = html.replace(new RegExp(`<ul data-sev="${sev}">[\\s\\S]*?</ul>`), `<ul data-sev="${sev}">${list}</ul>`);
-}
-writeFileSync(home, html);
+// The home page is built separately by scripts/build-home.js.
 console.log(`Built ${urls.length} pages for ${ORIGIN}.`);

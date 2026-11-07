@@ -2,12 +2,12 @@
 // Colours and fonts come from site/style.css, so a design change flows through here.
 // Run with: npm run brand   (first time only: npx playwright install chromium)
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { icon, mark, tokens } from './marks.js';
+import { writeDemo } from './demo.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'brand');
@@ -26,7 +26,7 @@ const css = rawCss
 const token = tokens(rawCss);
 
 // The flag patterns come from the home page, so the images always match the hero.
-const FLAG_DEFS = readFileSync(join(site, 'index.html'), 'utf8').match(/<defs>[\s\S]*?<\/defs>/)[0];
+const FLAG_DEFS = `<defs>${[...readFileSync(join(root, 'scripts/home/page.html'), 'utf8').matchAll(/<symbol id="flag-[a-z]"[\s\S]*?<\/symbol>/g)].map((m) => m[0]).join('')}</defs>`;
 const HOIST = `<svg width="0" height="0" style="position:absolute">${FLAG_DEFS}</svg><ol class="hoist">${[...'sigship']
   .map((f, i) => `<li style="--i:${i}"><button type="button"><svg viewBox="0 0 90 60"><use href="#flag-${f}"/></svg></button></li>`)
   .join('')}</ol>`;
@@ -50,34 +50,9 @@ function run(args, cwd) {
   return text.replace(/ in \d+ ms,/, ' in 22 ms,');
 }
 
-function demoProject(files) {
-  const dir = mkdtempSync(join(tmpdir(), 'sigship-brand-'));
-  for (const [path, text] of Object.entries(files)) {
-    mkdirSync(dirname(join(dir, path)), { recursive: true });
-    writeFileSync(join(dir, path), text);
-  }
-  return dir;
-}
-
-const shared = {
-  'package-lock.json': '{}',
-  'src/App.tsx': 'export const App = () => <ErrorBoundary><Routes /></ErrorBoundary>;\n',
-};
-// Assembled at runtime so SIGSHIP's scan of its own repo doesn't flag this demo.
-const paidEvent = ['checkout', 'session', 'completed'].join('.');
-const bad = demoProject({
-  ...shared,
-  'package.json': JSON.stringify({ name: 'demo-app', dependencies: { react: '^19.0.0', openai: '^5.0.0', '@supabase/supabase-js': '^2.0.0', '@sentry/react': '^10.0.0' }, scripts: { test: 'vitest run' } }),
-  'supabase/migrations/001_init.sql': 'create table public.profiles (id uuid primary key, email text);\n',
-  'src/api/stripe-webhook.ts': `export async function POST(req) {\n  const event = await req.json();\n  if (event.type === '${paidEvent}') await upgrade(event);\n}\n`,
-  'src/api/chat.ts': "export async function POST(req) {\n  return openai.chat.completions.create({ model: 'x', messages: [] });\n}\n",
-});
-const good = demoProject({
-  ...shared,
-  'package.json': JSON.stringify({ name: 'demo-app', dependencies: { react: '^19.0.0', '@sentry/react': '^10.0.0', '@upstash/ratelimit': '^2.0.0' }, scripts: { test: 'vitest run' } }),
-  'supabase/migrations/001_init.sql': 'create table public.profiles (id uuid primary key);\nalter table public.profiles enable row level security;\n',
-  'src/api/chat.ts': "export async function POST(req) {\n  await ratelimit.limit(ip);\n  return openai.chat.completions.create({ model: 'x', messages: [] });\n}\n",
-});
+// The same demo app as the home page: the bad version, and the fixed one its AI tool produced from SIGSHIP's prompt.
+const bad = writeDemo('bad');
+const good = writeDemo('fixed');
 
 const paint = (text) =>
   esc(text.trim())

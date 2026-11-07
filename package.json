@@ -15,11 +15,12 @@
   ],
   "scripts": {
     "test": "node --test",
-    "docs": "node scripts/build-docs.js",
+    "docs": "node scripts/build-docs.js && node scripts/build-home.js",
     "brand": "node scripts/build-brand.js",
     "build": "npm run docs && npm run brand",
     "preview": "npm run docs && npx wrangler dev",
-    "ship": "npm run build && npm test && node bin/sigship.js . && npx wrangler deploy"
+    "ship": "npm run build && npm test && node bin/sigship.js . && npx wrangler deploy",
+    "capture": "node scripts/capture-demo.js"
   },
   "engines": {
     "node": ">=22"
