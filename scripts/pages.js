@@ -7,8 +7,8 @@ import { fileURLToPath } from 'node:url';
 import { RULES } from '../src/rules.js';
 import { FEATURES, TRACKS } from './pricing.js';
 
-// Set this to the Discord invite link. Until then the Community page says Discord is opening soon.
-export const DISCORD_URL = '';
+// The Discord invite link. Leave it empty and the Community page says Discord is opening soon.
+export const DISCORD_URL = 'https://discord.gg/hKG6rNM4W';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
