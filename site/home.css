@@ -111,6 +111,26 @@ html:not(.js) .needs-js { display: none !important; }
 .nav a { color: var(--ink); text-decoration: none; padding: 10px 0; }
 .nav a[aria-current="true"] { text-decoration: underline 2px var(--telemetry); text-underline-offset: 8px; }
 .acts { display: flex; align-items: center; gap: 8px; }
+.nav { align-items: center; gap: clamp(14px, 1.5vw, 22px); }
+.nav > a, .nav-dd-btn { white-space: nowrap; }
+.nav-dd { position: relative; }
+.nav-dd-btn { display: inline-flex; align-items: center; gap: 5px; padding: 10px 0; border: 0; background: none; color: var(--ink); font: inherit; cursor: pointer; }
+.nav-dd-btn svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; }
+.nav-dd-btn:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; border-radius: 4px; }
+.dd { position: absolute; top: 100%; left: 50%; z-index: 40; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 440px; padding: 8px; border-radius: 14px; background: var(--paper); box-shadow: 0 0 0 1px var(--line), 0 24px 48px -20px rgb(0 0 0 / .45); opacity: 0; visibility: hidden; transform: translate(-50%, 6px); transition: opacity .16s, transform .16s, visibility 0s .16s; }
+.dd::before { content: ""; position: absolute; inset: -12px 0 auto; height: 12px; }
+.nav-dd.open .dd { opacity: 1; visibility: visible; transform: translate(-50%, 10px); transition: opacity .16s, transform .16s; }
+.nav-dd.open .nav-dd-btn svg { transform: rotate(180deg); }
+@media (hover: hover) { .nav-dd:hover .dd { opacity: 1; visibility: visible; transform: translate(-50%, 10px); transition: opacity .16s, transform .16s; } .nav-dd:hover .nav-dd-btn svg { transform: rotate(180deg); } }
+.nav .dd a { display: grid; gap: 2px; padding: 10px 12px; border-radius: 10px; text-decoration: none; }
+.nav .dd a:hover, .nav .dd a:focus-visible { background: var(--deck); outline: none; }
+.nav .dd a:focus-visible { box-shadow: 0 0 0 2px var(--link); }
+.dd b { font-weight: 650; font-size: .92rem; }
+.dd span { color: var(--slate); font-size: .8rem; }
+.dd .dd-all { grid-column: 1 / -1; border-top: 1px solid var(--line); border-radius: 0 0 8px 8px; }
+@media (prefers-reduced-motion: reduce) { .dd, .nav-dd-btn svg { transition: none; } }
+:root[data-motion="off"] .dd, :root[data-motion="off"] .nav-dd-btn svg { transition: none; }
+
 .icon-btn { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: var(--r-ctl); background: var(--paper); color: var(--ink); cursor: pointer; }
 .icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
 .icon-btn .moon { fill: currentColor; stroke: none; }

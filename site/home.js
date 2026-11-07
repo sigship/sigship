@@ -70,6 +70,16 @@
   }
   menu.addEventListener('click', (e) => { if (e.target.closest('a')) menu.close(); });
 
+  // ---------- Resources dropdown: opens on hover (CSS) or click; Escape and outside clicks close it ----------
+  for (const dd of $$('.nav-dd')) {
+    const btn = $('.nav-dd-btn', dd);
+    const set = (on) => { dd.classList.toggle('open', on); btn.setAttribute('aria-expanded', String(on)); };
+    btn.addEventListener('click', () => set(!dd.classList.contains('open')));
+    dd.addEventListener('keydown', (e) => { if (e.key === 'Escape') { set(false); btn.focus(); } });
+    dd.addEventListener('focusout', (e) => { if (!dd.contains(e.relatedTarget)) set(false); });
+    document.addEventListener('click', (e) => { if (!dd.contains(e.target)) set(false); });
+  }
+
   // ---------- C3 · The hoist: read on tap, swing by rotation only when pushed ----------
   const hoist = $('.hoist');
   const flags = $$('button', hoist);
