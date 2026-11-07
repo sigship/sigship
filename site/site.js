@@ -44,6 +44,86 @@
   });
   label();
 
+  // Tabs: each tab group switches only its own panels. Arrow keys move between tabs.
+  for (const list of document.querySelectorAll('[role="tablist"]')) {
+    const tabs = [...list.querySelectorAll('[role="tab"]')];
+    const select = (tab, focus) => {
+      for (const t of tabs) {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      }
+      if (focus) tab.focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab, true));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') select(tabs[(i + 1) % tabs.length], true);
+        if (e.key === 'ArrowLeft') select(tabs[(i - 1 + tabs.length) % tabs.length], true);
+      });
+    });
+    select(tabs.find((t) => t.getAttribute('aria-selected') === 'true') || tabs[0], false);
+  }
+
+  // Mobile menu: opens under the header, closes on Escape, on a link tap, or when the screen gets wide.
+  const menuButton = document.querySelector('.menu-btn');
+  const menu = document.getElementById('menu');
+  if (menuButton && menu) {
+    const setMenu = (open) => {
+      menu.hidden = !open;
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      root.classList.toggle('menu-open', open);
+    };
+    menuButton.addEventListener('click', () => setMenu(menu.hidden));
+    menu.addEventListener('click', (e) => {
+      if (e.target.closest('a')) setMenu(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        setMenu(false);
+        menuButton.focus();
+      }
+    });
+    matchMedia('(min-width: 961px)').addEventListener('change', (e) => e.matches && setMenu(false));
+  }
+
+  // Plan finder: three answers, one suggestion.
+  const finder = document.querySelector('[data-finder]');
+  if (finder) {
+    const PLANS = {
+      free: ['Free, self-hosted', 'Run it on your machine today. Add Pro when you want every check.', 'Get started free', '#start', ''],
+      business: ['Business, self-hosted', 'Every check across up to 25 repos, with white-label client reports. Opens soon.', 'Join the waitlist', '#waitlist', 'business'],
+      solo: ['Cloud Solo', 'We watch one app for you: every push, every night and your live site. Opens soon.', 'Join the waitlist', '#waitlist', 'solo'],
+      team: ['Cloud Team', 'Up to 10 projects and 5 seats, with fix pull requests and hourly site scans. Opens soon.', 'Join the waitlist', '#waitlist', 'team'],
+      agency: ['Cloud Agency', 'Up to 30 client projects, white-label reports and an alert channel per client. Opens soon.', 'Join the waitlist', '#waitlist', 'agency'],
+    };
+    const result = finder.querySelector('.finder-result');
+    const cta = finder.querySelector('[data-finder-cta]');
+    const suggest = () => {
+      const data = new FormData(finder);
+      const cloud = data.get('term') === 'no' || data.get('watch') === 'yes';
+      const size = data.get('size');
+      const id = cloud ? { s: 'solo', m: 'team', l: 'agency' }[size] : size === 's' ? 'free' : 'business';
+      const [plan, why, label, href, value] = PLANS[id];
+      finder.querySelector('.finder-plan').textContent = plan;
+      finder.querySelector('.finder-why').textContent = why;
+      cta.textContent = label;
+      cta.setAttribute('href', href);
+      if (value) cta.dataset.plan = value;
+      else delete cta.dataset.plan;
+      if (!calm) {
+        result.classList.remove('flash');
+        void result.offsetWidth;
+        result.classList.add('flash');
+      }
+    };
+    finder.addEventListener('change', suggest);
+    finder.addEventListener('submit', (e) => e.preventDefault());
+  }
+
   // The header gets a shadow once the page scrolls.
   const mast = document.querySelector('.mast');
   if (mast) {
@@ -91,7 +171,7 @@
 
   // Cards light up under the pointer.
   if (!calm && matchMedia('(hover: hover)').matches) {
-    for (const card of document.querySelectorAll('.plan, .sevs li a, .steps li, .wl-form')) {
+    for (const card of document.querySelectorAll('.pcard, .sevs li a, .steps li, .wl-form, .explain-cards article')) {
       card.addEventListener('pointermove', (e) => {
         const box = card.getBoundingClientRect();
         card.style.setProperty('--mx', `${e.clientX - box.left}px`);
@@ -306,12 +386,13 @@
   const started = form.querySelector('[name="started"]');
   started.value = String(Date.now());
 
-  for (const link of document.querySelectorAll('[data-plan]')) {
-    link.addEventListener('click', () => {
-      form.elements.plan.value = link.dataset.plan;
-      setTimeout(() => form.elements.email.focus({ preventScroll: true }), calm ? 0 : 500);
-    });
-  }
+  // Any "Join the waitlist" button picks its plan, including ones the plan finder updates later.
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('[data-plan]');
+    if (!link) return;
+    form.elements.plan.value = link.dataset.plan;
+    setTimeout(() => form.elements.email.focus({ preventScroll: true }), calm ? 0 : 500);
+  });
 
   const show = (text, ok) => {
     status.textContent = text;
