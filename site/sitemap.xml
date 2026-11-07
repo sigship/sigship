@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://sigship.dev/</loc></url>
+  <url><loc>https://sigship.dev/features/</loc></url>
+  <url><loc>https://sigship.dev/ai-agents/</loc></url>
+  <url><loc>https://sigship.dev/pricing/</loc></url>
+  <url><loc>https://sigship.dev/docs/</loc></url>
+  <url><loc>https://sigship.dev/resources/</loc></url>
+  <url><loc>https://sigship.dev/changelog/</loc></url>
+  <url><loc>https://sigship.dev/roadmap/</loc></url>
+  <url><loc>https://sigship.dev/community/</loc></url>
   <url><loc>https://sigship.dev/privacy/</loc></url>
   <url><loc>https://sigship.dev/terms/</loc></url>
   <url><loc>https://sigship.dev/brand/</loc></url>

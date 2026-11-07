@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog | SIGSHIP</title>
+<meta name="description" content="Every SIGSHIP release and what changed.">
+<link rel="canonical" href="https://sigship.dev/changelog/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#edf2f6">
+<meta name="color-scheme" content="light dark">
+<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#060b14':'#edf2f6';if(m==='off')d.dataset.motion='off';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
+<link rel="stylesheet" href="/home.css">
+<link rel="stylesheet" href="/page.css">
+<script src="/page.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></symbol>
+<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
+<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></symbol>
+<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></symbol>
+<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
+<symbol id="g-dagger" viewBox="0 0 10 18"><path d="M4.1 0h1.8v4.6h3.6v1.8H5.9V18H4.1V6.4H.5V4.6h3.6z"/></symbol>
+<symbol id="g-right" viewBox="0 0 16 16"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></symbol>
+<symbol id="g-down" viewBox="0 0 16 16"><path d="M8 2.5V13M4 9l4 4 4-4"/></symbol>
+<symbol id="g-up" viewBox="0 0 16 16"><path d="M8 13.5V3M4 7l4-4 4 4"/></symbol>
+<symbol id="g-prev" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></symbol>
+<symbol id="g-next" viewBox="0 0 16 16"><path d="M6 3.5l4.5 4.5L6 12.5"/></symbol>
+<symbol id="g-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+</defs></svg>
+<header class="mast" id="top">
+  <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><a href="/resources/">Resources</a><a href="/community/">Community</a></nav>
+  <div class="acts">
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+    <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
+    <button class="icon-btn menu-btn" type="button" commandfor="menu" command="show-modal" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
+  </div>
+</header>
+<main class="page wide" id="main">
+<header class="phero">
+<p class="eyebrow"><b>SIGSHIP</b><i></i><span>Changelog</span></p>
+<h1>What's new <span>in SIGSHIP.</span></h1>
+<p class="lede">Every release, newest first. You are on version <b>0.3.1</b> if you run <code>npx sigship@latest</code>.</p>
+<div class="acts-row"><a class="btn-line" href="https://github.com/sigship/sigship/releases">GitHub releases</a><a class="btn-line" href="https://www.npmjs.com/package/sigship">npm package</a><a class="btn-line" href="/roadmap/">What's next</a></div>
+</header>
+<div class="timeline"><article class="tl-item latest" id="v0-3-1">
+<div class="tl-head"><h2 class="v">0.3.1</h2><time datetime="2026-11-07">2026-11-07</time><span class="pill">Latest</span></div>
+<h3>Changed</h3><ul><li>Requires Node.js 22 or later. Node.js 20 reached end of life in April 2026. CI tests Node.js 22 and 24.</li><li>A new README, plus a security policy, contribution guide and issue templates.</li><li>Package details for npm: author, keywords and the changelog in the package.</li></ul>
+</article>
+<article class="tl-item" id="v0-3-0">
+<div class="tl-head"><h2 class="v">0.3.0</h2><time datetime="2026-11-07">2026-11-07</time></div>
+<h3>Added</h3><ul><li><code>npx sigship ui [folder]</code>: a local dashboard in the browser with the verdict, every finding, a button to copy the fix prompt, re-run, and a box to check another folder. It listens on <code>127.0.0.1</code> only, needs the private link it prints, and serves findings, never file contents.</li><li><code>--no-open</code>, to print the dashboard link without opening a browser.</li></ul>
+</article>
+<article class="tl-item" id="v0-2-0">
+<div class="tl-head"><h2 class="v">0.2.0</h2><time datetime="2026-11-07">2026-11-07</time></div>
+<h3>Added</h3><ul><li>Licence key support with <code>SIGSHIP_KEY</code>, which adds the Pro pack of extra checks. Without a key, SIGSHIP still makes no network calls.</li><li><code>--report</code>, which writes <code>sigship-report.html</code>, a self-contained report to send to a client. Needs a licence key.</li><li><code>--markdown</code>, for pull request comments.</li><li><code>npx sigship init --pro</code>, which adds a pull request check that comments its result and a nightly check with an optional Slack alert.</li><li>The MCP server loads the Pro pack when a key is set.</li><li>The scanner now reads Firebase <code>.rules</code> and Terraform <code>.tf</code> files.</li></ul><h3>Changed</h3><ul><li>The Pro pack is data only: patterns and messages. SIGSHIP never runs code from it and rejects a pack it can't validate.</li><li>A network problem never fails a scan: SIGSHIP falls back to its cached Pro pack, then to the free checks.</li></ul>
+</article>
+<article class="tl-item" id="v0-1-1">
+<div class="tl-head"><h2 class="v">0.1.1</h2><time datetime="2026-11-06">2026-11-06</time></div>
+<h3>Changed</h3><ul><li>Package details for npm and the MCP Registry.</li></ul>
+</article>
+<article class="tl-item" id="v0-1-0">
+<div class="tl-head"><h2 class="v">0.1.0</h2><time datetime="2026-11-06">2026-11-06</time></div>
+<h3>Added</h3><ul><li>First release: 17 checks for how AI-built apps fail, the command line tool with terminal, JSON and fix-prompt output, the pull request check (<code>npx sigship init</code>) and the MCP server.</li></ul>
+</article></div>
+<section class="cta-band" aria-labelledby="cta-h">
+<div><h2 id="cta-h">Check your app before your users do.</h2><p>Free, open source, and nothing leaves your machine.</p></div>
+<div><div class="cta-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+<div class="cta-links"><a href="/docs/">Read the docs</a><a href="/pricing/">See pricing</a><a href="/#waitlist">Join the waitlist</a></div></div>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+      <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
+      <div class="foot-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+      <p class="ver-chip">v0.3.1 · <a href="https://github.com/sigship/sigship/blob/main/CHANGELOG.md">Changelog</a></p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
+      <div><p>Resources</p><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
+      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
+    </nav>
+  </div>
+  <div class="foot-ctl">
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-f" value="system"><span>System</span></label><label><input type="radio" name="theme-f" value="light"><span>Day</span></label><label><input type="radio" name="theme-f" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-f" value="on"><span>On</span></label><label><input type="radio" name="motion-f" value="off"><span>Off</span></label></span></fieldset>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Zoof04 Inc.</span>
+    <span class="foot-status"><span class="lamp warm" aria-hidden="true"></span>The free tool runs on your machine. Nothing leaves it.</span>
+    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
+  </div>
+  <div class="foot-word" aria-hidden="true"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><b>G</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><b>H</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><b>P</b></span></div>
+</footer>
+<dialog class="menu" id="menu" aria-label="Menu" closedby="any">
+  <div class="menu-in">
+    <div class="menu-head"><span>Menu</span><button class="icon-btn" type="button" commandfor="menu" command="close" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <ol class="menu-list">
+      <li><a href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Home</a></li>
+      <li><a href="/features/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Features</a></li>
+      <li><a href="/ai-agents/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>AI agents</a></li>
+      <li><a href="/pricing/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Pricing</a></li>
+      <li><a href="/docs/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg>Docs</a></li>
+      <li><a href="/resources/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Resources</a></li>
+      <li><a href="/community/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Community</a></li>
+    </ol>
+    <button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-m" value="system"><span>System</span></label><label><input type="radio" name="theme-m" value="light"><span>Day</span></label><label><input type="radio" name="theme-m" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-m" value="on"><span>On</span></label><label><input type="radio" name="motion-m" value="off"><span>Off</span></label></span></fieldset>
+    <p class="menu-by">SIGSHIP is made by zoof04.</p>
+  </div>
+</dialog>
+<p class="sr" id="live" aria-live="polite"></p>
+</body>
+</html>

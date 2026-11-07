@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docs | SIGSHIP</title>
+<meta name="description" content="How to install, run and read SIGSHIP, fix what it finds with your AI tool, and add it to pull requests and coding agents.">
+<link rel="canonical" href="https://sigship.dev/docs/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#edf2f6">
+<meta name="color-scheme" content="light dark">
+<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#060b14':'#edf2f6';if(m==='off')d.dataset.motion='off';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
+<link rel="stylesheet" href="/home.css">
+<link rel="stylesheet" href="/page.css">
+<script src="/page.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></symbol>
+<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
+<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></symbol>
+<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></symbol>
+<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
+<symbol id="g-dagger" viewBox="0 0 10 18"><path d="M4.1 0h1.8v4.6h3.6v1.8H5.9V18H4.1V6.4H.5V4.6h3.6z"/></symbol>
+<symbol id="g-right" viewBox="0 0 16 16"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></symbol>
+<symbol id="g-down" viewBox="0 0 16 16"><path d="M8 2.5V13M4 9l4 4 4-4"/></symbol>
+<symbol id="g-up" viewBox="0 0 16 16"><path d="M8 13.5V3M4 7l4-4 4 4"/></symbol>
+<symbol id="g-prev" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></symbol>
+<symbol id="g-next" viewBox="0 0 16 16"><path d="M6 3.5l4.5 4.5L6 12.5"/></symbol>
+<symbol id="g-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+</defs></svg>
+<header class="mast" id="top">
+  <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><a href="/resources/">Resources</a><a href="/community/">Community</a></nav>
+  <div class="acts">
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+    <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
+    <button class="icon-btn menu-btn" type="button" commandfor="menu" command="show-modal" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
+  </div>
+</header>
+<main class="page wide" id="main">
+<header class="phero">
+<p class="eyebrow"><b>SIGSHIP</b><i></i><span>Docs</span></p>
+<h1>Get started <span>in one command.</span></h1>
+<p class="lede">Everything you need to run SIGSHIP, read what it says and fix what it finds. If you have never used a terminal, start with <b>Quick start</b>.</p>
+
+</header>
+<details class="toc-m"><summary>On this page</summary><ol><li><a href="#start">Quick start</a></li><li><a href="#report">Reading the report</a></li><li><a href="#fix">Fixing problems</a></li><li><a href="#commands">Commands and options</a></li><li><a href="#exit">Exit codes</a></li><li><a href="#ci">Pull request check</a></li><li><a href="#agents">AI coding agents</a></li><li><a href="#dashboard">Browser dashboard</a></li><li><a href="#keys">Licence keys</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#limits">Limits</a></li><li><a href="#trouble">Troubleshooting</a></li></ol></details>
+<div class="docs"><nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#start">Quick start</a></li><li><a href="#report">Reading the report</a></li><li><a href="#fix">Fixing problems</a></li><li><a href="#commands">Commands and options</a></li><li><a href="#exit">Exit codes</a></li><li><a href="#ci">Pull request check</a></li><li><a href="#agents">AI coding agents</a></li><li><a href="#dashboard">Browser dashboard</a></li><li><a href="#keys">Licence keys</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#limits">Limits</a></li><li><a href="#trouble">Troubleshooting</a></li></ol></nav><div class="doc-body">
+
+<h2 id="start">Quick start</h2>
+<p>You need <a href="https://nodejs.org">Node.js</a> 22 or newer. Open a terminal in your project folder and run:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="Terminal">Copy</button></div><pre><code>npx sigship</code></pre></div>
+<p>That's it. No signup, no install, no config. SIGSHIP reads your project, prints what it found, and ends with <b>GO</b> or <b>NO-GO</b>.</p>
+<div class="callout"><p><b>Never used a terminal?</b> On a Mac, open the Terminal app. On Windows, open PowerShell. Type <code>cd</code>, a space, drag your project folder into the window, press Enter, then run the command above. Built your app in Lovable, Bolt or Replit? Export it to GitHub first and download it, or ask your AI tool to run SIGSHIP for you.</p></div>
+
+<h2 id="report">Reading the report</h2>
+<p>Each problem has a severity, a plain title, where it is (<code>file:line</code>), and what happens in production if you ship it.</p>
+<table class="ref"><thead><tr><th>Severity</th><th>What it means</th></tr></thead><tbody>
+<tr><td><b>SEV-1</b></td><td>Blocks launch. Exposes your data or money, like a leaked key or an open database table.</td></tr>
+<tr><td><b>SEV-2</b></td><td>Blocks launch. Makes abuse easy, like an AI route with no spending limit.</td></tr>
+<tr><td><b>SEV-3</b></td><td>Worth fixing. Reported, but blocks only with <code>--strict</code>.</td></tr></tbody></table>
+<p>The last line is the verdict. <b>GO</b> means these checks found nothing that blocks launch. It does not prove your app is safe.</p>
+
+<h2 id="fix">Fixing problems</h2>
+<p>You don't have to fix things by hand. Print every fix as one prompt and paste it into your AI tool:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy-btn" type="button" data-copy="npx sigship --prompt" data-copy-label="Terminal">Copy</button></div><pre><code>npx sigship --prompt</code></pre></div>
+<p>Your AI tool makes the changes. Run <code>npx sigship</code> again, and repeat until it says GO. Each check also has its own page explaining the fix, linked from the <a href="/#checks">full list</a>.</p>
+
+<h2 id="commands">Commands and options <span class="dev-tag">Reference</span></h2>
+<table class="ref"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody>
+<tr><td><code>npx sigship [folder]</code></td><td>Check a project and print the report.</td></tr>
+<tr><td><code>npx sigship ui [folder]</code></td><td>Open the browser dashboard for the project.</td></tr>
+<tr><td><code>npx sigship init [folder]</code></td><td>Add the pull request check and the agent rule.</td></tr>
+<tr><td><code>npx sigship mcp</code></td><td>Start the MCP server for coding agents.</td></tr></tbody></table>
+<table class="ref"><thead><tr><th>Option</th><th>What it does</th></tr></thead><tbody>
+<tr><td><code>--prompt</code></td><td>Print every fix as one prompt for your AI tool.</td></tr>
+<tr><td><code>--json</code></td><td>Print the result as JSON.</td></tr>
+<tr><td><code>--markdown</code></td><td>Print the result as Markdown, for pull request comments.</td></tr>
+<tr><td><code>--strict</code></td><td>Also block on SEV-3.</td></tr>
+<tr><td><code>--report</code></td><td>Write <code>sigship-report.html</code> for a client. Needs a licence key.</td></tr>
+<tr><td><code>--no-open</code></td><td>With <code>ui</code>, print the dashboard link without opening a browser.</td></tr>
+<tr><td><code>--version</code>, <code>--help</code></td><td>Print the version or the help.</td></tr></tbody></table>
+
+<h2 id="exit">Exit codes <span class="dev-tag">Reference</span></h2>
+<table class="ref"><thead><tr><th>Code</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>0</code></td><td>GO. No SEV-1 or SEV-2 findings.</td></tr>
+<tr><td><code>1</code></td><td>NO-GO. Something blocks launch.</td></tr>
+<tr><td><code>2</code></td><td>SIGSHIP could not run, for example the folder does not exist.</td></tr></tbody></table>
+<p>Scripts and CI can rely on these, which is what makes SIGSHIP a real test for done.</p>
+
+<h2 id="ci">Pull request check</h2>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy-btn" type="button" data-copy="npx sigship init" data-copy-label="Terminal">Copy</button></div><pre><code>npx sigship init</code></pre></div>
+<p>This adds <code>.github/workflows/sigship.yml</code>, a GitHub check that fails when a pull request brings back a SEV-1 or SEV-2 problem, and a definition of done in <code>AGENTS.md</code>. It never overwrites a file that already exists.</p>
+
+<h2 id="agents">AI coding agents</h2>
+<p>Connect SIGSHIP to Claude Code, Cursor or any MCP app so your agent checks its own work. Setup for each tool is on the <a href="/ai-agents/">AI agents page</a>.</p>
+
+<h2 id="dashboard">Browser dashboard</h2>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy-btn" type="button" data-copy="npx sigship ui" data-copy-label="Terminal">Copy</button></div><pre><code>npx sigship ui</code></pre></div>
+<p>Opens a private dashboard with the verdict, every finding, a button to copy the fix prompt and a re-run button. It runs on your computer only: it listens on <code>127.0.0.1</code>, answers only the private link it prints, and shows findings, never your files. Press Ctrl+C to stop it.</p>
+
+<h2 id="keys">Licence keys</h2>
+<p>Paid plans are on the waitlist. If you already have a licence key, set it to add the Pro pack of extra checks:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy-btn" type="button" data-copy="SIGSHIP_KEY=your-key npx sigship" data-copy-label="Terminal">Copy</button></div><pre><code>SIGSHIP_KEY=your-key npx sigship</code></pre></div>
+<p>For pull request comments and a nightly check, run <code>npx sigship init --pro</code> and add the key as the repository secret <code>SIGSHIP_KEY</code>. If the licence server can't be reached, SIGSHIP uses its last download of the Pro pack or the free checks. A network problem never fails a scan.</p>
+
+<h2 id="privacy">Privacy</h2>
+<ul><li>The free tool, the dashboard and the MCP server run entirely on your machine, with no network calls and no telemetry.</li>
+<li>SIGSHIP never prints a secret value, in any output.</li>
+<li>With a licence key, and only then, it sends the key and a one-way repo fingerprint. Never code, file names or findings.</li></ul>
+<p>Full details are in the <a href="/privacy/">privacy policy</a>.</p>
+
+<h2 id="limits">Limits</h2>
+<ul><li>SIGSHIP uses pattern checks. It can miss real problems and flag safe code.</li>
+<li>It reads your repo, so it can't see settings changed only in a dashboard, such as Supabase policies made in the web console.</li>
+<li>A GO is not a security audit. For a person to read your code, see the <a href="/pricing/">pilot review</a>.</li></ul>
+
+<h2 id="trouble">Troubleshooting</h2>
+<div class="acc">
+<details><summary>"npx: command not found" or a Node.js error</summary><div class="acc-body"><p>Install Node.js 22 or newer from nodejs.org, open a new terminal and try again. Check your version with <code>node --version</code>.</p></div></details>
+<details><summary>It flagged something that is safe</summary><div class="acc-body"><p>Pattern checks can be wrong. Please <a href="https://github.com/sigship/sigship/issues/new/choose">report a false positive</a> with the smallest code that shows it, without any real secrets.</p></div></details>
+<details><summary>It missed a real problem</summary><div class="acc-body"><p>Tell us with the same form, and suggest a new check in <a href="https://github.com/sigship/sigship/discussions">Discussions</a>.</p></div></details>
+<details><summary>Getting an old version</summary><div class="acc-body"><p>Run <code>npx sigship@latest</code> to make sure you have the newest checks. This is version 0.3.1.</p></div></details>
+</div>
+<p>Still stuck? Ask in the <a href="/community/">community</a> or email <a href="mailto:support@sigship.dev">support@sigship.dev</a>.</p>
+</div></div>
+<section class="cta-band" aria-labelledby="cta-h">
+<div><h2 id="cta-h">Check your app before your users do.</h2><p>Free, open source, and nothing leaves your machine.</p></div>
+<div><div class="cta-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+<div class="cta-links"><a href="/docs/">Read the docs</a><a href="/pricing/">See pricing</a><a href="/#waitlist">Join the waitlist</a></div></div>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+      <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
+      <div class="foot-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+      <p class="ver-chip">v0.3.1 · <a href="https://github.com/sigship/sigship/blob/main/CHANGELOG.md">Changelog</a></p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
+      <div><p>Resources</p><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
+      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
+    </nav>
+  </div>
+  <div class="foot-ctl">
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-f" value="system"><span>System</span></label><label><input type="radio" name="theme-f" value="light"><span>Day</span></label><label><input type="radio" name="theme-f" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-f" value="on"><span>On</span></label><label><input type="radio" name="motion-f" value="off"><span>Off</span></label></span></fieldset>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Zoof04 Inc.</span>
+    <span class="foot-status"><span class="lamp warm" aria-hidden="true"></span>The free tool runs on your machine. Nothing leaves it.</span>
+    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
+  </div>
+  <div class="foot-word" aria-hidden="true"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><b>G</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><b>H</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><b>P</b></span></div>
+</footer>
+<dialog class="menu" id="menu" aria-label="Menu" closedby="any">
+  <div class="menu-in">
+    <div class="menu-head"><span>Menu</span><button class="icon-btn" type="button" commandfor="menu" command="close" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <ol class="menu-list">
+      <li><a href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Home</a></li>
+      <li><a href="/features/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Features</a></li>
+      <li><a href="/ai-agents/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>AI agents</a></li>
+      <li><a href="/pricing/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Pricing</a></li>
+      <li><a href="/docs/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg>Docs</a></li>
+      <li><a href="/resources/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Resources</a></li>
+      <li><a href="/community/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Community</a></li>
+    </ol>
+    <button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-m" value="system"><span>System</span></label><label><input type="radio" name="theme-m" value="light"><span>Day</span></label><label><input type="radio" name="theme-m" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-m" value="on"><span>On</span></label><label><input type="radio" name="motion-m" value="off"><span>Off</span></label></span></fieldset>
+    <p class="menu-by">SIGSHIP is made by zoof04.</p>
+  </div>
+</dialog>
+<p class="sr" id="live" aria-live="polite"></p>
+</body>
+</html>

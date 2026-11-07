@@ -57,6 +57,29 @@
   });
   syncCtl();
 
+  // Tabs: each tab group switches only its own panels. Arrow keys move between tabs.
+  for (const list of $$('[role="tablist"]')) {
+    const tabs = $$('[role="tab"]', list);
+    const pick = (tab, focus) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => pick(tab, false));
+      tab.addEventListener('keydown', (e) => {
+        const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+        if (d) { e.preventDefault(); pick(tabs[(i + d + tabs.length) % tabs.length], true); }
+      });
+    });
+    pick(tabs.find((t) => t.getAttribute('aria-selected') === 'true') || tabs[0], false);
+  }
+
   // Menu sheet: native dialog with command/commandfor, and a fallback.
   const menu = $('#menu');
   if (menu) {

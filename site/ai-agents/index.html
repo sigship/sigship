@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI agents | SIGSHIP</title>
+<meta name="description" content="Give your AI coding agent a real test for done: it runs SIGSHIP, fixes what it finds and keeps going until your app is GO.">
+<link rel="canonical" href="https://sigship.dev/ai-agents/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#edf2f6">
+<meta name="color-scheme" content="light dark">
+<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#060b14':'#edf2f6';if(m==='off')d.dataset.motion='off';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
+<link rel="stylesheet" href="/home.css">
+<link rel="stylesheet" href="/page.css">
+<script src="/page.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></symbol>
+<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
+<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></symbol>
+<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></symbol>
+<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
+<symbol id="g-dagger" viewBox="0 0 10 18"><path d="M4.1 0h1.8v4.6h3.6v1.8H5.9V18H4.1V6.4H.5V4.6h3.6z"/></symbol>
+<symbol id="g-right" viewBox="0 0 16 16"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></symbol>
+<symbol id="g-down" viewBox="0 0 16 16"><path d="M8 2.5V13M4 9l4 4 4-4"/></symbol>
+<symbol id="g-up" viewBox="0 0 16 16"><path d="M8 13.5V3M4 7l4-4 4 4"/></symbol>
+<symbol id="g-prev" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></symbol>
+<symbol id="g-next" viewBox="0 0 16 16"><path d="M6 3.5l4.5 4.5L6 12.5"/></symbol>
+<symbol id="g-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+</defs></svg>
+<header class="mast" id="top">
+  <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><a href="/resources/">Resources</a><a href="/community/">Community</a></nav>
+  <div class="acts">
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+    <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
+    <button class="icon-btn menu-btn" type="button" commandfor="menu" command="show-modal" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
+  </div>
+</header>
+<main class="page wide" id="main">
+<header class="phero">
+<p class="eyebrow"><b>SIGSHIP</b><i></i><span>AI agents</span></p>
+<h1>A real test for <span>"done".</span></h1>
+<p class="lede">AI agents say they are finished when the code runs. SIGSHIP gives them a stricter finish line: <b>no leaked keys, no open database, no fake payments.</b> The agent keeps fixing until SIGSHIP says GO.</p>
+<div class="acts-row"><a class="btn-ink" href="#setup">Set it up in a minute</a><a class="btn-line" href="/docs/">Read the docs</a></div>
+</header>
+
+<section class="block"><h2>How it works</h2>
+<div class="cards">
+<div class="card"><svg class="flag" viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg><h3>1. Your agent writes code</h3><p>Same as today, in Claude Code, Cursor or any agent you like.</p></div>
+<div class="card"><svg class="flag" viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg><h3>2. It runs SIGSHIP</h3><p>Before saying it's done, it checks the project on your machine. Nothing is uploaded.</p></div>
+<div class="card"><svg class="flag" viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg><h3>3. It fixes and repeats</h3><p>It fixes each problem in order and runs the check again until the answer is GO.</p></div>
+</div></section>
+
+<section class="block" id="setup"><h2>Set it up <span>in a minute.</span></h2>
+<div class="ptabs" role="tablist" aria-label="Your AI tool"><button type="button" role="tab" id="t-claude" aria-controls="p-claude" aria-selected="true">Claude Code</button><button type="button" role="tab" id="t-cursor" aria-controls="p-cursor" aria-selected="false" tabindex="-1">Cursor</button><button type="button" role="tab" id="t-other" aria-controls="p-other" aria-selected="false" tabindex="-1">Other MCP apps</button><button type="button" role="tab" id="t-prompt" aria-controls="p-prompt" aria-selected="false" tabindex="-1">No MCP? Use a prompt</button></div>
+<div role="tabpanel" id="p-claude" aria-labelledby="t-claude"><p>Run this once in your terminal. Claude Code can now check your project any time.</p><div class="code"><div class="code-bar"><span>Terminal</span><button class="copy-btn" type="button" data-copy="claude mcp add sigship -- npx -y sigship mcp" data-copy-label="Terminal">Copy</button></div><pre><code>claude mcp add sigship -- npx -y sigship mcp</code></pre></div></div>
+<div role="tabpanel" id="p-cursor" aria-labelledby="t-cursor" hidden><p>Add this to <code>.cursor/mcp.json</code> in your project, then reload Cursor.</p><div class="code"><div class="code-bar"><span>.cursor/mcp.json</span><button class="copy-btn" type="button" data-copy="{
+  &quot;mcpServers&quot;: {
+    &quot;sigship&quot;: { &quot;command&quot;: &quot;npx&quot;, &quot;args&quot;: [&quot;-y&quot;, &quot;sigship&quot;, &quot;mcp&quot;] }
+  }
+}" data-copy-label=".cursor/mcp.json">Copy</button></div><pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;sigship&quot;: { &quot;command&quot;: &quot;npx&quot;, &quot;args&quot;: [&quot;-y&quot;, &quot;sigship&quot;, &quot;mcp&quot;] }
+  }
+}</code></pre></div></div>
+<div role="tabpanel" id="p-other" aria-labelledby="t-other" hidden><p>Most apps that support MCP use this same setup. Find "MCP servers" in your app's settings and add:</p><div class="code"><div class="code-bar"><span>MCP server config</span><button class="copy-btn" type="button" data-copy="{
+  &quot;mcpServers&quot;: {
+    &quot;sigship&quot;: { &quot;command&quot;: &quot;npx&quot;, &quot;args&quot;: [&quot;-y&quot;, &quot;sigship&quot;, &quot;mcp&quot;] }
+  }
+}" data-copy-label="MCP server config">Copy</button></div><pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;sigship&quot;: { &quot;command&quot;: &quot;npx&quot;, &quot;args&quot;: [&quot;-y&quot;, &quot;sigship&quot;, &quot;mcp&quot;] }
+  }
+}</code></pre></div></div>
+<div role="tabpanel" id="p-prompt" aria-labelledby="t-prompt" hidden><p>Any AI tool can run commands for you. Paste this prompt and it will loop until your app is GO.</p><div class="code"><div class="code-bar"><span>Prompt</span><button class="copy-btn" type="button" data-copy="Run npx sigship in this project. Fix every SEV-1 and SEV-2 it reports, in order, changing only what each fix needs. Run it again and keep going until it exits 0 (GO). If a fix needs a key rotated or a dashboard changed, stop and tell me what to do." data-copy-label="Prompt">Copy</button></div><pre><code>Run npx sigship in this project. Fix every SEV-1 and SEV-2 it reports, in order, changing only what each fix needs. Run it again and keep going until it exits 0 (GO). If a fix needs a key rotated or a dashboard changed, stop and tell me what to do.</code></pre></div></div>
+<div class="callout"><p><b>Make it a habit for every agent.</b> <code>npx sigship init</code> adds this rule to your project's <code>AGENTS.md</code>, which most coding agents read, plus a pull request check.</p><div class="code"><div class="code-bar"><span>AGENTS.md</span><button class="copy-btn" type="button" data-copy="## Definition of done
+
+Before saying work is finished, run `npx sigship`.
+If it exits 1, fix what it reports and run it again. Only say the work is done after it exits 0." data-copy-label="AGENTS.md">Copy</button></div><pre><code>## Definition of done
+
+Before saying work is finished, run `npx sigship`.
+If it exits 1, fix what it reports and run it again. Only say the work is done after it exits 0.</code></pre></div></div></section>
+
+<section class="block"><h2>What your agent gets <span class="dev-tag">For developers</span></h2>
+<p class="sub">The MCP server runs locally over stdio, has no dependencies, never changes your files and makes no network calls without a licence key.</p>
+<div class="cards"><div class="card dark"><h3><code>sigship_check</code></h3><p>Read a project folder and return a GO or NO-GO verdict with each production problem, where it is, and how to fix it. Runs locally and changes no files.</p>
+<table class="ref"><thead><tr><th>Input</th><th>Type</th><th>Meaning</th></tr></thead><tbody><tr><td><code>path</code></td><td>string</td><td>Absolute path of the project folder to check.</td></tr><tr><td><code>strict</code> <small>(optional)</small></td><td>boolean</td><td>Also block on SEV-3 findings.</td></tr></tbody></table></div><div class="card dark"><h3><code>sigship_explain</code></h3><p>Explain one SIGSHIP check: what goes wrong and how to fix it.</p>
+<table class="ref"><thead><tr><th>Input</th><th>Type</th><th>Meaning</th></tr></thead><tbody><tr><td><code>id</code></td><td>string</td><td>The check id, for example rls-missing.</td></tr></tbody></table></div></div>
+<p class="sub">The server also tells the agent: don't say it's done while the verdict is NO-GO.</p></section>
+
+<section class="block"><h2>Questions</h2><div class="acc">
+<details><summary>Does my agent upload my code anywhere?</summary><div class="acc-body"><p>No. SIGSHIP runs on your machine and reads files there. The free tool makes no network calls at all.</p></div></details>
+<details><summary>Can SIGSHIP change my code?</summary><div class="acc-body"><p>No. It only reads. Your AI agent makes the fixes, using SIGSHIP's instructions.</p></div></details>
+<details><summary>What if a fix needs something outside the code?</summary><div class="acc-body"><p>Some fixes need a key rotated or a dashboard setting changed. The prompt tells your agent to stop and ask you for those.</p></div></details>
+<details><summary>Does a GO mean my app is safe?</summary><div class="acc-body"><p>No. GO means these checks found nothing that blocks launch. SIGSHIP uses pattern checks, so it can miss real problems and flag safe code.</p></div></details>
+</div></section>
+<section class="cta-band" aria-labelledby="cta-h">
+<div><h2 id="cta-h">Check your app before your users do.</h2><p>Free, open source, and nothing leaves your machine.</p></div>
+<div><div class="cta-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+<div class="cta-links"><a href="/docs/">Read the docs</a><a href="/pricing/">See pricing</a><a href="/#waitlist">Join the waitlist</a></div></div>
+</section>
+</main>
+<footer class="site-foot">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+      <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
+      <div class="foot-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+      <p class="ver-chip">v0.3.1 · <a href="https://github.com/sigship/sigship/blob/main/CHANGELOG.md">Changelog</a></p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
+      <div><p>Resources</p><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
+      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
+    </nav>
+  </div>
+  <div class="foot-ctl">
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-f" value="system"><span>System</span></label><label><input type="radio" name="theme-f" value="light"><span>Day</span></label><label><input type="radio" name="theme-f" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-f" value="on"><span>On</span></label><label><input type="radio" name="motion-f" value="off"><span>Off</span></label></span></fieldset>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Zoof04 Inc.</span>
+    <span class="foot-status"><span class="lamp warm" aria-hidden="true"></span>The free tool runs on your machine. Nothing leaves it.</span>
+    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
+  </div>
+  <div class="foot-word" aria-hidden="true"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><b>G</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><b>H</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><b>P</b></span></div>
+</footer>
+<dialog class="menu" id="menu" aria-label="Menu" closedby="any">
+  <div class="menu-in">
+    <div class="menu-head"><span>Menu</span><button class="icon-btn" type="button" commandfor="menu" command="close" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <ol class="menu-list">
+      <li><a href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Home</a></li>
+      <li><a href="/features/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Features</a></li>
+      <li><a href="/ai-agents/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>AI agents</a></li>
+      <li><a href="/pricing/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Pricing</a></li>
+      <li><a href="/docs/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg>Docs</a></li>
+      <li><a href="/resources/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Resources</a></li>
+      <li><a href="/community/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Community</a></li>
+    </ol>
+    <button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-m" value="system"><span>System</span></label><label><input type="radio" name="theme-m" value="light"><span>Day</span></label><label><input type="radio" name="theme-m" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-m" value="on"><span>On</span></label><label><input type="radio" name="motion-m" value="off"><span>Off</span></label></span></fieldset>
+    <p class="menu-by">SIGSHIP is made by zoof04.</p>
+  </div>
+</dialog>
+<p class="sr" id="live" aria-live="polite"></p>
+</body>
+</html>

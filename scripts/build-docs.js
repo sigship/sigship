@@ -5,6 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { RULES } from '../src/rules.js';
 import { icon, tokens } from './marks.js';
+import { PRODUCT_PAGES } from './pages.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const site = join(here, '../site');
@@ -34,7 +35,7 @@ const MENU = forInner(grab('<dialog class="menu"', '</dialog>'));
 const FOOTER = forInner(grab('<footer class="site-foot">', '</footer>'));
 
 // A page without a path, such as the 404 page, is kept out of search results.
-const shell = ({ title, description, path, body }) => `<!doctype html>
+const shell = ({ title, description, path, body, wide = false }) => `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -56,7 +57,7 @@ ${HEAD_SCRIPT}
 <a class="skip" href="#main">Skip to content</a>
 ${DEFS}
 ${HEADER}
-<main class="page" id="main">
+<main class="page${wide ? ' wide' : ''}" id="main">
 ${body}
 </main>
 ${FOOTER}
@@ -190,7 +191,9 @@ write('terms', shell({
 <p>Polar is the merchant of record for payments. The service is provided by Zoof04 Inc. Email <a href="mailto:support@sigship.dev">support@sigship.dev</a>.</p>`,
 }));
 
-const urls = ['/', '/privacy/', '/terms/', '/brand/', ...RULES.map((r) => `/checks/${r.id}/`)];
+for (const pg of PRODUCT_PAGES) write(pg.path.slice(1, -1), shell({ ...pg, body: pg.body, wide: true }));
+
+const urls = ['/', ...PRODUCT_PAGES.map((pg) => pg.path), '/privacy/', '/terms/', '/brand/', ...RULES.map((r) => `/checks/${r.id}/`)];
 writeFileSync(join(site, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc></url>`).join('\n')}
