@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-verdict="nogo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,13 +8,6 @@
 <link rel="canonical" href="https://sigship.dev/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
-<script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem('sigship-theme')}catch(e){}if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')})()</script>
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#edf2f6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#060b14" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="/style.css">
-<script src="/site.js" defer></script>
 <meta property="og:title" content="SIGSHIP: the go/no-go check for AI-built apps">
 <meta property="og:description" content="The postmortem, before the outage. Runs on your machine. Exits 0 only when it finds nothing serious.">
 <meta property="og:image" content="https://sigship.dev/og.png">
@@ -23,520 +16,427 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"SIGSHIP","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Linux, Windows","description":"The go/no-go check for AI-built apps.","url":"https://sigship.dev/","publisher":{"@type":"Organization","name":"zoof04","url":"https://zoof04.com"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
 </script>
+<meta name="theme-color" content="#edf2f6">
+<meta name="color-scheme" content="light dark">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/spline-sans-mono.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#060b14':'#edf2f6';if(m==='off')d.dataset.motion='off';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
+<link rel="stylesheet" href="/home.css">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></symbol>
+<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
+<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></symbol>
+<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></symbol>
+<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
+<symbol id="g-dagger" viewBox="0 0 10 18"><path d="M4.1 0h1.8v4.6h3.6v1.8H5.9V18H4.1V6.4H.5V4.6h3.6z"/></symbol>
+<symbol id="g-right" viewBox="0 0 16 16"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></symbol>
+<symbol id="g-down" viewBox="0 0 16 16"><path d="M8 2.5V13M4 9l4 4 4-4"/></symbol>
+<symbol id="g-up" viewBox="0 0 16 16"><path d="M8 13.5V3M4 7l4-4 4 4"/></symbol>
+<symbol id="g-prev" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></symbol>
+<symbol id="g-next" viewBox="0 0 16 16"><path d="M6 3.5l4.5 4.5L6 12.5"/></symbol>
+<symbol id="g-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+</defs></svg>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></symbol>
-    <symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
-    <symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></symbol>
-    <symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></symbol>
-    <symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
-  </defs>
-</svg>
-
-<header class="mast">
-  <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-  <nav class="nav" aria-label="Main"><a href="/#how">How it works</a><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a href="/#cloud">Cloud</a><a href="https://github.com/sigship/sigship">GitHub</a></nav>
-  <div class="mast-actions">
-    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
-    <a class="btn btn-sm" href="/#start">Get started</a>
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
+<header class="mast" id="top">
+  <a class="brand" href="#top"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+  <div class="hud" aria-hidden="true">
+    <div class="mini"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><i class="on"></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><i></i></span></div>
+    <span class="chip"><span class="lamp vlamp"></span><span><span class="dim">DEMO ·</span> <span data-chip>NO-GO · 3 to fix</span></span></span>
   </div>
-  <div class="menu" id="menu" hidden>
-    <nav aria-label="Menu"><a href="/#how">How it works</a><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a href="/#cloud">Cloud</a><a href="https://github.com/sigship/sigship">GitHub</a><a href="/#waitlist">Join the waitlist</a><a href="https://zoof04.com" target="_blank" rel="noopener">by zoof04<span class="sr"> (opens in a new tab)</span></a></nav>
-    <a class="btn block" href="/#start">Get started free</a>
+  <nav class="nav" aria-label="Main"><a href="#how">How it works</a><a href="#checks">Checks</a><a href="#where">Where it runs</a><a href="#pricing">Pricing</a><a href="https://github.com/sigship/sigship">GitHub</a></nav>
+  <div class="acts">
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+    <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
+    <button class="icon-btn menu-btn" type="button" commandfor="menu" command="show-modal" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
   </div>
 </header>
 
 <div class="hoist-wrap">
-  <ol class="hoist" aria-label="SIGSHIP spelled in international signal flags">
-    <li style="--i:0"><button type="button" data-meaning="my engines are going full speed astern" aria-label="Flag S"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg></button></li>
-    <li style="--i:1"><button type="button" data-meaning="I am altering my course to port" aria-label="Flag I"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg></button></li>
-    <li style="--i:2"><button type="button" data-meaning="I require a pilot" aria-label="Flag G"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg></button></li>
-    <li style="--i:3"><button type="button" data-meaning="my engines are going full speed astern" aria-label="Flag S"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg></button></li>
-    <li style="--i:4"><button type="button" data-meaning="I have a pilot on board" aria-label="Flag H"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg></button></li>
-    <li style="--i:5"><button type="button" data-meaning="I am altering my course to port" aria-label="Flag I"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg></button></li>
-    <li style="--i:6"><button type="button" data-meaning="all aboard, the vessel is about to proceed to sea" aria-label="Flag P"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg></button></li>
+  <span class="rope" aria-hidden="true"></span>
+  <ol class="hoist" aria-label="SIGSHIP spelled in International Code of Signals flags. Use the arrow keys to read each flag.">
+    <li style="--i:0;--d:3;--side:1"><span class="glow" aria-hidden="true"></span><span class="shade" aria-hidden="true"></span><button type="button" aria-label="Flag S, Sierra" aria-pressed="false" data-l="S" data-p="Sierra" data-meaning="my engines are going full speed astern"><span class="fl"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg></span><span class="bay" aria-hidden="true"><span class="lamp warm"></span>S</span></button></li>
+    <li style="--i:1;--d:2;--side:1"><span class="glow" aria-hidden="true"></span><span class="shade" aria-hidden="true"></span><button type="button" aria-label="Flag I, India" aria-pressed="false" tabindex="-1" data-l="I" data-p="India" data-meaning="I am altering my course to port"><span class="fl"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg></span><span class="bay" aria-hidden="true"><span class="lamp warm off"></span>I</span></button></li>
+    <li style="--i:2;--d:1;--side:1"><span class="glow" aria-hidden="true"></span><span class="shade" aria-hidden="true"></span><button type="button" aria-label="Flag G, Golf" aria-pressed="false" tabindex="-1" data-l="G" data-p="Golf" data-meaning="I require a pilot"><span class="fl"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg></span><span class="bay" aria-hidden="true"><span class="lamp warm off"></span>G</span></button></li>
+    <li style="--i:3;--d:0;--side:0"><span class="glow" aria-hidden="true"></span><span class="shade" aria-hidden="true"></span><button type="button" aria-label="Flag S, Sierra" aria-pressed="false" tabindex="-1" data-l="S" data-p="Sierra" data-meaning="my engines are going full speed astern"><span class="fl"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg></span><span class="bay" aria-hidden="true"><span class="lamp warm off"></span>S</span></button></li>
+    <li style="--i:4;--d:1;--side:-1"><span class="glow" aria-hidden="true"></span><span class="shade" aria-hidden="true"></span><button type="button" aria-label="Flag H, Hotel" aria-pressed="false" tabindex="-1" data-l="H" data-p="Hotel" data-meaning="I have a pilot on board"><span class="fl"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg></span><span class="bay" aria-hidden="true"><span class="lamp warm off"></span>H</span></button></li>
+    <li style="--i:5;--d:2;--side:-1"><span class="glow" aria-hidden="true"></span><span class="shade" aria-hidden="true"></span><button type="button" aria-label="Flag I, India" aria-pressed="false" tabindex="-1" data-l="I" data-p="India" data-meaning="I am altering my course to port"><span class="fl"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg></span><span class="bay" aria-hidden="true"><span class="lamp warm off"></span>I</span></button></li>
+    <li style="--i:6;--d:3;--side:-1"><span class="glow" aria-hidden="true"></span><span class="shade" aria-hidden="true"></span><button type="button" aria-label="Flag P, Papa" aria-pressed="false" tabindex="-1" data-l="P" data-p="Papa" data-meaning="all aboard, the vessel is about to proceed to sea"><span class="fl"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg></span><span class="bay" aria-hidden="true"><span class="lamp warm off"></span>P</span></button></li>
   </ol>
-  <p class="signal" id="signal" aria-live="polite"><b>Flag P:</b> all aboard, the vessel is about to proceed to sea.</p>
+  <p class="signal" id="signal" aria-live="polite">Tap a flag to read its signal.</p>
+  <span class="mastlamp" aria-hidden="true"><span class="lamp vlamp big"></span><b></b><span>DEMO</span></span>
 </div>
 
-<main>
-  <div class="hero">
-    <canvas class="particles" aria-hidden="true"></canvas>
-    <p class="pill"><span class="pill-dot" aria-hidden="true"></span><span>Free and open source <b>·</b> MIT <b>·</b> Runs on your machine</span></p>
-    <h1>The postmortem, before the outage.</h1>
-    <p class="lede">SIGSHIP reads your AI-built app on your own machine and lists what will break in production. It exits 0 only when it finds nothing serious, which gives your coding agent a real test for done.</p>
-    <div class="run" id="start">
-      <div class="cmd"><span>npx sigship</span><button type="button" id="copy">Copy</button></div>
-      <small>No signup. Nothing leaves your machine.</small>
-    </div>
-    <ol class="verdict" aria-label="Every run ends in one of two verdicts">
-      <li class="no"><b>NO-GO</b><span>Exit 1. Your fix list is ready.</span></li>
-      <li class="to" aria-hidden="true">→</li>
-      <li class="go"><b>GO</b><span>Exit 0. Nothing serious found.</span></li>
-    </ol>
-  </div>
-
-  <div class="ticker" aria-hidden="true"><div class="ticker-track" data-ticker><span><b class="t1">SEV-1</b>A live secret is sitting in your code</span><span><b class="t1">SEV-1</b>Your .env file is committed</span><span><b class="t1">SEV-1</b>A server secret has a browser-visible name</span><span><b class="t1">SEV-1</b>Your AI key runs in the browser</span><span><b class="t1">SEV-1</b>A database table has no row level security</span><span><b class="t1">SEV-1</b>A database policy lets anyone write</span><span><b class="t1">SEV-1</b>Your Stripe webhook accepts anything</span><span><b class="t1">SEV-1</b>User input may be pasted into a SQL query</span><span><b class="t2">SEV-2</b>Your AI route has no spending brake</span><span><b class="t2">SEV-2</b>Admin access is decided in the browser</span><span><b class="t2">SEV-2</b>Raw HTML goes straight onto the page</span><span><b class="t3">SEV-3</b>Any website can call your API</span><span><b class="t3">SEV-3</b>A secret may be going to your logs</span><span><b class="t3">SEV-3</b>One crash takes down the whole screen</span><span><b class="t3">SEV-3</b>You will hear about errors from your users</span><span><b class="t3">SEV-3</b>Nothing checks that a change did not break login</span><span><b class="t3">SEV-3</b>Your deploys are not repeatable</span><span><b class="t1">SEV-1</b>A live secret is sitting in your code</span><span><b class="t1">SEV-1</b>Your .env file is committed</span><span><b class="t1">SEV-1</b>A server secret has a browser-visible name</span><span><b class="t1">SEV-1</b>Your AI key runs in the browser</span><span><b class="t1">SEV-1</b>A database table has no row level security</span><span><b class="t1">SEV-1</b>A database policy lets anyone write</span><span><b class="t1">SEV-1</b>Your Stripe webhook accepts anything</span><span><b class="t1">SEV-1</b>User input may be pasted into a SQL query</span><span><b class="t2">SEV-2</b>Your AI route has no spending brake</span><span><b class="t2">SEV-2</b>Admin access is decided in the browser</span><span><b class="t2">SEV-2</b>Raw HTML goes straight onto the page</span><span><b class="t3">SEV-3</b>Any website can call your API</span><span><b class="t3">SEV-3</b>A secret may be going to your logs</span><span><b class="t3">SEV-3</b>One crash takes down the whole screen</span><span><b class="t3">SEV-3</b>You will hear about errors from your users</span><span><b class="t3">SEV-3</b>Nothing checks that a change did not break login</span><span><b class="t3">SEV-3</b>Your deploys are not repeatable</span></div></div>
-
-  <section class="how" id="how">
-    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> How it works</p>
-    <h2>Reads your repo. Finds what will break. Hands you the fix.</h2>
-    <div class="scan" data-scan data-reveal>
-      <div class="scan-files" role="img" aria-label="Animation: SIGSHIP reads six files of a demo app, flags two SEV-1 problems and one SEV-2, says NO-GO, then turns GO once they are fixed.">
-        <div class="scan-bar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span class="scan-name">demo-app</span><span class="scan-phase" data-phase>Ready</span></div>
-        <ul aria-hidden="true">
-          <li data-sev="1" data-title="Stripe webhook accepts anything"><code>src/api/stripe-webhook.ts</code><b></b></li>
-          <li><code>src/App.tsx</code><b></b></li>
-          <li data-sev="1" data-title="Table has no row level security"><code>supabase/migrations/001_init.sql</code><b></b></li>
-          <li><code>package.json</code><b></b></li>
-          <li data-sev="2" data-title="AI route has no spending brake"><code>src/api/chat.ts</code><b></b></li>
-          <li><code>package-lock.json</code><b></b></li>
-        </ul>
-        <div class="beam" aria-hidden="true"></div>
+<main id="main">
+  <section class="hero" id="start" data-stage="0" aria-labelledby="h1">
+    <h1 id="h1">The postmortem, before the outage.</h1>
+    <div class="copy">
+      <p class="lede">SIGSHIP reads your AI-built app on your own machine and lists what will break in production.</p>
+      <p class="lede">It exits 0 only when it finds nothing serious, which gives your coding agent a real test for done.</p>
+      <div class="pad" id="pad">
+        <div class="pad-tabs" role="tablist" aria-label="How to run it"><button role="tab" aria-selected="true" type="button" data-cmd="npx sigship">Terminal</button><button role="tab" aria-selected="false" tabindex="-1" type="button" data-cmd="Run npx sigship in this project. Fix every SEV-1 and SEV-2 it reports, in order, changing only what each fix needs. Run it again and keep going until it exits 0 (GO). If a fix needs a key rotated or a dashboard changed, stop and tell me what to do." data-agent>Coding agent</button><button role="tab" aria-selected="false" tabindex="-1" type="button" data-cmd="claude mcp add sigship -- npx -y sigship mcp">MCP</button></div>
+        <div class="pad-row" role="tabpanel" aria-label="Command"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship" data-pad-copy>Copy</button></div>
       </div>
-      <div class="scan-side" aria-hidden="true">
-        <div class="scan-stat"><span data-files>0</span><small>files read</small></div>
-        <div class="scan-stat"><span>17</span><small>checks run</small></div>
-        <div class="scan-stat"><span data-found>0</span><small>launch blockers</small></div>
-        <div class="scan-verdict" data-verdict><b>Waiting</b><small>Press play on your repo: npx sigship</small></div>
-      </div>
+      <p class="pad-note">No signup. The free tool runs on your machine and uploads nothing.<span class="node"> Needs Node.js 22+.</span> <a href="#where">Never used a terminal?</a></p>
+      <ul class="spec"><li>Free · MIT</li><li><button type="button" popovertarget="pv-spec-checks" interestfor="pv-spec-checks" style="anchor-name:--a-pv-spec-checks">17 checks</button></li><li>Exit 0 = GO</li><li class="ver"><button type="button" popovertarget="pv-spec-ver" interestfor="pv-spec-ver" style="anchor-name:--a-pv-spec-ver">v0.3.1</button></li></ul>
     </div>
-    <ol class="how-steps">
-      <li data-reveal><span>01</span><b>Read</b> every file in your repo, on your machine.</li>
-      <li data-reveal><span>02</span><b>Match</b> 17 patterns from how AI-built apps fail.</li>
-      <li data-reveal><span>03</span><b>Write</b> the postmortem, worst first, with a fix for each.</li>
-      <li data-reveal><span>04</span><b>Exit 0</b> only when nothing serious is left.</li>
-    </ol>
-  </section>
+    <div class="con-col">
+      <figure class="console" id="console" aria-labelledby="con-cap">
+        <div class="con-clip">
+          <div class="con-grid" aria-hidden="true"></div>
+          <div class="beam" aria-hidden="true"></div>
+          <div class="con-bar">
+            <div class="con-id"><b>demo-app</b><span>sigship 0.3.1 · <span data-runlabel>run 1</span></span></div>
+            <div class="con-v">
+              <span class="lamp vlamp pilot" aria-hidden="true"></span>
+              <div class="pl-wrap">
+                <span class="bloom" aria-hidden="true"></span>
+                <span class="halo" aria-hidden="true"></span>
+                <div class="placard" role="img" aria-label="Verdict: NO-GO, exit 1">
+                  <span class="pl-face" aria-hidden="true"><span class="pend">–</span><span class="word"><span class="neg">NO-<i class="x"></i></span><span class="pos">GO</span></span></span>
+                  <small aria-hidden="true">EXIT <span data-exit>1</span></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <dl class="con-tel">
+            <div><dt>Files</dt><dd><button class="tel" type="button" popovertarget="pv-files" interestfor="pv-files" style="anchor-name:--a-pv-files"><span class="tv" data-tel="files">6</span><span class="sr"> files read. Where this number comes from</span></button></dd></div>
+            <div><dt>Time</dt><dd><button class="tel" type="button" popovertarget="pv-time" interestfor="pv-time" style="anchor-name:--a-pv-time"><span class="tv" data-tel="time">27<small>ms</small></span><span class="sr"> scan time. Where this number comes from</span></button></dd></div>
+            <div><dt>Checks</dt><dd><button class="tel" type="button" popovertarget="pv-checks" interestfor="pv-checks" style="anchor-name:--a-pv-checks"><span class="tv" data-tel="checks">17</span><span class="sr"> checks ran. Where this number comes from</span></button></dd></div>
+            <div class="hold"><dt>Blockers</dt><dd><button class="tel" type="button" popovertarget="pv-blockers" interestfor="pv-blockers" style="anchor-name:--a-pv-blockers"><span class="tv" data-tel="blockers">3</span><span class="sr"> findings block launch. Where this number comes from</span></button></dd></div>
+          </dl>
+          <div class="con-out">
+            <p class="ln c-cmd" data-vt="l-cmd"><span class="p">~/demo-app $</span> <span class="typed" data-at="enter">npx sigship</span></p>
+            <p class="ln c-sum" data-at="sum" data-vt="l-sum"><b>SIGSHIP</b> read 6 files in 27 ms, ran 17 checks</p>
+            <p class="ln c-meta" data-at="meta" data-vt="l-meta">Postmortem, written before the outage. Worst first.</p>
+            <ol class="con-rows" aria-label="Findings, worst first">
+<li class="row s1" data-label="SEV-1  Your Stripe webhook accepts anything"><span class="lamp red" aria-hidden="true"></span><span class="sev" data-vt="l-f0s">SEV-1</span><b data-vt="l-f0t">Your Stripe webhook accepts anything</b><button class="path" type="button" popovertarget="pk-0" interestfor="pk-0" style="anchor-name:--a-pk-0" data-vt="l-f0p"><span class="sr">Show the code: </span>src/api/stripe-webhook.ts:3</button></li>
+<li class="row s1" data-label="SEV-1  A database table has no row level security"><span class="lamp red" aria-hidden="true"></span><span class="sev" data-vt="l-f1s">SEV-1</span><b data-vt="l-f1t">A database table has no row level security</b><button class="path" type="button" popovertarget="pk-1" interestfor="pk-1" style="anchor-name:--a-pk-1" data-vt="l-f1p"><span class="sr">Show the code: </span>supabase/migrations/001_init.sql:1</button></li>
+<li class="row s2" data-label="SEV-2  Your AI route has no spending brake"><span class="lamp yellow" aria-hidden="true"></span><span class="sev" data-vt="l-f2s">SEV-2</span><b data-vt="l-f2t">Your AI route has no spending brake</b><button class="path" type="button" popovertarget="pk-2" interestfor="pk-2" style="anchor-name:--a-pk-2" data-vt="l-f2p"><span class="sr">Show the code: </span>src/api/chat.ts:2</button></li>
+            </ol>
+            <div class="c-v" data-at="vline"><p class="ln" data-vt="l-v"><span class="nogo">NO-GO</span>  2 SEV-1, 1 SEV-2, 0 SEV-3. Exit 1.</p><p class="ln c-vh" data-vt="l-vh">Paste the fixes into your AI tool: npx sigship --prompt</p></div>
+            <div class="con-r2" hidden>
+              <p class="ln c-com" data-at="c2" data-vt="l-c2"># Fixes from npx sigship --prompt, applied to 4 files. In your project, your AI tool does this step.</p>
+              <p class="ln c-cmd c-cmd2" data-at="cmd2" data-vt="l-cmd2"><span class="p">~/demo-app $</span> npx sigship</p>
+              <p class="ln c-sum c-sum2" data-at="sum2" data-vt="l-sum2"><b>SIGSHIP</b> read 6 files in 20 ms, ran 17 checks</p>
+              <p class="ln go-block" data-at="go2"><span class="go-line" data-vt="l-go"><b>GO</b>  0 SEV-1, 0 SEV-2, 0 SEV-3. Exit 0.</span><span class="caveat" data-vt="l-cav">This means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits"><svg class="g dag" aria-hidden="true"><use href="#g-dagger"/></svg><span class="sr">Footnote: </span> What a GO doesn't mean</a></span></p>
+            </div>
+          </div>
+          <pre class="con-raw" hidden aria-label="Raw output, exactly as sigship printed it"><span data-vt="l-cmd"><span class="dim">~/demo-app $</span> npx sigship</span>
 
-  <figure class="console" data-reveal>
-    <div class="console-bar">
-      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
-      <div role="tablist" aria-label="Example run">
-        <button type="button" role="tab" id="tab-before" aria-selected="true" aria-controls="run-before">Before</button>
-        <button type="button" role="tab" id="tab-after" aria-selected="false" aria-controls="run-after" tabindex="-1">After fixes</button>
-      </div>
-    </div>
-  <pre class="term" id="run-before" role="tabpanel" aria-labelledby="tab-before" tabindex="0"><code><b>$ npx sigship</b>
+<span data-vt="l-sum"><b>SIGSHIP</b><span class="dim"> read 6 files in 27 ms, ran 17 checks</span></span>
 
-<b>SIGSHIP</b> <span class="dim">read 6 files in 22 ms, ran 17 checks</span>
+<span class="dim" data-vt="l-meta">Postmortem, written before the outage. Worst first.</span>
 
-<span class="dim">Postmortem, written before the outage. Worst first.</span>
-
-<span class="s1">SEV-1</span>  <b>Your Stripe webhook accepts anything</b>
-       <span class="dim">src/api/stripe-webhook.ts:3  Handles Stripe events with no signature check in this file.</span>
-       Someone posts a fake "payment succeeded" event to your endpoint and
+<span class="s1" data-vt="l-f0s">SEV-1</span>  <b data-vt="l-f0t">Your Stripe webhook accepts anything</b>
+       <span class="dim"><span data-vt="l-f0p">src/api/stripe-webhook.ts:3</span>  Handles Stripe events with no signature check in this file.</span>
+       Someone posts a fake &quot;payment succeeded&quot; event to your endpoint and
        gets your paid plan for free.
 
-<span class="s1">SEV-1</span>  <b>A database table has no row level security</b>
-       <span class="dim">supabase/migrations/001_init.sql:1  Table profiles is created without row level security.</span>
+<span class="s1" data-vt="l-f1s">SEV-1</span>  <b data-vt="l-f1t">A database table has no row level security</b>
+       <span class="dim"><span data-vt="l-f1p">supabase/migrations/001_init.sql:1</span>  Table profiles is created without row level security.</span>
        Anyone with your public Supabase key can read this table. That key
        ships in your JavaScript.
 
-<span class="s2">SEV-2</span>  <b>Your AI route has no spending brake</b>
-       <span class="dim">src/api/chat.ts:2  This route calls a paid AI API and the project has no rate limiter.</span>
+<span class="s2" data-vt="l-f2s">SEV-2</span>  <b data-vt="l-f2t">Your AI route has no spending brake</b>
+       <span class="dim"><span data-vt="l-f2p">src/api/chat.ts:2</span>  This route calls a paid AI API and the project has no rate limiter.</span>
        One script loops on this endpoint overnight and you wake up to the
        invoice.
 
-<span class="s1">NO-GO</span>  3 SEV-1, 1 SEV-2, 3 SEV-3. Exit 1.
-<span class="dim">Paste the fixes into your AI tool: npx sigship --prompt</span></code></pre>
-  <pre class="term done" id="run-after" role="tabpanel" aria-labelledby="tab-after" tabindex="0" hidden><code><b>$ npx sigship</b>
+<span data-vt="l-v"><span class="s1">NO-GO</span>  2 SEV-1, 1 SEV-2, 0 SEV-3. Exit 1.</span>
+<span class="dim" data-vt="l-vh">Paste the fixes into your AI tool: npx sigship --prompt</span>
 
-<b>SIGSHIP</b> <span class="dim">read 6 files in 32 ms, ran 17 checks</span>
+<span class="raw2" hidden>
+<span class="com" data-vt="l-c2"># Fixes from npx sigship --prompt, applied to 4 files. In your project, your AI tool does this step.</span>
+<span data-vt="l-cmd2"><span class="dim">~/demo-app $</span> npx sigship</span>
 
-<span class="go">GO</span>  0 SEV-1, 0 SEV-2, 0 SEV-3. Exit 0.
-<span class="dim">This means these checks found nothing that blocks launch. It does not prove the app is safe.</span></code></pre>
-    <figcaption class="term-note">Shortened output from a small demo app, before and after its fixes.</figcaption>
-  </figure>
+<span data-vt="l-sum2"><b>SIGSHIP</b><span class="dim"> read 6 files in 20 ms, ran 17 checks</span></span>
 
-  <section class="stats" aria-label="SIGSHIP in numbers">
-    <dl>
-      <div data-reveal><dt><span data-count="17">17</span></dt><dd>checks, chosen for how AI-built apps fail</dd></div>
-      <div data-reveal><dt>0 bytes</dt><dd>of your code uploaded by the free tool</dd></div>
-      <div data-reveal><dt>1 command</dt><dd>no signup, no config, no dependencies</dd></div>
-      <div data-reveal><dt>Exit 0</dt><dd>means GO, so your coding agent knows when it is done</dd></div>
-    </dl>
-  </section>
+<span data-vt="l-go"><span class="ok">GO</span>  0 SEV-1, 0 SEV-2, 0 SEV-3. Exit 0.</span>
+<span class="dim" data-vt="l-cav">This means these checks found nothing that blocks launch. It does not prove the app is safe.</span>
 
-  <section class="split" id="why">
-    <div class="signals">
-      <div class="sig"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg><p><b>In harbour</b>Flag P: the vessel is about to sail.</p></div>
-      <span class="op" aria-hidden="true">+</span>
-      <div class="sig"><code>SIGTERM</code><p><b>In Unix</b>A signal a program has to act on.</p></div>
-      <span class="op" aria-hidden="true">=</span>
-      <div class="sig out"><strong>SIGSHIP</strong><p>Ready to leave port, or not yet.</p></div>
-    </div>
-    <div>
-      <h2>Ships raise a flag before they leave port. Software never did.</h2>
-      <p>In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In Unix, a signal tells a running program something it has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn’t yet.</p>
+</span></pre>
+          <div class="rec needs-js">
+            <button class="rec-step" type="button" data-prev aria-label="Previous line"><svg class="g" aria-hidden="true"><use href="#g-prev"/></svg></button>
+            <div class="rec-track"><div class="rec-ticks" aria-hidden="true"></div><input type="range" min="0" max="100" step="1" value="100" aria-label="Replay position. Arrow keys jump between printed lines."></div>
+            <button class="rec-step" type="button" data-nextevt aria-label="Next line"><svg class="g" aria-hidden="true"><use href="#g-next"/></svg></button>
+          </div>
+          <p class="rec-read needs-js"><span data-evt></span><span data-clock></span></p>
+          <div class="con-foot needs-js">
+            <button class="ghost next-run" type="button" data-next-run>Run it again after the fixes <svg class="g" aria-hidden="true"><use href="#g-right"/></svg></button>
+            <button class="ghost" type="button" data-raw aria-pressed="false">Raw output</button>
+            <div class="seg" role="group" aria-label="Replay"><span aria-hidden="true">Replay</span><button type="button" data-replay="slow" aria-label="Replay slowly">Slow</button><button type="button" data-replay="real" aria-label="Replay at real speed">Real</button></div>
+          </div>
+          <figcaption class="con-cap" id="con-cap">Real output of sigship 0.3.1 on a small demo app we wrote with these mistakes. Shortened.</figcaption>
+        </div>
+      </figure>
+      <a class="see-fix" href="#how">3 things block this launch. See each fix <svg class="g" aria-hidden="true"><use href="#g-down"/></svg></a>
     </div>
   </section>
 
-  <section id="where">
-    <h2>It runs where the work happens.</h2>
-    <dl class="ways">
-      <div>
-        <dt>Your terminal</dt>
-        <dd><p>Check any project, then paste the fixes into Lovable, Cursor, Bolt or Claude Code as one prompt.</p><code>npx sigship --prompt</code></dd>
-      </div>
-      <div>
-        <dt>Your browser</dt>
-        <dd><p>Prefer buttons to a terminal? Open a dashboard with the verdict, every finding and the fix prompt. It runs on your computer and uploads nothing.</p><code>npx sigship ui</code></dd>
-      </div>
-      <div>
-        <dt>Pull requests</dt>
-        <dd><p>Add a GitHub check that fails when a change brings a serious problem back.</p><code>npx sigship init</code></dd>
-      </div>
-      <div>
-        <dt>Your coding agent</dt>
-        <dd><p>Give your agent the check over MCP, with one instruction: don’t say it’s done while the verdict is NO-GO.</p><code>claude mcp add sigship -- npx -y sigship mcp</code></dd>
-      </div>
-    </dl>
+  <section class="sect" id="how" data-stage="1" aria-labelledby="how-h">
+    <p class="cap"><b>02</b><span>The fixes</span><i></i><span>Fig. 2</span></p>
+    <h2 id="how-h">Three things block this launch. <span>Here is each line, what goes wrong and the fix.</span></h2>
+    <div class="plates">
+<article class="plate" id="fix-0" data-state="before">
+  <div class="plate-code">
+    <div class="plate-head"><span class="lamp red" aria-hidden="true"></span><span class="ph-sev s1-t">SEV-1</span><code>src/api/stripe-webhook.ts</code><span class="tag">Demo app</span>
+      <div class="ba" role="tablist" aria-label="Before or after the fix"><button role="tab" type="button" id="ba-0-b" aria-controls="pc-0-b" aria-selected="true">Before</button><button role="tab" type="button" id="ba-0-a" aria-controls="pc-0-a" aria-selected="false" tabindex="-1">After</button></div></div>
+    <pre class="code" id="pc-0-b" role="tabpanel" aria-labelledby="ba-0-b" tabindex="0"><span data-n="1">export async function POST(req) {</span><span data-n="2">  const event = await req.json();</span><span data-n="3" class="hit s1">  if (event.type === 'checkout.session.completed') await upgrade(event);</span><span data-n="4">}</span></pre>
+    <pre class="code" id="pc-0-a" role="tabpanel" aria-labelledby="ba-0-a" tabindex="0" hidden><span data-n="1">export async function POST(req) {</span><span data-n="2" class="fixed">  const sig = req.headers.get('stripe-signature');</span><span data-n="3" class="fixed">  const event = stripe.webhooks.constructEvent(await req.text(), sig, process.env.STRIPE_WEBHOOK_SECRET);</span><span data-n="4">  if (event.type === 'checkout.session.completed') await upgrade(event);</span><span data-n="5">}</span></pre>
+  </div>
+  <div class="plate-note">
+    <p class="pn-cap">01 · stripe-webhook.ts:3</p>
+    <h3>Your Stripe webhook accepts anything</h3>
+    <p class="pn-forecast">Someone posts a fake &quot;payment succeeded&quot; event to your endpoint and gets your paid plan for free.</p>
+    <p class="pn-fix"><b>The fix.</b> Verify every event with stripe.webhooks.constructEvent, using the raw request body and your webhook signing secret, before you act on it.</p>
+    <p class="stamp-credit">In your project, your AI tool makes this change from the SIGSHIP prompt. We wrote these fixed lines for the demo.</p>
+    <div class="pn-acts"><button class="btn-ink" type="button" data-copy="1. [SEV-1] Your Stripe webhook accepts anything
+   Where: src/api/stripe-webhook.ts:3
+   Fix: Verify every event with stripe.webhooks.constructEvent, using the raw request body and your webhook signing secret, before you act on it." data-copy-label="the fix prompt">Copy this fix prompt</button><a href="/checks/stripe-webhook-unverified/">About this check</a></div>
+  </div>
+</article>
+<article class="plate" id="fix-1" data-state="before">
+  <div class="plate-code">
+    <div class="plate-head"><span class="lamp red" aria-hidden="true"></span><span class="ph-sev s1-t">SEV-1</span><code>supabase/migrations/001_init.sql</code><span class="tag">Demo app</span>
+      <div class="ba" role="tablist" aria-label="Before or after the fix"><button role="tab" type="button" id="ba-1-b" aria-controls="pc-1-b" aria-selected="true">Before</button><button role="tab" type="button" id="ba-1-a" aria-controls="pc-1-a" aria-selected="false" tabindex="-1">After</button></div></div>
+    <pre class="code" id="pc-1-b" role="tabpanel" aria-labelledby="ba-1-b" tabindex="0"><span data-n="1" class="hit s1">create table public.profiles (id uuid primary key, email text);</span></pre>
+    <pre class="code" id="pc-1-a" role="tabpanel" aria-labelledby="ba-1-a" tabindex="0" hidden><span data-n="1">create table public.profiles (id uuid primary key, email text);</span><span data-n="2" class="fixed">alter table public.profiles enable row level security;</span><span data-n="3" class="fixed">create policy &quot;Owner only&quot; on public.profiles for all using (auth.uid() = id) with check (auth.uid() = id);</span></pre>
+  </div>
+  <div class="plate-note">
+    <p class="pn-cap">02 · 001_init.sql:1</p>
+    <h3>A database table has no row level security</h3>
+    <p class="pn-forecast">Anyone with your public Supabase key can read this table. That key ships in your JavaScript.</p>
+    <p class="pn-fix"><b>The fix.</b> Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner.</p>
+    <p class="stamp-credit">In your project, your AI tool makes this change from the SIGSHIP prompt. We wrote these fixed lines for the demo.</p>
+    <div class="pn-acts"><button class="btn-ink" type="button" data-copy="2. [SEV-1] A database table has no row level security
+   Where: supabase/migrations/001_init.sql:1
+   Fix: Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner." data-copy-label="the fix prompt">Copy this fix prompt</button><a href="/checks/rls-missing/">About this check</a></div>
+  </div>
+</article>
+<article class="plate" id="fix-2" data-state="before">
+  <div class="plate-code">
+    <div class="plate-head"><span class="lamp yellow" aria-hidden="true"></span><span class="ph-sev s2-t">SEV-2</span><code>src/api/chat.ts</code><span class="tag">Demo app</span>
+      <div class="ba" role="tablist" aria-label="Before or after the fix"><button role="tab" type="button" id="ba-2-b" aria-controls="pc-2-b" aria-selected="true">Before</button><button role="tab" type="button" id="ba-2-a" aria-controls="pc-2-a" aria-selected="false" tabindex="-1">After</button></div></div>
+    <pre class="code" id="pc-2-b" role="tabpanel" aria-labelledby="ba-2-b" tabindex="0"><span data-n="1">export async function POST(req) {</span><span data-n="2" class="hit s2">  return openai.chat.completions.create({ model: 'x', messages: [] });</span><span data-n="3">}</span></pre>
+    <pre class="code" id="pc-2-a" role="tabpanel" aria-labelledby="ba-2-a" tabindex="0" hidden><span data-n="1">export async function POST(req) {</span><span data-n="2" class="fixed">  await ratelimit.limit(ip);</span><span data-n="3">  return openai.chat.completions.create({ model: 'x', messages: [] });</span><span data-n="4">}</span></pre>
+  </div>
+  <div class="plate-note">
+    <p class="pn-cap">03 · chat.ts:2</p>
+    <h3>Your AI route has no spending brake</h3>
+    <p class="pn-forecast">One script loops on this endpoint overnight and you wake up to the invoice.</p>
+    <p class="pn-fix"><b>The fix.</b> Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard.</p>
+    <p class="stamp-credit">In your project, your AI tool makes this change from the SIGSHIP prompt. We wrote these fixed lines for the demo.</p>
+    <div class="pn-acts"><button class="btn-ink" type="button" data-copy="3. [SEV-2] Your AI route has no spending brake
+   Where: src/api/chat.ts:2
+   Fix: Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard." data-copy-label="the fix prompt">Copy this fix prompt</button><a href="/checks/ai-route-no-rate-limit/">About this check</a></div>
+  </div>
+</article>
+    </div>
+    <p class="again needs-js"><button class="btn-line" type="button" data-run-again>All 3 fixed? Run it again <svg class="g" aria-hidden="true"><use href="#g-up"/></svg></button></p>
   </section>
 
-  <section id="checks">
-    <h2>17 checks, chosen for how AI-built apps actually fail.</h2>
-    <div class="sevs">
-      <div class="sev1" data-reveal><h3><span>SEV-1</span></h3><p>Blocks launch. Exposes data or money.</p><ul data-sev="1"><li><a href="/checks/secret-in-code/"><b>A live secret is sitting in your code</b><span>Someone reads it from your repo or your JavaScript bundle, and the bill or the data breach arrives before you do.</span></a></li><li><a href="/checks/env-file-committed/"><b>Your .env file is committed</b><span>Every secret in that file is now in your git history, including every fork and clone of it.</span></a></li><li><a href="/checks/public-env-secret/"><b>A server secret has a browser-visible name</b><span>Your build tool copies it into the JavaScript every visitor downloads, where anyone can read it.</span></a></li><li><a href="/checks/ai-key-in-browser/"><b>Your AI key runs in the browser</b><span>A stranger copies your key from the network tab and spends your credit on their own project.</span></a></li><li><a href="/checks/rls-missing/"><b>A database table has no row level security</b><span>Anyone with your public Supabase key can read this table. That key ships in your JavaScript.</span></a></li><li><a href="/checks/rls-open-write/"><b>A database policy lets anyone write</b><span>Row level security is on, but this policy says yes to everyone, so a stranger can edit or delete your data.</span></a></li><li><a href="/checks/stripe-webhook-unverified/"><b>Your Stripe webhook accepts anything</b><span>Someone posts a fake &quot;payment succeeded&quot; event to your endpoint and gets your paid plan for free.</span></a></li><li><a href="/checks/sql-string-concat/"><b>User input may be pasted into a SQL query</b><span>Someone types a crafted value into a form and your database runs it as a command.</span></a></li></ul></div>
-      <div class="sev2" data-reveal><h3><span>SEV-2</span></h3><p>Blocks launch. Abuse is easy.</p><ul data-sev="2"><li><a href="/checks/ai-route-no-rate-limit/"><b>Your AI route has no spending brake</b><span>One script loops on this endpoint overnight and you wake up to the invoice.</span></a></li><li><a href="/checks/role-in-local-storage/"><b>Admin access is decided in the browser</b><span>Someone opens dev tools, changes one value, and becomes an admin.</span></a></li><li><a href="/checks/unsanitized-html/"><b>Raw HTML goes straight onto the page</b><span>A comment or profile field carries a script, and it runs in the browser of every visitor who sees it.</span></a></li></ul></div>
-      <div class="sev3" data-reveal><h3><span>SEV-3</span></h3><p>Reported. Blocks only with --strict.</p><ul data-sev="3"><li><a href="/checks/cors-wildcard/"><b>Any website can call your API</b><span>Another site calls your endpoints from its own pages, and you never see it in your logs as a problem.</span></a></li><li><a href="/checks/secret-in-logs/"><b>A secret may be going to your logs</b><span>Passwords or tokens end up in a log service that more people can read than your database.</span></a></li><li><a href="/checks/no-error-boundary/"><b>One crash takes down the whole screen</b><span>A single bad record gives your users a white page, and nobody tells you.</span></a></li><li><a href="/checks/no-error-tracking/"><b>You will hear about errors from your users</b><span>Your app fails for a week before someone is annoyed enough to email you.</span></a></li><li><a href="/checks/no-tests/"><b>Nothing checks that a change did not break login</b><span>A small fix goes live on Friday and signup is broken until Monday.</span></a></li><li><a href="/checks/no-lockfile/"><b>Your deploys are not repeatable</b><span>A dependency updates itself on the next deploy and production breaks with no code change.</span></a></li></ul></div>
+  <section class="sect" id="checks" data-stage="2" aria-labelledby="checks-h">
+    <p class="cap"><b>03</b><span>Every check</span><i></i><span>Fig. 3</span></p>
+    <h2 id="checks-h">All 17 checks, worst first. <span>And what is not checked.</span></h2>
+    <div class="board">
+      <p class="board-head"><span><b>17 checks</b> · 11 block launch</span><span>8 SEV-1 · 3 SEV-2 · 6 SEV-3 · 4 not checked</span></p>
+<details class="grp g1" open><summary><span class="lamp red" aria-hidden="true"></span><span class="gs">SEV-1</span><span class="gl">Blocks launch. Exposes data or money.</span><span class="gn">8</span></summary><ul><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>A live secret is sitting in your code</b><code>secret-in-code</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>Your .env file is committed</b><code>env-file-committed</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>A server secret has a browser-visible name</b><code>public-env-secret</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>Your AI key runs in the browser</b><code>ai-key-in-browser</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>A database table has no row level security</b><code>rls-missing</code><a class="in-demo" href="#fix-1">In the demo</a></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>A database policy lets anyone write</b><code>rls-open-write</code></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>Your Stripe webhook accepts anything</b><code>stripe-webhook-unverified</code><a class="in-demo" href="#fix-0">In the demo</a></li><li><span class="lamp red" aria-hidden="true"></span><span class="chip-sev s1">SEV-1</span><b>User input may be pasted into a SQL query</b><code>sql-string-concat</code></li></ul></details>
+<details class="grp g2"><summary><span class="lamp yellow" aria-hidden="true"></span><span class="gs">SEV-2</span><span class="gl">Blocks launch. Costs you or your users.</span><span class="gn">3</span></summary><ul><li><span class="lamp yellow" aria-hidden="true"></span><span class="chip-sev s2">SEV-2</span><b>Your AI route has no spending brake</b><code>ai-route-no-rate-limit</code><a class="in-demo" href="#fix-2">In the demo</a></li><li><span class="lamp yellow" aria-hidden="true"></span><span class="chip-sev s2">SEV-2</span><b>Admin access is decided in the browser</b><code>role-in-local-storage</code></li><li><span class="lamp yellow" aria-hidden="true"></span><span class="chip-sev s2">SEV-2</span><b>Raw HTML goes straight onto the page</b><code>unsanitized-html</code></li></ul></details>
+<details class="grp g3"><summary><span class="lamp slate" aria-hidden="true"></span><span class="gs">SEV-3</span><span class="gl">Notes. Worth fixing; does not block.</span><span class="gn">6</span></summary><ul><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>Any website can call your API</b><code>cors-wildcard</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>A secret may be going to your logs</b><code>secret-in-logs</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>One crash takes down the whole screen</b><code>no-error-boundary</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>You will hear about errors from your users</b><code>no-error-tracking</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>Nothing checks that a change did not break login</b><code>no-tests</code></li><li><span class="lamp slate" aria-hidden="true"></span><span class="chip-sev s3">SEV-3</span><b>Your deploys are not repeatable</b><code>no-lockfile</code></li></ul></details>
+<details class="grp g0"><summary><span class="lamp hollow" aria-hidden="true"></span><span class="gs">Not checked</span><span class="gl">What SIGSHIP cannot see</span><span class="gn">4</span></summary><ul><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Settings changed only in a dashboard</b><span class="nc">It reads your repo, not your Supabase or Stripe dashboard.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Your live, deployed site</b><span class="nc">Planned for Cloud, on the waitlist.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Secrets already in your git history</b><span class="nc">Planned for Pro, on the waitlist.</span></li><li><span class="lamp hollow" aria-hidden="true"></span><span class="chip-sev s0">NOT CHECKED</span><b>Your business logic</b><span class="nc">Whether the app does the right thing is yours to test.</span></li></ul></details>
     </div>
   </section>
 
-  <section class="limits" id="limits">
-    <h2>What it can’t do.</h2>
-    <ul>
-      <li>It uses pattern checks, so it can miss real problems and flag safe code.</li>
-      <li>It reads your repo, so it can’t see settings you changed only in a dashboard.</li>
-      <li>A GO means these checks found nothing that blocks launch. It doesn’t prove your app is safe.</li>
-    </ul>
+  <section class="sect" id="limits" data-stage="3" aria-labelledby="limits-h">
+    <p class="cap"><b>04</b><span>Limits</span><i></i><span>Fig. 4</span></p>
+    <h2 id="limits-h">What a GO doesn't mean.</h2>
+    <div class="log">
+      <h3>A GO means these checks found nothing that blocks launch. <span>It does not prove the app is safe.</span></h3>
+      <ol>
+        <li><code>FR-1</code><p>Pattern checks can miss real problems and flag safe code. <a href="https://github.com/sigship/sigship/issues">Report a false positive</a></p></li>
+        <li><code>FR-2</code><p>It reads your repo, so it can't see settings you changed only in a dashboard. Use your database provider's own advisor too.</p></li>
+        <li><code>FR-3</code><p>It reads code, not your live site.</p></li>
+      </ol>
+      <p class="log-foot">Ask for a <a href="#pricing">pilot review</a> when the stakes are high.</p>
+    </div>
   </section>
 
-  <section class="cloud" id="cloud">
-    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Coming soon</p>
-    <h2>SIGSHIP Cloud. Connect once, and it keeps watch.</h2>
-    <p class="note">For people who build with AI tools and don't live in a terminal. Connect your project, and SIGSHIP checks every change, watches your live site and tells you what to fix in plain English.</p>
-    <ol class="steps">
-      <li data-reveal><span class="step-n">01</span><h3>Connect</h3><p>Sign in with GitHub and pick a repo. Projects from AI builders connect through their GitHub sync, and projects from AI editors through the repo you push to.</p></li>
-      <li data-reveal><span class="step-n">02</span><h3>Watch</h3><p>SIGSHIP checks your code on every push and every night. It also probes your live site and your Supabase from the outside, the way an attacker would.</p></li>
-      <li data-reveal><span class="step-n">03</span><h3>Fix</h3><p>Each problem comes in plain English with a fix prompt ready for the tool you build with. Fix it, and SIGSHIP checks again on its own.</p></li>
-    </ol>
-    <div class="tools">
-      <p>Planned to work with projects built in</p>
-      <ul>
-        <li>GitHub</li><li>Lovable</li><li>Bolt</li><li>Replit</li><li>v0</li><li>Cursor</li><li>Claude Code</li><li>Codex</li><li>Copilot</li><li>Windsurf</li>
-      </ul>
-      <small>Names belong to their owners. SIGSHIP is not affiliated with them.</small>
+  <section class="sect" id="where" data-stage="4" aria-labelledby="where-h">
+    <p class="cap"><b>05</b><span>Where it runs</span><i></i><span>Fig. 5</span></p>
+    <h2 id="where-h">It runs where the work happens. <span>Your coding agent, your terminal, your browser, your pull requests.</span></h2>
+    <div class="ways">
+      <article class="way agent"><h3>Your coding agent</h3><p>Give your agent the check over MCP, with one rule: it is not done while the verdict is NO-GO. Exit 0 is your agent's test for done.</p><div class="cmdline"><code>claude mcp add sigship -- npx -y sigship mcp</code><button class="copy-btn" type="button" data-copy="claude mcp add sigship -- npx -y sigship mcp" data-copy-label="the MCP command">Copy</button></div></article>
+      <article class="way"><h3>Your terminal</h3><p>Check any project, then paste the fixes into your AI tool as one prompt.</p><div class="cmdline"><code>npx sigship --prompt</code><button class="copy-btn" type="button" data-copy="npx sigship --prompt" data-copy-label="npx sigship --prompt">Copy</button></div></article>
+      <article class="way"><h3>Your browser</h3><p>A dashboard with the verdict, every finding and the fix prompt. It runs on this computer only and uploads nothing.</p><div class="cmdline"><code>npx sigship ui</code><button class="copy-btn" type="button" data-copy="npx sigship ui" data-copy-label="npx sigship ui">Copy</button></div></article>
+      <article class="way"><h3>Pull requests</h3><p>A GitHub check that fails when a change brings a serious problem back.</p><div class="cmdline"><code>npx sigship init</code><button class="copy-btn" type="button" data-copy="npx sigship init" data-copy-label="npx sigship init">Copy</button></div></article>
     </div>
-    <p class="cloud-privacy">The free tool stays fully on your machine. In Cloud, your code is read in an isolated runner and deleted within minutes. Only the findings are kept.</p>
+    <p class="ways-note">Building in Lovable, Bolt or Replit? Sync to GitHub, then run <code>npx sigship ui</code> on your computer.</p>
   </section>
 
-  <section class="pricing" id="pricing">
-    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Pricing</p>
-    <h2>Start free. Upgrade when you want every check, or want us to keep watch.</h2>
-    <p class="note">Free is open source and available today. Paid plans open soon. <a href="#self-or-cloud">Not sure which kind you need? Self-hosted and Cloud, explained.</a></p>
-    <!-- pricing:start -->
-    <div class="tracks" role="tablist" aria-label="How you run SIGSHIP">
-      <button type="button" role="tab" id="tab-self" aria-controls="track-self" aria-selected="true">Self-hosted<small>Your machine</small></button><button type="button" role="tab" id="tab-cloud" aria-controls="track-cloud" aria-selected="false" tabindex="-1">Cloud<small>We run it</small></button>
-    </div>
-    <div class="track" id="track-self" role="tabpanel" aria-labelledby="tab-self">
-      <p class="track-blurb">Runs on your machine and in your own GitHub. Your code never leaves.</p>
-      <div class="pgrid"><article class="pcard live" data-reveal>
-      <div class="pcard-head"><h3>Free</h3><span class="tag">Available now</span></div>
-      <p class="pcard-tagline">The open source check for every AI-built app.</p>
-      <p class="pcard-price"><span class="amount">$0</span> <span class="per">forever</span></p>
-      <p class="pcard-note">No signup. No limits.</p>
-      <div class="pcard-cta"><a class="btn block" href="#start">Get started free</a><a class="pcard-alt" href="https://github.com/sigship/sigship">Read the code</a></div>
-      <p class="pcard-lead">What you get today</p>
-      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>17 core checks</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Unlimited repos, on your machine</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Terminal, browser dashboard and MCP</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pull request check for GitHub</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Fix prompt for any AI tool</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>JSON and Markdown output</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Open source under MIT</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Community support on GitHub</span></li></ul>
-      
-    </article><article class="pcard featured" data-reveal>
-      <div class="pcard-head"><h3>Pro</h3><span class="tag">Waitlist</span></div>
-      <p class="pcard-tagline">Every check we have, on your own machine and CI.</p>
-      <p class="pcard-price"><span class="amount">$149</span> <span class="per">one-time</span></p>
-      <p class="pcard-note">Includes 1 year of new checks. Keep it forever.</p>
-      <div class="pcard-cta"><a class="btn block" href="#waitlist" data-plan="pro">Join the waitlist</a></div>
-      <p class="pcard-lead">Everything in Free, plus</p>
-      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pro pack of extra checks</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Deep Supabase policy check</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Security headers and login rate limits</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Hallucinated and vulnerable packages</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Secrets in your git history</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Prompts tuned for Lovable, Cursor, Bolt and more</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pre-commit hook and GitHub code scanning</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pull request comments and nightly checks</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Client report and pre-launch checklist PDF</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Accepted risks file</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Slack, Discord and email alerts</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>5 repos, unlimited team members</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Email support</span></li></ul>
-      <p class="pcard-foot">Planned features. They arrive at launch.</p>
-    </article><article class="pcard" data-reveal>
-      <div class="pcard-head"><h3>Business</h3><span class="tag">Waitlist</span></div>
-      <p class="pcard-tagline">For studios and agencies shipping client apps.</p>
-      <p class="pcard-price"><span class="amount">$499</span> <span class="per">one-time</span></p>
-      <p class="pcard-note">Includes 1 year of new checks. Keep it forever.</p>
-      <div class="pcard-cta"><a class="btn block alt" href="#waitlist" data-plan="business">Join the waitlist</a></div>
-      <p class="pcard-lead">Everything in Pro, plus</p>
-      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>25 repos</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>White-label client reports</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Priority support</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Unlimited team members</span></li></ul>
-      <p class="pcard-foot">Planned features. They arrive at launch.</p>
-    </article></div>
-    </div>
-    <div class="track" id="track-cloud" role="tabpanel" aria-labelledby="tab-cloud">
-      <p class="track-blurb">We run it for you. Connect a repo, and SIGSHIP keeps watch on your code and your live site.</p>
-      <div class="pgrid"><article class="pcard" data-reveal>
-      <div class="pcard-head"><h3>Solo</h3><span class="tag">Waitlist</span></div>
-      <p class="pcard-tagline">For a founder with an app in production.</p>
-      <p class="pcard-price"><span class="amount">$19</span> <span class="per">a month</span></p>
-      <p class="pcard-note">Billed monthly. Cancel anytime.</p>
-      <div class="pcard-cta"><a class="btn block alt" href="#waitlist" data-plan="solo">Join the waitlist</a></div>
-      <p class="pcard-lead">All Pro checks, plus</p>
-      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Connect from GitHub, Lovable, Bolt, Replit or v0</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Checks on every push and every night</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Live site scan, 1 site daily</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Live Supabase probe</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>SSL, domain and downtime alerts</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>New vulnerability alerts</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Launch readiness score and history</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Automatic re-check after a fix</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>&quot;Checked by SIGSHIP&quot; badge</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>3 projects, email alerts and support</span></li></ul>
-      <p class="pcard-foot">Planned features. They arrive at launch.</p>
-    </article><article class="pcard featured" data-reveal>
-      <div class="pcard-head"><h3>Team</h3><span class="tag">Waitlist</span></div>
-      <p class="pcard-tagline">For small teams shipping every week.</p>
-      <p class="pcard-price"><span class="amount">$59</span> <span class="per">a month</span></p>
-      <p class="pcard-note">Billed monthly. Cancel anytime.</p>
-      <div class="pcard-cta"><a class="btn block" href="#waitlist" data-plan="team">Join the waitlist</a></div>
-      <p class="pcard-lead">Everything in Solo, plus</p>
-      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>10 projects and 5 seats</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Live site scans, 10 sites hourly</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>One-click fix pull requests</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pull request comments and merge block</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Slack, Discord and email alerts</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Roles and activity log</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Priority support</span></li></ul>
-      <p class="pcard-foot">Planned features. They arrive at launch.</p>
-    </article><article class="pcard" data-reveal>
-      <div class="pcard-head"><h3>Agency</h3><span class="tag">Waitlist</span></div>
-      <p class="pcard-tagline">For agencies running many client apps.</p>
-      <p class="pcard-price"><span class="amount">$149</span> <span class="per">a month</span></p>
-      <p class="pcard-note">Billed monthly. Cancel anytime.</p>
-      <div class="pcard-cta"><a class="btn block alt" href="#waitlist" data-plan="agency">Join the waitlist</a></div>
-      <p class="pcard-lead">Everything in Team, plus</p>
-      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>30 projects and 15 seats</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Live site scans, 30 sites hourly</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>White-label client reports</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>An alert channel per client</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Single sign-on</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Onboarding call</span></li></ul>
-      <p class="pcard-foot">Planned features. They arrive at launch.</p>
-    </article></div>
-    </div>
-    <details class="compare" data-reveal>
-      <summary><span>Compare every feature</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></summary>
-      <div class="compare-scroll" role="region" aria-label="Feature comparison" tabindex="0">
-        <table>
-          <thead>
-            <tr><td></td><th scope="colgroup" colspan="3">Self-hosted</th><th scope="colgroup" colspan="3">Cloud</th></tr>
-            <tr><th scope="col" class="feat">Feature</th><th scope="col">Free<small>$0</small></th><th scope="col">Pro<small>$149 once</small></th><th scope="col">Business<small>$499 once</small></th><th scope="col">Solo<small>$19/mo</small></th><th scope="col">Team<small>$59/mo</small></th><th scope="col">Agency<small>$149/mo</small></th></tr>
-          </thead>
-          <tbody>
-            <tr class="group"><th scope="rowgroup" colspan="7">Plan</th></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Repos or projects</span><span class="fhelp">How many codebases the plan covers.</span></th><td>Unlimited</td><td>5</td><td>25</td><td>3</td><td>10</td><td>30</td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Team members</span><span class="fhelp">Who can use it. Self-hosted plans have no seat limit.</span></th><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td><td>1</td><td>5</td><td>15</td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">New checks and updates</span><span class="fhelp">Self-hosted paid plans include a year of new checks. You keep what you have after that.</span></th><td>Always</td><td>1 year</td><td>1 year</td><td>Always</td><td>Always</td><td>Always</td></tr>
-            <tr class="group"><th scope="rowgroup" colspan="7">Checks</th></tr>
-            <tr><th scope="row" class="feat"><span class="fname">17 core checks</span><span class="fhelp">Leaked keys, committed .env files, open Supabase tables, unverified Stripe webhooks, AI routes with no spending brake and more.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Pro pack</span><span class="fhelp">Open Firebase rules, public storage buckets, routes that change data with no auth, Razorpay webhooks, upload limits, open redirects and weak session cookies.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Deep Supabase policy check</span><span class="fhelp">Finds policies that exist but do not restrict anything, the service key used in the browser, and email confirmation turned off.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Security headers</span><span class="fhelp">Content security policy, clickjacking protection and HSTS in your Next.js, Vercel or Netlify config.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Login and signup rate limits</span><span class="fhelp">Catches auth endpoints anyone can hammer with guesses.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Hallucinated and look-alike packages</span><span class="fhelp">AI tools sometimes invent package names, and attackers register them. SIGSHIP flags packages that look wrong.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Known vulnerable packages</span><span class="fhelp">Checks your dependencies against public security advisories.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Secrets in git history</span><span class="fhelp">Finds keys that were committed once and deleted later. They are still in your history.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">AI app checks</span><span class="fhelp">User input pasted into system prompts, and AI output rendered as raw HTML.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">More payment webhooks</span><span class="fhelp">Paddle, Lemon Squeezy and Polar, as well as Stripe and Razorpay.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr class="group"><th scope="rowgroup" colspan="7">Fix</th></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Fix prompt for any AI tool</span><span class="fhelp">Every finding as one prompt you can paste into your AI tool.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Prompts tuned for your tool</span><span class="fhelp">Fix prompts written for Lovable, Cursor, Bolt, Claude Code and Replit.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">One-click fix pull requests</span><span class="fhelp">SIGSHIP opens a pull request with the fix for simple problems.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Automatic re-check after a fix</span><span class="fhelp">Push a fix, and SIGSHIP checks again on its own.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr class="group"><th scope="rowgroup" colspan="7">Where it runs</th></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Terminal, browser dashboard and MCP</span><span class="fhelp">Run it yourself, click through results in your browser, or give it to your coding agent.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Pull request check</span><span class="fhelp">A GitHub check that fails when a change brings a serious problem back.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Pre-commit hook</span><span class="fhelp">Stops a secret before it is ever committed.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">GitHub code scanning</span><span class="fhelp">Findings appear in the Security tab of your GitHub repo.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Pull request comments and nightly checks</span><span class="fhelp">Results posted on each pull request, and a check every night.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Connect from AI builders</span><span class="fhelp">Connect projects from GitHub, Lovable, Bolt, Replit and v0. Nothing to install.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr class="group"><th scope="rowgroup" colspan="7">Watch</th></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Live site scan</span><span class="fhelp">Checks your deployed site from the outside: exposed .env or .git, source maps, missing headers and open admin pages.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td>1 site, daily</td><td>10 sites, hourly</td><td>30 sites, hourly</td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Live Supabase probe</span><span class="fhelp">Tries your public key the way an attacker would and reports which tables it can read.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">SSL, domain and downtime alerts</span><span class="fhelp">Warns you before a certificate or domain expires, and when the site goes down.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">New vulnerability alerts</span><span class="fhelp">Tells you when a package you use gets a new security advisory.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr class="group"><th scope="rowgroup" colspan="7">Reports</th></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Terminal, JSON and Markdown output</span><span class="fhelp">For people, scripts and pull request comments.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Client-ready report</span><span class="fhelp">A clean HTML report to send to a client or investor.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Pre-launch checklist PDF</span><span class="fhelp">A one-page checklist showing what was checked before launch.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">White-label reports</span><span class="fhelp">Your logo and name on client reports.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Launch readiness score and history</span><span class="fhelp">A score from 0 to 100, and a graph of your app getting safer.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">&quot;Checked by SIGSHIP&quot; badge</span><span class="fhelp">A badge for your site showing the latest verdict. It never claims your app is certified.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr class="group"><th scope="rowgroup" colspan="7">Team and control</th></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Accepted risks file</span><span class="fhelp">Mark a finding as known, with a reason and an expiry date, so it stops blocking.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Alerts</span><span class="fhelp">Where SIGSHIP tells you when something turns NO-GO.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td>Slack, Discord, email</td><td>Slack, Discord, email</td><td>Email</td><td>Slack, Discord, email</td><td>All, plus a channel per client</td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Roles and activity log</span><span class="fhelp">Who can do what, and a record of what changed.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Single sign-on</span><span class="fhelp">Sign in with your company identity provider.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
-            <tr class="group"><th scope="rowgroup" colspan="7">Support</th></tr>
-            <tr><th scope="row" class="feat"><span class="fname">Support</span><span class="fhelp">How to reach us.</span></th><td>Community</td><td>Email</td><td>Priority</td><td>Email</td><td>Priority</td><td>Onboarding call</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="compare-note">Free is available now. Everything in paid plans is planned and arrives at launch.</p>
-    </details>
-    <!-- pricing:end -->
-    <ul class="assure">
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 9.5C8 19.3 5 15.5 5 11V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg><b>Keep it forever</b><span>Self-hosted plans keep your last Pro pack, even if you never renew.</span></li>
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><b>14-day refund</b><span>Not right for you? Ask within 14 days for a full refund.</span></li>
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg><b>Built on open source</b><span>The free tool is MIT licensed. Read every line it runs.</span></li>
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg><b>Discounts that matter</b><span>Non-profits and students get a discount. Email support@sigship.dev.</span></li>
-    </ul>
-    <div class="pilot" data-reveal>
-      <svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>
-      <div>
+  <section class="sect" id="pricing" data-stage="5" aria-labelledby="pricing-h">
+    <p class="cap"><b>06</b><span>Plans</span><i></i><span>Fig. 6</span></p>
+    <h2 id="pricing-h">Free today. <span>Paid plans are on the waitlist.</span></h2>
+    <div class="live-row">
+<article class="plan live" data-live="true" data-plan-id="free">
+        <p class="status"><span class="lamp green" aria-hidden="true"></span>Live</p>
+        <h3>Free</h3>
+        <p class="price"><b>$0</b> forever</p>
+        <p>The open source check for every AI-built app.</p>
+        <ul class="ticks"><li>17 core checks</li><li>Unlimited repos, on your machine</li><li>Terminal, browser dashboard and MCP</li><li>Pull request check for GitHub</li><li>Fix prompt for any AI tool</li></ul>
+        <div class="plan-acts"><button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button><a href="https://github.com/sigship/sigship">Read the code</a></div>
+      </article>
+<article class="plan live" data-live="true" data-plan-id="pilot">
+        <p class="status"><span class="lamp green" aria-hidden="true"></span>Available now</p>
+        <div class="pilot-flag" aria-hidden="true"><span class="pf"><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg></span></div>
         <h3>Flag G means “I require a pilot.”</h3>
-        <p>A senior zoof04 engineer reads your repo by hand and sends a ranked, written review within 48 hours, with a 30-minute call. Available now.</p>
-      </div>
-      <div class="pilot-buy">
-        <p class="price">From $499</p>
-        <a class="btn" href="mailto:support@sigship.dev?subject=SIGSHIP%20pilot%20review">Request a pilot review</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="explain" id="self-or-cloud">
-    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Self-hosted or Cloud?</p>
-    <h2>Two ways to run SIGSHIP. The same checks.</h2>
-    <div class="explain-cards">
-      <article data-reveal>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>
-        <h3>Self-hosted is like an app you install.</h3>
-        <p>It runs on your computer and in your own GitHub. Your code never leaves your machines. You start it with one command.</p>
-        <p class="explain-best">Best if you use a terminal or GitHub and want full control.</p>
-      </article>
-      <article data-reveal>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a5 5 0 0 1-.6-10A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9H7z"/></svg>
-        <h3>Cloud is like Gmail.</h3>
-        <p>We run it for you. Connect a repo, and SIGSHIP checks every change and watches your live site. Nothing to install.</p>
-        <p class="explain-best">Best if you build in Lovable, Bolt or Replit, or want us to keep watch.</p>
+        <p>A senior zoof04 engineer reads your repo by hand and sends a ranked, written review within 48 hours, with a 30-minute call.</p>
+        <p class="price"><b>From $499</b></p>
+        <div class="plan-acts"><a class="btn-line" href="mailto:support@sigship.dev?subject=SIGSHIP%20pilot%20review">Request a pilot review</a></div>
       </article>
     </div>
-    <div class="vs" data-reveal>
-      <table>
-        <thead><tr><td></td><th scope="col">Self-hosted</th><th scope="col">Cloud</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Who runs it</th><td>You, on your machine and CI</td><td>We do</td></tr>
-          <tr><th scope="row">Where your code goes</th><td>Nowhere. It stays with you.</td><td>Read in an isolated runner, deleted within minutes</td></tr>
-          <tr><th scope="row">Setup</th><td>One command</td><td>One click</td></tr>
-          <tr><th scope="row">Watches your live site</th><td>No</td><td>Yes</td></tr>
-          <tr><th scope="row">How you pay</th><td>Free, or once for Pro and Business</td><td>Monthly</td></tr>
-          <tr><th scope="row">Available</th><td>Free today. Pro and Business soon.</td><td>Soon. Join the waitlist.</td></tr>
-        </tbody>
-      </table>
+    <div class="planned" data-live="false">
+      <p class="stamp">Planned · Waitlist</p>
+      <h3 class="planned-h">Paid plans are on the waitlist</h3>
+      <div class="track-tabs" role="tablist" aria-label="Plan type"><button role="tab" type="button" aria-selected="true" aria-controls="tp-self" id="tt-self"><b>Self-hosted</b><small>Like an app you install. Your code never leaves.</small></button><button role="tab" type="button" aria-selected="false" aria-controls="tp-cloud" id="tt-cloud" tabindex="-1"><b>Cloud</b><small>Like Gmail. We run it.</small></button></div>
+      <div class="pgrid" role="tabpanel" id="tp-self" aria-labelledby="tt-self"><article class="pcard" data-live="false"><h4><span class="lamp off" aria-hidden="true"></span>Pro<span class="ptag">Waitlist</span></h4><p class="pprice"><b>$149</b> one-time</p><p class="ptag-line">Every check we have, on your own machine and CI.</p><ul><li>Pro pack of extra checks</li><li>Deep Supabase policy check</li><li>Security headers and login rate limits</li><li>Hallucinated and vulnerable packages</li><li>Secrets in your git history</li></ul><button class="btn-line" type="button" data-plan="pro">Join the waitlist</button></article><article class="pcard" data-live="false"><h4><span class="lamp off" aria-hidden="true"></span>Business<span class="ptag">Waitlist</span></h4><p class="pprice"><b>$499</b> one-time</p><p class="ptag-line">For studios and agencies shipping client apps.</p><ul><li>25 repos</li><li>White-label client reports</li><li>Priority support</li><li>Unlimited team members</li></ul><button class="btn-line" type="button" data-plan="business">Join the waitlist</button></article></div>
+      <div class="pgrid" role="tabpanel" id="tp-cloud" aria-labelledby="tt-cloud" hidden><article class="pcard" data-live="false"><h4><span class="lamp off" aria-hidden="true"></span>Solo<span class="ptag">Waitlist</span></h4><p class="pprice"><b>$19</b> a month</p><p class="ptag-line">For a founder with an app in production.</p><ul><li>Connect from GitHub, Lovable, Bolt, Replit or v0</li><li>Checks on every push and every night</li><li>Live site scan, 1 site daily</li><li>Live Supabase probe</li><li>SSL, domain and downtime alerts</li></ul><button class="btn-line" type="button" data-plan="solo">Join the waitlist</button></article><article class="pcard" data-live="false"><h4><span class="lamp off" aria-hidden="true"></span>Team<span class="ptag">Waitlist</span></h4><p class="pprice"><b>$59</b> a month</p><p class="ptag-line">For small teams shipping every week.</p><ul><li>10 projects and 5 seats</li><li>Live site scans, 10 sites hourly</li><li>One-click fix pull requests</li><li>Pull request comments and merge block</li><li>Slack, Discord and email alerts</li></ul><button class="btn-line" type="button" data-plan="team">Join the waitlist</button></article><article class="pcard" data-live="false"><h4><span class="lamp off" aria-hidden="true"></span>Agency<span class="ptag">Waitlist</span></h4><p class="pprice"><b>$149</b> a month</p><p class="ptag-line">For agencies running many client apps.</p><ul><li>30 projects and 15 seats</li><li>Live site scans, 30 sites hourly</li><li>White-label client reports</li><li>An alert channel per client</li><li>Single sign-on</li></ul><button class="btn-line" type="button" data-plan="agency">Join the waitlist</button></article></div>
     </div>
-    <form class="finder" data-finder data-reveal>
-      <h3>Find your plan in three questions</h3>
-      <fieldset>
-        <legend>Do you use a terminal or GitHub?</legend>
-        <div class="seg"><label><input type="radio" name="term" value="yes" checked><span>Yes</span></label><label><input type="radio" name="term" value="no"><span>No</span></label></div>
-      </fieldset>
-      <fieldset>
-        <legend>Should SIGSHIP watch your live site for you?</legend>
-        <div class="seg"><label><input type="radio" name="watch" value="no" checked><span>No</span></label><label><input type="radio" name="watch" value="yes"><span>Yes</span></label></div>
-      </fieldset>
-      <fieldset>
-        <legend>How many projects?</legend>
-        <div class="seg"><label><input type="radio" name="size" value="s" checked><span>1 to 3</span></label><label><input type="radio" name="size" value="m"><span>4 to 10</span></label><label><input type="radio" name="size" value="l"><span>More than 10</span></label></div>
-      </fieldset>
-      <div class="finder-result" aria-live="polite">
-        <p class="finder-kicker">We suggest</p>
-        <p class="finder-plan">Free, self-hosted</p>
-        <p class="finder-why">Run it on your machine today. Add Pro when you want every check.</p>
-        <a class="btn" href="#start" data-finder-cta>Get started free</a>
-      </div>
-    </form>
-  </section>
-
-  <section class="faq" id="faq">
-    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Questions</p>
-    <h2>Pricing questions, answered.</h2>
-    <div class="faq-list">
-      <details><summary>Is the free version really free?</summary><p>Yes. It is open source under the MIT license, needs no signup, has no repo limit and runs on your machine for as long as you like.</p></details>
-      <details><summary>Do you ever see my code?</summary><p>Not with self-hosted. It runs on your machine and sends nothing. With a licence key it sends only the key and a one-way repo fingerprint. Cloud will read your code in an isolated runner, delete it within minutes, and keep only the findings.</p></details>
-      <details><summary>What does one-time mean for Pro and Business?</summary><p>You pay once and use it for as long as you like. The price includes a year of new checks. After that you can renew to keep getting new checks, or keep the last version you downloaded, forever.</p></details>
-      <details><summary>Can I switch between self-hosted and Cloud?</summary><p>Yes. Cloud plans include every Pro check, so you can start self-hosted and move to Cloud when you want SIGSHIP to keep watch for you.</p></details>
-      <details><summary>Do I need to know how to code?</summary><p>For self-hosted, you only need to paste one command into a terminal. For Cloud, you don't need to code at all: connect your project and read the results in plain English.</p></details>
-      <details><summary>When do paid plans open?</summary><p>Soon. Join the waitlist and we will email you once, when your plan opens, with launch pricing.</p></details>
-      <details><summary>What if it is not right for me?</summary><p>Ask within 14 days of your first payment and we will refund it in full.</p></details>
-    </div>
-  </section>
-
-  <section class="waitlist" id="waitlist">
-    <div class="wl-copy" data-reveal>
-      <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Waitlist</p>
-      <h2>Get early access.</h2>
-      <p>Pro, Business and Cloud are on the way. We will email you once, when your plan opens, with launch pricing. Nothing else. Ask us at support@sigship.dev to remove you at any time.</p>
-    </div>
-    <form class="wl-form" method="post" action="/api/waitlist" data-waitlist data-reveal>
-      <label><span>Email</span><input type="email" name="email" required autocomplete="email" maxlength="254" placeholder="you@yourapp.com"></label>
-      <label><span>Name <em>(optional)</em></span><input name="name" autocomplete="name" maxlength="80"></label>
-      <label><span>Plan</span><select name="plan" required>
-        <optgroup label="Self-hosted">
-          <option value="pro">Pro, $149 one-time</option>
-          <option value="business">Business, $499 one-time</option>
-        </optgroup>
-        <optgroup label="Cloud">
-          <option value="solo">Solo, $19 a month</option>
-          <option value="team">Team, $59 a month</option>
-          <option value="agency">Agency, $149 a month</option>
-        </optgroup>
-      </select></label>
-      <label><span>What do you build with? <em>(optional)</em></span><select name="tool">
-        <option value="">Choose one</option>
-        <option value="lovable">Lovable</option>
-        <option value="bolt">Bolt</option>
-        <option value="replit">Replit</option>
-        <option value="v0">v0</option>
-        <option value="cursor">Cursor</option>
-        <option value="claude-code">Claude Code</option>
-        <option value="codex">Codex</option>
-        <option value="copilot">Copilot</option>
-        <option value="windsurf">Windsurf</option>
-        <option value="other">Something else</option>
-      </select></label>
-      <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <form class="wl" id="waitlist" method="post" action="/api/waitlist" novalidate>
+      <h3>Join the waitlist</h3>
+      <label for="wl-email">Email</label>
+      <input id="wl-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="wl-err">
+      <fieldset><legend>Plan</legend><div class="pchips"><label class="pchip"><input type="radio" name="plan" value="pro" checked><span>Pro · $149</span></label><label class="pchip"><input type="radio" name="plan" value="business"><span>Business · $499</span></label><label class="pchip"><input type="radio" name="plan" value="solo"><span>Solo · $19</span></label><label class="pchip"><input type="radio" name="plan" value="team"><span>Team · $59</span></label><label class="pchip"><input type="radio" name="plan" value="agency"><span>Agency · $149</span></label></div></fieldset>
+      <button class="btn-ink" type="submit">Join the waitlist</button>
+      <p class="wl-err" id="wl-err" hidden>Enter an email address, like you@example.com.</p>
+      <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
       <input type="hidden" name="started" value="">
-      <button class="btn" type="submit">Join the waitlist</button>
-      <p class="wl-status" role="status" aria-live="polite"></p>
     </form>
+    <div class="wl-ok" id="wl-ok" tabindex="-1" hidden>
+      <span class="okw"><span class="lamp warm big" aria-hidden="true"></span>Received</span>
+      <span class="ok-flag" aria-hidden="true"><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg></span>
+      <p><b>All aboard.</b> We'll email you once, when your plan opens.</p>
+    </div>
+  </section>
+
+  <section class="finale" id="why" data-stage="6" aria-labelledby="why-h">
+    <div class="fin-inner">
+      <div class="fin-copy">
+        <p class="cap"><b>07</b><span>Ready to sail</span><i></i><span>Fig. 7</span></p>
+        <h2 id="why-h">Ships raise a flag before they leave port. <span>Software never did.</span></h2>
+        <p class="fin-p">In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In Unix, a signal tells a running program something it has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn't yet.</p>
+        <ul class="eq" aria-label="Flag P plus SIGTERM equals SIGSHIP"><li><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Flag P</li><li class="op" aria-hidden="true">+</li><li><code>SIGTERM</code></li><li class="op" aria-hidden="true">=</li><li><strong>SIGSHIP</strong></li></ul>
+        <div class="fin-pad"><p class="fin-turn">Your turn.</p><div class="pad-row"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div></div>
+        <p class="fin-go">A GO means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits"><svg class="g dag" aria-hidden="true"><use href="#g-dagger"/></svg><span class="sr">Footnote: </span> What a GO doesn't mean</a></p>
+      </div>
+      <figure class="mast-fig" aria-label="Flag P, the Blue Peter, at the top of its mast. The masthead lamp is on.">
+        <span class="cone" aria-hidden="true"></span>
+        <span class="pole" aria-hidden="true"></span>
+        <span class="halyard" aria-hidden="true"></span>
+        <span class="truck" aria-hidden="true"><span class="lamp warm big"></span></span>
+        <span class="mh-read" aria-hidden="true">Flag P · close up<br>All aboard</span>
+        <span class="p-run" aria-hidden="true"><span class="p-wrap"><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg></span></span>
+      </figure>
+    </div>
   </section>
 </main>
 
 <footer class="site-foot">
   <div class="foot-top">
     <div class="foot-brand">
-      <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--on-panel)"/><rect x="16" width="3" height="20" fill="var(--on-panel)"/><rect x="71" width="3" height="20" fill="var(--on-panel)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
+      <a class="brand" href="#top"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
       <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
-      <code class="foot-cmd">npx sigship</code>
-      <div class="foot-flags" aria-hidden="true"><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></svg><svg viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></svg><svg viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></svg></div>
+      <div class="foot-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+      <p class="ver-chip">v0.3.1 · <a href="https://github.com/sigship/sigship/blob/main/CHANGELOG.md">Changelog</a></p>
     </div>
     <nav class="foot-cols" aria-label="Footer">
-      <div><p class="foot-h">Product</p><a href="/#checks">Checks</a><a href="/#cloud">SIGSHIP Cloud</a><a href="/#pricing">Pricing</a><a href="/#waitlist">Join the waitlist</a></div>
-      <div><p class="foot-h">Developers</p><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://www.npmjs.com/package/sigship">npm</a><a href="/llms.txt">llms.txt</a></div>
-      <div><p class="foot-h">Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></div>
-      <div><p class="foot-h">Legal</p><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
+      <div><p>Product</p><a href="#checks">Checks</a><a href="#pricing">Pricing</a><a href="#waitlist">Join the waitlist</a></div>
+      <div><p>Developers</p><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://www.npmjs.com/package/sigship">npm</a><a href="/llms.txt">llms.txt</a></div>
+      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></div>
+      <div><p>Legal</p><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
     </nav>
+  </div>
+  <div class="foot-ctl">
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-f" value="system"><span>System</span></label><label><input type="radio" name="theme-f" value="light"><span>Day</span></label><label><input type="radio" name="theme-f" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-f" value="on"><span>On</span></label><label><input type="radio" name="motion-f" value="off"><span>Off</span></label></span></fieldset>
   </div>
   <div class="foot-bottom">
     <span>© 2026 Zoof04 Inc.</span>
-    <span class="foot-status"><i aria-hidden="true"></i>The free tool runs on your machine. Nothing leaves it.</span>
-    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
+    <span class="foot-status"><span class="lamp warm" aria-hidden="true"></span>The free tool runs on your machine. Nothing leaves it.</span>
+    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
   </div>
-  <div class="foot-word" aria-hidden="true">SIGSHIP</div>
+  <div class="foot-word" aria-hidden="true"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><b>G</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><b>H</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><b>P</b></span></div>
 </footer>
 
-<script>
-  const signal = document.getElementById('signal');
-  document.querySelectorAll('.hoist button').forEach((button) => {
-    const show = () => {
-      const letter = button.getAttribute('aria-label').slice(-1);
-      signal.innerHTML = '<b>Flag ' + letter + ':</b> ' + button.dataset.meaning + '.';
-    };
-    button.addEventListener('mouseenter', show);
-    button.addEventListener('focus', show);
-    button.addEventListener('click', show);
-  });
-  const copy = document.getElementById('copy');
-  copy.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText('npx sigship');
-      copy.textContent = 'Copied';
-    } catch {
-      copy.textContent = 'Press Cmd+C';
-    }
-    setTimeout(() => { copy.textContent = 'Copy'; }, 1600);
-  });
-</script>
+<dialog class="menu" id="menu" aria-label="Menu" closedby="any">
+  <div class="menu-in">
+    <div class="menu-head"><span>Menu</span><button class="icon-btn" type="button" commandfor="menu" command="close" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <ol class="menu-list">
+      <li><a href="#start"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>The run</a></li>
+      <li><a href="#how"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>The fixes</a></li>
+      <li><a href="#checks"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>Every check</a></li>
+      <li><a href="#limits"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>What a GO doesn't mean</a></li>
+      <li><a href="#where"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg>Where it runs</a></li>
+      <li><a href="#pricing"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Plans</a></li>
+      <li><a href="#why"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Ready to sail</a></li>
+    </ol>
+    <button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
+    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-m" value="system"><span>System</span></label><label><input type="radio" name="theme-m" value="light"><span>Day</span></label><label><input type="radio" name="theme-m" value="dark"><span>Night</span></label></span></fieldset>
+    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-m" value="on"><span>On</span></label><label><input type="radio" name="motion-m" value="off"><span>Off</span></label></span></fieldset>
+    <p class="menu-by">SIGSHIP is made by zoof04.</p>
+  </div>
+</dialog>
+
+<div class="peek" popover id="pk-0" data-tpl="t-pk-0" style="position-anchor:--a-pk-0" aria-label="The code: src/api/stripe-webhook.ts line 3"><p class="pk-fallback">src/api/stripe-webhook.ts:3</p></div>
+<template id="t-pk-0"><header><span>src/api/stripe-webhook.ts</span><span class="tag">Demo app</span><button class="pk-x" type="button" popovertarget="pk-0" popovertargetaction="hide" aria-label="Close">Close</button></header>
+<p class="pk-note">Lines from the small demo app we wrote with this mistake.</p>
+<pre class="pk-code"><span data-n="1">export async function POST(req) {</span><span data-n="2">  const event = await req.json();</span><mark class="s1"><span data-n="3">  if (event.type === 'checkout.session.completed') await upgrade(event);</span></mark><span data-n="4">}</span></pre>
+<p class="pk-src">Text from sigship 0.3.1 --json</p>
+<p><span class="s1-t">SEV-1</span> <b>Your Stripe webhook accepts anything</b></p>
+<p><b>What goes wrong.</b> Someone posts a fake &quot;payment succeeded&quot; event to your endpoint and gets your paid plan for free.</p>
+<p><b>The fix.</b> Verify every event with stripe.webhooks.constructEvent, using the raw request body and your webhook signing secret, before you act on it.</p>
+<footer><button class="pk-btn" type="button" data-copy="1. [SEV-1] Your Stripe webhook accepts anything
+   Where: src/api/stripe-webhook.ts:3
+   Fix: Verify every event with stripe.webhooks.constructEvent, using the raw request body and your webhook signing secret, before you act on it." data-copy-label="the fix prompt">Copy this fix prompt</button><a href="#fix-0" data-close>See the fix <svg class="g" aria-hidden="true"><use href="#g-down"/></svg></a></footer></template>
+<div class="peek" popover id="pk-1" data-tpl="t-pk-1" style="position-anchor:--a-pk-1" aria-label="The code: supabase/migrations/001_init.sql line 1"><p class="pk-fallback">supabase/migrations/001_init.sql:1</p></div>
+<template id="t-pk-1"><header><span>supabase/migrations/001_init.sql</span><span class="tag">Demo app</span><button class="pk-x" type="button" popovertarget="pk-1" popovertargetaction="hide" aria-label="Close">Close</button></header>
+<p class="pk-note">Lines from the small demo app we wrote with this mistake.</p>
+<pre class="pk-code"><mark class="s1"><span data-n="1">create table public.profiles (id uuid primary key, email text);</span></mark></pre>
+<p class="pk-src">Text from sigship 0.3.1 --json</p>
+<p><span class="s1-t">SEV-1</span> <b>A database table has no row level security</b></p>
+<p><b>What goes wrong.</b> Anyone with your public Supabase key can read this table. That key ships in your JavaScript.</p>
+<p><b>The fix.</b> Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner.</p>
+<footer><button class="pk-btn" type="button" data-copy="2. [SEV-1] A database table has no row level security
+   Where: supabase/migrations/001_init.sql:1
+   Fix: Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner." data-copy-label="the fix prompt">Copy this fix prompt</button><a href="#fix-1" data-close>See the fix <svg class="g" aria-hidden="true"><use href="#g-down"/></svg></a></footer></template>
+<div class="peek" popover id="pk-2" data-tpl="t-pk-2" style="position-anchor:--a-pk-2" aria-label="The code: src/api/chat.ts line 2"><p class="pk-fallback">src/api/chat.ts:2</p></div>
+<template id="t-pk-2"><header><span>src/api/chat.ts</span><span class="tag">Demo app</span><button class="pk-x" type="button" popovertarget="pk-2" popovertargetaction="hide" aria-label="Close">Close</button></header>
+<p class="pk-note">Lines from the small demo app we wrote with this mistake.</p>
+<pre class="pk-code"><span data-n="1">export async function POST(req) {</span><mark class="s2"><span data-n="2">  return openai.chat.completions.create({ model: 'x', messages: [] });</span></mark><span data-n="3">}</span></pre>
+<p class="pk-src">Text from sigship 0.3.1 --json</p>
+<p><span class="s2-t">SEV-2</span> <b>Your AI route has no spending brake</b></p>
+<p><b>What goes wrong.</b> One script loops on this endpoint overnight and you wake up to the invoice.</p>
+<p><b>The fix.</b> Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard.</p>
+<footer><button class="pk-btn" type="button" data-copy="3. [SEV-2] Your AI route has no spending brake
+   Where: src/api/chat.ts:2
+   Fix: Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard." data-copy-label="the fix prompt">Copy this fix prompt</button><a href="#fix-2" data-close>See the fix <svg class="g" aria-hidden="true"><use href="#g-down"/></svg></a></footer></template>
+<div class="peek" popover id="pv-files" data-tpl="t-pv-files" style="position-anchor:--a-pv-files" aria-label="How many files SIGSHIP read"><p class="pk-fallback">How many files SIGSHIP read</p></div>
+<template id="t-pv-files"><header><span>How many files SIGSHIP read</span><button class="pk-x" type="button" popovertarget="pv-files" popovertargetaction="hide" aria-label="Close">Close</button></header><dl class="pv"><dt>Value</dt><dd><b>6</b> in run 1, 6 in run 2</dd><dt>Source</dt><dd><code>npx sigship --json</code> <svg class="g" aria-hidden="true"><use href="#g-right"/></svg> <code>filesRead: 6</code></dd><dt>Captured</dt><dd>At build time with sigship 0.3.1, 2026-11-07</dd></dl><p class="pk-note">The build fails if a fresh run disagrees.</p></template>
+<div class="peek" popover id="pv-time" data-tpl="t-pv-time" style="position-anchor:--a-pv-time" aria-label="How long the scan took"><p class="pk-fallback">How long the scan took</p></div>
+<template id="t-pv-time"><header><span>How long the scan took</span><button class="pk-x" type="button" popovertarget="pv-time" popovertargetaction="hide" aria-label="Close">Close</button></header><dl class="pv"><dt>Value</dt><dd><b>27 ms</b> in run 1, 20 ms in run 2</dd><dt>Source</dt><dd>The summary line sigship prints: <code>SIGSHIP read 6 files in 27 ms, ran 17 checks</code></dd><dt>Not included</dt><dd>Node start-up. The whole command took 67 ms on the capture machine.</dd></dl><p class="pk-note">The replay is slowed about 47× so you can read it. Press Real to see it at the tool's own speed.</p></template>
+<div class="peek" popover id="pv-checks" data-tpl="t-pv-checks" style="position-anchor:--a-pv-checks" aria-label="How many checks ran"><p class="pk-fallback">How many checks ran</p></div>
+<template id="t-pv-checks"><header><span>How many checks ran</span><button class="pk-x" type="button" popovertarget="pv-checks" popovertargetaction="hide" aria-label="Close">Close</button></header><dl class="pv"><dt>Value</dt><dd><b>17</b>, of which 11 block launch</dd><dt>Source</dt><dd><code>src/rules.js</code> <svg class="g" aria-hidden="true"><use href="#g-right"/></svg> <code>RULES.length</code> is 17</dd><dt>Split</dt><dd>8 SEV-1 · 3 SEV-2 · 6 SEV-3</dd></dl></template>
+<div class="peek" popover id="pv-blockers" data-tpl="t-pv-blockers" style="position-anchor:--a-pv-blockers" aria-label="Findings that block launch"><p class="pk-fallback">Findings that block launch</p></div>
+<template id="t-pv-blockers"><header><span>Findings that block launch</span><button class="pk-x" type="button" popovertarget="pv-blockers" popovertargetaction="hide" aria-label="Close">Close</button></header><dl class="pv"><dt>Run 1</dt><dd><b>3</b>: 2 SEV-1 and 1 SEV-2. Exit 1, NO-GO.</dd><dt>Run 2</dt><dd><b>0</b>. Exit 0, GO. That does not prove the app is safe.</dd><dt>Rule</dt><dd>SEV-1 and SEV-2 block launch. SEV-3 are notes.</dd></dl></template>
+<div class="peek" popover id="pv-spec-checks" data-tpl="t-pv-spec-checks" style="position-anchor:--a-pv-spec-checks" aria-label="Where 17 checks comes from"><p class="pk-fallback">Where 17 checks comes from</p></div>
+<template id="t-pv-spec-checks"><header><span>Where 17 checks comes from</span><button class="pk-x" type="button" popovertarget="pv-spec-checks" popovertargetaction="hide" aria-label="Close">Close</button></header><dl class="pv"><dt>Source</dt><dd><code>src/rules.js</code> <svg class="g" aria-hidden="true"><use href="#g-right"/></svg> <code>RULES.length</code> is 17</dd><dt>Block launch</dt><dd>11 (SEV-1 and SEV-2)</dd><dt>Not checked</dt><dd>Dashboard-only settings, your live site, secrets in git history, your business logic</dd></dl></template>
+<div class="peek" popover id="pv-spec-ver" data-tpl="t-pv-spec-ver" style="position-anchor:--a-pv-spec-ver" aria-label="Where the version comes from"><p class="pk-fallback">Where the version comes from</p></div>
+<template id="t-pv-spec-ver"><header><span>Where the version comes from</span><button class="pk-x" type="button" popovertarget="pv-spec-ver" popovertargetaction="hide" aria-label="Close">Close</button></header><dl class="pv"><dt>Source</dt><dd><code>package.json</code> <svg class="g" aria-hidden="true"><use href="#g-right"/></svg> <code>"version": "0.3.1"</code></dd><dt>Needs</dt><dd>Node.js 22 or newer (<code>engines.node</code>)</dd><dt>Licence</dt><dd>MIT</dd></dl></template>
+
+<p class="sr" id="live" aria-live="polite"></p>
+<script type="application/json" id="run-data">{"T":{"enter":480,"sum":560,"meta":650,"beam0":760,"beam1":1660,"vline":1760,"lamp":1900,"r1":2320,"r2s":2600,"c2":2600,"cmd2":2640,"sum2":2680,"go2":2720,"cav":2900,"m0":2900,"swap":3300,"widen":3240,"green":3360,"mastAt":3420,"chipAt":3480,"gust":3660,"m1":3780,"r2":3800},"ratio1":47,"ratio2":4,"r1":{"files":6,"ms":27,"checks":17,"block":3},"r2":{"files":6,"ms":20,"block":0},"labels":{"ready":"Ready. Nothing printed yet.","sum1":"SIGSHIP read 6 files in 27 ms, ran 17 checks","meta1":"Postmortem, written before the outage. Worst first.","v1":"NO-GO  2 SEV-1, 1 SEV-2, 0 SEV-3. Exit 1.","c2":"# Your AI tool applied the fixes (our comment, not CLI output)","sum2":"SIGSHIP read 6 files in 20 ms, ran 17 checks","go2":"GO  0 SEV-1, 0 SEV-2, 0 SEV-3. Exit 0. This means these checks found nothing that blocks launch. It does not prove the app is safe.","goInst":"Instruments read GO, exit 0. Not proof the app is safe."},"clock1":"Slowed about 47× so you can read it · the scan took 27 ms · captured 2026-11-07","clock2":"Run 2 · slowed about 4× · the scan took 20 ms · captured 2026-11-07","clockReal":"Real speed · as fast as the tool printed it · the scan took 27 ms","say1":"Demo run: NO-GO. 2 SEV-1, 1 SEV-2.","say2":"Demo run 2: GO, exit 0. These checks found nothing that blocks launch. It does not prove the app is safe.","ariaGo":"Verdict: GO, exit 0. These checks found nothing that blocks launch. It does not prove the app is safe."}</script>
+<script src="/home.js" defer></script>
 </body>
 </html>
