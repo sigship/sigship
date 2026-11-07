@@ -80,6 +80,53 @@
     pick(tabs.find((t) => t.getAttribute('aria-selected') === 'true') || tabs[0], false);
   }
 
+  // Docs: the contents list follows the section you are reading, and a clicked section briefly lights up.
+  const tocLinks = $$('.toc a, .toc-m a');
+  if (tocLinks.length) {
+    const heads = $$('.doc-body h2[id]');
+    const mark = (id) => tocLinks.forEach((a) => {
+      if (a.getAttribute('href') === `#${id}`) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    let lock = 0;
+    const spy = () => {
+      if (Date.now() < lock) return;
+      const line = innerHeight * 0.3;
+      let cur = heads[0];
+      for (const h of heads) if (h.getBoundingClientRect().top <= line) cur = h;
+      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = heads[heads.length - 1];
+      mark(cur.id);
+    };
+    addEventListener('scroll', spy, { passive: true });
+    addEventListener('scrollend', () => { lock = 0; spy(); });
+    spy();
+    const flash = (id) => {
+      const h = document.getElementById(id);
+      if (!h) return;
+      mark(id);
+      lock = Date.now() + 900;
+      setTimeout(spy, 950);
+      h.classList.remove('flash');
+      void h.offsetWidth;
+      h.classList.add('flash');
+    };
+    tocLinks.forEach((a) => a.addEventListener('click', () => {
+      flash(a.getAttribute('href').slice(1));
+      const m = a.closest('details');
+      if (m) m.open = false;
+    }));
+    if (location.hash) flash(location.hash.slice(1));
+  }
+
+  // Resources dropdown: opens on hover (CSS) or click. Escape and outside clicks close it.
+  for (const dd of $$('.nav-dd')) {
+    const btn = $('.nav-dd-btn', dd);
+    const set = (on) => { dd.classList.toggle('open', on); btn.setAttribute('aria-expanded', String(on)); };
+    btn.addEventListener('click', () => set(!dd.classList.contains('open')));
+    dd.addEventListener('keydown', (e) => { if (e.key === 'Escape') { set(false); btn.focus(); } });
+    dd.addEventListener('focusout', (e) => { if (!dd.contains(e.relatedTarget)) set(false); });
+    document.addEventListener('click', (e) => { if (!dd.contains(e.target)) set(false); });
+  }
+
   // Menu sheet: native dialog with command/commandfor, and a fallback.
   const menu = $('#menu');
   if (menu) {

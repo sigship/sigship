@@ -156,8 +156,8 @@ ${setup.map(([id, , html], i) => `<div role="tabpanel" id="p-${id}" aria-labelle
 
 <section class="block"><h2>What your agent gets <span class="dev-tag">For developers</span></h2>
 <p class="sub">The MCP server runs locally over stdio, has no dependencies, never changes your files and makes no network calls without a licence key.</p>
-<div class="cards">${tools.map((t) => `<div class="card dark"><h3><code>${t.name}</code></h3><p>${esc(t.description)}</p>
-<table class="ref"><thead><tr><th>Input</th><th>Type</th><th>Meaning</th></tr></thead><tbody>${t.params.map((p) => `<tr><td><code>${p.name}</code>${p.required ? '' : ' <small>(optional)</small>'}</td><td>${p.type}</td><td>${esc(p.description)}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div>
+<div class="tools">${tools.map((t) => `<article class="tool"><div class="tool-name"><code>${t.name}</code><p>${esc(t.description)}</p></div>
+<dl class="tool-params">${t.params.map((p) => `<div><dt><code>${p.name}</code><span>${p.type}${p.required ? '' : ' · optional'}</span></dt><dd>${esc(p.description)}</dd></div>`).join('')}</dl></article>`).join('')}</div>
 <p class="sub">The server also tells the agent: don't say it's done while the verdict is NO-GO.</p></section>
 
 <section class="block"><h2>Questions</h2><div class="acc">
@@ -173,64 +173,75 @@ ${CTA}`,
 const allPlans = TRACKS.flatMap((t) => t.plans);
 const planById = Object.fromEntries(allPlans.map((p) => [p.id, p]));
 const PLAN_ORDER = ['free', 'pro', 'business', 'solo', 'team', 'agency'];
-const plannedCard = (p) => {
-  const head = p.items.slice(0, 5), rest = p.items.slice(5);
-  return `<article class="plan2 planned"><h3>${esc(p.name)} <span class="tagline">Waitlist</span></h3>
-<p class="price">${esc(p.price)} <small>${esc(p.per)}</small></p>
-<p class="note">${esc(p.note || '')}</p><p class="who">${esc(p.tagline)}</p>
-<div class="cta"><a class="btn-line" href="/#waitlist">Join the waitlist</a></div>
-<p class="note">${esc(p.lead)}</p>
-<ul class="ticks">${head.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>
-${rest.length ? `<details><summary>Show all ${p.items.length} features</summary><ul class="ticks">${rest.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></details>` : ''}
-<p class="stamp">Planned · arrives at launch</p></article>`;
+const TICK = '<svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7"/></svg>';
+const TRACK_UI = {
+  self: { tab: 'On my machine', sub: 'Self-hosted', ids: ['free', 'pro', 'business'], note: 'Pay once and keep it. Includes a year of new checks.' },
+  cloud: { tab: 'Run it for me', sub: 'Cloud', ids: ['solo', 'team', 'agency'], note: 'Every Cloud plan includes every Pro check. The free tool still works on your machine.' },
 };
-const free = planById.free;
-const chip = (planId, v) => {
-  const name = planById[planId].name;
-  if (v === false) return `<span class="chip off">${name}<span class="sr"> not included</span></span>`;
-  return `<span class="chip on">${name}${v === true ? '' : `: ${esc(v)}`}</span>`;
+const planCard = (p) => {
+  const live = p.id === 'free';
+  const top = p.items.slice(0, 4), rest = p.items.slice(4);
+  const cta = live
+    ? `<button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>`
+    : `<a class="${p.featured ? 'btn-ink' : 'btn-line'}" href="/#waitlist">Join the waitlist</a>`;
+  return `<article class="pc${p.featured ? ' featured' : ''}">
+${p.featured ? '<p class="pc-flag">Best for most</p>' : ''}<div class="pc-head"><h3>${esc(p.name)}</h3><span class="pill ${live ? 'live' : 'wait'}">${live ? 'Available now' : 'Waitlist'}</span></div>
+<p class="pc-who">${esc(p.tagline)}</p>
+<p class="pc-price"><b>${esc(p.price)}</b><span>${esc(p.per)}</span></p>
+${cta}
+<p class="pc-lead">${esc(live ? 'What you get' : p.lead)}</p>
+<ul class="pc-list">${top.map((i) => `<li>${TICK}${esc(i)}</li>`).join('')}</ul>
+${rest.length ? `<details class="pc-more"><summary>See all ${p.items.length} features</summary><ul class="pc-list">${rest.map((i) => `<li>${TICK}${esc(i)}</li>`).join('')}</ul></details>` : ''}
+</article>`;
 };
-const compare = FEATURES.map((g, gi) => `<details${gi === 1 ? ' open' : ''}><summary>${esc(g.group)}<small>${g.rows.length} ${g.rows.length === 1 ? 'item' : 'items'}</small></summary><div class="acc-body">
-${g.rows.map(([name, help, cells]) => `<div class="feat-row"><div><b>${esc(name)}</b><span class="h">${esc(help)}</span></div><div class="chips">${cells.map((v, i) => chip(PLAN_ORDER[i], v)).join('')}</div></div>`).join('\n')}
-</div></details>`).join('\n');
+const cell = (v) => v === true ? `${TICK}<span class="sr">Included</span>` : v === false ? '<span class="no" aria-hidden="true">–</span><span class="sr">Not included</span>' : `<span class="txt">${esc(v)}</span>`;
+const compareFor = (ui) => {
+  const cols = ui.ids.map((id) => PLAN_ORDER.indexOf(id));
+  const groups = FEATURES.map((g) => ({ ...g, rows: g.rows.filter(([, , c]) => cols.some((i) => c[i] !== false)) })).filter((g) => g.rows.length);
+  const table = (g) => `<table class="cmp"><caption>${esc(g.group)}</caption><colgroup><col><col><col><col></colgroup><tbody>
+${g.rows.map(([name, help, c]) => `<tr><th scope="row">${esc(name)}<small>${esc(help)}</small></th>${cols.map((i) => `<td>${cell(c[i])}</td>`).join('')}</tr>`).join('\n')}
+</tbody></table>`;
+  const count = groups.reduce((n, g) => n + g.rows.length, 0);
+  return `<div class="cmp-wrap"><div class="cmp-head" aria-hidden="true"><span>Compare</span>${ui.ids.map((id) => `<b>${planById[id].name}</b>`).join('')}</div>
+${groups.slice(0, 2).map(table).join('\n')}
+<details class="cmp-more"><summary><span class="closed">Show all ${count} features</span><span class="opened">Show fewer</span></summary>${groups.slice(2).map(table).join('\n')}</details></div>`;
+};
 const pricing = {
   path: '/pricing/',
   title: 'Pricing | SIGSHIP',
-  description: 'Start free with the open source tool. Self-hosted Pro and Business, and SIGSHIP Cloud, are on the waitlist.',
-  body: `${hero('Pricing', 'Start free. <span>Upgrade when it pays for itself.</span>',
-    'The free tool is open source and works today, with no signup and no card. Paid plans are on the waitlist: <b>self-hosted</b> if you want every check on your own machine, <b>Cloud</b> if you want us to keep watch.',
-    btnInk('#plans', 'See the plans') + btnLine('#compare', 'Compare every feature'))}
+  description: 'Start free with the open source tool. Self-hosted and Cloud plans are on the waitlist.',
+  body: `${hero('Pricing', 'Simple pricing. <span>Start free.</span>',
+    'The free tool works today with no signup and no card. Paid plans are on the waitlist and open soon. <b>First, pick how you want to run it.</b>')}
 
-<section class="block" id="plans"><h2>Available <span>today.</span></h2>
-<div class="plans2">
-<article class="plan2 live"><h3>${esc(free.name)} <span class="tagline live">Live</span></h3><p class="price">${esc(free.price)} <small>${esc(free.per)}</small></p>
-<p class="who">${esc(free.tagline)}</p>
-<div class="cta"><button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button><a class="btn-line" href="/docs/">Read the docs</a></div>
-<ul class="ticks">${free.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></article>
-<article class="plan2 live"><h3>Pilot review <span class="tagline live">Available now</span></h3><p class="price">$499 <small>from, one-time</small></p>
-<p class="who">A senior zoof04 engineer reads your repo by hand.</p>
-<div class="cta"><a class="btn-ink" href="mailto:support@sigship.dev?subject=SIGSHIP%20pilot%20review">Request a pilot review</a></div>
-<ul class="ticks"><li>Every file read by a person, not a pattern</li><li>A ranked, written review within 48 hours</li><li>A 30-minute call to walk through it</li><li>Fix prompts for your AI tool</li></ul></article>
-</div></section>
-
-<section class="block"><h2>On the <span>waitlist.</span></h2>
-<p class="sub">Not sure which kind? <b>Self-hosted</b> is like an app you install: it runs on your machine and your code never leaves. <b>Cloud</b> is like Gmail: we run it for you and watch your live site.</p>
-<div class="ptabs" role="tablist" aria-label="Plan type">${TRACKS.map((t, i) => `<button type="button" role="tab" id="pt-${t.id}" aria-controls="pp-${t.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${t.label}</button>`).join('')}</div>
-${TRACKS.map((t, i) => `<div role="tabpanel" id="pp-${t.id}" aria-labelledby="pt-${t.id}"${i ? ' hidden' : ''}><p class="sub">${esc(t.blurb)}</p><div class="plans2">${t.plans.filter((p) => p.id !== 'free').map(plannedCard).join('')}</div></div>`).join('\n')}
+<section class="block pr-pick" id="plans" aria-label="Plans">
+<div class="seg" role="tablist" aria-label="How you want to run it">${Object.entries(TRACK_UI).map(([id, ui], i) => `<button type="button" role="tab" id="pt-${id}" aria-controls="pp-${id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}><b>${ui.tab}</b><small>${ui.sub}</small></button>`).join('')}</div>
+${Object.entries(TRACK_UI).map(([id, ui], i) => `<div role="tabpanel" id="pp-${id}" aria-labelledby="pt-${id}"${i ? ' hidden' : ''}>
+<p class="seg-note">${esc(ui.note)}</p>
+<div class="pcs">${ui.ids.map((pid) => planCard(planById[pid])).join('')}</div>
+<h2 class="cmp-title">What's included</h2>
+${compareFor(ui)}
+</div>`).join('\n')}
 </section>
 
-<section class="block" id="compare"><h2>Compare <span>every feature.</span></h2>
-<p class="sub">Open a group to see which plans include each feature. Free is available now; everything else is planned.</p>
-<div class="legend"><span class="chip on">Included</span><span class="chip off">Not included</span></div>
-<div class="acc">${compare}</div></section>
+<section class="pilot" aria-labelledby="pilot-h">
+<div><span class="pill live">Available now</span><h2 id="pilot-h">Want a person to read your code?</h2><p>A senior zoof04 engineer reviews your repo by hand. You get a ranked written review within 48 hours, a 30-minute call, and fix prompts for your AI tool.</p></div>
+<div class="pilot-buy"><p class="pc-price"><b>$499</b><span>from, one-time</span></p><a class="btn-ink" href="mailto:support@sigship.dev?subject=SIGSHIP%20pilot%20review">Request a pilot review</a></div>
+</section>
+
+<section class="block"><h2>Not sure <span>which one?</span></h2>
+<div class="guide">
+<div><b>Just trying it out</b><span>Use <a href="/docs/">Free</a>. It's the real tool, forever.</span></div>
+<div><b>Launching to real users</b><span><b>Pro</b> adds every check, on your own machine.</span></div>
+<div><b>Want someone to keep watch</b><span><b>Cloud Solo</b> checks every change and your live site.</span></div>
+</div></section>
 
 <section class="block"><h2>Questions</h2><div class="acc">
-<details><summary>Is the free version really free?</summary><div class="acc-body"><p>Yes. It is open source under the MIT licence, needs no signup, has no repo limit and runs on your machine for as long as you like.</p></div></details>
-<details><summary>Do you ever see my code?</summary><div class="acc-body"><p>Not with self-hosted: it runs on your machine. With a licence key it sends only the key and a one-way repo fingerprint. Cloud will read your code in an isolated runner, delete it within minutes and keep only the findings.</p></div></details>
-<details><summary>What does one-time mean?</summary><div class="acc-body"><p>Pay once and use it for as long as you like. The price includes a year of new checks. After that you can renew, or keep the last version you downloaded, forever.</p></div></details>
-<details><summary>Can I switch between self-hosted and Cloud?</summary><div class="acc-body"><p>Yes. Cloud plans include every Pro check.</p></div></details>
-<details><summary>When do paid plans open?</summary><div class="acc-body"><p>Soon. Join the waitlist and we will email you once, when your plan opens, with launch pricing.</p></div></details>
-<details><summary>What if it is not right for me?</summary><div class="acc-body"><p>Ask within 14 days of your first payment for a full refund. Non-profits and students get a discount: email support@sigship.dev.</p></div></details>
+<details><summary>Is the free version really free?</summary><div class="acc-body"><p>Yes. It's open source under the MIT licence, needs no signup, has no repo limit and runs on your machine for as long as you like.</p></div></details>
+<details><summary>What's the difference between self-hosted and Cloud?</summary><div class="acc-body"><p>Self-hosted runs on your own computer and GitHub, like an app you install: your code never leaves. Cloud is run for you, like Gmail: connect a repo and we check every change and watch your live site.</p></div></details>
+<details><summary>Do you ever see my code?</summary><div class="acc-body"><p>Not with self-hosted. With a licence key it sends only the key and a one-way repo fingerprint. Cloud will read your code in an isolated runner, delete it within minutes and keep only the findings.</p></div></details>
+<details><summary>What does one-time mean?</summary><div class="acc-body"><p>Pay once and use it for as long as you like. The price includes a year of new checks. After that you can renew, or keep the version you have, forever.</p></div></details>
+<details><summary>When do paid plans open?</summary><div class="acc-body"><p>Soon. Join the waitlist and we'll email you once, when your plan opens, with launch pricing.</p></div></details>
+<details><summary>What if it isn't right for me?</summary><div class="acc-body"><p>Ask within 14 days of your first payment for a full refund. Non-profits and students get a discount: email support@sigship.dev.</p></div></details>
 </div></section>
 ${CTA}`,
 };
