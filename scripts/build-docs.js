@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { RULES } from '../src/rules.js';
 import { icon, tokens } from './marks.js';
 import { PRODUCT_PAGES } from './pages.js';
-import { CHECK_EXTRA, GLOSSARY, GUIDES, HOME_FAQ, ORG, PUBLISHED, crumbs, faqFromHtml, ld } from './seo.js';
+import { CHECK_EXTRA, GLOSSARY, GUIDES, HOME_FAQ, INDEXNOW_KEY, ORG, PUBLISHED, crumbs, faqFromHtml, ld } from './seo.js';
 import { execFileSync } from 'node:child_process';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -373,6 +373,7 @@ ${gd.faq.map(([q, a]) => `Q: ${q}\nA: ${a}`).join('\n')}`).join('\n\n')}
 ${GLOSSARY.map(([, term, plain]) => `- ${term}: ${plain}`).join('\n')}
 `);
 writeFileSync(join(site, 'manifest.webmanifest'), `${JSON.stringify({ name: 'SIGSHIP', short_name: 'SIGSHIP', description: 'Free security check for vibe-coded and AI-built apps.', start_url: '/', display: 'standalone', background_color: '#edf2f6', theme_color: '#edf2f6', icons: [{ src: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }, { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' }] }, null, 2)}\n`);
+writeFileSync(join(site, `${INDEXNOW_KEY}.txt`), INDEXNOW_KEY);
 mkdirSync(join(site, '.well-known'), { recursive: true });
 writeFileSync(join(site, '.well-known/security.txt'), `Contact: mailto:support@sigship.dev\nExpires: ${Number(LASTMOD.slice(0, 4)) + 1}${LASTMOD.slice(4)}T00:00:00.000Z\nPreferred-Languages: en\nPolicy: https://github.com/sigship/sigship/blob/main/SECURITY.md\nCanonical: ${ORIGIN}/.well-known/security.txt\n`);
 writeFileSync(join(site, 'favicon.svg'), icon({ blue: token('blue'), paper: token('paper'), ink: token('ink') }, ' xmlns="http://www.w3.org/2000/svg"'));

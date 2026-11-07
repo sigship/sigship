@@ -7,6 +7,8 @@ export const GH = 'https://github.com/sigship/sigship';
 export const NPM = 'https://www.npmjs.com/package/sigship';
 export const DISCORD = 'https://discord.gg/hKG6rNM4W';
 export const PUBLISHED = '2026-11-08';
+// IndexNow key: public by design. It is served at /4545ec5815994cddeed0d89c88ad8e57.txt so search engines can confirm our submissions.
+export const INDEXNOW_KEY = '4545ec5815994cddeed0d89c88ad8e57';
 
 const strip = (s) => String(s).replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim();
 // JSON-LD inside a script tag: escape "<" so no value can close the tag.
