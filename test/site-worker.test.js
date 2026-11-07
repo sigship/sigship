@@ -52,6 +52,7 @@ describe('waitlist', () => {
     const s = sheet();
     assert.equal((await waitlist(post({ ...good, email: 'nope' }), ENV, { fetch: s.fetch, now: NOW })).status, 400);
     assert.equal((await waitlist(post({ ...good, plan: 'free' }), ENV, { fetch: s.fetch, now: NOW })).status, 400);
+    assert.equal((await waitlist(post({ ...good, plan: 'business' }), ENV, { fetch: sheet().fetch, now: NOW })).status, 200);
     assert.equal(s.rows.length, 0);
   });
 

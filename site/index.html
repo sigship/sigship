@@ -38,15 +38,16 @@
 
 <header class="mast">
   <a class="brand" href="/"><svg viewBox="0 0 90 80" aria-hidden="true"><rect width="90" height="3" fill="var(--ink)"/><rect x="16" width="3" height="20" fill="var(--ink)"/><rect x="71" width="3" height="20" fill="var(--ink)"/><rect y="20" width="90" height="60" fill="var(--blue)"/><rect x="30" y="40" width="30" height="20" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-  <nav aria-label="Main">
-    <a href="#checks">Checks</a>
-    <a class="wide" href="#how">How it works</a>
-    <a class="wide" href="#cloud">Cloud</a>
-    <a href="#pricing">Pricing</a>
-    <a class="wide" href="https://github.com/sigship/sigship">GitHub</a>
-    <a class="wide" href="https://zoof04.com" target="_blank" rel="noopener">by zoof04<span class="sr"> (opens in a new tab)</span></a>
+  <nav class="nav" aria-label="Main"><a href="/#how">How it works</a><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a href="/#cloud">Cloud</a><a href="https://github.com/sigship/sigship">GitHub</a></nav>
+  <div class="mast-actions">
     <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
-  </nav>
+    <a class="btn btn-sm" href="/#start">Get started</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <nav aria-label="Menu"><a href="/#how">How it works</a><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a href="/#cloud">Cloud</a><a href="https://github.com/sigship/sigship">GitHub</a><a href="/#waitlist">Join the waitlist</a><a href="https://zoof04.com" target="_blank" rel="noopener">by zoof04<span class="sr"> (opens in a new tab)</span></a></nav>
+    <a class="btn block" href="/#start">Get started free</a>
+  </div>
 </header>
 
 <div class="hoist-wrap">
@@ -65,9 +66,10 @@
 <main>
   <div class="hero">
     <canvas class="particles" aria-hidden="true"></canvas>
+    <p class="pill"><span class="pill-dot" aria-hidden="true"></span><span>Free and open source <b>·</b> MIT <b>·</b> Runs on your machine</span></p>
     <h1>The postmortem, before the outage.</h1>
     <p class="lede">SIGSHIP reads your AI-built app on your own machine and lists what will break in production. It exits 0 only when it finds nothing serious, which gives your coding agent a real test for done.</p>
-    <div class="run">
+    <div class="run" id="start">
       <div class="cmd"><span>npx sigship</span><button type="button" id="copy">Copy</button></div>
       <small>No signup. Nothing leaves your machine.</small>
     </div>
@@ -220,7 +222,7 @@
     <p class="note">For people who build with AI tools and don't live in a terminal. Connect your project, and SIGSHIP checks every change, watches your live site and tells you what to fix in plain English.</p>
     <ol class="steps">
       <li data-reveal><span class="step-n">01</span><h3>Connect</h3><p>Sign in with GitHub and pick a repo. Projects from AI builders connect through their GitHub sync, and projects from AI editors through the repo you push to.</p></li>
-      <li data-reveal><span class="step-n">02</span><h3>Watch</h3><p>SIGSHIP checks your code on every push and every night. It also checks your live site from the outside, the way an attacker would.</p></li>
+      <li data-reveal><span class="step-n">02</span><h3>Watch</h3><p>SIGSHIP checks your code on every push and every night. It also probes your live site and your Supabase from the outside, the way an attacker would.</p></li>
       <li data-reveal><span class="step-n">03</span><h3>Fix</h3><p>Each problem comes in plain English with a fix prompt ready for the tool you build with. Fix it, and SIGSHIP checks again on its own.</p></li>
     </ol>
     <div class="tools">
@@ -233,58 +235,143 @@
     <p class="cloud-privacy">The free tool stays fully on your machine. In Cloud, your code is read in an isolated runner and deleted within minutes. Only the findings are kept.</p>
   </section>
 
-  <section id="pricing">
-    <h2>Free on your machine. Cloud when you want it to keep watch.</h2>
-    <p class="note">The free tool works today. Paid plans are SIGSHIP Cloud and open soon. Join the waitlist for early access and launch pricing.</p>
-    <div class="plans">
-      <article class="plan now" data-reveal>
-        <h3>Free <span class="tag">Available now</span></h3>
-        <p class="price">$0</p>
-        <ul>
-          <li>17 core checks</li>
-          <li>Unlimited repos, on your machine</li>
-          <li>Terminal, browser dashboard, JSON and fix prompt</li>
-          <li>Pull request check and MCP server</li>
-        </ul>
-        <a class="btn" href="https://github.com/sigship/sigship">Read the code</a>
-      </article>
-      <article class="plan" data-reveal>
-        <h3>Solo <span class="tag">Waitlist</span></h3>
-        <p class="price">$19 <span class="per">a month</span></p>
-        <ul>
-          <li>3 projects in Cloud</li>
-          <li>Checks on every push and every night</li>
-          <li>Live site check for 1 site, daily</li>
-          <li>Pro pack of extra checks</li>
-          <li>Email alerts and client reports</li>
-        </ul>
-        <a class="btn alt" href="#waitlist" data-plan="solo">Join the waitlist</a>
-      </article>
-      <article class="plan" data-reveal>
-        <h3>Team <span class="tag">Waitlist</span></h3>
-        <p class="price">$59 <span class="per">a month</span></p>
-        <ul>
-          <li>10 projects and 5 seats</li>
-          <li>Live site checks for 10 sites, hourly</li>
-          <li>Pull request comments and merge block</li>
-          <li>Slack, Discord and email alerts</li>
-          <li>Everything in Solo</li>
-        </ul>
-        <a class="btn alt" href="#waitlist" data-plan="team">Join the waitlist</a>
-      </article>
-      <article class="plan" data-reveal>
-        <h3>Agency <span class="tag">Waitlist</span></h3>
-        <p class="price">$149 <span class="per">a month</span></p>
-        <ul>
-          <li>30 projects and 15 seats</li>
-          <li>Live site checks for 30 sites, hourly</li>
-          <li>White-label client reports</li>
-          <li>An alert channel per client</li>
-          <li>Everything in Team</li>
-        </ul>
-        <a class="btn alt" href="#waitlist" data-plan="agency">Join the waitlist</a>
-      </article>
+  <section class="pricing" id="pricing">
+    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Pricing</p>
+    <h2>Start free. Upgrade when you want every check, or want us to keep watch.</h2>
+    <p class="note">Free is open source and available today. Paid plans open soon. <a href="#self-or-cloud">Not sure which kind you need? Self-hosted and Cloud, explained.</a></p>
+    <!-- pricing:start -->
+    <div class="tracks" role="tablist" aria-label="How you run SIGSHIP">
+      <button type="button" role="tab" id="tab-self" aria-controls="track-self" aria-selected="true">Self-hosted<small>Your machine</small></button><button type="button" role="tab" id="tab-cloud" aria-controls="track-cloud" aria-selected="false" tabindex="-1">Cloud<small>We run it</small></button>
     </div>
+    <div class="track" id="track-self" role="tabpanel" aria-labelledby="tab-self">
+      <p class="track-blurb">Runs on your machine and in your own GitHub. Your code never leaves.</p>
+      <div class="pgrid"><article class="pcard live" data-reveal>
+      <div class="pcard-head"><h3>Free</h3><span class="tag">Available now</span></div>
+      <p class="pcard-tagline">The open source check for every AI-built app.</p>
+      <p class="pcard-price"><span class="amount">$0</span> <span class="per">forever</span></p>
+      <p class="pcard-note">No signup. No limits.</p>
+      <div class="pcard-cta"><a class="btn block" href="#start">Get started free</a><a class="pcard-alt" href="https://github.com/sigship/sigship">Read the code</a></div>
+      <p class="pcard-lead">What you get today</p>
+      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>17 core checks</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Unlimited repos, on your machine</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Terminal, browser dashboard and MCP</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pull request check for GitHub</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Fix prompt for any AI tool</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>JSON and Markdown output</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Open source under MIT</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Community support on GitHub</span></li></ul>
+      
+    </article><article class="pcard featured" data-reveal>
+      <div class="pcard-head"><h3>Pro</h3><span class="tag">Waitlist</span></div>
+      <p class="pcard-tagline">Every check we have, on your own machine and CI.</p>
+      <p class="pcard-price"><span class="amount">$149</span> <span class="per">one-time</span></p>
+      <p class="pcard-note">Includes 1 year of new checks. Keep it forever.</p>
+      <div class="pcard-cta"><a class="btn block" href="#waitlist" data-plan="pro">Join the waitlist</a></div>
+      <p class="pcard-lead">Everything in Free, plus</p>
+      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pro pack of extra checks</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Deep Supabase policy check</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Security headers and login rate limits</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Hallucinated and vulnerable packages</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Secrets in your git history</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Prompts tuned for Lovable, Cursor, Bolt and more</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pre-commit hook and GitHub code scanning</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pull request comments and nightly checks</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Client report and pre-launch checklist PDF</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Accepted risks file</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Slack, Discord and email alerts</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>5 repos, unlimited team members</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Email support</span></li></ul>
+      <p class="pcard-foot">Planned features. They arrive at launch.</p>
+    </article><article class="pcard" data-reveal>
+      <div class="pcard-head"><h3>Business</h3><span class="tag">Waitlist</span></div>
+      <p class="pcard-tagline">For studios and agencies shipping client apps.</p>
+      <p class="pcard-price"><span class="amount">$499</span> <span class="per">one-time</span></p>
+      <p class="pcard-note">Includes 1 year of new checks. Keep it forever.</p>
+      <div class="pcard-cta"><a class="btn block alt" href="#waitlist" data-plan="business">Join the waitlist</a></div>
+      <p class="pcard-lead">Everything in Pro, plus</p>
+      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>25 repos</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>White-label client reports</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Priority support</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Unlimited team members</span></li></ul>
+      <p class="pcard-foot">Planned features. They arrive at launch.</p>
+    </article></div>
+    </div>
+    <div class="track" id="track-cloud" role="tabpanel" aria-labelledby="tab-cloud">
+      <p class="track-blurb">We run it for you. Connect a repo, and SIGSHIP keeps watch on your code and your live site.</p>
+      <div class="pgrid"><article class="pcard" data-reveal>
+      <div class="pcard-head"><h3>Solo</h3><span class="tag">Waitlist</span></div>
+      <p class="pcard-tagline">For a founder with an app in production.</p>
+      <p class="pcard-price"><span class="amount">$19</span> <span class="per">a month</span></p>
+      <p class="pcard-note">Billed monthly. Cancel anytime.</p>
+      <div class="pcard-cta"><a class="btn block alt" href="#waitlist" data-plan="solo">Join the waitlist</a></div>
+      <p class="pcard-lead">All Pro checks, plus</p>
+      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Connect from GitHub, Lovable, Bolt, Replit or v0</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Checks on every push and every night</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Live site scan, 1 site daily</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Live Supabase probe</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>SSL, domain and downtime alerts</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>New vulnerability alerts</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Launch readiness score and history</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Automatic re-check after a fix</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>&quot;Checked by SIGSHIP&quot; badge</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>3 projects, email alerts and support</span></li></ul>
+      <p class="pcard-foot">Planned features. They arrive at launch.</p>
+    </article><article class="pcard featured" data-reveal>
+      <div class="pcard-head"><h3>Team</h3><span class="tag">Waitlist</span></div>
+      <p class="pcard-tagline">For small teams shipping every week.</p>
+      <p class="pcard-price"><span class="amount">$59</span> <span class="per">a month</span></p>
+      <p class="pcard-note">Billed monthly. Cancel anytime.</p>
+      <div class="pcard-cta"><a class="btn block" href="#waitlist" data-plan="team">Join the waitlist</a></div>
+      <p class="pcard-lead">Everything in Solo, plus</p>
+      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>10 projects and 5 seats</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Live site scans, 10 sites hourly</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>One-click fix pull requests</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Pull request comments and merge block</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Slack, Discord and email alerts</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Roles and activity log</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Priority support</span></li></ul>
+      <p class="pcard-foot">Planned features. They arrive at launch.</p>
+    </article><article class="pcard" data-reveal>
+      <div class="pcard-head"><h3>Agency</h3><span class="tag">Waitlist</span></div>
+      <p class="pcard-tagline">For agencies running many client apps.</p>
+      <p class="pcard-price"><span class="amount">$149</span> <span class="per">a month</span></p>
+      <p class="pcard-note">Billed monthly. Cancel anytime.</p>
+      <div class="pcard-cta"><a class="btn block alt" href="#waitlist" data-plan="agency">Join the waitlist</a></div>
+      <p class="pcard-lead">Everything in Team, plus</p>
+      <ul><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>30 projects and 15 seats</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Live site scans, 30 sites hourly</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>White-label client reports</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>An alert channel per client</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Single sign-on</span></li><li><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span>Onboarding call</span></li></ul>
+      <p class="pcard-foot">Planned features. They arrive at launch.</p>
+    </article></div>
+    </div>
+    <details class="compare" data-reveal>
+      <summary><span>Compare every feature</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></summary>
+      <div class="compare-scroll" role="region" aria-label="Feature comparison" tabindex="0">
+        <table>
+          <thead>
+            <tr><td></td><th scope="colgroup" colspan="3">Self-hosted</th><th scope="colgroup" colspan="3">Cloud</th></tr>
+            <tr><th scope="col" class="feat">Feature</th><th scope="col">Free<small>$0</small></th><th scope="col">Pro<small>$149 once</small></th><th scope="col">Business<small>$499 once</small></th><th scope="col">Solo<small>$19/mo</small></th><th scope="col">Team<small>$59/mo</small></th><th scope="col">Agency<small>$149/mo</small></th></tr>
+          </thead>
+          <tbody>
+            <tr class="group"><th scope="rowgroup" colspan="7">Plan</th></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Repos or projects</span><span class="fhelp">How many codebases the plan covers.</span></th><td>Unlimited</td><td>5</td><td>25</td><td>3</td><td>10</td><td>30</td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Team members</span><span class="fhelp">Who can use it. Self-hosted plans have no seat limit.</span></th><td>Unlimited</td><td>Unlimited</td><td>Unlimited</td><td>1</td><td>5</td><td>15</td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">New checks and updates</span><span class="fhelp">Self-hosted paid plans include a year of new checks. You keep what you have after that.</span></th><td>Always</td><td>1 year</td><td>1 year</td><td>Always</td><td>Always</td><td>Always</td></tr>
+            <tr class="group"><th scope="rowgroup" colspan="7">Checks</th></tr>
+            <tr><th scope="row" class="feat"><span class="fname">17 core checks</span><span class="fhelp">Leaked keys, committed .env files, open Supabase tables, unverified Stripe webhooks, AI routes with no spending brake and more.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Pro pack</span><span class="fhelp">Open Firebase rules, public storage buckets, routes that change data with no auth, Razorpay webhooks, upload limits, open redirects and weak session cookies.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Deep Supabase policy check</span><span class="fhelp">Finds policies that exist but do not restrict anything, the service key used in the browser, and email confirmation turned off.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Security headers</span><span class="fhelp">Content security policy, clickjacking protection and HSTS in your Next.js, Vercel or Netlify config.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Login and signup rate limits</span><span class="fhelp">Catches auth endpoints anyone can hammer with guesses.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Hallucinated and look-alike packages</span><span class="fhelp">AI tools sometimes invent package names, and attackers register them. SIGSHIP flags packages that look wrong.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Known vulnerable packages</span><span class="fhelp">Checks your dependencies against public security advisories.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Secrets in git history</span><span class="fhelp">Finds keys that were committed once and deleted later. They are still in your history.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">AI app checks</span><span class="fhelp">User input pasted into system prompts, and AI output rendered as raw HTML.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">More payment webhooks</span><span class="fhelp">Paddle, Lemon Squeezy and Polar, as well as Stripe and Razorpay.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr class="group"><th scope="rowgroup" colspan="7">Fix</th></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Fix prompt for any AI tool</span><span class="fhelp">Every finding as one prompt you can paste into your AI tool.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Prompts tuned for your tool</span><span class="fhelp">Fix prompts written for Lovable, Cursor, Bolt, Claude Code and Replit.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">One-click fix pull requests</span><span class="fhelp">SIGSHIP opens a pull request with the fix for simple problems.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Automatic re-check after a fix</span><span class="fhelp">Push a fix, and SIGSHIP checks again on its own.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr class="group"><th scope="rowgroup" colspan="7">Where it runs</th></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Terminal, browser dashboard and MCP</span><span class="fhelp">Run it yourself, click through results in your browser, or give it to your coding agent.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Pull request check</span><span class="fhelp">A GitHub check that fails when a change brings a serious problem back.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Pre-commit hook</span><span class="fhelp">Stops a secret before it is ever committed.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">GitHub code scanning</span><span class="fhelp">Findings appear in the Security tab of your GitHub repo.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Pull request comments and nightly checks</span><span class="fhelp">Results posted on each pull request, and a check every night.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Connect from AI builders</span><span class="fhelp">Connect projects from GitHub, Lovable, Bolt, Replit and v0. Nothing to install.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr class="group"><th scope="rowgroup" colspan="7">Watch</th></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Live site scan</span><span class="fhelp">Checks your deployed site from the outside: exposed .env or .git, source maps, missing headers and open admin pages.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td>1 site, daily</td><td>10 sites, hourly</td><td>30 sites, hourly</td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Live Supabase probe</span><span class="fhelp">Tries your public key the way an attacker would and reports which tables it can read.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">SSL, domain and downtime alerts</span><span class="fhelp">Warns you before a certificate or domain expires, and when the site goes down.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">New vulnerability alerts</span><span class="fhelp">Tells you when a package you use gets a new security advisory.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr class="group"><th scope="rowgroup" colspan="7">Reports</th></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Terminal, JSON and Markdown output</span><span class="fhelp">For people, scripts and pull request comments.</span></th><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Client-ready report</span><span class="fhelp">A clean HTML report to send to a client or investor.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Pre-launch checklist PDF</span><span class="fhelp">A one-page checklist showing what was checked before launch.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">White-label reports</span><span class="fhelp">Your logo and name on client reports.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Launch readiness score and history</span><span class="fhelp">A score from 0 to 100, and a graph of your app getting safer.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">&quot;Checked by SIGSHIP&quot; badge</span><span class="fhelp">A badge for your site showing the latest verdict. It never claims your app is certified.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr class="group"><th scope="rowgroup" colspan="7">Team and control</th></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Accepted risks file</span><span class="fhelp">Mark a finding as known, with a reason and an expiry date, so it stops blocking.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Alerts</span><span class="fhelp">Where SIGSHIP tells you when something turns NO-GO.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td>Slack, Discord, email</td><td>Slack, Discord, email</td><td>Email</td><td>Slack, Discord, email</td><td>All, plus a channel per client</td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Roles and activity log</span><span class="fhelp">Who can do what, and a record of what changed.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Single sign-on</span><span class="fhelp">Sign in with your company identity provider.</span></th><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span></td><td><svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><span class="sr">Included</span></td></tr>
+            <tr class="group"><th scope="rowgroup" colspan="7">Support</th></tr>
+            <tr><th scope="row" class="feat"><span class="fname">Support</span><span class="fhelp">How to reach us.</span></th><td>Community</td><td>Email</td><td>Priority</td><td>Email</td><td>Priority</td><td>Onboarding call</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="compare-note">Free is available now. Everything in paid plans is planned and arrives at launch.</p>
+    </details>
+    <!-- pricing:end -->
+    <ul class="assure">
+      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 9.5C8 19.3 5 15.5 5 11V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg><b>Keep it forever</b><span>Self-hosted plans keep your last Pro pack, even if you never renew.</span></li>
+      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><b>14-day refund</b><span>Not right for you? Ask within 14 days for a full refund.</span></li>
+      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg><b>Built on open source</b><span>The free tool is MIT licensed. Read every line it runs.</span></li>
+      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg><b>Discounts that matter</b><span>Non-profits and students get a discount. Email support@sigship.dev.</span></li>
+    </ul>
     <div class="pilot" data-reveal>
       <svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>
       <div>
@@ -298,19 +385,92 @@
     </div>
   </section>
 
+  <section class="explain" id="self-or-cloud">
+    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Self-hosted or Cloud?</p>
+    <h2>Two ways to run SIGSHIP. The same checks.</h2>
+    <div class="explain-cards">
+      <article data-reveal>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>
+        <h3>Self-hosted is like an app you install.</h3>
+        <p>It runs on your computer and in your own GitHub. Your code never leaves your machines. You start it with one command.</p>
+        <p class="explain-best">Best if you use a terminal or GitHub and want full control.</p>
+      </article>
+      <article data-reveal>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a5 5 0 0 1-.6-10A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9H7z"/></svg>
+        <h3>Cloud is like Gmail.</h3>
+        <p>We run it for you. Connect a repo, and SIGSHIP checks every change and watches your live site. Nothing to install.</p>
+        <p class="explain-best">Best if you build in Lovable, Bolt or Replit, or want us to keep watch.</p>
+      </article>
+    </div>
+    <div class="vs" data-reveal>
+      <table>
+        <thead><tr><td></td><th scope="col">Self-hosted</th><th scope="col">Cloud</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Who runs it</th><td>You, on your machine and CI</td><td>We do</td></tr>
+          <tr><th scope="row">Where your code goes</th><td>Nowhere. It stays with you.</td><td>Read in an isolated runner, deleted within minutes</td></tr>
+          <tr><th scope="row">Setup</th><td>One command</td><td>One click</td></tr>
+          <tr><th scope="row">Watches your live site</th><td>No</td><td>Yes</td></tr>
+          <tr><th scope="row">How you pay</th><td>Free, or once for Pro and Business</td><td>Monthly</td></tr>
+          <tr><th scope="row">Available</th><td>Free today. Pro and Business soon.</td><td>Soon. Join the waitlist.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <form class="finder" data-finder data-reveal>
+      <h3>Find your plan in three questions</h3>
+      <fieldset>
+        <legend>Do you use a terminal or GitHub?</legend>
+        <div class="seg"><label><input type="radio" name="term" value="yes" checked><span>Yes</span></label><label><input type="radio" name="term" value="no"><span>No</span></label></div>
+      </fieldset>
+      <fieldset>
+        <legend>Should SIGSHIP watch your live site for you?</legend>
+        <div class="seg"><label><input type="radio" name="watch" value="no" checked><span>No</span></label><label><input type="radio" name="watch" value="yes"><span>Yes</span></label></div>
+      </fieldset>
+      <fieldset>
+        <legend>How many projects?</legend>
+        <div class="seg"><label><input type="radio" name="size" value="s" checked><span>1 to 3</span></label><label><input type="radio" name="size" value="m"><span>4 to 10</span></label><label><input type="radio" name="size" value="l"><span>More than 10</span></label></div>
+      </fieldset>
+      <div class="finder-result" aria-live="polite">
+        <p class="finder-kicker">We suggest</p>
+        <p class="finder-plan">Free, self-hosted</p>
+        <p class="finder-why">Run it on your machine today. Add Pro when you want every check.</p>
+        <a class="btn" href="#start" data-finder-cta>Get started free</a>
+      </div>
+    </form>
+  </section>
+
+  <section class="faq" id="faq">
+    <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Questions</p>
+    <h2>Pricing questions, answered.</h2>
+    <div class="faq-list">
+      <details><summary>Is the free version really free?</summary><p>Yes. It is open source under the MIT license, needs no signup, has no repo limit and runs on your machine for as long as you like.</p></details>
+      <details><summary>Do you ever see my code?</summary><p>Not with self-hosted. It runs on your machine and sends nothing. With a licence key it sends only the key and a one-way repo fingerprint. Cloud will read your code in an isolated runner, delete it within minutes, and keep only the findings.</p></details>
+      <details><summary>What does one-time mean for Pro and Business?</summary><p>You pay once and use it for as long as you like. The price includes a year of new checks. After that you can renew to keep getting new checks, or keep the last version you downloaded, forever.</p></details>
+      <details><summary>Can I switch between self-hosted and Cloud?</summary><p>Yes. Cloud plans include every Pro check, so you can start self-hosted and move to Cloud when you want SIGSHIP to keep watch for you.</p></details>
+      <details><summary>Do I need to know how to code?</summary><p>For self-hosted, you only need to paste one command into a terminal. For Cloud, you don't need to code at all: connect your project and read the results in plain English.</p></details>
+      <details><summary>When do paid plans open?</summary><p>Soon. Join the waitlist and we will email you once, when your plan opens, with launch pricing.</p></details>
+      <details><summary>What if it is not right for me?</summary><p>Ask within 14 days of your first payment and we will refund it in full.</p></details>
+    </div>
+  </section>
+
   <section class="waitlist" id="waitlist">
     <div class="wl-copy" data-reveal>
-      <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> SIGSHIP Cloud</p>
+      <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Waitlist</p>
       <h2>Get early access.</h2>
-      <p>We will email you when your plan opens, with launch pricing. Nothing else. Ask us at support@sigship.dev to remove you at any time.</p>
+      <p>Pro, Business and Cloud are on the way. We will email you once, when your plan opens, with launch pricing. Nothing else. Ask us at support@sigship.dev to remove you at any time.</p>
     </div>
     <form class="wl-form" method="post" action="/api/waitlist" data-waitlist data-reveal>
       <label><span>Email</span><input type="email" name="email" required autocomplete="email" maxlength="254" placeholder="you@yourapp.com"></label>
       <label><span>Name <em>(optional)</em></span><input name="name" autocomplete="name" maxlength="80"></label>
       <label><span>Plan</span><select name="plan" required>
-        <option value="solo">Solo, $19 a month</option>
-        <option value="team">Team, $59 a month</option>
-        <option value="agency">Agency, $149 a month</option>
+        <optgroup label="Self-hosted">
+          <option value="pro">Pro, $149 one-time</option>
+          <option value="business">Business, $499 one-time</option>
+        </optgroup>
+        <optgroup label="Cloud">
+          <option value="solo">Solo, $19 a month</option>
+          <option value="team">Team, $59 a month</option>
+          <option value="agency">Agency, $149 a month</option>
+        </optgroup>
       </select></label>
       <label><span>What do you build with? <em>(optional)</em></span><select name="tool">
         <option value="">Choose one</option>
@@ -376,22 +536,6 @@
       copy.textContent = 'Press Cmd+C';
     }
     setTimeout(() => { copy.textContent = 'Copy'; }, 1600);
-  });
-  const tabs = [...document.querySelectorAll('[role="tab"]')];
-  const select = (tab) => {
-    tabs.forEach((t) => {
-      const on = t === tab;
-      t.setAttribute('aria-selected', on);
-      t.tabIndex = on ? 0 : -1;
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-    });
-    tab.focus();
-  };
-  tabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => select(tab));
-    tab.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') select(tabs[(i + 1) % tabs.length]);
-    });
   });
 </script>
 </body>

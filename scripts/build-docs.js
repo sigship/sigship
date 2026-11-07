@@ -5,6 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { RULES } from '../src/rules.js';
 import { icon, mark, tokens } from './marks.js';
+import { FEATURES, TRACKS } from './pricing.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const site = join(here, '../site');
@@ -25,8 +26,9 @@ const FLAGS = Object.fromEntries([...readFileSync(homeFile, 'utf8').matchAll(/<s
 const flagRow = [...'sigship'].map((f) => `<svg viewBox="0 0 90 60">${FLAGS[f]}</svg>`).join('');
 
 // Picks dark or light before the page paints, so there is no flash. The toggle in site.js changes it.
+const TOGGLE = () => TOGGLE_HTML;
 const THEME_SCRIPT = `<script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem('sigship-theme')}catch(e){}if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')})()</script>`;
-const TOGGLE = '<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>';
+const TOGGLE_HTML = '<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>';
 
 // A page without a path, such as the 404 page, is kept out of search results.
 const shell = ({ title, description, path, body }) => `<!doctype html>
@@ -48,10 +50,7 @@ ${THEME_SCRIPT}
 <script src="/site.js" defer></script>
 </head>
 <body>
-<header class="mast">
-  <a class="brand" href="/">${MARK}SIGSHIP</a>
-  <nav aria-label="Main"><a href="/#checks">Checks</a><a href="/#pricing">Pricing</a><a class="wide" href="https://github.com/sigship/sigship">GitHub</a><a class="wide" href="https://zoof04.com" target="_blank" rel="noopener">by zoof04<span class="sr"> (opens in a new tab)</span></a>${TOGGLE}</nav>
-</header>
+${HEADER}
 <main class="page">
 ${body}
 </main>
@@ -59,6 +58,71 @@ ${FOOTER}
 </body>
 </html>
 `;
+
+// One header for every page. On narrow screens the links move into a menu behind the button.
+const NAV = [
+  ['/#how', 'How it works'],
+  ['/#checks', 'Checks'],
+  ['/#pricing', 'Pricing'],
+  ['/#cloud', 'Cloud'],
+  ['https://github.com/sigship/sigship', 'GitHub'],
+];
+const HEADER = `<header class="mast">
+  <a class="brand" href="/">${MARK}SIGSHIP</a>
+  <nav class="nav" aria-label="Main">${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join('')}</nav>
+  <div class="mast-actions">
+    ${TOGGLE()}
+    <a class="btn btn-sm" href="/#start">Get started</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <nav aria-label="Menu">${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join('')}<a href="/#waitlist">Join the waitlist</a><a href="https://zoof04.com" target="_blank" rel="noopener">by zoof04<span class="sr"> (opens in a new tab)</span></a></nav>
+    <a class="btn block" href="/#start">Get started free</a>
+  </div>
+</header>`;
+
+// Pricing: two tracks of plan cards, then a table comparing every feature.
+const CHECK = '<svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg>';
+const cell = (v) => (v === true ? `${CHECK}<span class="sr">Included</span>` : v === false ? '<span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span>' : esc(v));
+const planCard = (p) => {
+  const cta = p.cta.plan
+    ? `<a class="btn block${p.featured ? '' : ' alt'}" href="#waitlist" data-plan="${p.cta.plan}">${p.cta.label}</a>`
+    : `<a class="btn block" href="${p.cta.href}">${p.cta.label}</a>${p.alt ? `<a class="pcard-alt" href="${p.alt.href}">${p.alt.label}</a>` : ''}`;
+  return `<article class="pcard${p.featured ? ' featured' : ''}${p.cta.plan ? '' : ' live'}" data-reveal>
+      <div class="pcard-head"><h3>${p.name}</h3><span class="tag">${p.tag}</span></div>
+      <p class="pcard-tagline">${esc(p.tagline)}</p>
+      <p class="pcard-price"><span class="amount">${p.price}</span> <span class="per">${p.per}</span></p>
+      <p class="pcard-note">${p.note ? esc(p.note) : 'No signup. No limits.'}</p>
+      <div class="pcard-cta">${cta}</div>
+      <p class="pcard-lead">${p.lead}</p>
+      <ul>${p.items.map((i) => `<li>${CHECK}<span>${esc(i)}</span></li>`).join('')}</ul>
+      ${p.cta.plan ? '<p class="pcard-foot">Planned features. They arrive at launch.</p>' : ''}
+    </article>`;
+};
+const PLANS_FLAT = TRACKS.flatMap((t) => t.plans);
+const PRICING = `<div class="tracks" role="tablist" aria-label="How you run SIGSHIP">
+      ${TRACKS.map((t, i) => `<button type="button" role="tab" id="tab-${t.id}" aria-controls="track-${t.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${t.label}<small>${t.id === 'self' ? 'Your machine' : 'We run it'}</small></button>`).join('')}
+    </div>
+    ${TRACKS.map((t) => `<div class="track" id="track-${t.id}" role="tabpanel" aria-labelledby="tab-${t.id}">
+      <p class="track-blurb">${esc(t.blurb)}</p>
+      <div class="pgrid">${t.plans.map(planCard).join('')}</div>
+    </div>`).join('\n    ')}
+    <details class="compare" data-reveal>
+      <summary><span>Compare every feature</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></summary>
+      <div class="compare-scroll" role="region" aria-label="Feature comparison" tabindex="0">
+        <table>
+          <thead>
+            <tr><td></td><th scope="colgroup" colspan="3">Self-hosted</th><th scope="colgroup" colspan="3">Cloud</th></tr>
+            <tr><th scope="col" class="feat">Feature</th>${PLANS_FLAT.map((p) => `<th scope="col">${p.name}<small>${p.price}${p.per === 'a month' ? '/mo' : p.per === 'one-time' ? ' once' : ''}</small></th>`).join('')}</tr>
+          </thead>
+          <tbody>
+${FEATURES.map((g) => `            <tr class="group"><th scope="rowgroup" colspan="7">${g.group}</th></tr>
+${g.rows.map(([name, help, cells]) => `            <tr><th scope="row" class="feat"><span class="fname">${esc(name)}</span><span class="fhelp">${esc(help)}</span></th>${cells.map((c) => `<td>${cell(c)}</td>`).join('')}</tr>`).join('\n')}`).join('\n')}
+          </tbody>
+        </table>
+      </div>
+      <p class="compare-note">Free is available now. Everything in paid plans is planned and arrives at launch.</p>
+    </details>`;
 
 // One footer for every page, the home page included.
 const FOOTER = `<footer class="site-foot">
@@ -195,7 +259,7 @@ write('terms', shell({
 <h2>The tool</h2>
 <p>The open source tool is licensed under MIT. SIGSHIP uses pattern checks. A GO result is not a security audit and does not prove your app is safe. You stay responsible for your app.</p>
 <h2>Paid plans</h2>
-<p>Solo and Team renew monthly until you cancel. Cancel at any time and you keep access until the end of the paid month.</p>
+<p>Paid plans are not on sale yet. When they open: self-hosted Pro and Business are one-time purchases that include a year of new checks, and you keep using what you bought after that year. Cloud plans renew monthly until you cancel. Cancel at any time and you keep access until the end of the paid month.</p>
 <h2>Refunds</h2>
 <p>Ask within 14 days of your first payment and we refund it in full. A pilot review can be refunded in full until work starts.</p>
 <h2>Who you are dealing with</h2>
@@ -229,6 +293,8 @@ let html = readFileSync(home, 'utf8');
 const tick = RULES.map((r) => `<span><b class="t${r.severity}">SEV-${r.severity}</b>${esc(r.title)}</span>`).join('');
 html = html.replace(/<div class="ticker-track" data-ticker>[\s\S]*?<\/div><\/div>/, `<div class="ticker-track" data-ticker>${tick}${tick}</div></div>`);
 html = html.replace(/<footer[\s\S]*?<\/footer>/, FOOTER);
+html = html.replace(/<header class="mast">[\s\S]*?<\/header>/, HEADER);
+html = html.replace(/<!-- pricing:start -->[\s\S]*?<!-- pricing:end -->/, `<!-- pricing:start -->\n    ${PRICING}\n    <!-- pricing:end -->`);
 for (const sev of [1, 2, 3]) {
   const list = RULES.filter((r) => r.severity === sev).map((r) => `<li><a href="/checks/${r.id}/"><b>${esc(r.title)}</b><span>${esc(r.forecast)}</span></a></li>`).join('');
   html = html.replace(new RegExp(`<ul data-sev="${sev}">[\\s\\S]*?</ul>`), `<ul data-sev="${sev}">${list}</ul>`);

@@ -30,7 +30,7 @@ No signup, no telemetry, no runtime dependencies. The free tool never touches th
 - [Coding agents (MCP)](#coding-agents-mcp)
 - [What it checks](#what-it-checks)
 - [Privacy](#privacy)
-- [SIGSHIP Cloud and licence keys](#sigship-cloud-and-licence-keys)
+- [Plans and licence keys](#sigship-cloud-and-licence-keys)
 - [Limits](#limits)
 - [Contributing and security](#contributing-and-security)
 
@@ -155,7 +155,12 @@ Full details: [sigship.dev/privacy](https://sigship.dev/privacy/).
 
 ## SIGSHIP Cloud and licence keys
 
-**SIGSHIP Cloud** is coming: connect a repo from GitHub, Lovable, Bolt, Replit and other AI tools, and SIGSHIP checks every push, watches your live site and tells you what to fix in plain English. Plans are Solo ($19), Team ($59) and Agency ($149) a month. [Join the waitlist](https://sigship.dev/#waitlist).
+The free tool is open source and available now. Paid plans are on the way, in two kinds:
+
+- **Self-hosted Pro ($149) and Business ($499)**, one-time with a year of new checks: every check we have, run on your own machine and CI. Your code never leaves.
+- **SIGSHIP Cloud: Solo ($19), Team ($59) and Agency ($149) a month.** Connect a repo from GitHub, Lovable, Bolt, Replit and other AI tools, and SIGSHIP checks every push, watches your live site and tells you what to fix in plain English.
+
+See every feature and [join the waitlist](https://sigship.dev/#pricing).
 
 If you already have a licence key, set it to add the Pro pack of extra checks:
 
