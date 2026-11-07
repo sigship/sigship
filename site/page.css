@@ -1,0 +1,55 @@
+/* Inner pages (checks, privacy, terms, brand, 404). Loaded after home.css and uses its tokens,
+   so these pages share the home page's header, menu, footer, type and colours. */
+.page { max-width: 860px; padding: clamp(56px, 8vw, 104px) var(--gutter) clamp(80px, 10vw, 128px); }
+.page h1 { font-size: clamp(2.2rem, 5.6vw, 3.9rem); font-weight: 700; font-stretch: 118%; line-height: 1.02; letter-spacing: -0.03em; text-wrap: balance; }
+.page h2 { margin-top: 44px; font-size: 1.35rem; font-weight: 700; font-stretch: 112%; letter-spacing: -0.01em; }
+.page p, .page ul { margin-top: 12px; }
+.page p { max-width: 68ch; text-wrap: pretty; }
+.page ul { padding-left: 1.2em; list-style: disc; }
+.page li + li { margin-top: 6px; }
+.page a { color: var(--link); text-underline-offset: 0.18em; }
+.page code { padding: 1px 6px; border-radius: 6px; background: var(--paper); box-shadow: 0 0 0 1px var(--line); font-size: 0.9em; }
+
+/* Small mono label above a heading, like the home page's section captions. */
+.page .sev { margin: 0 0 16px; color: var(--slate); font: 600 0.75rem 'Spline Sans Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* The fix, set like a plate with a green edge. */
+.page .fix { padding: 18px 20px; border-radius: var(--r-plate); background: var(--paper); box-shadow: 0 0 0 1px var(--line); border-left: 3px solid var(--green); }
+
+/* Run it: a dark console strip with the command. */
+.page .try { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 16px; padding: 18px 20px; border-radius: var(--r-plate); background: var(--panel); color: var(--term-text); }
+.page .try p { flex: 1 1 24ch; margin: 0; color: var(--term-text); }
+.page .try code { background: rgb(255 255 255 / 0.08); box-shadow: none; color: var(--on-panel); }
+.page .try code.cmd { padding: 10px 16px; border-radius: var(--r-ctl); font-size: 1rem; }
+
+/* Previous and next check. */
+.pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 40px; }
+.page .pager a { display: block; min-height: 44px; padding: 16px 18px; border-radius: var(--r-plate); background: var(--paper); box-shadow: 0 0 0 1px var(--line); color: var(--ink); font-weight: 650; line-height: 1.3; text-decoration: none; transition: box-shadow 150ms; }
+.page .pager a:last-child { text-align: right; }
+.page .pager a:hover { box-shadow: 0 0 0 1px var(--line-strong); }
+.pager span { display: block; margin-bottom: 4px; color: var(--slate); font: 600 0.72rem 'Spline Sans Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* 404: flag U, with the same fine edge the hero flags have. */
+.flag-u { display: block; width: 120px; height: 80px; margin-bottom: 28px; box-shadow: 0 0 0 1px rgb(14 27 44 / 0.5), 0 8px 18px -10px rgb(14 27 44 / 0.4); }
+
+/* Brand page: logo tiles and colour swatches. */
+.logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: 16px; margin-top: 16px; }
+.logos figure { margin: 0; }
+.logos .tile { display: grid; place-items: center; aspect-ratio: 4 / 3; padding: 18px; border-radius: var(--r-plate); background: var(--flag-white); box-shadow: 0 0 0 1px var(--line); }
+.logos .tile.dark { background: var(--panel); box-shadow: none; }
+.logos img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; }
+.logos img[src$=".svg"] { width: 45%; }
+.logos figcaption { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 8px; font-weight: 650; }
+.logos figcaption a { font-weight: 400; }
+.page ul.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr)); gap: 12px; padding: 0; list-style: none; }
+.swatches li { display: grid; gap: 2px; margin: 0; padding: 10px; border-radius: var(--r-plate); background: var(--paper); box-shadow: 0 0 0 1px var(--line); }
+.swatches span { height: 56px; margin-bottom: 8px; border-radius: 6px; box-shadow: inset 0 0 0 1px rgb(14 27 44 / 0.15); }
+.swatches small { color: var(--slate); }
+
+@media (max-width: 640px) {
+  .pager { grid-template-columns: minmax(0, 1fr); }
+  .page .pager a:last-child { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page .pager a { transition: none; }
+}
