@@ -4,8 +4,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { RULES } from '../src/rules.js';
-import { icon, mark, tokens } from './marks.js';
-import { FEATURES, TRACKS } from './pricing.js';
+import { icon, tokens } from './marks.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const site = join(here, '../site');
@@ -17,18 +16,22 @@ const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, 
 // Colours come from the :root tokens in site/style.css, the one source for the brand.
 const css = readFileSync(join(site, 'style.css'), 'utf8');
 const token = tokens(css);
-const MARK = mark({ blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--ink)' }, ' aria-hidden="true"');
-const FOOT_MARK = mark({ blue: 'var(--blue)', paper: 'var(--flag-white)', ink: 'var(--on-panel)' }, ' aria-hidden="true"');
-
-// The flag patterns come from the home page template, so the footer flags always match its hero.
-const homeFile = join(here, 'home/page.html');
-const FLAGS = Object.fromEntries([...readFileSync(homeFile, 'utf8').matchAll(/<symbol id="flag-([a-z])" viewBox="0 0 90 60">([\s\S]*?)<\/symbol>/g)].map((m) => [m[1], m[2]]));
-const flagRow = [...'sigship'].map((f) => `<svg viewBox="0 0 90 60">${FLAGS[f]}</svg>`).join('');
-
-// Picks dark or light before the page paints, so there is no flash. The toggle in site.js changes it.
-const TOGGLE = () => TOGGLE_HTML;
-const THEME_SCRIPT = `<script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem('sigship-theme')}catch(e){}if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))d.classList.add('dark')})()</script>`;
-const TOGGLE_HTML = '<button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>';
+// Inner pages share the home page's header, menu and footer, taken from its template so they never drift.
+const TEMPLATE = readFileSync(join(here, 'home/page.html'), 'utf8');
+const grab = (start, end) => {
+  const i = TEMPLATE.indexOf(start);
+  if (i < 0) throw new Error(`Home template is missing ${start}`);
+  return TEMPLATE.slice(i, TEMPLATE.indexOf(end, i) + end.length);
+};
+const VERSION = JSON.parse(readFileSync(join(here, '../package.json'), 'utf8')).version;
+// Links point back to the home page's sections; <use href="#..."> stays local because it draws the flags and icons.
+const forInner = (html) => html.replaceAll('href="#top"', 'href="/"').replace(/(<a\b[^>]*?\shref=")#/g, '$1/#').replaceAll('{{ver}}', VERSION);
+const HEAD_SCRIPT = grab('<script>(function(){var d=document.documentElement', '</script>');
+const DEFS = grab('<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>', '</defs></svg>');
+// The demo-state chip in the header only makes sense next to the home page's console.
+const HEADER = forInner(grab('<header class="mast"', '</header>').replace(/\n {2}<div class="hud"[\s\S]*?\n {2}<\/div>/, ''));
+const MENU = forInner(grab('<dialog class="menu"', '</dialog>'));
+const FOOTER = forInner(grab('<footer class="site-foot">', '</footer>'));
 
 // A page without a path, such as the 404 page, is kept out of search results.
 const shell = ({ title, description, path, body }) => `<!doctype html>
@@ -42,111 +45,32 @@ ${path ? `<link rel="canonical" href="${ORIGIN}${path}">` : '<meta name="robots"
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
-${THEME_SCRIPT}
+<meta name="theme-color" content="#edf2f6">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#edf2f6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#060b14" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="/style.css">
-<script src="/site.js" defer></script>
+${HEAD_SCRIPT}
+<link rel="stylesheet" href="/home.css">
+<link rel="stylesheet" href="/page.css">
+<script src="/page.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+${DEFS}
 ${HEADER}
-<main class="page">
+<main class="page" id="main">
 ${body}
 </main>
 ${FOOTER}
+${MENU}
+<p class="sr" id="live" aria-live="polite"></p>
 </body>
 </html>
 `;
 
-// One header for every page. On narrow screens the links move into a menu behind the button.
-const NAV = [
-  ['/#how', 'How it works'],
-  ['/#checks', 'Checks'],
-  ['/#pricing', 'Pricing'],
-  ['/#cloud', 'Cloud'],
-  ['https://github.com/sigship/sigship', 'GitHub'],
-];
-const HEADER = `<header class="mast">
-  <a class="brand" href="/">${MARK}SIGSHIP</a>
-  <nav class="nav" aria-label="Main">${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join('')}</nav>
-  <div class="mast-actions">
-    ${TOGGLE()}
-    <a class="btn btn-sm" href="/#start">Get started</a>
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
-  </div>
-  <div class="menu" id="menu" hidden>
-    <nav aria-label="Menu">${NAV.map(([href, label]) => `<a href="${href}">${label}</a>`).join('')}<a href="/#waitlist">Join the waitlist</a><a href="https://zoof04.com" target="_blank" rel="noopener">by zoof04<span class="sr"> (opens in a new tab)</span></a></nav>
-    <a class="btn block" href="/#start">Get started free</a>
-  </div>
-</header>`;
 
-// Pricing: two tracks of plan cards, then a table comparing every feature.
-const CHECK = '<svg class="ic-check" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg>';
-const cell = (v) => (v === true ? `${CHECK}<span class="sr">Included</span>` : v === false ? '<span class="ic-dash" aria-hidden="true">–</span><span class="sr">Not included</span>' : esc(v));
-const planCard = (p) => {
-  const cta = p.cta.plan
-    ? `<a class="btn block${p.featured ? '' : ' alt'}" href="#waitlist" data-plan="${p.cta.plan}">${p.cta.label}</a>`
-    : `<a class="btn block" href="${p.cta.href}">${p.cta.label}</a>${p.alt ? `<a class="pcard-alt" href="${p.alt.href}">${p.alt.label}</a>` : ''}`;
-  return `<article class="pcard${p.featured ? ' featured' : ''}${p.cta.plan ? '' : ' live'}" data-reveal>
-      <div class="pcard-head"><h3>${p.name}</h3><span class="tag">${p.tag}</span></div>
-      <p class="pcard-tagline">${esc(p.tagline)}</p>
-      <p class="pcard-price"><span class="amount">${p.price}</span> <span class="per">${p.per}</span></p>
-      <p class="pcard-note">${p.note ? esc(p.note) : 'No signup. No limits.'}</p>
-      <div class="pcard-cta">${cta}</div>
-      <p class="pcard-lead">${p.lead}</p>
-      <ul>${p.items.map((i) => `<li>${CHECK}<span>${esc(i)}</span></li>`).join('')}</ul>
-      ${p.cta.plan ? '<p class="pcard-foot">Planned features. They arrive at launch.</p>' : ''}
-    </article>`;
-};
-const PLANS_FLAT = TRACKS.flatMap((t) => t.plans);
-const PRICING = `<div class="tracks" role="tablist" aria-label="How you run SIGSHIP">
-      ${TRACKS.map((t, i) => `<button type="button" role="tab" id="tab-${t.id}" aria-controls="track-${t.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${t.label}<small>${t.id === 'self' ? 'Your machine' : 'We run it'}</small></button>`).join('')}
-    </div>
-    ${TRACKS.map((t) => `<div class="track" id="track-${t.id}" role="tabpanel" aria-labelledby="tab-${t.id}">
-      <p class="track-blurb">${esc(t.blurb)}</p>
-      <div class="pgrid">${t.plans.map(planCard).join('')}</div>
-    </div>`).join('\n    ')}
-    <details class="compare" data-reveal>
-      <summary><span>Compare every feature</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg></summary>
-      <div class="compare-scroll" role="region" aria-label="Feature comparison" tabindex="0">
-        <table>
-          <thead>
-            <tr><td></td><th scope="colgroup" colspan="3">Self-hosted</th><th scope="colgroup" colspan="3">Cloud</th></tr>
-            <tr><th scope="col" class="feat">Feature</th>${PLANS_FLAT.map((p) => `<th scope="col">${p.name}<small>${p.price}${p.per === 'a month' ? '/mo' : p.per === 'one-time' ? ' once' : ''}</small></th>`).join('')}</tr>
-          </thead>
-          <tbody>
-${FEATURES.map((g) => `            <tr class="group"><th scope="rowgroup" colspan="7">${g.group}</th></tr>
-${g.rows.map(([name, help, cells]) => `            <tr><th scope="row" class="feat"><span class="fname">${esc(name)}</span><span class="fhelp">${esc(help)}</span></th>${cells.map((c) => `<td>${cell(c)}</td>`).join('')}</tr>`).join('\n')}`).join('\n')}
-          </tbody>
-        </table>
-      </div>
-      <p class="compare-note">Free is available now. Everything in paid plans is planned and arrives at launch.</p>
-    </details>`;
 
-// One footer for every page, the home page included.
-const FOOTER = `<footer class="site-foot">
-  <div class="foot-top">
-    <div class="foot-brand">
-      <a class="brand" href="/">${FOOT_MARK}SIGSHIP</a>
-      <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
-      <code class="foot-cmd">npx sigship</code>
-      <div class="foot-flags" aria-hidden="true">${flagRow}</div>
-    </div>
-    <nav class="foot-cols" aria-label="Footer">
-      <div><p class="foot-h">Product</p><a href="/#checks">Checks</a><a href="/#cloud">SIGSHIP Cloud</a><a href="/#pricing">Pricing</a><a href="/#waitlist">Join the waitlist</a></div>
-      <div><p class="foot-h">Developers</p><a href="https://github.com/sigship/sigship">GitHub</a><a href="https://www.npmjs.com/package/sigship">npm</a><a href="/llms.txt">llms.txt</a></div>
-      <div><p class="foot-h">Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/brand/">Brand</a><a href="mailto:support@sigship.dev">support@sigship.dev</a></div>
-      <div><p class="foot-h">Legal</p><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
-    </nav>
-  </div>
-  <div class="foot-bottom">
-    <span>© ${new Date().getFullYear()} Zoof04 Inc.</span>
-    <span class="foot-status"><i aria-hidden="true"></i>The free tool runs on your machine. Nothing leaves it.</span>
-    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  </div>
-  <div class="foot-word" aria-hidden="true">SIGSHIP</div>
-</footer>`;
+
+
+
 
 function write(path, html) {
   const file = join(site, path, 'index.html');
