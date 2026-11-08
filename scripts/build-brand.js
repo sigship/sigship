@@ -21,8 +21,8 @@ mkdirSync(press, { recursive: true });
 const font = (file) => `data:font/woff2;base64,${readFileSync(join(site, 'fonts', file)).toString('base64')}`;
 const rawCss = readFileSync(join(site, 'style.css'), 'utf8');
 const css = rawCss
-  .replace("url('/fonts/archivo.woff2')", `url('${font('archivo.woff2')}')`)
-  .replace("url('/fonts/spline-sans-mono.woff2')", `url('${font('spline-sans-mono.woff2')}')`);
+  .replace("url('/fonts/inter.woff2')", `url('${font('inter.woff2')}')`)
+  .replace("url('/fonts/jetbrains-mono.woff2')", `url('${font('jetbrains-mono.woff2')}')`);
 const token = tokens(rawCss);
 
 // The flag patterns come from the home page, so the images always match the hero.
@@ -101,7 +101,7 @@ const extra = `
   .g h2 { font-size: 42px; font-weight: 700; font-stretch: 120%; letter-spacing: -.02em; line-height: 1.05; }
   .win { flex: 1; min-height: 0; display: flex; flex-direction: column; }
   .bar { display: flex; align-items: center; gap: 18px; padding: 12px 16px; background: var(--deck); border-radius: 8px 8px 0 0; }
-  .path { color: var(--term-dim); font: 500 15px 'Archivo', sans-serif; }
+  .path { color: var(--term-dim); font: 500 15px 'Inter', sans-serif; }
   .vb { margin-left: auto; padding: 4px 12px 3px; border-radius: 4px; font-size: 17px; font-weight: 750; font-stretch: 125%; letter-spacing: .02em; }
   .vb.no { background: var(--red); color: var(--paper); }
   .vb.go { background: var(--green); color: var(--ink); }

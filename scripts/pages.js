@@ -6,6 +6,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { RULES } from '../src/rules.js';
 import { FEATURES, TRACKS } from './pricing.js';
+import { COUNTS, NOTICES, PLANNED_RULES, STACKS, STATUS, WATCHING, bridge, fmtDate, noticeList, watchline } from './lookout.js';
+import { TIERS, plaques } from './flags.js';
 
 // The Discord invite link. Leave it empty and the Community page says Discord is opening soon.
 export const DISCORD_URL = 'https://discord.gg/hKG6rNM4W';
@@ -51,8 +53,8 @@ ${acts ? `<div class="acts-row">${acts}</div>` : ''}
 </header>`;
 const CTA = `<section class="cta-band" aria-labelledby="cta-h">
 <div><h2 id="cta-h">Check your app before your users do.</h2><p>Free, open source, and nothing leaves your machine.</p></div>
-<div><div class="cta-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
-<div class="cta-links"><a href="/docs/">Read the docs</a><a href="/pricing/">See pricing</a><a href="/#waitlist">Join the waitlist</a></div></div>
+<div><div class="cta-cmd dev-only"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div><a class="btn-ink cta-go plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a>
+<div class="cta-links"><a href="/docs/">Read the docs</a><a href="/pricing/">See pricing</a><a href="/lookout/">The Lookout</a></div></div>
 </section>`;
 const btnInk = (href, text) => `<a class="btn-ink" href="${href}">${text}</a>`;
 const btnLine = (href, text) => `<a class="btn-line" href="${href}">${text}</a>`;
@@ -182,7 +184,7 @@ const planCard = (p) => {
   const live = p.id === 'free';
   const top = p.items.slice(0, 4), rest = p.items.slice(4);
   const cta = live
-    ? `<button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>`
+    ? `<a class="btn-ink plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a><button class="btn-ink dev-only" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>`
     : `<a class="${p.featured ? 'btn-ink' : 'btn-line'}" href="/#waitlist">Join the waitlist</a>`;
   return `<article class="pc${p.featured ? ' featured' : ''}">
 ${p.featured ? '<p class="pc-flag">Best for most</p>' : ''}<div class="pc-head"><h3>${esc(p.name)}</h3><span class="pill ${live ? 'live' : 'wait'}">${live ? 'Available now' : 'Waitlist'}</span></div>
@@ -407,6 +409,135 @@ ${lane(LATER)}</ul></section>
 ${CTA}`,
 };
 
+// ---------- The Lookout ----------
+// A living watch, not a changelog: every notice is a real incident or advisory, mapped to a check.
+const stackChips = Object.entries(STACKS).filter(([k]) => NOTICES.some((n) => n.stack.includes(k)));
+const statusChips = Object.entries(STATUS).filter(([k]) => NOTICES.some((n) => n.status === k));
+const lookout = {
+  path: '/lookout/',
+  title: 'The Lookout: new ways hackers get into AI-built apps, and what SIGSHIP does about each | SIGSHIP',
+  description: `${COUNTS.total} notices on real attacks and leaks hitting apps built with Lovable, Bolt, Cursor and Supabase, each mapped to the SIGSHIP check that covers it, is being written, or is still being watched. New notice most Mondays.`,
+  head: `<link rel="alternate" type="application/feed+json" title="SIGSHIP Lookout" href="/lookout/feed.json">\n<link rel="alternate" type="application/rss+xml" title="SIGSHIP Lookout" href="/lookout/rss.xml">`,
+  ld: [{ '@type': 'CollectionPage', name: 'The SIGSHIP Lookout', url: 'https://sigship.dev/lookout/', description: 'New ways attackers get into AI-built apps, each mapped to what SIGSHIP covers, is writing, or is watching.', hasPart: NOTICES.map((n) => ({ '@type': 'Article', headline: n.title.plain, datePublished: n.date, url: `https://sigship.dev/lookout/#${n.slug}`, citation: n.sources.map(([, u]) => u) })) }],
+  body: `${hero('The Lookout', '<span class="plain-only">New ways in are found every week. <span>We keep watch.</span></span><span class="dev-only">Notices to mariners. <span>New attack patterns, mapped to rules.</span></span>',
+    `<span class="plain-only">What attackers are doing to apps like yours right now, in plain words, and what SIGSHIP does about each one. Not a changelog: a watch. New checks start here.</span><span class="dev-only">Advisories, incidents and research that touch AI-built stacks, each mapped to the rule that covers it, the one being written, or an honest "watching". Rules are born here.</span>`)}
+<div class="rv">${bridge(RULES.length)}</div>
+${watchline()}
+<div class="fchips rv" role="group" aria-label="Filter by what SIGSHIP does"><span class="lk-count" style="margin-right:6px">Show</span><button class="fchip" type="button" data-fs="all" aria-pressed="true">All</button>${statusChips.map(([k, s]) => `<button class="fchip" type="button" data-fs="${k}" aria-pressed="false"><i class="${s.cls}" style="background:currentColor"></i><span class="plain-only">${esc(s.plain.replace(' since 0.1.0', ''))}</span><span class="dev-only">${esc(s.dev)}</span></button>`).join('')}</div>
+<div class="fchips rv" role="group" aria-label="Filter by what you build with" style="margin-top:10px"><span class="lk-count" style="margin-right:6px">For</span><button class="fchip" type="button" data-fk="all" aria-pressed="true">Everything</button>${stackChips.map(([k, name]) => `<button class="fchip" type="button" data-fk="${k}" aria-pressed="false">${esc(name)}</button>`).join('')}</div>
+<div class="lk-grid">
+<div>
+<p class="lk-count" id="lk-count" aria-live="polite">Showing ${NOTICES.length} of ${NOTICES.length} notices</p>
+${noticeList()}
+<p class="mini-note" style="margin-top:20px">Newest first. Dates are when the notice was published by its first source. "Spotted by" credits the researcher or outlet that found it, never us, unless it was us.</p>
+</div>
+<aside class="side">
+<div class="card" id="subscribe">
+<h3><span class="plain-only">The Monday notice, by email</span><span class="dev-only">Subscribe</span></h3>
+<p><span class="plain-only">One short email most Mondays: what's new, who it affects, what to do. No marketing, unsubscribe in one click.</span><span class="dev-only">Plain-text digest most Mondays. Or take the feeds below and skip the inbox.</span></p>
+<form class="lk-sub" method="post" action="/api/waitlist" novalidate data-ok="All aboard. The next Monday notice will find you.">
+<label class="sr" for="lk-email">Email</label>
+<div class="field"><input id="lk-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com" aria-describedby="lk-err"><button class="btn-ink" type="submit">Keep me posted</button></div>
+<input type="hidden" name="plan" value="lookout"><input type="hidden" name="started" value="">
+<div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+<p class="wl-err" id="lk-err" hidden>Enter an email address, like you@example.com.</p>
+</form>
+<p class="lk-ok" hidden tabindex="-1"></p>
+<p class="mini-note dev-only" style="margin-top:12px"><a href="/lookout/feed.json">feed.json</a> · <a href="/lookout/rss.xml">rss.xml</a></p>
+</div>
+<div class="card">
+<h3>How a notice becomes a check</h3>
+<ol class="nsteps">
+<li><b>Spotted</b>A researcher, a vendor advisory or a reader reports a new way in.</li>
+<li><b>Read and mapped</b>We work out which apps it touches and whether a check already covers it.</li>
+<li><b>Written as a rule</b>If it can be found in code with confidence, it becomes a check: a pattern, a plain explanation and a fix.</li>
+<li><b>Shipped</b>Free checks ship in the open source tool. Deeper ones join the Pro pack. The notice is updated to say so.</li>
+</ol>
+<p class="mini-note">Being written now: ${PLANNED_RULES.length ? PLANNED_RULES.map((r) => `<code>${esc(r)}</code>`).join(', ') : 'nothing at the moment'}.</p>
+</div>
+<div class="card">
+<h3>What we watch</h3>
+<div class="watchlist">${WATCHING.map((w) => `<div>${esc(w)}</div>`).join('')}</div>
+<p class="mini-note" style="margin-top:12px">Build with something else? <a href="${GH}/discussions">Tell us</a> and we add it to the watch.</p>
+</div>
+<div class="card">
+<h3>Spotted something?</h3>
+<p>A new leak, a new trick, a scary thread. Send it and we'll read it. Confirmed reports are credited in the notice and, if it becomes a check, in the check's source.</p>
+<div class="acts-row" style="margin-top:12px">${btnLine(`${GH}/issues/new/choose`, 'Report a pattern')}${btnLine('mailto:support@sigship.dev?subject=Lookout%20tip', 'Email a tip')}</div>
+</div>
+</aside>
+</div>
+<section class="block"><h2>Questions</h2><div class="acc">
+<details><summary>Is this a list of every vulnerability on the internet?</summary><div class="acc-body"><p>No. It is the ones that touch apps built with AI tools: Lovable, Bolt, Cursor, v0, Replit, Supabase, Firebase, Next.js, Stripe and the AI providers. Big, general CVE databases exist; this is the short, relevant list, in plain words.</p></div></details>
+<details><summary>What do the statuses mean?</summary><div class="acc-body"><p>Covered: a check in the free tool finds it today. Partly covered: SIGSHIP catches the damage, not the cause. Check being written: a rule is in progress and is named. Watching: no check yet, so the notice says what to do by hand.</p></div></details>
+<details><summary>Does SIGSHIP fetch this list when I run it?</summary><div class="acc-body"><p>No. The free tool makes no network calls. Checks ship inside the package, so run <code>npx sigship@latest</code> to get the newest ones.</p></div></details>
+<details><summary>Can I get it as a feed?</summary><div class="acc-body"><p>Yes: <a href="/lookout/feed.json">JSON Feed</a> and <a href="/lookout/rss.xml">RSS</a>. Both carry the plain summary, the technical summary, the fix and the sources.</p></div></details>
+</div></section>
+${CTA}`,
+};
+
+// ---------- The GO flags ----------
+const TIER_ROW = (t) => `<article class="card fg-card" id="${t.id}">
+<div class="fg-top">${t.status === 'live' ? '<span class="pill live">Available now</span>' : '<span class="pill wait">Opens with Cloud plans</span>'}<span class="fg-lv">Level ${t.level} · flag ${t.flag}</span></div>
+<h3>${esc(t.name)}</h3>
+<dl class="kv">
+<dt>Who</dt><dd>${esc(t.who)}</dd>
+<dt>Proof</dt><dd>${esc(t.proof)}</dd>
+<dt>How</dt><dd>${esc(t.how)}</dd>
+<dt>Cost</dt><dd>${esc(t.earn)}</dd>
+</dl>
+</article>`;
+const BADGE_MD = `[![SIGSHIP: cleared](https://sigship.dev/flags/cleared.svg)](https://sigship.dev/flags/#cleared)`;
+const BADGE_HTML = `<a href="https://sigship.dev/flags/#cleared"><img src="https://sigship.dev/flags/cleared.svg" alt="SIGSHIP: cleared. The owner ran all ${RULES.length} checks and they passed." height="24"></a>`;
+const flags = {
+  path: '/flags/',
+  title: 'GO flags: Cleared, Verified and Pilot on board | SIGSHIP',
+  description: 'Three signal flags for apps that passed SIGSHIP: Cleared (free, self-declared), Verified (checked nightly by SIGSHIP Cloud) and Pilot on board (reviewed by a person). What each proves, how to earn it, and how to add it to your README or site.',
+  ld: [{ '@type': 'ItemList', name: 'SIGSHIP GO flags', itemListElement: TIERS.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: `${t.name} (flag ${t.flag})`, description: t.plain, url: `https://sigship.dev/flags/#${t.id}` })) }],
+  body: `${hero('GO flags', '<span class="plain-only">Passed the check? <span>Show the world.</span></span><span class="dev-only">Passed? <span>Hoist the flag.</span></span>',
+    'Three real signal flags from the International Code of Signals, three levels of proof. Each one says exactly what was checked, by whom, and when.<span class="plain-only"> Hover a flag.</span>')}
+<div class="fg-band">${plaques()}</div>
+<section class="block"><h2>What each flag <span>proves.</span></h2>
+<p class="sub">A flag says the owner checked before launching. It is not a security certificate or an audit, and every flag page says that too.</p>
+<div class="cards fg-cards">${TIERS.map(TIER_ROW).join('\n')}</div>
+<div class="verify-strip"><b>How to tell a real flag:</b> <span>Cleared is the owner's word, and the badge says so. Verified and Pilot flags link to a page on sigship.dev that shows the date, the checks and, for a pilot review, the reviewer. If that page doesn't exist, the flag isn't real.</span></div>
+</section>
+<section class="block" id="cleared-badge"><h2>Add the Cleared flag <span>in a minute.</span></h2>
+<div class="split2"><div>
+<p><span class="plain-only">Run the free check. When it says <b>GO</b>, copy one of these into your README, your site footer or your launch post. It's your way of saying "I checked before I launched."</span><span class="dev-only">Run <code>npx sigship</code>. On exit 0, paste either snippet. The badge is a static SVG with the version in it; it does not call home and it does not update itself.</span></p>
+<p class="badge-demo"><img src="/flags/cleared.svg" alt="SIGSHIP: cleared badge" height="24"></p>
+<p class="mini-note">Please don't add it while the check says NO-GO. People will run the check too.</p>
+</div><div>
+${code('Markdown', BADGE_MD)}
+${code('HTML', BADGE_HTML)}
+</div></div></section>
+<section class="block"><h2>Verified and Pilot <span>flags.</span></h2>
+<div class="cards">
+<div class="card">${flag('c')}<h3>Verified · flag C</h3><p>Comes with SIGSHIP Cloud. We check your app every night; the flag is drawn live with the date of the last pass and turns off by itself if a check fails. Opens with the Cloud plans.</p><a class="more" href="/#waitlist">Join the Cloud waitlist →</a></div>
+<div class="card">${flag('h')}<h3>Pilot on board · flag H</h3><p>Comes with a pilot review: a senior zoof04 engineer reads your code by hand and signs a written review. The flag page names the reviewer, the date and the scope.</p><a class="more" href="mailto:support@sigship.dev?subject=SIGSHIP%20pilot%20review">Request a pilot review →</a></div>
+</div></section>
+<section class="block"><h2>The flags, <span>and what they mean at sea.</span></h2>
+<div class="cards">
+<div class="card">${flag('q')}<h3>Q · Quebec</h3><p>"My vessel is healthy and I request free pratique": permission to enter port. A ship flies it to say it has nothing to hide. Cleared.</p></div>
+<div class="card">${flag('c')}<h3>C · Charlie</h3><p>"Yes" or "affirmative". Flown by a ship that has been asked a question and can answer it. Verified.</p></div>
+<div class="card">${flag('h')}<h3>H · Hotel</h3><p>"I have a pilot on board": a local expert is guiding the ship through tricky water. Pilot on board.</p></div>
+</div></section>
+<section class="block"><h2>Rules <span>of the flag.</span></h2>
+<ul class="rules">
+<li>Use a flag only for the app that earned it, at the version that earned it.</li>
+<li>Take the Cleared flag down if a later check says NO-GO, until it says GO again.</li>
+<li>Never describe a flag as a certification, an audit or a guarantee. It's a check, and we say so.</li>
+<li>The flag images are ours; use them as they are, unchanged. See the <a href="/brand/">brand page</a>.</li>
+</ul></section>
+<section class="block"><h2>Questions</h2><div class="acc">
+<details><summary>Is a flag a security certificate?</summary><div class="acc-body"><p>No. A GO means SIGSHIP's checks found nothing that blocks launch. It does not prove the app is safe. A flag says the owner checked before launching, nothing more, and the flag pages say so.</p></div></details>
+<details><summary>Can anyone add the Cleared flag?</summary><div class="acc-body"><p>Yes. It is self-declared, like a licence badge. That is exactly why Verified exists: it is drawn by SIGSHIP from a real nightly check, so it cannot be added by hand.</p></div></details>
+<details><summary>What happens if a Verified app fails a check?</summary><div class="acc-body"><p>The flag comes down by itself and the page shows the date of the last pass. It goes back up when a nightly check is clean again.</p></div></details>
+<details><summary>Does a flag expire?</summary><div class="acc-body"><p>Cleared shows the version that checked the app, so readers can see how old it is. Verified shows the date of the last pass. A pilot review flag shows the date it was signed.</p></div></details>
+</div></section>
+${CTA}`,
+};
+
 // ---------- Resources ----------
 const resources = {
   path: '/resources/',
@@ -414,6 +545,8 @@ const resources = {
   description: 'Docs, changelog, roadmap, releases, community and brand resources for SIGSHIP.',
   body: `${hero('Resources', 'Everything around <span>SIGSHIP.</span>', 'Guides, release notes, plans and the people building it.')}
 <div class="cards">
+<a class="card" href="/lookout/">${icon('eye')}<h3>The Lookout</h3><p>New ways attackers get into AI-built apps, in plain words, and what SIGSHIP does about each one.</p></a>
+<a class="card" href="/flags/">${flag('q')}<h3>GO flags</h3><p>Cleared, Verified and Pilot on board: what each proves and how to earn it.</p></a>
 <a class="card" href="/guides/">${icon('spark')}<h3>Guides</h3><p>Plain-English guides: the pre-launch checklist, Supabase RLS, leaked keys and more.</p></a>
 <a class="card" href="/glossary/">${icon('book')}<h3>Jargon, explained</h3><p>Every technical term on this site, in one or two plain sentences.</p></a>
 <a class="card" href="/docs/">${icon('book')}<h3>Docs</h3><p>Install, run, read the report and fix what it finds.</p></a>
@@ -457,4 +590,4 @@ ${discordCard}
 ${CTA}`,
 };
 
-export const PRODUCT_PAGES = [features, agents, pricing, docs, resources, changelog, roadmap, community];
+export const PRODUCT_PAGES = [features, agents, pricing, docs, lookout, flags, resources, changelog, roadmap, community];

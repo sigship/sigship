@@ -1,41 +1,59 @@
 @font-face {
-  font-family: 'Archivo';
-  src: url('/fonts/archivo.woff2') format('woff2');
+  font-family: 'Inter';
+  src: url('/fonts/inter.woff2') format('woff2');
   font-weight: 100 900;
-  font-stretch: 62% 125%;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Spline Sans Mono';
-  src: url('/fonts/spline-sans-mono.woff2') format('woff2');
-  font-weight: 300 700;
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono.woff2') format('woff2');
+  font-weight: 100 800;
   font-display: swap;
 }
 
 :root {
-  --sail: #edf2f6;
+  /* Token source for the build scripts (favicon, brand images). The pages load home.css and page.css. */
+  --sail: #f6f7f9;
   --paper: #ffffff;
-  --ink: #0e1b2c;
-  --slate: #475a70;
-  --line: #c9d5df;
-  --blue: #123f9c;
-  --red: #d3241c;
-  --yellow: #f6c500;
-  --green: #2e9e5b;
-  --go: #7fd6a0;
-  --deck: #1b2b40;
+  --ink: #0b1324;
+  --slate: #5b6578;
+  --line: #dde1e8;
+  --blue: #1f4fd1;
+  --red: #c81e1e;
+  --flag-red: #d92d20;
+  --flag-yellow: #f5c518;
+  --yellow: #f5c518;
+  --green: #15803d;
+  --go: #4ade80;
+  --deck: #141d31;
+  --night: #0b1324;
+  --night-card: #141d31;
+  --night-line: #26304a;
+  --night-ink: #f3f5f8;
+  --night-slate: #9aa3b5;
+  --night-link: #7fa2f7;
   --term-text: #dfe7ef;
   --term-dim: #93a4b6;
   --sev1-dark: #ff8a80;
   /* Flag colours never change with the theme, so the flags stay true to the signal code. */
   --flag-white: #ffffff;
-  --flag-black: #0e1b2c;
+  --flag-black: #0b1324;
+  --flag-blue: #1f4fd1;
   /* Panels stay dark in both themes: the terminal, the command, the footer. */
-  --panel: #0e1b2c;
+  --panel: #0b1324;
   --on-panel: #ffffff;
-  --link: #123f9c;
-  --btn-bg: #0e1b2c;
+  --line-strong: #8a96a8;
+  --go-text: #15803d;
+  --sev1-text: #c81e1e;
+  --telemetry: #1f4fd1;
+  --link: #1f4fd1;
+  --warn: #b45309;
+  --stop: #c81e1e;
+  --glow-rgb: 31,79,209;
+  --staff: #0b1324;
+  --btn-bg: #1f4fd1;
   --btn-text: #ffffff;
+  --card-shadow: 0 12px 30px rgba(11,19,36,.10);
   --gutter: clamp(16px, 4vw, 56px);
   --measure: 62ch;
 }
@@ -46,14 +64,14 @@ body {
   margin: 0;
   background: var(--sail);
   color: var(--ink);
-  font: 400 1.0625rem/1.55 'Archivo', system-ui, sans-serif;
+  font: 400 1.0625rem/1.55 'Inter', system-ui, sans-serif;
 }
 a { color: var(--link); text-underline-offset: 0.18em; }
 a:hover { color: var(--ink); }
 :focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
 h1, h2, h3, p, ul, ol, dl, dd, pre { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
-code, pre, kbd { font-family: 'Spline Sans Mono', ui-monospace, monospace; }
+code, pre, kbd { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 
 /* Masthead: stays at the top, glassy, with a hairline once the page scrolls. */
 .mast {
@@ -212,7 +230,7 @@ code, pre, kbd { font-family: 'Spline Sans Mono', ui-monospace, monospace; }
   background: var(--panel);
   color: var(--on-panel);
   border-radius: 4px;
-  font-family: 'Spline Sans Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 1.1rem;
 }
 .cmd button {
@@ -221,7 +239,7 @@ code, pre, kbd { font-family: 'Spline Sans Mono', ui-monospace, monospace; }
   border-radius: 3px;
   background: transparent;
   color: var(--on-panel);
-  font: 500 0.85rem 'Archivo', sans-serif;
+  font: 500 0.85rem 'Inter', sans-serif;
   cursor: pointer;
 }
 .cmd button:hover { background: var(--on-panel); color: var(--panel); }
@@ -283,7 +301,7 @@ section > h2, .split h2 {
   border-radius: 4px;
   background: transparent;
   color: var(--term-dim);
-  font: 500 0.9rem 'Archivo', sans-serif;
+  font: 500 0.9rem 'Inter', sans-serif;
   cursor: pointer;
 }
 [role="tab"]:hover { color: var(--on-panel); }
@@ -616,7 +634,7 @@ section > h2, .split h2 {
   border-radius: 999px;
   background: transparent;
   color: var(--slate);
-  font: 650 0.98rem 'Archivo', system-ui, sans-serif;
+  font: 650 0.98rem 'Inter', system-ui, sans-serif;
   cursor: pointer;
   transition: background 200ms, color 200ms;
 }
@@ -747,7 +765,7 @@ section > h2, .split h2 {
 .scan-files { position: relative; overflow: hidden; border-radius: 10px; background: var(--panel); color: var(--term-text); box-shadow: 0 30px 80px -40px rgba(14, 27, 44, 0.6); }
 .scan-bar { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: var(--deck); font-size: 0.85rem; }
 .scan-name { color: var(--term-dim); }
-.scan-phase { margin-left: auto; padding: 3px 10px; border-radius: 999px; background: rgba(127, 176, 255, 0.14); color: #b9d3ff; font-family: 'Spline Sans Mono', monospace; font-size: 0.75rem; }
+.scan-phase { margin-left: auto; padding: 3px 10px; border-radius: 999px; background: rgba(127, 176, 255, 0.14); color: #b9d3ff; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
 .scan-files ul { padding: 10px 0 14px; }
 .scan-files li {
   display: flex;
@@ -759,7 +777,7 @@ section > h2, .split h2 {
   transition: background 300ms;
 }
 .scan-files code { font-size: 0.86rem; color: var(--term-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.scan-files li b { flex: none; font-family: 'Spline Sans Mono', monospace; font-size: 0.72rem; font-weight: 600; white-space: nowrap; opacity: 0; transform: translateX(8px); transition: opacity 300ms, transform 300ms; }
+.scan-files li b { flex: none; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 600; white-space: nowrap; opacity: 0; transform: translateX(8px); transition: opacity 300ms, transform 300ms; }
 .scan-files li[class] b { opacity: 1; transform: none; }
 .scan-files li.ok b { color: var(--go); }
 .scan-files li.hit1 { background: rgba(211, 36, 28, 0.14); }
@@ -810,7 +828,7 @@ section > h2, .split h2 {
 @keyframes pop { from { transform: scale(0.6); opacity: 0; } to { transform: none; opacity: 1; } }
 .how-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
 .how-steps li { padding-top: 14px; border-top: 2px solid var(--line); color: var(--slate); line-height: 1.45; }
-.how-steps span { display: block; margin-bottom: 8px; font-family: 'Spline Sans Mono', monospace; font-size: 0.8rem; color: var(--link); }
+.how-steps span { display: block; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--link); }
 .how-steps b { color: var(--ink); }
 
 /* Ticker: every check, sliding past like a departures board. */
@@ -825,7 +843,7 @@ section > h2, .split h2 {
 .ticker-track { display: flex; width: max-content; gap: 40px; animation: tick 70s linear infinite; }
 .ticker:hover .ticker-track { animation-play-state: paused; }
 .ticker span { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; color: var(--slate); font-size: 0.92rem; }
-.ticker b { padding: 2px 7px 1px; border-radius: 3px; font-family: 'Spline Sans Mono', monospace; font-size: 0.72rem; font-weight: 600; }
+.ticker b { padding: 2px 7px 1px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 600; }
 .ticker .t1 { background: var(--red); color: var(--on-panel); }
 .ticker .t2 { background: var(--yellow); color: var(--flag-black); }
 .ticker .t3 { background: var(--slate); color: var(--sail); }
@@ -854,7 +872,7 @@ section > h2, .split h2 {
   border-radius: 8px;
   overflow: hidden;
 }
-.step-n { font-family: 'Spline Sans Mono', monospace; color: var(--link); font-size: 0.85rem; }
+.step-n { font-family: 'JetBrains Mono', monospace; color: var(--link); font-size: 0.85rem; }
 .steps h3 { margin-top: 10px; font-size: 1.35rem; font-weight: 700; font-stretch: 115%; }
 .steps p { margin-top: 8px; color: var(--slate); line-height: 1.5; }
 .tools { margin-top: 32px; }
@@ -887,10 +905,10 @@ section > h2, .split h2 {
   border-radius: 6px;
   background: var(--sail);
   color: var(--ink);
-  font: 400 1rem 'Archivo', system-ui, sans-serif;
+  font: 400 1rem 'Inter', system-ui, sans-serif;
 }
 .wl-form input:focus-visible, .wl-form select:focus-visible { outline: 3px solid var(--link); outline-offset: 0; border-color: transparent; }
-.wl-form .btn { grid-column: 1 / -1; justify-self: start; border: 0; cursor: pointer; font: 600 1rem 'Archivo', system-ui, sans-serif; }
+.wl-form .btn { grid-column: 1 / -1; justify-self: start; border: 0; cursor: pointer; font: 600 1rem 'Inter', system-ui, sans-serif; }
 .wl-form .btn:disabled { opacity: 0.6; cursor: wait; }
 .wl-status { grid-column: 1 / -1; min-height: 1.4em; font-weight: 600; }
 .wl-status[data-state="ok"] { color: var(--green); }
@@ -1023,17 +1041,26 @@ code.cmd { display: inline-block; padding: 12px 16px; font-size: 1.05rem; }
 /* Mission control: the dark theme. It follows the device setting until a visitor picks one with the toggle.
    The class is set before the page paints, by the script in each page's head. Flags keep their true colours. */
 :root.dark {
-  --sail: #060b14;
-  --paper: #0d1726;
-  --ink: #e8eef6;
-  --slate: #93a4b6;
-  --line: #1d2d44;
-  --link: #7fb0ff;
-  --panel: #0a1322;
-  --deck: #13223a;
-  --btn-bg: #f6c500;
-  --btn-text: #0e1b2c;
-  --glow: rgba(127, 176, 255, 0.55);
+  --sail: #0b1324;
+  --paper: #141d31;
+  --ink: #f3f5f8;
+  --slate: #9aa3b5;
+  --line: #26304a;
+  --line-strong: #3b4a68;
+  --link: #7fa2f7;
+  --panel: #070d1b;
+  --deck: #0f1a2e;
+  --go-text: #4ade80;
+  --sev1-text: #ff8a80;
+  --telemetry: #7fa2f7;
+  --red: #f87171;
+  --green: #4ade80;
+  --warn: #fbbf24;
+  --stop: #f87171;
+  --glow-rgb: 127,162,247;
+  --staff: #33426a;
+  --card-shadow: 0 12px 30px rgba(0,0,0,.35);
+  --glow: rgba(127, 162, 247, 0.55);
 }
 :root.dark body {
   background:

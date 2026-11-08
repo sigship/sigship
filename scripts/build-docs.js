@@ -7,6 +7,8 @@ import { RULES } from '../src/rules.js';
 import { icon, tokens } from './marks.js';
 import { PRODUCT_PAGES } from './pages.js';
 import { CHECK_EXTRA, GLOSSARY, GUIDES, HOME_FAQ, INDEXNOW_KEY, ORG, PUBLISHED, crumbs, faqFromHtml, ld } from './seo.js';
+import { NOTICES, STATUS, feedJson, fmtDate, rssXml } from './lookout.js';
+import { TIERS, clearedBadge } from './flags.js';
 import { execFileSync } from 'node:child_process';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -39,7 +41,7 @@ const FOOTER = forInner(grab('<footer class="site-foot">', '</footer>'));
 // A page without a path, such as the 404 page, is kept out of search results.
 // Every indexed page gets social tags, breadcrumbs, and FAQ data built from its own visible questions.
 const crumbName = (title) => title.split(' | ')[0].split(': ')[0];
-const shell = ({ title, description, path, body, wide = false, ld: extra = [], trail, ogType = 'website' }) => {
+const shell = ({ title, description, path, body, wide = false, ld: extra = [], trail, ogType = 'website', head = '' }) => {
   const url = path ? `${ORIGIN}${path}` : '';
   const graph = path ? [crumbs(trail || [['Home', '/'], [crumbName(title), path]]), faqFromHtml(body), ...extra].filter(Boolean) : [];
   return `<!doctype html>
@@ -67,14 +69,16 @@ ${path ? `<link rel="canonical" href="${url}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
-<meta name="theme-color" content="#edf2f6">
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#0b1324">
 <meta name="color-scheme" content="light dark">
 ${graph.length ? ld({ '@context': 'https://schema.org', '@graph': graph }) : ''}
-${HEAD_SCRIPT}
+${head ? `${head}\n` : ''}${HEAD_SCRIPT}
 <link rel="stylesheet" href="/home.css">
 <link rel="stylesheet" href="/page.css">
 <script src="/page.js" defer></script>
+<script src="/harbour.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -99,7 +103,7 @@ const clip = (text, n = 158) => (text.length <= n ? text : `${text.slice(0, text
 const LASTMOD = (() => { try { return execFileSync('git', ['log', '-1', '--format=%cs'], { encoding: 'utf8' }).trim(); } catch { return PUBLISHED; } })();
 const CTA_BAND = `<section class="cta-band" aria-labelledby="cta-h">
 <div><h2 id="cta-h">Check your app before your users do.</h2><p>Free, open source, and nothing leaves your computer.</p></div>
-<div><div class="cta-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+<div><div class="cta-cmd dev-only"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div><a class="btn-ink cta-go plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a>
 <div class="cta-links"><a href="/guides/check-lovable-bolt-replit-app/">Never used a terminal?</a><a href="/glossary/">Jargon, explained</a><a href="/docs/">Read the docs</a></div></div>
 </section>`;
 
@@ -144,7 +148,7 @@ ${acc(x.faq)}
   }));
 });
 
-const FLAG_U = '<svg class="flag-u" viewBox="0 0 90 60" role="img" aria-label="Signal flag U"><rect width="90" height="60" fill="var(--flag-white)"/><rect width="45" height="30" fill="var(--red)"/><rect x="45" y="30" width="45" height="30" fill="var(--red)"/></svg>';
+const FLAG_U = '<svg class="flag-u" viewBox="0 0 90 60" role="img" aria-label="Signal flag U"><rect width="90" height="60" fill="var(--flag-white)"/><rect width="45" height="30" fill="var(--flag-red)"/><rect x="45" y="30" width="45" height="30" fill="var(--flag-red)"/></svg>';
 writeFileSync(join(site, '404.html'), shell({
   title: 'Page not found | SIGSHIP',
   description: 'This page does not exist.',
@@ -184,7 +188,7 @@ write('brand', shell({
 ${SWATCHES.map(([name, label, use]) => `  <li><span style="background:${token(name)}"></span><b>${label}</b><code>${token(name)}</code><small>${use}</small></li>`).join('\n')}
 </ul>
 <h2>Type</h2>
-<p>Archivo for headings and text, set wide for headings. Spline Sans Mono for commands and output. Both are open source and served from this site.</p>
+<p>Inter for headings and text. JetBrains Mono for commands and output. Both are open source (SIL Open Font License) and served from this site, so no third party sees who reads it.</p>
 <h2>The flags</h2>
 <p>The home page spells SIGSHIP in flags from the International Code of Signals. The mark is flag P, the Blue Peter, which a ship raises when it is about to sail. A signal in Unix is a message a program has to act on. SIGSHIP is both.</p>
 <h2>Please don't</h2>
@@ -202,7 +206,7 @@ write('privacy', shell({
   description: 'SIGSHIP runs on your computer and sends nothing anywhere. What the tool, the website, the waitlist and paid plans collect, in plain English.',
   path: '/privacy/',
   body: `<h1>Privacy</h1>
-<p>Last updated: 2026-11-07.</p>
+<p>Last updated: 2026-11-09.</p>
 <h2>The command line tool and MCP server</h2>
 <p>They run on your machine and have no telemetry. Without a licence key they make no network calls at all. Your code, findings and secrets stay with you.</p>
 <h2>Solo and Team</h2>
@@ -210,8 +214,8 @@ write('privacy', shell({
 <p>We pass the key to Polar to check it and to count the repository against your plan's limit. We keep the fingerprint and Polar's activation ID so each repository is counted once. The Pro pack is cached on your machine for 24 hours.</p>
 <h2>This website</h2>
 <p>This site uses Cloudflare Web Analytics, which counts visits without cookies.</p>
-<h2>Waitlist</h2>
-<p>If you join the SIGSHIP Cloud waitlist, we keep your email address, your name if you give it, the plan you picked, the tool you build with if you give it, your country as reported by Cloudflare, and the time. It is stored in a Google Sheet that only Zoof04 can open. We use it only to email you when your plan opens. Email <a href="mailto:support@sigship.dev">support@sigship.dev</a> and we will delete it.</p>
+<h2>Waitlist and the Lookout email</h2>
+<p>If you join the waitlist or ask for the Lookout notice by email, we keep your email address, your name if you give it, the plan or list you picked, the tool you build with if you give it, your country as reported by Cloudflare, and the time. It is stored in a Google Sheet that only Zoof04 can open. We use it only to email you when your plan opens or to send the Lookout notice. Every email has an unsubscribe link, or email <a href="mailto:support@sigship.dev">support@sigship.dev</a> and we will delete it.</p>
 <h2>Payments</h2>
 <p>Polar is the merchant of record. Polar collects your payment details and shares your name, email and order with us so we can provide the service.</p>
 <h2>Pilot review</h2>
@@ -237,6 +241,10 @@ write('terms', shell({
 }));
 
 for (const pg of PRODUCT_PAGES) write(pg.path.slice(1, -1), shell({ ...pg, body: pg.body, wide: true }));
+// The Lookout as machine-readable feeds, and the Cleared badge anyone can copy into a README.
+writeFileSync(join(site, 'lookout/feed.json'), feedJson(ORIGIN));
+writeFileSync(join(site, 'lookout/rss.xml'), rssXml(ORIGIN));
+writeFileSync(join(site, 'flags/cleared.svg'), clearedBadge(VERSION));
 
 // ---------- Glossary ----------
 {
@@ -300,7 +308,7 @@ ${CTA_BAND}`,
 }
 
 const urls = ['/', ...PRODUCT_PAGES.map((pg) => pg.path), '/guides/', ...GUIDES.map((gd) => `/guides/${gd.slug}/`), '/glossary/', ...RULES.map((r) => `/checks/${r.id}/`), '/brand/', '/privacy/', '/terms/'];
-const priority = (u) => (u === '/' ? '1.0' : /^\/(pricing|features|docs|ai-agents|guides)\/$/.test(u) ? '0.9' : u.startsWith('/guides/') || u.startsWith('/checks/') || u === '/glossary/' ? '0.8' : /^\/(privacy|terms|brand)\/$/.test(u) ? '0.3' : '0.6');
+const priority = (u) => (u === '/' ? '1.0' : /^\/(pricing|features|docs|ai-agents|guides|lookout|flags)\/$/.test(u) ? '0.9' : u.startsWith('/guides/') || u.startsWith('/checks/') || u === '/glossary/' ? '0.8' : /^\/(privacy|terms|brand)\/$/.test(u) ? '0.3' : '0.6');
 writeFileSync(join(site, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${LASTMOD}</lastmod><priority>${priority(u)}</priority></url>`).join('\n')}
@@ -328,6 +336,8 @@ ${CMDS}
 - [Docs](${ORIGIN}/docs/): install, commands, reading the report, exit codes
 - [AI agents](${ORIGIN}/ai-agents/): MCP setup for Claude Code, Cursor and other agents
 - [Pricing](${ORIGIN}/pricing/): free today; self-hosted and Cloud plans on the waitlist
+- [The Lookout](${ORIGIN}/lookout/): new ways attackers get into AI-built apps, each mapped to a SIGSHIP check (feeds: /lookout/feed.json, /lookout/rss.xml)
+- [GO flags](${ORIGIN}/flags/): Cleared (free, self-declared), Verified (nightly, SIGSHIP Cloud) and Pilot on board (human review)
 - [Glossary](${ORIGIN}/glossary/): app security terms in plain English
 - [Full text for language models](${ORIGIN}/llms-full.txt)
 
@@ -361,6 +371,18 @@ What happens if you ship it: ${r.forecast}
 How to fix it: ${r.fix}
 ${CHECK_EXTRA[r.id].faq.map(([q, a]) => `Q: ${q}\nA: ${a}`).join('\n')}`).join('\n\n')}
 
+## The Lookout: recent attack patterns against AI-built apps
+${NOTICES.map((n) => `### ${n.title.plain} (${fmtDate(n)}${n.cve ? `, ${n.cve}` : ''})
+${n.summary.plain}
+Affects: ${n.affects.join(', ')}.
+SIGSHIP: ${STATUS[n.status].plain}${n.rules.length ? ` (${n.rules.join(', ')})` : ''}. ${n.sigship.plain}
+What to do: ${n.action.plain}
+Sources: ${n.sources.map(([t, u]) => `${t} ${u}`).join('; ')}`).join('\n\n')}
+
+## GO flags
+${TIERS.map((t) => `- ${t.name} (level ${t.level}, flag ${t.flag}): ${t.plain} Who: ${t.who}. Proof: ${t.proof}`).join('\n')}
+A flag says the owner checked before launching. It is not a security certificate.
+
 ## Guides
 ${GUIDES.map((gd) => `### ${gd.title}
 ${ORIGIN}/guides/${gd.slug}/
@@ -372,7 +394,7 @@ ${gd.faq.map(([q, a]) => `Q: ${q}\nA: ${a}`).join('\n')}`).join('\n\n')}
 ## Glossary
 ${GLOSSARY.map(([, term, plain]) => `- ${term}: ${plain}`).join('\n')}
 `);
-writeFileSync(join(site, 'manifest.webmanifest'), `${JSON.stringify({ name: 'SIGSHIP', short_name: 'SIGSHIP', description: 'Free security check for vibe-coded and AI-built apps.', start_url: '/', display: 'standalone', background_color: '#edf2f6', theme_color: '#edf2f6', icons: [{ src: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }, { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' }] }, null, 2)}\n`);
+writeFileSync(join(site, 'manifest.webmanifest'), `${JSON.stringify({ name: 'SIGSHIP', short_name: 'SIGSHIP', description: 'Free security check for vibe-coded and AI-built apps.', start_url: '/', display: 'standalone', background_color: '#0b1324', theme_color: '#0b1324', icons: [{ src: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }, { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' }] }, null, 2)}\n`);
 writeFileSync(join(site, `${INDEXNOW_KEY}.txt`), INDEXNOW_KEY);
 mkdirSync(join(site, '.well-known'), { recursive: true });
 writeFileSync(join(site, '.well-known/security.txt'), `Contact: mailto:support@sigship.dev\nExpires: ${Number(LASTMOD.slice(0, 4)) + 1}${LASTMOD.slice(4)}T00:00:00.000Z\nPreferred-Languages: en\nPolicy: https://github.com/sigship/sigship/blob/main/SECURITY.md\nCanonical: ${ORIGIN}/.well-known/security.txt\n`);

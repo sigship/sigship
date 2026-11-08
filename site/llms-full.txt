@@ -183,6 +183,62 @@ A: The lockfile npm creates. It pins every package to an exact version so every 
 Q: Should I commit the lockfile?
 A: Yes. Commit package-lock.json, pnpm-lock.yaml, yarn.lock or bun.lockb, whichever your project uses.
 
+## The Lookout: recent attack patterns against AI-built apps
+### A hole in Next.js lets a crafted link run code on your server (23 Sep 2026, CVE-2026-94545)
+Many apps make a little preview image for links shared on social media. In Next.js 16.2 through 16.3.5, if that image includes words a visitor can control, such as a name from the web address, a visitor can hide code in those words and run it on your server. Vercel rates it critical. Apps hosted on Vercel were protected; apps hosted elsewhere were not.
+Affects: Next.js 16.2 to 16.3.5, Social preview images, Self-hosted apps.
+SIGSHIP: Check being written (outdated-framework). A new check will warn when your app uses a version with a known critical hole. The list of bad versions ships inside SIGSHIP itself, so the free check still makes no network calls.
+What to do: Ask your AI tool to update Next.js to 16.3.6 (or 15.5.26). Until then, keep anything a visitor can type out of your preview images.
+Sources: The Hacker News, 23 Sep 2026 https://thehackernews.com/2026/09/critical-nextjs-imageresponse-flaw-can.html; CSA Singapore alert https://www.csa.gov.sg/alerts-and-advisories/alerts/al-2026-148/; Canadian Centre for Cyber Security https://cyber.gc.ca/en/alerts-advisories/nextjs-security-advisory-av26-851
+
+### 282 of 444 AI apps on iPhone gave away their paid AI access (30 Jun 2026)
+Researchers watched the traffic of 444 AI chat apps. 282 handed over paid AI access in one of three ways: the secret key sat in the traffic in plain sight (54 apps), the app's own server answered anyone who asked, with no login (92 apps), or a "temporary" pass that never really expired could be copied and reused (136 apps). One token was set to expire in the year 2125. Three months after being told, only 28% had fixed it.
+Affects: Any app that calls OpenAI, Gemini or Anthropic, Web and mobile, Lovable, Bolt and v0 defaults.
+SIGSHIP: Covered since 0.1.0 (ai-key-in-browser, ai-route-no-rate-limit). SIGSHIP already flags an AI key that visitors can see, and an AI route with no spending brake. The "server answers anyone" case gets its own check in Pro.
+What to do: Run the check. If it finds your key, create a new one and let the AI talk to the provider from your server, behind a login and a limit.
+Sources: The Hacker News, 30 Jun 2026 https://thehackernews.com/2026/06/282-ios-apps-found-leaking-llm-api-keys.html; The paper (arXiv 2606.12212) https://arxiv.org/abs/2606.12212
+
+### A worm hides in code packages and steals every password on your computer (22 Apr 2026, CanisterSprawl)
+Your app is built from hundreds of small code packages other people publish. Six of them were poisoned: installing one ran a hidden script that copied your secrets file, cloud logins, SSH keys and browser passwords, then used your own publishing rights to poison more packages. It also tried to spread to Python.
+Affects: Every JavaScript project, CI servers, Developers' laptops.
+SIGSHIP: Watching (install-scripts). SIGSHIP already warns when your app can pull in new package versions by itself. A check that lists the packages allowed to run scripts when installed is next.
+What to do: Keep a lockfile so versions don't change on their own, and ask your AI tool to check whether any of the six named packages are in your app. If one is, treat every password on that computer as stolen and change them.
+Sources: The Hacker News, 22 Apr 2026 https://thehackernews.com/2026/04/self-propagating-supply-chain-worm.html; The New Stack https://thenewstack.io/npm-supply-chain-worm-attack/
+
+### Thousands of Lovable projects were readable by anyone for 48 days (21 Apr 2026, BOLA in the platform API)
+Anyone with a free Lovable account could open other people's projects: the source code, the database passwords written into it, the AI chat history, and users' personal details. It was reported on 3 March, fixed for new projects, and left open for existing ones for 48 days. Lovable first said it was "intentional behaviour", then partly apologised.
+Affects: Lovable projects from before November 2025, Supabase keys written into code.
+SIGSHIP: Partly covered (secret-in-code, rls-missing, rls-open-write). No scan of your app can find a hole in Lovable's own servers. What SIGSHIP can do is find what made the leak dangerous: database passwords written into your code, and tables anyone can read.
+What to do: If your project is older than November 2025, create new database keys today, then run the check and fix anything marked Stop.
+Sources: TNW, 21 Apr 2026 https://thenextweb.com/news/lovable-vibe-coding-security-crisis-exposed
+
+### One AI-built exam app left 18,697 people's details open to anyone (27 Feb 2026)
+A popular exam-grading app built on Lovable had no protection on its database. Anyone, without logging in, could read every user record, delete accounts, grade other people's tests and send bulk emails. One login check even worked backwards: it blocked people who were logged in and let strangers through. 18,697 records, including 4,538 students.
+Affects: Supabase apps, Lovable, Bolt and v0 defaults.
+SIGSHIP: Covered since 0.1.0 (rls-missing, rls-open-write). The open database is exactly what SIGSHIP's first two Stop checks look for. The backwards login logic is the kind of thing only a person reading the code catches, which is what a pilot review is for.
+What to do: Run the check. If it says a table is open, copy the fix into your AI tool, then run it again until you get a GO.
+Sources: The Register, 27 Feb 2026 https://www.theregister.com/2026/02/27/lovable_app_vulnerabilities; Cybernews on related Lovable exposures https://cybernews.com/security/lovable-ai-apps-expose-personal-information/
+
+### The plug-ins your AI coding tool uses had 30 security holes in 60 days (Jan to Feb 2026, 30+ CVEs)
+AI tools like Cursor and Claude Code connect to small helper programs called MCP servers. Over 30 holes were reported in two months: helpers that run commands they're told to by hidden text, helpers with no login at all, and fake helpers that quietly copy your keys. Earlier cases leaked WhatsApp chats and private GitHub code.
+Affects: Cursor, Claude Code and Windsurf users, Any project with an MCP config.
+SIGSHIP: Watching (mcp-config). SIGSHIP's own helper has no outside parts, never runs commands and never touches the network, and you can check that yourself. A check that looks at the helpers in your project's settings is planned.
+What to do: Only install helpers from people you can name, remove the ones you don't use, and don't let them see your secrets file.
+Sources: MCP Security 2026 roundup, 10 Mar 2026 https://heyuan110.com/posts/ai/2026-03-10-mcp-security-2026; Practical DevSecOps https://www.practical-devsecops.com/mcp-security-vulnerabilities/
+
+### 1 in 5 AI-built websites is leaking a secret key (23 Sep 2025)
+Researchers scanned about 130,000 websites built with 13 AI app builders. Roughly 26,000 had at least one secret key sitting where any visitor could read it: keys for OpenAI, Gemini, Stripe, Razorpay, Telegram bots and Airtable, and over 16,000 Firebase and 3,000 Supabase database credentials. Gemini keys made up almost three-quarters of the AI keys found, and more than 300 of them worked.
+Affects: Apps from any AI builder, Firebase and Supabase apps, Anything with a Gemini or OpenAI key.
+SIGSHIP: Covered since 0.1.0 (secret-in-code, public-env-secret, env-file-committed). Three of SIGSHIP's first checks exist because of this pattern. Firebase access rules get their own check in Pro.
+What to do: Run the check. Any key it finds is already public: create a new one and delete the old one, then move it to your server.
+Sources: RedHunt Labs, 23 Sep 2025 https://redhuntlabs.com/blog/echoes-of-ai-exposure-thousands-of-secrets-leaking-through-vibe-coded-sites-wave-15-project-resonance/; Cyble: 8,000+ ChatGPT keys publicly accessible, Feb 2026 https://cyble.com/blog/when-ai-secrets-go-public-chatgpt/
+
+## GO flags
+- Cleared (level 1, flag Q): You ran the free check and all 17 passed. Add the flag yourself, like a sticker on the door. Who: Anyone, free. Proof: Your word. The badge says which version checked it.
+- Verified (level 2, flag C): SIGSHIP Cloud checks your app every night. The flag is drawn live with the date of the last pass, so it can't be faked or go stale. If a check fails, it comes down by itself. Who: Cloud plans (Solo, Team, Agency). Proof: SIGSHIP's servers. The image is drawn from the latest nightly scan and links to a public page.
+- Pilot on board (level 3, flag H): A real person at zoof04 read your code by hand and signed a written review. The page names the reviewer, the date and what was covered. Who: Pilot review customers. Proof: A named engineer. The public page lists the reviewer, the date and the scope of the review.
+A flag says the owner checked before launching. It is not a security certificate.
+
 ## Guides
 ### Vibe coding security checklist: 10 checks before launch
 https://sigship.dev/guides/vibe-coding-security-checklist/

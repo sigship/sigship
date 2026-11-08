@@ -31,7 +31,7 @@
 
   // Theme (lamp-on reveal from the button) and the Motion switch.
   const meta = $('meta[name="theme-color"]');
-  const themeMode = () => { try { return localStorage.getItem('sigship-theme') || 'system'; } catch { return 'system'; } };
+  const themeMode = () => { try { return localStorage.getItem('sigship-theme') || 'dark'; } catch { return 'dark'; } };
   const syncCtl = () => {
     const tm = themeMode(), mo = root.dataset.motion === 'off' ? 'off' : 'on';
     $$('input[name^="theme-"]').forEach((i) => { i.checked = i.value === tm; });
@@ -39,8 +39,8 @@
   };
   const setTheme = (mode, from) => {
     const dark = mode === 'dark' || (mode !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
-    try { if (mode === 'system') localStorage.removeItem('sigship-theme'); else localStorage.setItem('sigship-theme', mode); } catch { /* private mode */ }
-    const flip = () => { root.classList.toggle('dark', dark); if (meta) meta.content = dark ? '#060b14' : '#edf2f6'; };
+    try { localStorage.setItem('sigship-theme', mode); } catch { /* private mode */ }
+    const flip = () => { root.classList.toggle('dark', dark); if (meta) meta.content = dark ? '#0b1324' : '#f6f7f9'; };
     if (from) { const r = from.getBoundingClientRect(); root.style.setProperty('--vt-x', `${r.left + r.width / 2}px`); root.style.setProperty('--vt-y', `${r.top + r.height / 2}px`); }
     if (root.classList.contains('dark') !== dark && !calm() && document.startViewTransition && from) document.startViewTransition(flip); else flip();
     syncCtl();

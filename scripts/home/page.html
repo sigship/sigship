@@ -27,14 +27,14 @@
 <meta name="twitter:description" content="Find what will leak, break or cost you money before launch. Free, open source, runs on your computer.">
 <meta name="twitter:image" content="https://sigship.dev/og.png">
 <!--@homeLd-->
-<meta name="theme-color" content="#edf2f6">
+<meta name="theme-color" content="#0b1324">
 <meta name="color-scheme" content="light dark">
-<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/spline-sans-mono.woff2" as="font" type="font/woff2" crossorigin>
-<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#060b14':'#edf2f6';if(m==='off')d.dataset.motion='off';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t==='system'?matchMedia('(prefers-color-scheme: dark)').matches:t!=='light');if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#0b1324':'#f6f7f9';if(m==='off')d.dataset.motion='off';var mo;try{mo=localStorage.getItem('sigship-mode')}catch(e){}if(q.get('mode'))mo=q.get('mode');if(!mo&&/github\.com|npmjs\.com|modelcontextprotocol|mcp\.so|glama\.ai|smithery\.ai/.test(document.referrer))mo='dev';if(mo==='dev')d.dataset.mode='dev';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
 <style>
-@font-face { font-family: 'Archivo'; src: url('fonts/archivo.woff2') format('woff2'); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
-@font-face { font-family: 'Spline Sans Mono'; src: url('fonts/spline-sans-mono.woff2') format('woff2'); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'Inter'; src: url('/fonts/inter.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url('/fonts/jetbrains-mono.woff2') format('woff2'); font-weight: 100 800; font-display: swap; }
 /* Registered so the verdict colour, the placard face and a lamp's power can be animated (C1, C8). */
 @property --lamp { syntax: '<color>'; inherits: true; initial-value: #d3241c; }
 @property --face { syntax: '<color>'; inherits: true; initial-value: #d3241c; }
@@ -43,11 +43,13 @@
 :root {
   color-scheme: light;
   /* Brand tokens stay plain hex in :root: scripts/marks.js reads them with a hex-only regex. */
-  --sail: #edf2f6; --paper: #ffffff; --ink: #0e1b2c; --slate: #475a70; --line: #c9d5df;
-  --blue: #123f9c; --red: #d3241c; --yellow: #f6c500; --green: #2e9e5b; --go: #7fd6a0;
-  --deck: #1b2b40; --panel: #0e1b2c; --on-panel: #ffffff; --term-text: #dfe7ef; --term-dim: #93a4b6; --sev1-dark: #ff8a80;
-  --flag-white: #ffffff; --flag-black: #0e1b2c;
-  --line-strong: #6b7d92; --go-text: #1d7a45; --sev1-text: #b81e17; --telemetry: #123f9c; --link: #123f9c;
+  /* Night Harbour palette. Daylight values here; Night values under :root.dark. Flags keep their true colours in both. */
+  --sail: #f6f7f9; --paper: #ffffff; --ink: #0b1324; --slate: #5b6578; --line: #dde1e8;
+  --blue: #1f4fd1; --red: #c81e1e; --yellow: #f5c518; --green: #15803d; --go: #4ade80;
+  --deck: #141d31; --panel: #0b1324; --on-panel: #ffffff; --term-text: #dfe7ef; --term-dim: #93a4b6; --sev1-dark: #ff8a80;
+  --flag-white: #ffffff; --flag-black: #0b1324; --flag-red: #d92d20; --flag-yellow: #f5c518; --flag-blue: #1f4fd1;
+  --line-strong: #8a96a8; --go-text: #15803d; --sev1-text: #c81e1e; --telemetry: #1f4fd1; --link: #1f4fd1;
+  --warn: #b45309; --stop: #c81e1e; --glow-rgb: 31, 79, 209; --staff: #0b1324; --btn-bg: #1f4fd1; --btn-text: #ffffff; --card-shadow: 0 12px 30px rgba(11, 19, 36, .10);
   /* Signal lamps (C1). The sRGB values are the brand hex; Display P3 emitters are layered below. Flag art never reads these. */
   --lamp-red: #d3241c; --lamp-yellow: #f6c500; --lamp-green: #2e9e5b; --lamp-warm: #fff0d6; --lamp-warm-day: #ffd27a; --lamp-slate: #93a4b6;
   --lamp-off: #b6c3d0; --lamp-off-night: #2a3a52;
@@ -70,21 +72,22 @@
 @media (min-width: 1100px) { :root { --flag-w: min(calc((100vw - 2 * var(--gutter) - 6 * var(--flag-gap) - 260px) / 7), 15svh, 150px); } }
 :root.dark {
   color-scheme: dark;
-  --sail: #060b14; --paper: #0d1726; --ink: #e8eef6; --slate: #93a4b6; --line: #1d2d44;
-  --deck: #13223a; --panel: #0a1322;
-  --line-strong: #5b7090; --go-text: #7fd6a0; --sev1-text: #ff8a80; --telemetry: #7fb0ff; --link: #7fb0ff;
+  --sail: #0b1324; --paper: #141d31; --ink: #f3f5f8; --slate: #9aa3b5; --line: #26304a;
+  --deck: #0f1a2e; --panel: #070d1b;
+  --line-strong: #3b4a68; --go-text: #4ade80; --sev1-text: #ff8a80; --telemetry: #7fa2f7; --link: #7fa2f7;
+  --red: #f87171; --green: #4ade80; --warn: #fbbf24; --stop: #f87171; --glow-rgb: 127, 162, 247; --staff: #33426a; --card-shadow: 0 12px 30px rgba(0, 0, 0, .35);
   --lamp-off: #2a3a52;
 }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
-body { margin: 0; background: var(--sail); color: var(--ink); font: 400 1.0625rem/1.55 'Archivo', system-ui, sans-serif; }
-:root.dark body { background-color: var(--sail); background-image: radial-gradient(1100px 600px at 88% -10%, rgb(18 63 156 / .30), transparent 62%), linear-gradient(rgb(127 176 255 / .035) 1px, transparent 1px), linear-gradient(90deg, rgb(127 176 255 / .035) 1px, transparent 1px); background-size: auto, 44px 44px, 44px 44px; }
+body { margin: 0; background: var(--sail); color: var(--ink); font: 400 1.0625rem/1.55 'Inter', system-ui, sans-serif; }
+:root.dark body { background-color: var(--sail); background-image: radial-gradient(1100px 600px at 80% -10%, rgb(31 79 209 / .28), transparent 62%), linear-gradient(rgb(127 162 247 / .035) 1px, transparent 1px), linear-gradient(90deg, rgb(127 162 247 / .035) 1px, transparent 1px); background-size: auto, 56px 56px, 56px 56px; }
 h1, h2, h3, h4, p, ol, ul, dl, dd, figure, pre, fieldset { margin: 0; }
 ol, ul { padding: 0; list-style: none; }
 fieldset { padding: 0; border: 0; min-width: 0; }
-code, pre { font-family: 'Spline Sans Mono', ui-monospace, monospace; }
+code, pre { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 button, input { font: inherit; color: inherit; }
 a { color: var(--link); text-underline-offset: 3px; }
 :focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
@@ -137,11 +140,12 @@ html:not(.js) .needs-js { display: none !important; }
 :root.dark .mini svg { box-shadow: 0 0 0 1px rgb(255 240 214 / .4); }
 .mini i { height: 2px; border-radius: 2px; background: var(--line); }
 .mini i.on { background: var(--telemetry); }
-.chip { display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 11px 0 10px; border-radius: var(--r-ctl); background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); font: 700 .7rem 'Spline Sans Mono', monospace; letter-spacing: .06em; color: var(--ink); white-space: nowrap; }
+.chip { display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 11px 0 10px; border-radius: var(--r-ctl); background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); font: 700 .7rem 'JetBrains Mono', monospace; letter-spacing: .06em; color: var(--ink); white-space: nowrap; }
 .chip .lamp { --s: 8px; }
 .chip .dim { color: var(--slate); font-weight: 600; }
 @media (max-width: 1439px) { .mini { display: none; } }
 .pill-cmd { flex: none; white-space: nowrap; }
+@media (max-width: 767px) { .hud { display: none; } }
 .nav { display: flex; gap: 22px; margin-left: auto; font-size: .95rem; }
 .nav a { color: var(--ink); text-decoration: none; padding: 10px 0; }
 .nav a[aria-current="true"] { text-decoration: underline 2px var(--telemetry); text-underline-offset: 8px; }
@@ -174,7 +178,7 @@ html:not(.js) .needs-js { display: none !important; }
 .icon-btn .moon { fill: currentColor; stroke: none; }
 .icon-btn .sun, :root.dark .icon-btn .moon { display: none; }
 :root.dark .icon-btn .sun { display: block; }
-.pill-cmd { display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px 0 18px; border: 0; border-radius: var(--r-ctl); background: var(--panel); color: var(--on-panel); font: 500 .92rem 'Spline Sans Mono', monospace; cursor: pointer; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); }
+.pill-cmd { display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px 0 18px; border: 0; border-radius: var(--r-ctl); background: var(--panel); color: var(--on-panel); font: 500 .92rem 'JetBrains Mono', monospace; cursor: pointer; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); }
 .pill-cmd .p { color: var(--term-dim); }
 .mast.pad-on .pill-cmd { opacity: 0; visibility: hidden; }
 .menu-btn { display: none; }
@@ -222,19 +226,19 @@ html:not(.js) .needs-js { display: none !important; }
 :root:not(.dark) .hoist li.reading .fl { box-shadow: 0 0 0 1px rgb(14 27 44 / .62), 0 1px 1px rgb(14 27 44 / .16); }
 :root:not(.dark) .hoist li.reading .shade { box-shadow: 8px 14px 18px -6px rgb(14 27 44 / .36); }
 .hoist button:focus-visible { outline-offset: 4px; }
-.bay { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 22px; padding-top: 8px; color: var(--slate); font: 600 .72rem 'Spline Sans Mono', monospace; letter-spacing: .08em; }
+.bay { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 22px; padding-top: 8px; color: var(--slate); font: 600 .72rem 'JetBrains Mono', monospace; letter-spacing: .08em; }
 .bay .lamp { --s: 7px; }
 .hoist li.reading .bay { color: var(--ink); text-decoration: underline 1.5px; text-underline-offset: 4px; }
 .mastlamp { display: none; }
 @media (min-width: 1100px) {
   .hoist-wrap { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: end; column-gap: 28px; }
   .signal { margin: 0 0 1px; justify-self: end; text-align: right; max-width: 30ch; }
-  .mastlamp { display: grid; justify-items: center; align-self: stretch; grid-template-rows: auto 1fr auto; width: 44px; padding-top: 4px; color: var(--slate); font: 600 .62rem 'Spline Sans Mono', monospace; letter-spacing: .1em; }
+  .mastlamp { display: grid; justify-items: center; align-self: stretch; grid-template-rows: auto 1fr auto; width: 44px; padding-top: 4px; color: var(--slate); font: 600 .62rem 'JetBrains Mono', monospace; letter-spacing: .1em; }
   .mastlamp .lamp { --s: 14px; }
   .mastlamp b { width: 2px; background: var(--ink); margin-top: 3px; }
   :root.dark .mastlamp b { background: #cfd9e6; }
 }
-.signal { min-height: 3em; margin-top: 10px; color: var(--slate); font: 500 .78rem/1.5 'Spline Sans Mono', monospace; letter-spacing: .02em; }
+.signal { min-height: 3em; margin-top: 10px; color: var(--slate); font: 500 .78rem/1.5 'JetBrains Mono', monospace; letter-spacing: .02em; }
 @media (min-width: 1100px) { .signal { min-height: 0; } }
 .signal b { color: var(--ink); font-weight: 600; }
 
@@ -262,7 +266,7 @@ html[data-verdict="off"] .vlamp { --lit: 0; }
 .lede + .lede { margin-top: .35em; color: var(--slate); }
 .pad { margin-top: 20px; max-width: 560px; border-radius: var(--r-plate); background: var(--panel); color: var(--on-panel); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07); overflow: hidden; }
 .pad-tabs { display: flex; gap: 2px; padding: 4px; background: var(--deck); }
-.pad-tabs button { flex: 1; min-height: 36px; padding: 0 10px; border: 0; border-radius: var(--r-ctl); background: transparent; color: var(--term-dim); font: 600 .84rem 'Archivo', sans-serif; cursor: pointer; }
+.pad-tabs button { flex: 1; min-height: 36px; padding: 0 10px; border: 0; border-radius: var(--r-ctl); background: transparent; color: var(--term-dim); font: 600 .84rem 'Inter', sans-serif; cursor: pointer; }
 @media (pointer: coarse) { .pad-tabs button { min-height: 44px; } }
 .pad-tabs button[aria-selected="true"] { background: var(--panel); color: var(--on-panel); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .1); }
 .pad-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 6px 6px 6px 18px; }
@@ -270,9 +274,9 @@ html[data-verdict="off"] .vlamp { --lit: 0; }
 .pad-row code.long { font-size: .8rem; line-height: 1.45; padding: 6px 0; }
 .pad-row code .p { color: var(--term-dim); }
 .pad :focus-visible, .console :focus-visible, .site-foot :focus-visible, .plate-code :focus-visible, .peek :focus-visible { outline-color: var(--yellow); }
-.copy-btn { flex: none; min-width: 92px; min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--r-ctl); background: var(--on-panel); color: var(--flag-black); font: 700 .92rem 'Archivo', sans-serif; cursor: pointer; }
+.copy-btn { flex: none; min-width: 92px; min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--r-ctl); background: var(--on-panel); color: var(--flag-black); font: 700 .92rem 'Inter', sans-serif; cursor: pointer; }
 .pad-note { margin-top: 10px; color: var(--slate); font-size: .92rem; text-wrap: pretty; }
-.spec { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-top: 12px; color: var(--slate); font: 600 .72rem 'Spline Sans Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+.spec { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-top: 12px; color: var(--slate); font: 600 .72rem 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 .spec li { display: inline-flex; align-items: center; gap: 7px; }
 .spec li::before { content: ''; width: 5px; height: 5px; background: var(--telemetry); }
 .spec button { min-height: 32px; padding: 0 2px; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; text-decoration: underline dotted 1px; text-underline-offset: 4px; }
@@ -290,7 +294,7 @@ html[data-verdict="off"] .vlamp { --lit: 0; }
 /* The beam: a thin sheet of cool light that adds light to what it crosses (plus-lighter). Translate only, once per run. */
 .beam { position: absolute; z-index: 3; left: 0; right: 0; top: 0; height: 64px; background: linear-gradient(180deg, transparent, rgb(120 170 255 / .06) 55%, rgb(170 205 255 / .2) 92%, rgb(225 238 255 / .75) 99%, transparent 100%); mix-blend-mode: plus-lighter; opacity: 0; pointer-events: none; will-change: transform; }
 .con-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 12px 12px 16px; background: var(--deck); }
-.con-id { display: grid; gap: 2px; min-width: 0; font: 600 .72rem 'Spline Sans Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--term-dim); }
+.con-id { display: grid; gap: 2px; min-width: 0; font: 600 .72rem 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--term-dim); }
 .con-id b { color: var(--on-panel); font-size: .82rem; }
 .con-v { display: flex; align-items: center; gap: 12px; }
 .pilot { --s: 10px; }
@@ -303,11 +307,11 @@ html[data-verdict="off"] .bloom { opacity: 0; }
 .placard { position: relative; display: grid; justify-items: center; inline-size: 7.4rem; padding: 6px 10px 5px; border-radius: var(--r-plate); background: var(--face); color: var(--on-panel); box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), inset 0 -1px 0 rgb(0 0 0 / .2), 0 0 0 1px rgb(0 0 0 / .3); }
 .pl-face { display: grid; place-items: center; }
 .pl-face > * { grid-area: 1 / 1; }
-.pend { font: 700 1.6rem/1 'Archivo', sans-serif; opacity: 0; }
+.pend { font: 700 1.6rem/1 'Inter', sans-serif; opacity: 0; }
 .word { display: inline-flex; justify-content: center; inline-size: 2.5em; overflow: clip; white-space: nowrap; font-size: 1.6rem; font-weight: 800; font-stretch: 62%; letter-spacing: .03em; line-height: 1; contain: layout paint; }
 .word .neg { position: relative; display: inline-block; max-inline-size: 1.5em; overflow: clip; }
 .word .neg .x { position: absolute; left: 0; right: 0; top: 50%; height: .09em; background: currentColor; transform: scaleX(0); transform-origin: 0 50%; }
-.placard small { font: 600 .62rem 'Spline Sans Mono', monospace; letter-spacing: .1em; opacity: .9; }
+.placard small { font: 600 .62rem 'JetBrains Mono', monospace; letter-spacing: .1em; opacity: .9; }
 html[data-verdict="off"] .placard { color: var(--term-dim); }
 html[data-verdict="off"] .word { opacity: 0; }
 html[data-verdict="off"] .pend { opacity: 1; }
@@ -319,18 +323,18 @@ html[data-verdict="go"] .word .neg .x { transform: scaleX(1); }
 .con-tel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid rgb(255 255 255 / .07); }
 .con-tel > div { min-width: 0; padding: 9px 14px 8px; border-left: 1px solid rgb(255 255 255 / .07); }
 .con-tel > div:first-child { border-left: 0; }
-.con-tel dt { color: var(--term-dim); font: 600 .62rem 'Spline Sans Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+.con-tel dt { color: var(--term-dim); font: 600 .62rem 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
 .con-tel dd { margin: 1px 0 0; }
-.tel { display: inline-flex; align-items: center; min-width: 44px; min-height: 34px; padding: 0 3px; margin-left: -3px; border: 0; border-radius: 5px; background: none; color: var(--on-panel); font: 700 1.35rem/1.1 'Archivo', sans-serif; font-stretch: 112%; font-variant-numeric: tabular-nums; cursor: pointer; text-decoration: underline dotted 1px rgb(255 255 255 / .28); text-underline-offset: 6px; }
+.tel { display: inline-flex; align-items: center; min-width: 44px; min-height: 34px; padding: 0 3px; margin-left: -3px; border: 0; border-radius: 5px; background: none; color: var(--on-panel); font: 700 1.35rem/1.1 'Inter', sans-serif; font-stretch: 112%; font-variant-numeric: tabular-nums; cursor: pointer; text-decoration: underline dotted 1px rgb(255 255 255 / .28); text-underline-offset: 6px; }
 .tel:hover { background: rgb(255 255 255 / .05); }
-.tel small { margin-left: 2px; color: var(--term-dim); font: 500 .7rem 'Spline Sans Mono', monospace; }
+.tel small { margin-left: 2px; color: var(--term-dim); font: 500 .7rem 'JetBrains Mono', monospace; }
 .hold .tel { color: var(--sev1-dark); }
 .hold.zero .tel { color: var(--on-panel); }
 .tv.dash { color: var(--term-dim); }
 @media (pointer: coarse) { .tel { min-height: 44px; } }
 @media (max-width: 400px) { .con-tel > div { padding: 9px 10px 8px; } .tel { font-size: 1.2rem; } }
 
-.con-out { padding: 10px 0 4px; font: 400 .8rem/1.55 'Spline Sans Mono', monospace; }
+.con-out { padding: 10px 0 4px; font: 400 .8rem/1.55 'JetBrains Mono', monospace; }
 .con-out .ln { padding: 0 16px; white-space: pre-wrap; overflow-wrap: anywhere; }
 .c-cmd { padding-top: 2px; padding-bottom: 2px; color: var(--term-text); font-weight: 500; }
 .c-cmd .p { color: var(--term-dim); }
@@ -340,10 +344,10 @@ html[data-verdict="go"] .word .neg .x { transform: scaleX(1); }
 .c-meta { color: var(--term-dim); padding-bottom: 8px !important; }
 .con-rows li { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: baseline; column-gap: 10px; row-gap: 1px; padding: 8px 16px 7px; border-top: 1px solid rgb(255 255 255 / .06); }
 .con-rows .lamp { --s: 9px; align-self: start; margin-top: .36rem; }
-.con-rows .sev { font: 700 .72rem 'Spline Sans Mono', monospace; color: var(--sev1-dark); }
+.con-rows .sev { font: 700 .72rem 'JetBrains Mono', monospace; color: var(--sev1-dark); }
 .con-rows .s2 .sev { color: var(--yellow); }
-.con-rows b { color: var(--on-panel); font: 600 .95rem/1.3 'Archivo', sans-serif; text-decoration: line-through 1px rgb(255 255 255 / 0); }
-.path { grid-column: 3; justify-self: start; min-height: 28px; padding: 1px 6px; margin: 0 0 0 -6px; border: 0; border-radius: 6px; background: transparent; color: var(--term-dim); font: 400 .74rem/1.4 'Spline Sans Mono', monospace; text-align: left; overflow-wrap: anywhere; cursor: pointer; text-decoration: underline dotted 1px rgb(147 164 182 / .55); text-underline-offset: 3px; }
+.con-rows b { color: var(--on-panel); font: 600 .95rem/1.3 'Inter', sans-serif; text-decoration: line-through 1px rgb(255 255 255 / 0); }
+.path { grid-column: 3; justify-self: start; min-height: 28px; padding: 1px 6px; margin: 0 0 0 -6px; border: 0; border-radius: 6px; background: transparent; color: var(--term-dim); font: 400 .74rem/1.4 'JetBrains Mono', monospace; text-align: left; overflow-wrap: anywhere; cursor: pointer; text-decoration: underline dotted 1px rgb(147 164 182 / .55); text-underline-offset: 3px; }
 .path:hover { background: rgb(255 255 255 / .06); color: var(--term-text); }
 @media (pointer: coarse) { .path { min-height: 44px; } }
 html[data-verdict="go"] .con-rows li { opacity: .38; }
@@ -361,7 +365,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .caveat { display: block; color: var(--term-text); }
 .caveat a { color: var(--term-text); white-space: nowrap; }
 .unprinted { opacity: 0; }
-.con-raw { padding: 12px 16px 14px; font: 400 .74rem/1.6 'Spline Sans Mono', monospace; color: var(--term-text); white-space: pre-wrap; overflow-wrap: anywhere; text-indent: 7ch hanging each-line; }
+.con-raw { padding: 12px 16px 14px; font: 400 .74rem/1.6 'JetBrains Mono', monospace; color: var(--term-text); white-space: pre-wrap; overflow-wrap: anywhere; text-indent: 7ch hanging each-line; }
 .con-raw .dim { color: var(--term-dim); }
 .con-raw b { color: var(--on-panel); }
 .con-raw .s1 { color: #ff5f5f; } .con-raw .s2 { color: #ffaf5f; } .con-raw .ok { color: #87d787; }
@@ -384,7 +388,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .rec-ticks i.s1 { background: var(--lamp-red); } .rec-ticks i.s2 { background: var(--lamp-yellow); }
 .rec-ticks i.v { top: 5px; height: 10px; width: 3px; margin-left: -1.5px; }
 .rec-ticks b { position: absolute; top: -16px; height: 32px; border-left: 1px dashed rgb(255 255 255 / .26); }
-.rec-read { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 14px; padding: 0 16px 10px; color: var(--term-dim); font: 600 .62rem/1.55 'Spline Sans Mono', monospace; letter-spacing: .07em; text-transform: uppercase; }
+.rec-read { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 14px; padding: 0 16px 10px; color: var(--term-dim); font: 600 .62rem/1.55 'JetBrains Mono', monospace; letter-spacing: .07em; text-transform: uppercase; }
 .rec-read [data-evt] { color: var(--term-text); font-weight: 500; font-size: .72rem; letter-spacing: 0; text-transform: none; white-space: pre-wrap; }
 /* Every label and every clock line is stacked in one grid cell and only the current one is visible, so the readout keeps one height: no layout shift while it plays. */
 .rec-read [data-evt], .rec-read [data-clock] { display: grid; flex: 1 1 260px; }
@@ -394,13 +398,13 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .con-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px 10px 16px; border-top: 1px solid rgb(255 255 255 / .07); background: color-mix(in srgb, var(--deck) 60%, transparent); }
 .con-clip { container-type: inline-size; }
 @container (max-width: 620px) { .ghost.next-run { flex-basis: 100%; margin-right: 0; } .con-foot .seg { margin-left: auto; } }
-.ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid rgb(255 255 255 / .22); border-radius: var(--r-ctl); background: transparent; color: var(--on-panel); font: 600 .84rem 'Archivo', sans-serif; cursor: pointer; }
+.ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid rgb(255 255 255 / .22); border-radius: var(--r-ctl); background: transparent; color: var(--on-panel); font: 600 .84rem 'Inter', sans-serif; cursor: pointer; }
 .ghost:hover { background: rgb(255 255 255 / .06); }
 .ghost.next-run { margin-right: auto; border-color: rgb(255 255 255 / .5); }
 .ghost[aria-pressed="true"] { background: rgb(255 255 255 / .1); border-color: rgb(255 255 255 / .5); }
 .seg { display: inline-flex; align-items: center; min-height: 44px; padding: 3px; border: 1px solid rgb(255 255 255 / .22); border-radius: var(--r-ctl); }
-.seg > span { padding: 0 6px 0 9px; color: var(--term-dim); font: 600 .62rem 'Spline Sans Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
-.seg button { min-height: 36px; padding: 0 12px; border: 0; border-radius: var(--r-ctl); background: transparent; color: var(--on-panel); font: 600 .82rem 'Archivo', sans-serif; cursor: pointer; }
+.seg > span { padding: 0 6px 0 9px; color: var(--term-dim); font: 600 .62rem 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+.seg button { min-height: 36px; padding: 0 12px; border: 0; border-radius: var(--r-ctl); background: transparent; color: var(--on-panel); font: 600 .82rem 'Inter', sans-serif; cursor: pointer; }
 .seg button:hover { background: rgb(255 255 255 / .08); }
 @media (pointer: coarse) { .seg button { min-height: 44px; } .seg { padding: 0 3px; } }
 .con-cap { padding: 2px 16px 14px; color: var(--term-dim); font-size: .8rem; line-height: 1.45; }
@@ -424,27 +428,27 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .peek { --lamp-off: var(--lamp-off-night); inset: auto; position-area: block-end span-inline-end; position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline; width: min(440px, calc(100vw - 32px)); max-height: min(70svh, 560px); margin: 8px 0; padding: 0; border: 0; border-radius: var(--r-plate); background: var(--panel); color: var(--term-text); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .12), 0 24px 48px -16px rgb(0 0 0 / .55); overflow: auto; overscroll-behavior: contain; font-size: .86rem; line-height: 1.5; }
 :root.dark .peek { box-shadow: inset 0 0 0 1px var(--line-strong), 0 24px 48px -16px rgb(0 0 0 / .8); }
 .peek::backdrop { background: transparent; }
-.peek header { display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; background: var(--deck); font: 600 .74rem 'Spline Sans Mono', monospace; letter-spacing: .02em; }
+.peek header { display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; background: var(--deck); font: 600 .74rem 'JetBrains Mono', monospace; letter-spacing: .02em; }
 .peek header > span:first-child { overflow-wrap: anywhere; color: var(--on-panel); }
-.peek .tag, .tag { padding: 2px 6px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .22); color: var(--term-dim); font: 700 .58rem 'Spline Sans Mono', monospace; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
-.pk-x { margin-left: auto; min-height: 36px; padding: 0 12px; border: 0; border-radius: var(--r-ctl); background: rgb(255 255 255 / .08); color: var(--on-panel); font: 600 .78rem 'Archivo', sans-serif; cursor: pointer; }
+.peek .tag, .tag { padding: 2px 6px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .22); color: var(--term-dim); font: 700 .58rem 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+.pk-x { margin-left: auto; min-height: 36px; padding: 0 12px; border: 0; border-radius: var(--r-ctl); background: rgb(255 255 255 / .08); color: var(--on-panel); font: 600 .78rem 'Inter', sans-serif; cursor: pointer; }
 @media (pointer: coarse) { .pk-x { min-height: 44px; } }
 .peek p { padding: 0 14px 8px; text-wrap: pretty; }
 .peek p b { color: var(--on-panel); }
-.peek .pk-note, .peek .pk-src { color: var(--term-dim); font: 500 .72rem/1.5 'Spline Sans Mono', monospace; }
+.peek .pk-note, .peek .pk-src { color: var(--term-dim); font: 500 .72rem/1.5 'JetBrains Mono', monospace; }
 .peek .pk-note { padding-top: 10px; }
-.pk-code { padding: 6px 0 10px; font: 400 .76rem/1.6 'Spline Sans Mono', monospace; color: var(--term-text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.pk-code { padding: 6px 0 10px; font: 400 .76rem/1.6 'JetBrains Mono', monospace; color: var(--term-text); white-space: pre-wrap; overflow-wrap: anywhere; }
 .pk-code span { display: block; padding: 0 14px 0 calc(14px + 3ch); text-indent: -3ch; }
 .pk-code span::before { content: attr(data-n); display: inline-block; width: 3ch; text-indent: 0; color: var(--term-dim); }
 .pk-code mark { display: block; color: inherit; background: color-mix(in srgb, var(--red) 22%, transparent); box-shadow: inset 3px 0 0 var(--red); }
 .pk-code mark.s2 { background: color-mix(in srgb, var(--yellow) 16%, transparent); box-shadow: inset 3px 0 0 var(--yellow); }
-.s1-t { color: var(--sev1-dark); font: 700 .72rem 'Spline Sans Mono', monospace; }
-.s2-t { color: var(--yellow); font: 700 .72rem 'Spline Sans Mono', monospace; }
+.s1-t { color: var(--sev1-dark); font: 700 .72rem 'JetBrains Mono', monospace; }
+.s2-t { color: var(--yellow); font: 700 .72rem 'JetBrains Mono', monospace; }
 .peek footer { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 14px 12px; border-top: 1px solid rgb(255 255 255 / .08); }
 .peek footer a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--term-text); font-weight: 600; }
-.pk-btn { min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--r-ctl); background: var(--on-panel); color: var(--flag-black); font: 700 .84rem 'Archivo', sans-serif; cursor: pointer; }
+.pk-btn { min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--r-ctl); background: var(--on-panel); color: var(--flag-black); font: 700 .84rem 'Inter', sans-serif; cursor: pointer; }
 .pv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; padding: 12px 14px 6px; }
-.pv dt { color: var(--term-dim); font: 600 .62rem/1.9 'Spline Sans Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+.pv dt { color: var(--term-dim); font: 600 .62rem/1.9 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
 .pv dd b { color: var(--on-panel); }
 .pv code { font-size: .76rem; color: var(--on-panel); overflow-wrap: anywhere; }
 @media (max-width: 559px) {
@@ -456,7 +460,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 /* Sections below the hero (just enough to show every element)          */
 /* ------------------------------------------------------------------ */
 .sect { padding: clamp(72px, 9vw, 120px) var(--gutter) 0; }
-.cap { display: flex; align-items: center; gap: 10px; color: var(--slate); font: 600 .72rem 'Spline Sans Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+.cap { display: flex; align-items: center; gap: 10px; color: var(--slate); font: 600 .72rem 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 .cap b { color: var(--telemetry); }
 .cap i { flex: 1; height: 1px; background: var(--line); }
 .sect h2, .finale h2 { margin-top: 14px; max-width: 22em; font-size: clamp(1.75rem, 3.6vw, 2.75rem); font-weight: 650; font-stretch: 112%; line-height: 1.06; letter-spacing: -.02em; text-wrap: balance; }
@@ -466,14 +470,14 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .faq details { border-bottom: 1px solid var(--line); }
 .faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding: 14px 0; font-weight: 650; font-size: 1.05rem; cursor: pointer; list-style: none; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: '+'; flex: none; color: var(--link); font: 500 1.4rem 'Spline Sans Mono', monospace; transition: transform .2s; }
+.faq summary::after { content: '+'; flex: none; color: var(--link); font: 500 1.4rem 'JetBrains Mono', monospace; transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq summary:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; border-radius: 4px; }
 .faq .acc-body { padding: 0 0 20px; max-width: 70ch; color: var(--slate); line-height: 1.6; }
 .faq-more { margin-top: 22px; color: var(--slate); }
 .faq-more a { color: var(--link); }
-.btn-ink { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--r-ctl); background: var(--ink); color: var(--sail); font: 700 .9rem 'Archivo', sans-serif; text-decoration: none; cursor: pointer; }
-.btn-line { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--line-strong); border-radius: var(--r-ctl); background: transparent; color: var(--ink); font: 600 .9rem 'Archivo', sans-serif; text-decoration: none; cursor: pointer; }
+.btn-ink { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--r-ctl); background: var(--ink); color: var(--sail); font: 700 .9rem 'Inter', sans-serif; text-decoration: none; cursor: pointer; }
+.btn-line { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--line-strong); border-radius: var(--r-ctl); background: transparent; color: var(--ink); font: 600 .9rem 'Inter', sans-serif; text-decoration: none; cursor: pointer; }
 .btn-line:hover { border-color: var(--ink); }
 
 /* 02 · fix plates */
@@ -484,57 +488,57 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .plate-code { --lamp-off: var(--lamp-off-night); display: grid; grid-template-rows: auto 1fr; background: var(--panel); color: var(--term-text); }
 .plate-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 8px 8px 8px 16px; background: var(--deck); }
 .plate-head code { color: var(--on-panel); font-size: .78rem; overflow-wrap: anywhere; }
-.ph-sev { font: 700 .7rem 'Spline Sans Mono', monospace; }
+.ph-sev { font: 700 .7rem 'JetBrains Mono', monospace; }
 .ba { display: inline-flex; margin-left: auto; padding: 3px; border-radius: var(--r-ctl); background: rgb(0 0 0 / .25); }
-.ba button { min-height: 36px; padding: 0 14px; border: 0; border-radius: var(--r-ctl); background: transparent; color: var(--term-dim); font: 600 .8rem 'Archivo', sans-serif; cursor: pointer; }
+.ba button { min-height: 36px; padding: 0 14px; border: 0; border-radius: var(--r-ctl); background: transparent; color: var(--term-dim); font: 600 .8rem 'Inter', sans-serif; cursor: pointer; }
 .ba button[aria-selected="true"] { background: var(--on-panel); color: var(--flag-black); }
 @media (pointer: coarse) { .ba button { min-height: 44px; } }
-.code { padding: 12px 0 14px; font: 400 .8rem/1.75 'Spline Sans Mono', monospace; white-space: pre-wrap; overflow-wrap: anywhere; background-image: linear-gradient(rgb(127 176 255 / .04) 1px, transparent 1px), linear-gradient(90deg, rgb(127 176 255 / .04) 1px, transparent 1px); background-size: 22px 22px; }
+.code { padding: 12px 0 14px; font: 400 .8rem/1.75 'JetBrains Mono', monospace; white-space: pre-wrap; overflow-wrap: anywhere; background-image: linear-gradient(rgb(127 176 255 / .04) 1px, transparent 1px), linear-gradient(90deg, rgb(127 176 255 / .04) 1px, transparent 1px); background-size: 22px 22px; }
 .code span { display: block; padding: 0 16px 0 calc(16px + 4ch); text-indent: -4ch; }
 .code span::before { content: attr(data-n); display: inline-block; width: 4ch; text-indent: 0; color: var(--term-dim); }
 .code .hit { background: color-mix(in srgb, var(--red) 22%, transparent); box-shadow: inset 3px 0 0 var(--red); }
 .code .hit.s2 { background: color-mix(in srgb, var(--yellow) 16%, transparent); box-shadow: inset 3px 0 0 var(--yellow); }
 .code .fixed { background: color-mix(in srgb, var(--green) 22%, transparent); box-shadow: inset 3px 0 0 var(--green); }
 .plate-note { display: grid; align-content: start; gap: 10px; padding: 18px 20px 20px; }
-.pn-cap { color: var(--slate); font: 600 .68rem 'Spline Sans Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+.pn-cap { color: var(--slate); font: 600 .68rem 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
 .plate-note h3 { font-size: 1.25rem; font-stretch: 112%; font-weight: 650; line-height: 1.2; }
 .pn-forecast { font-size: 1.02rem; text-wrap: pretty; }
 .pn-fix { color: var(--slate); font-size: .95rem; text-wrap: pretty; }
 .pn-fix b { color: var(--ink); }
-.stamp-credit { padding: 8px 10px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line); color: var(--slate); font: 500 .74rem/1.5 'Spline Sans Mono', monospace; }
+.stamp-credit { padding: 8px 10px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line); color: var(--slate); font: 500 .74rem/1.5 'JetBrains Mono', monospace; }
 .pn-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 4px; }
 .pn-acts a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
 .again { margin-top: 24px; }
 
 /* 03 · the board */
 .board { margin-top: 28px; max-width: 920px; border-radius: var(--r-plate); background: var(--paper); box-shadow: 0 0 0 1px var(--line); overflow: clip; }
-.board-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; padding: 12px 16px; border-bottom: 1px solid var(--line); color: var(--slate); font: 700 .7rem 'Spline Sans Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+.board-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; padding: 12px 16px; border-bottom: 1px solid var(--line); color: var(--slate); font: 700 .7rem 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
 .board-head b { color: var(--ink); }
 .grp + .grp { border-top: 1px solid var(--line); }
 .grp summary { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 8px 16px; cursor: pointer; list-style: none; }
 .grp summary::-webkit-details-marker { display: none; }
 .grp summary::after { content: ''; width: 8px; height: 8px; margin-left: 4px; border-right: 1.5px solid var(--slate); border-bottom: 1.5px solid var(--slate); rotate: 45deg; translate: 0 -2px; }
 .grp[open] summary::after { rotate: 225deg; translate: 0 2px; }
-.gs { font: 700 .72rem 'Spline Sans Mono', monospace; letter-spacing: .04em; }
+.gs { font: 700 .72rem 'JetBrains Mono', monospace; letter-spacing: .04em; }
 .gl { color: var(--slate); font-size: .92rem; }
-.gn { margin-left: auto; color: var(--slate); font: 700 .74rem 'Spline Sans Mono', monospace; }
+.gn { margin-left: auto; color: var(--slate); font: 700 .74rem 'JetBrains Mono', monospace; }
 .grp ul { padding: 0 0 6px; }
 .grp li { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; padding: 8px 16px; border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
 .grp li b { font-weight: 600; font-size: .96rem; line-height: 1.3; }
 .grp li code { color: var(--slate); font-size: .72rem; }
-.grp li .in-demo { grid-column: 3 / -1; justify-self: start; display: inline-flex; align-items: center; min-height: 28px; font: 600 .7rem 'Spline Sans Mono', monospace; letter-spacing: .06em; text-transform: uppercase; }
+.grp li .in-demo { grid-column: 3 / -1; justify-self: start; display: inline-flex; align-items: center; min-height: 28px; font: 600 .7rem 'JetBrains Mono', monospace; letter-spacing: .06em; text-transform: uppercase; }
 @media (pointer: coarse) { .grp li .in-demo { min-height: 44px; } }
 .grp li .nc { grid-column: 3 / -1; color: var(--slate); font-size: .86rem; }
 .board .lamp { --s: 10px; }
 .board .lamp::after { opacity: calc(.3 * var(--lit)) !important; }
 :root:not(.dark) .board .lamp::after { display: none; }
-.chip-sev { padding: 2px 6px; border-radius: 4px; font: 800 .7rem 'Archivo', sans-serif; font-stretch: 75%; letter-spacing: .06em; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-strong); white-space: nowrap; }
+.chip-sev { padding: 2px 6px; border-radius: 4px; font: 800 .7rem 'Inter', sans-serif; font-stretch: 75%; letter-spacing: .06em; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-strong); white-space: nowrap; }
 .chip-sev.s1 { color: var(--sev1-text); } .chip-sev.s0 { color: var(--slate); }
 @media (max-width: 699px) { .grp li { grid-template-columns: auto minmax(0, 1fr); } .grp li .chip-sev { display: none; } .grp li code, .grp li .in-demo, .grp li .nc { grid-column: 2; } }
 
 /* 04 · limits */
 .log { position: relative; margin-top: 28px; max-width: 920px; padding: 26px clamp(18px, 3vw, 32px); border-radius: var(--r-plate); background: var(--paper) repeating-linear-gradient(transparent 0 31px, color-mix(in srgb, var(--line) 55%, transparent) 31px 32px); box-shadow: 0 0 0 1px var(--line); }
-.log::before, .log::after { content: '+'; position: absolute; top: 6px; color: var(--line-strong); font: 400 .9rem 'Spline Sans Mono', monospace; }
+.log::before, .log::after { content: '+'; position: absolute; top: 6px; color: var(--line-strong); font: 400 .9rem 'JetBrains Mono', monospace; }
 .log::before { left: 10px; } .log::after { right: 10px; }
 .log h3 { max-width: 30em; font-size: clamp(1.2rem, 2vw, 1.5rem); font-stretch: 108%; font-weight: 650; line-height: 1.3; text-wrap: balance; }
 .log h3 span { color: var(--slate); }
@@ -562,7 +566,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .plan.live { box-shadow: inset 0 1px 0 rgb(255 255 255 / .9), 0 0 0 1px var(--line), 0 18px 40px -28px rgb(14 27 44 / .35); }
 .plan.live::before { content: ''; position: absolute; top: 0; left: 18px; right: 18px; height: 1px; background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--lamp-green) 75%, white), transparent); }
 :root.dark .plan.live { box-shadow: inset 0 1px 0 rgb(255 255 255 / .07), 0 0 0 1px var(--line); }
-.status { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); font: 700 .7rem 'Spline Sans Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.status { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); font: 700 .7rem 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
 .plan h3 { font-size: 1.5rem; font-stretch: 112%; font-weight: 700; line-height: 1.15; }
 .plan .price { color: var(--slate); }
 .plan .price b { color: var(--ink); font-size: 1.6rem; font-stretch: 112%; }
@@ -582,7 +586,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 :root.dark .pilot-flag::before, :root.dark .pilot-flag .pf::after { background-color: #cfd9e6; border-color: #cfd9e6; }
 /* Unpowered: dark-glass lamps, a matte surface, a dashed frame stamped PLANNED. */
 .planned { position: relative; margin-top: 40px; padding: 30px clamp(14px, 2.4vw, 24px) 22px; border-radius: var(--r-plate); outline: 1px dashed var(--line-strong); outline-offset: -1px; }
-.stamp { position: absolute; top: -12px; left: 18px; padding: 3px 10px; border-radius: 5px; background: var(--sail); color: var(--slate); font: 800 .74rem 'Archivo', sans-serif; font-stretch: 75%; letter-spacing: .14em; text-transform: uppercase; text-shadow: 0 1px 0 rgb(255 255 255 / .9), 0 -1px 0 rgb(14 27 44 / .22); box-shadow: inset 0 1px 1px rgb(14 27 44 / .16), inset 0 -1px 0 rgb(255 255 255 / .8), 0 0 0 1px var(--line); }
+.stamp { position: absolute; top: -12px; left: 18px; padding: 3px 10px; border-radius: 5px; background: var(--sail); color: var(--slate); font: 800 .74rem 'Inter', sans-serif; font-stretch: 75%; letter-spacing: .14em; text-transform: uppercase; text-shadow: 0 1px 0 rgb(255 255 255 / .9), 0 -1px 0 rgb(14 27 44 / .22); box-shadow: inset 0 1px 1px rgb(14 27 44 / .16), inset 0 -1px 0 rgb(255 255 255 / .8), 0 0 0 1px var(--line); }
 :root.dark .stamp { text-shadow: 0 1px 0 rgb(255 255 255 / .06), 0 -1px 0 rgb(0 0 0 / .6); box-shadow: inset 0 1px 1px rgb(0 0 0 / .5), inset 0 -1px 0 rgb(255 255 255 / .05), 0 0 0 1px var(--line); }
 .planned-h { font-size: 1.2rem; font-stretch: 112%; font-weight: 650; }
 .track-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
@@ -594,7 +598,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 @media (min-width: 760px) { .pgrid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); } }
 .pcard { display: grid; align-content: start; gap: 8px; padding: 16px; border-radius: var(--r-plate); background: transparent; box-shadow: inset 0 0 0 1px var(--line); }
 .pcard h4 { display: flex; align-items: center; gap: 9px; font-size: 1.05rem; font-stretch: 112%; font-weight: 650; }
-.ptag { margin-left: auto; color: var(--slate); font: 700 .62rem 'Spline Sans Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.ptag { margin-left: auto; color: var(--slate); font: 700 .62rem 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
 .pprice { color: var(--slate); font-size: .9rem; }
 .pprice b { color: var(--ink); font-size: 1.2rem; font-stretch: 112%; }
 .ptag-line { color: var(--slate); font-size: .9rem; }
@@ -616,10 +620,10 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .wl .btn-ink { justify-self: start; }
 .wl-err { color: var(--sev1-text); font-weight: 600; font-size: .92rem; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.proto-note { color: var(--slate); font: 600 .64rem 'Spline Sans Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+.proto-note { color: var(--slate); font: 600 .64rem 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
 .wl-ok { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: 14px; max-width: 560px; margin-top: 32px; padding: 20px 22px; border-radius: var(--r-plate); background: var(--paper); box-shadow: 0 0 0 1px var(--line); }
 .wl-ok .lamp { --s: 12px; }
-.wl-ok .okw { display: grid; gap: 2px; color: var(--slate); font: 700 .62rem 'Spline Sans Mono', monospace; letter-spacing: .12em; text-transform: uppercase; justify-items: center; }
+.wl-ok .okw { display: grid; gap: 2px; color: var(--slate); font: 700 .62rem 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; justify-items: center; }
 .wl-ok p { color: var(--ink); }
 .ok-flag { position: relative; width: 48px; padding-top: 8px; }
 .ok-flag::before { content: ''; position: absolute; top: 0; left: -6px; right: -6px; height: 2px; background: var(--ink); }
@@ -642,12 +646,12 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .finale a { color: var(--flag-black); }
 .finale :focus-visible { outline-color: var(--flag-black); }
 .eq { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 20px; }
-.eq li { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 8px; box-shadow: inset 0 0 0 1px rgb(14 27 44 / .45); font: 600 .9rem 'Spline Sans Mono', monospace; }
+.eq li { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; border-radius: 8px; box-shadow: inset 0 0 0 1px rgb(14 27 44 / .45); font: 600 .9rem 'JetBrains Mono', monospace; }
 .eq li.op { padding: 0 2px; box-shadow: none; font-size: 1.1rem; }
 .eq svg { width: 27px; height: 18px; box-shadow: 0 0 0 1px rgb(14 27 44 / .5); }
-.eq strong { font: 800 1rem 'Archivo', sans-serif; font-stretch: 112%; letter-spacing: .02em; }
+.eq strong { font: 800 1rem 'Inter', sans-serif; font-stretch: 112%; letter-spacing: .02em; }
 .fin-pad { --lamp-off: var(--lamp-off-night); max-width: 520px; margin-top: 24px; border-radius: var(--r-plate); background: var(--panel); color: var(--on-panel); }
-.fin-turn { padding: 12px 18px 0; color: var(--term-dim); font: 600 .72rem 'Spline Sans Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+.fin-turn { padding: 12px 18px 0; color: var(--term-dim); font: 600 .72rem 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
 .fin-go { max-width: 54ch; margin-top: 12px; font-size: .92rem; color: rgb(14 27 44 / .85); }
 .fin-go a, .caveat a { white-space: nowrap; }
 .mast-fig { position: relative; justify-self: center; width: 240px; height: 220px; view-timeline: --mast block; }
@@ -656,7 +660,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .halyard { position: absolute; left: 50px; top: 24px; bottom: 6px; width: 1px; background: rgb(14 27 44 / .55); }
 .truck { position: absolute; left: 34px; top: 4px; display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%; background: var(--flag-black); }
 .truck .lamp { --s: 13px; }
-.mh-read { position: absolute; left: 64px; top: 3px; color: var(--flag-black); font: 700 .6rem/1.5 'Spline Sans Mono', monospace; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.mh-read { position: absolute; left: 64px; top: 3px; color: var(--flag-black); font: 700 .6rem/1.5 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
 /* The cone sits beneath flag P, so P's opaque art paints over it: it lights the panel and halyard, never P's fields. */
 .cone { position: absolute; left: 0; top: 12px; width: 100%; height: calc(100% - 12px); clip-path: polygon(15.5% 0, 19.5% 0, 80% 100%, 4% 100%); background: linear-gradient(180deg, rgb(255 250 236 / .46), rgb(255 250 236 / .12) 38%, rgb(255 250 236 / 0) 72%); pointer-events: none; }
 :root.dark .cone { background: linear-gradient(180deg, rgb(255 240 214 / .26), rgb(255 240 214 / .07) 38%, rgb(255 240 214 / 0) 72%); mix-blend-mode: plus-lighter; }
@@ -679,15 +683,15 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .foot-cmd { display: flex; align-items: center; gap: 8px; max-width: 320px; margin-top: 16px; padding: 4px 4px 4px 14px; border-radius: var(--r-ctl); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .16); }
 .foot-cmd code { flex: 1; font-size: .9rem; }
 .foot-cmd .copy-btn { min-width: 72px; }
-.ver-chip { display: inline-flex; gap: 6px; margin-top: 12px !important; color: #93a4b6 !important; font: 600 .7rem 'Spline Sans Mono', monospace !important; letter-spacing: .08em; text-transform: uppercase; }
+.ver-chip { display: inline-flex; gap: 6px; margin-top: 12px !important; color: #93a4b6 !important; font: 600 .7rem 'JetBrains Mono', monospace !important; letter-spacing: .08em; text-transform: uppercase; }
 .foot-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 @media (min-width: 700px) { .foot-cols { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.foot-cols p { margin-bottom: 4px; color: #93a4b6; font: 700 .66rem 'Spline Sans Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.foot-cols p { margin-bottom: 4px; color: #93a4b6; font: 700 .66rem 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
 .foot-cols a { display: flex; align-items: center; min-height: 44px; font-size: .95rem; text-decoration: none; }
 .foot-cols a:hover { text-decoration: underline; }
 .foot-ctl { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 28px; padding-top: 20px; border-top: 1px solid rgb(255 255 255 / .08); }
 .ctl { display: flex; align-items: center; gap: 10px; }
-.ctl > span[aria-hidden] { color: #93a4b6; font: 700 .66rem 'Spline Sans Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.ctl > span[aria-hidden] { color: #93a4b6; font: 700 .66rem 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
 .ctl .opts { display: inline-flex; padding: 3px; border-radius: var(--r-ctl); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .16); }
 .ctl label { position: relative; display: inline-flex; }
 .ctl input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
@@ -703,7 +707,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .foot-word { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0 clamp(4px, 1.2vw, 14px); margin-top: 36px; }
 .foot-word span { display: grid; justify-items: center; gap: 10px; }
 .foot-word svg { display: block; width: min(56%, 64px); height: auto; box-shadow: 0 0 0 1px rgb(255 240 214 / .4); }
-.foot-word b { font: 800 calc((100vw - 2 * var(--gutter)) / 5.6)/.86 'Archivo', sans-serif; font-stretch: 125%; letter-spacing: -.02em; color: #e8eef6; }
+.foot-word b { font: 800 calc((100vw - 2 * var(--gutter)) / 5.6)/.86 'Inter', sans-serif; font-stretch: 125%; letter-spacing: -.02em; color: #e8eef6; }
 @media (min-width: 1100px) { .foot-word b { font-size: min(14vw, 200px); } }
 
 /* Menu sheet for phones and tablets */
@@ -711,7 +715,7 @@ html[data-verdict="go"] .c-v { opacity: .5; }
 .menu::backdrop { background: rgb(6 11 20 / .5); }
 html:has(dialog[open]) { overflow: clip; }
 .menu-in { display: grid; gap: 18px; padding: 10px var(--gutter) 24px; }
-.menu-head { display: flex; align-items: center; justify-content: space-between; min-height: 56px; font: 700 .72rem 'Spline Sans Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
+.menu-head { display: flex; align-items: center; justify-content: space-between; min-height: 56px; font: 700 .72rem 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
 .menu-list a { display: flex; align-items: center; gap: 14px; min-height: 52px; color: var(--ink); text-decoration: none; font-size: 1.05rem; border-bottom: 1px solid var(--line); }
 .menu-list svg { width: 30px; height: 20px; box-shadow: 0 0 0 1px rgb(14 27 44 / .45); }
 :root.dark .menu-list svg { box-shadow: 0 0 0 1px rgb(255 240 214 / .4); }
@@ -779,11 +783,13 @@ html:has(dialog[open]) { overflow: clip; }
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--blue)"/></symbol>
-<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
-<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--yellow)"/><rect x="15" width="15" height="60" fill="var(--blue)"/><rect x="45" width="15" height="60" fill="var(--blue)"/><rect x="75" width="15" height="60" fill="var(--blue)"/></symbol>
-<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--red)"/></symbol>
-<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
+<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-blue)"/></symbol>
+<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
+<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/><rect x="15" width="15" height="60" fill="var(--flag-blue)"/><rect x="45" width="15" height="60" fill="var(--flag-blue)"/><rect x="75" width="15" height="60" fill="var(--flag-blue)"/></symbol>
+<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--flag-red)"/></symbol>
+<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
+<symbol id="flag-q" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/></symbol>
+<symbol id="flag-c" viewBox="0 0 90 60"><rect width="90" height="12" fill="var(--flag-blue)"/><rect y="12" width="90" height="12" fill="var(--flag-white)"/><rect y="24" width="90" height="12" fill="var(--flag-red)"/><rect y="36" width="90" height="12" fill="var(--flag-white)"/><rect y="48" width="90" height="12" fill="var(--flag-blue)"/></symbol>
 <symbol id="g-dagger" viewBox="0 0 10 18"><path d="M4.1 0h1.8v4.6h3.6v1.8H5.9V18H4.1V6.4H.5V4.6h3.6z"/></symbol>
 <symbol id="g-right" viewBox="0 0 16 16"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></symbol>
 <symbol id="g-down" viewBox="0 0 16 16"><path d="M8 2.5V13M4 9l4 4 4-4"/></symbol>
@@ -799,10 +805,12 @@ html:has(dialog[open]) { overflow: clip; }
     <div class="mini"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><i class="on"></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><i></i></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><i></i></span></div>
     <span class="chip"><span class="lamp vlamp"></span><span><span class="dim">DEMO ·</span> <span data-chip>NO-GO · {{r1block}} to fix</span></span></span>
   </div>
-  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="https://github.com/sigship/sigship/releases"><b>Releases</b><span>Tagged versions on GitHub</span></a><a href="/community/"><b>Community</b><span>GitHub, Discord and help</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div></nav>
+  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/lookout/">Lookout</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/lookout/"><b>The Lookout</b><span>New ways in, and what we do about each</span></a><a href="/flags/"><b>GO flags</b><span>Cleared, Verified, Pilot on board</span></a><a href="/ai-agents/"><b>AI agents</b><span>Claude Code, Cursor and MCP</span></a><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a href="/community/"><b>Community</b><span>GitHub, Discord and help</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div></nav>
   <div class="acts">
+    <button class="sw" type="button" data-mode-toggle aria-pressed="false" aria-label="Switch between plain words and developer mode"><span class="l1">Plain</span><span class="knob" aria-hidden="true"></span><span class="l2">Dev</span></button>
     <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
-    <button class="pill-cmd" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
+    <a class="cta-plain plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app</a>
+    <button class="pill-cmd dev-only" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
     <button class="icon-btn menu-btn" type="button" commandfor="menu" command="show-modal" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
   </div>
 </header>
@@ -824,16 +832,21 @@ html:has(dialog[open]) { overflow: clip; }
 
 <main id="main">
   <section class="hero" id="start" data-stage="0" aria-labelledby="h1">
-    <h1 id="h1">The postmortem, before the outage.</h1>
+    <p class="hb-kicker plain-only"><i aria-hidden="true"></i>Free check for apps made with AI</p>
+    <h1 id="h1"><span class="plain-only">You built it fast. Now make sure it's safe to launch.</span><span class="dev-only">The postmortem, before the outage.</span></h1>
     <div class="copy">
-      <p class="lede">Built your app with Lovable, Bolt, Cursor, Replit or Claude Code? SIGSHIP checks it on your own computer and tells you, in plain English, what will leak, break or cost you money once real people use it.</p>
-      <p class="lede">Paste the fixes into your AI tool and run it again until it says <b>GO</b>. <span class="dev">For developers: it exits 0 only on GO, so your coding agent gets a real test for done.</span></p>
-      <div class="pad" id="pad">
+      <p class="lede plain-only">Made your app with Lovable, Bolt, Cursor, Replit or Claude Code? SIGSHIP looks at it the way a hacker would, then tells you in simple words what to fix and how. Nothing is uploaded: your app never leaves your computer.</p>
+      <p class="lede plain-only">Paste each fix into your AI tool and check again until you get a <b>GO</b>: nothing these checks look for is left blocking your launch.</p>
+      <p class="lede dev-only">{{rtotal}} deterministic checks for the failure modes of AI-generated code: leaked secrets, open RLS policies, unverified webhooks, model routes with no rate limit. Runs offline, no dependencies, never prints a secret.</p>
+      <p class="lede dev-only">It exits 0 only on <b>GO</b>, so your coding agent gets a real test for done. <code>--prompt</code> turns every finding into one fix brief for the agent.</p>
+      <div class="hb-row plain-only"><a class="btn-ink" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a><a class="btn-line" href="#hiw">How it works</a></div>
+      <p class="hb-trust plain-only"><span>Works with apps made in</span><b>Lovable</b><b>Bolt</b><b>Cursor</b><b>Replit</b><b>v0</b><b>Claude Code</b><span class="sep" aria-hidden="true"></span><span>Free</span><span class="sep" aria-hidden="true"></span><span>No sign-up</span><span class="sep" aria-hidden="true"></span><span>Nothing uploaded</span></p>
+      <div class="pad dev-only" id="pad">
         <div class="pad-tabs" role="tablist" aria-label="How to run it"><button role="tab" aria-selected="true" type="button" data-cmd="npx sigship">Terminal</button><button role="tab" aria-selected="false" tabindex="-1" type="button" data-cmd="Run npx sigship in this project. Fix every SEV-1 and SEV-2 it reports, in order, changing only what each fix needs. Run it again and keep going until it exits 0 (GO). If a fix needs a key rotated or a dashboard changed, stop and tell me what to do." data-agent>Coding agent</button><button role="tab" aria-selected="false" tabindex="-1" type="button" data-cmd="claude mcp add sigship -- npx -y sigship mcp">MCP</button></div>
         <div class="pad-row" role="tabpanel" aria-label="Command"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship" data-pad-copy>Copy</button></div>
       </div>
-      <p class="pad-note">Free. No signup. Runs on your computer and uploads nothing.<span class="node"> Needs Node.js {{node}}+.</span> <a href="#where">Never used a terminal?</a></p>
-      <ul class="spec"><li>Free · {{lic}}</li><li><button type="button" popovertarget="pv-spec-checks" interestfor="pv-spec-checks" style="anchor-name:--a-pv-spec-checks">{{rtotal}} checks</button></li><li>Exit 0 = GO</li><li class="ver"><button type="button" popovertarget="pv-spec-ver" interestfor="pv-spec-ver" style="anchor-name:--a-pv-spec-ver">v{{ver}}</button></li></ul>
+      <p class="pad-note dev-only">Free. No signup. Runs on your computer and uploads nothing.<span class="node"> Needs Node.js {{node}}+.</span> <a href="#where">Never used a terminal?</a></p>
+      <ul class="spec dev-only"><li>Free · {{lic}}</li><li><button type="button" popovertarget="pv-spec-checks" interestfor="pv-spec-checks" style="anchor-name:--a-pv-spec-checks">{{rtotal}} checks</button></li><li>Exit 0 = GO</li><li class="ver"><button type="button" popovertarget="pv-spec-ver" interestfor="pv-spec-ver" style="anchor-name:--a-pv-spec-ver">v{{ver}}</button></li></ul>
     </div>
     <div class="con-col">
       <figure class="console" id="console" aria-labelledby="con-cap">
@@ -898,6 +911,72 @@ html:has(dialog[open]) { overflow: clip; }
     </div>
   </section>
 
+  <section class="sect" id="hiw" aria-labelledby="hiw-h">
+    <p class="cap"><b>01</b><span>How it works</span><i></i><span>Fig. 1</span></p>
+    <h2 id="hiw-h"><span class="plain-only">Three steps. <span>No tech degree needed.</span></span><span class="dev-only">Three steps. <span>One command.</span></span></h2>
+    <div class="hiw-grid">
+      <article class="hiw rv" style="--i:1">
+        <div class="art ic-folder" aria-hidden="true"><svg viewBox="0 0 320 150"><rect x="96" y="44" width="128" height="76" rx="10" fill="var(--paper)" stroke="var(--line)"/><path class="lid" d="M96 56a8 8 0 0 1 8-8h38l10 10h64a8 8 0 0 1 8 8v4H96Z" fill="rgb(var(--glow-rgb))" opacity=".6"/><rect x="112" y="84" width="60" height="6" rx="3" fill="var(--line)"/><rect x="112" y="98" width="86" height="6" rx="3" fill="var(--line)"/><path d="M226 112l-8 20 6-5 5 9 4-2-5-9h8Z" fill="var(--ink)"/><circle cx="60" cy="40" r="3" fill="rgb(var(--glow-rgb))" opacity=".5"/><circle cx="270" cy="30" r="2" fill="rgb(var(--glow-rgb))" opacity=".5"/><circle cx="250" cy="128" r="2.5" fill="rgb(var(--glow-rgb))" opacity=".4"/></svg></div>
+        <h3><span class="plain-only">Show it your app</span><span class="dev-only">Run it in the repo</span></h3>
+        <p class="plain-only">Point it at the folder your app lives in. One line, which our <a href="/guides/check-lovable-bolt-replit-app/">step-by-step guide</a> walks you through. Nothing is uploaded.</p>
+        <p class="dev-only"><code>npx sigship</code> in the project root, or <code>npx sigship init</code> to add the GitHub Action and the AGENTS.md rule so your agent runs it before every ship.</p>
+      </article>
+      <article class="hiw rv" style="--i:2">
+        <div class="art ic-gate" aria-hidden="true"><svg viewBox="0 0 320 150"><rect x="50" y="64" width="220" height="22" rx="8" fill="var(--paper)" stroke="var(--line)"/><g class="scan"><rect x="150" y="54" width="20" height="42" rx="6" fill="rgb(var(--glow-rgb))" opacity=".55"/></g><g fill="var(--slate)"><rect x="40" y="30" width="26" height="6" rx="3"/><rect x="80" y="26" width="38" height="6" rx="3"/><rect x="132" y="30" width="22" height="6" rx="3"/><rect x="168" y="26" width="46" height="6" rx="3"/><rect x="228" y="30" width="30" height="6" rx="3"/></g><g><rect x="74" y="112" width="40" height="6" rx="3" fill="var(--red)"/><rect x="140" y="112" width="40" height="6" rx="3" fill="var(--warn)"/><rect x="206" y="112" width="40" height="6" rx="3" fill="var(--link)"/></g><text x="160" y="80" text-anchor="middle" fill="var(--ink)" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2">{{rtotal}} CHECKS</text></svg></div>
+        <h3><span class="plain-only">SIGSHIP checks {{rtotal}} things</span><span class="dev-only">{{rtotal}} rules, deterministic, offline</span></h3>
+        <p class="plain-only">Leaked passwords, open data, fake payments, runaway AI bills. The mistakes that sink new apps.</p>
+        <p class="dev-only">Pattern checks over source, env, SQL migrations and lockfiles. No network calls, no LLM in the loop, the same result every run. Secret values are never printed.</p>
+      </article>
+      <article class="hiw rv" style="--i:3">
+        <div class="art ic-flag" aria-hidden="true"><svg viewBox="0 0 320 150"><rect x="150" y="28" width="3" height="100" rx="1.5" fill="var(--staff)"/><g class="fl"><rect x="153" y="32" width="56" height="37" rx="2" fill="var(--flag-blue)"/><rect x="171.7" y="44.3" width="18.7" height="12.3" fill="var(--flag-white)"/></g><g class="tick t1"><rect x="40" y="52" width="84" height="22" rx="7" fill="var(--paper)" stroke="var(--line)"/><path d="M50 63l4 4 8-8" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="68" y="60" width="44" height="6" rx="3" fill="var(--line)"/></g><g class="tick t2"><rect x="40" y="82" width="84" height="22" rx="7" fill="var(--paper)" stroke="var(--line)"/><path d="M50 93l4 4 8-8" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="68" y="90" width="36" height="6" rx="3" fill="var(--line)"/></g><g class="tick t3"><rect x="226" y="66" width="60" height="24" rx="8" fill="color-mix(in srgb, var(--green) 14%, transparent)"/><text x="256" y="82" text-anchor="middle" fill="var(--green)" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="800" letter-spacing="1">GO</text></g></svg></div>
+        <h3><span class="plain-only">You get a clear answer</span><span class="dev-only">Exit code + fixes for your agent</span></h3>
+        <p class="plain-only">A GO or a NO-GO, each problem explained like a friend would, with a fix you paste straight back into your AI tool.</p>
+        <p class="dev-only">Exit 0 GO, 1 NO-GO, 2 could not run. <code>--json</code> for CI, <code>--prompt</code> for a paste-ready fix brief, <code>--strict</code> to fail on SEV-3 too.</p>
+      </article>
+    </div>
+    <div class="flow-wrap">
+      <div class="rv">
+        <h3 class="flow-h"><span class="plain-only">Every file goes through the gate. What comes out is sorted by how much it would hurt.</span><span class="dev-only">Every file goes through the gate. Findings come out sorted by severity.</span></h3>
+        <p class="flow-p plain-only">Red means stop before launch. Yellow means fix soon. Blue means good to fix later. You always know what to do first.</p>
+        <p class="flow-p dev-only">SEV-1 and SEV-2 block (exit 1). SEV-3 is reported and blocks only with <code>--strict</code>. Findings are ordered worst first, with file and line.</p>
+        <p class="flow-p"><a href="#checks">See all {{rtotal}} checks {{gdown}}</a></p>
+        <p class="flow-note">A GO means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits">{{dag}}<span class="sr">Footnote: </span> What a GO doesn't mean</a></p>
+      </div>
+      <svg class="flow rv" style="--i:1" viewBox="0 0 720 560" role="img" aria-label="Your app flows in from Lovable, Bolt, Cursor, v0 or Claude Code, passes through {{rtotal}} checks, and comes out with a GO as three problems turn from Found to Fixed.">
+        <defs><linearGradient id="hbRing" x1="0" y1="0" x2="1" y2="1"><stop class="g0" offset="0"/><stop class="g1" offset="1"/></linearGradient></defs>
+        <path class="lane" d="M150 90 C 225 90 215 290 285 290"/><path class="lane" d="M150 190 C 225 190 215 290 285 290"/><path class="lane" d="M150 290 L 285 290"/><path class="lane" d="M150 390 C 225 390 215 290 285 290"/><path class="lane" d="M150 490 C 225 490 215 290 285 290"/><path class="lane ok" d="M435 290 L 520 290"/>
+        <g><rect class="chip-r" x="0" y="68" width="150" height="44" rx="10"/><circle class="chip-d" cx="20" cy="90" r="4"/><text class="chip-t" x="34" y="95">Lovable</text></g>
+        <g><rect class="chip-r" x="0" y="168" width="150" height="44" rx="10"/><circle class="chip-d" cx="20" cy="190" r="4"/><text class="chip-t" x="34" y="195">Bolt</text></g>
+        <g><rect class="chip-r" x="0" y="268" width="150" height="44" rx="10"/><circle class="chip-d" cx="20" cy="290" r="4"/><text class="chip-t" x="34" y="295">Cursor</text></g>
+        <g><rect class="chip-r" x="0" y="368" width="150" height="44" rx="10"/><circle class="chip-d" cx="20" cy="390" r="4"/><text class="chip-t" x="34" y="395">v0</text></g>
+        <g><rect class="chip-r" x="0" y="468" width="150" height="44" rx="10"/><circle class="chip-d" cx="20" cy="490" r="4"/><text class="chip-t" x="34" y="495">Claude Code</text></g>
+        <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin="0s" path="M150 90 C 225 90 215 290 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin="0s"/></circle>
+        <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin=".5s" path="M150 190 C 225 190 215 290 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin=".5s"/></circle>
+        <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin="1s" path="M150 290 L 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin="1s"/></circle>
+        <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin="1.5s" path="M150 390 C 225 390 215 290 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin="1.5s"/></circle>
+        <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin="2s" path="M150 490 C 225 490 215 290 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin="2s"/></circle>
+        <circle class="pulse ok" r="5" opacity="0"><animateMotion dur="1.8s" repeatCount="indefinite" begin=".8s" path="M435 290 L 520 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="1.8s" repeatCount="indefinite" begin=".8s"/></circle>
+        <circle class="pulse ok" r="5" opacity="0"><animateMotion dur="1.8s" repeatCount="indefinite" begin="1.7s" path="M435 290 L 520 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="1.8s" repeatCount="indefinite" begin="1.7s"/></circle>
+        <circle class="ring" cx="360" cy="290" r="96" stroke-dasharray="190 420"><animateTransform attributeName="transform" type="rotate" from="0 360 290" to="360 360 290" dur="3.2s" repeatCount="indefinite"/></circle>
+        <rect class="node" x="285" y="215" width="150" height="150" rx="24"/>
+        <rect x="325" y="258" width="3" height="56" fill="var(--staff)"/><rect x="328" y="262" width="60" height="40" rx="1.5" fill="var(--flag-blue)"/><rect x="348" y="275.3" width="20" height="13.3" fill="var(--flag-white)"/>
+        <text class="label" x="360" y="340" text-anchor="middle">{{rtotal}} CHECKS</text>
+        <rect class="node" x="520" y="140" width="200" height="300" rx="18"/>
+        <text class="vt" x="538" y="172">BEFORE YOU LAUNCH</text>
+        <text class="vrow" x="538" y="212">Secret key showing</text>
+        <g class="found" style="animation-delay:0s"><rect x="646" y="198" width="60" height="20" rx="5"/><text x="676" y="212" text-anchor="middle">Found</text></g>
+        <g class="fixed" style="animation-delay:0s"><rect x="646" y="198" width="60" height="20" rx="5"/><text x="676" y="212" text-anchor="middle">Fixed</text></g>
+        <text class="vrow" x="538" y="258">Users' data open</text>
+        <g class="found" style="animation-delay:.5s"><rect x="646" y="244" width="60" height="20" rx="5"/><text x="676" y="258" text-anchor="middle">Found</text></g>
+        <g class="fixed" style="animation-delay:.5s"><rect x="646" y="244" width="60" height="20" rx="5"/><text x="676" y="258" text-anchor="middle">Fixed</text></g>
+        <text class="vrow" x="538" y="304">No AI spend limit</text>
+        <g class="found" style="animation-delay:1s"><rect x="646" y="290" width="60" height="20" rx="5"/><text x="676" y="304" text-anchor="middle">Found</text></g>
+        <g class="fixed" style="animation-delay:1s"><rect x="646" y="290" width="60" height="20" rx="5"/><text x="676" y="304" text-anchor="middle">Fixed</text></g>
+        <g class="gostamp"><rect x="538" y="372" width="164" height="44" rx="10"/><rect x="552" y="383" width="2" height="22" fill="var(--staff)"/><rect x="554" y="385" width="24" height="16" rx="1" fill="var(--flag-blue)"/><rect x="562" y="390.3" width="8" height="5.3" fill="var(--flag-white)"/><text x="590" y="399">GO · ready to launch</text></g>
+      </svg>
+    </div>
+  </section>
+
   <section class="sect" id="how" data-stage="1" aria-labelledby="how-h">
     <p class="cap"><b>02</b><span>The fixes</span><i></i><span>Fig. 2</span></p>
     <h2 id="how-h">{{nfixWord}} things block this launch. <span>Here's each problem in plain English, what happens if you ship it, and the fix.</span></h2>
@@ -942,9 +1021,46 @@ html:has(dialog[open]) { overflow: clip; }
     <p class="ways-note">Building in Lovable, Bolt or Replit? Sync to GitHub, download the code, then run <code>npx sigship ui</code> on your computer. <a href="/guides/check-lovable-bolt-replit-app/">Step-by-step guide</a></p>
   </section>
 
+  <section class="sect" id="lookout" aria-labelledby="lookout-h">
+    <p class="cap"><b>06</b><span>The Lookout</span><i></i><span>Fig. 6</span></p>
+    <div class="lk-head">
+      <div class="rv">
+        <h2 id="lookout-h"><span class="plain-only">New ways in are found every week. <span>We keep watch.</span></span><span class="dev-only">Notices to mariners. <span>New attack patterns, mapped to rules.</span></span></h2>
+        <p class="lede plain-only">What attackers are doing to apps like yours right now, in plain words, and what SIGSHIP does about each one. Not a changelog: a watch. New checks start here.</p>
+        <p class="lede dev-only">Advisories, incidents and research that touch AI-built stacks, each mapped to the rule that covers it, the one being written, or an honest "watching". Rules are born here.</p>
+      </div>
+      <div class="rv" style="--i:1"><!--@lkBridge--></div>
+    </div>
+<!--@watchline-->
+    <div class="notices">
+<!--@lookout-->
+    </div>
+    <div class="lk-acts rv">
+      <div class="row"><a class="btn-ink plain-only" href="/lookout/">See every notice</a><a class="btn-ink dev-only" href="/lookout/">All notices + JSON feed</a><a class="btn-line plain-only" href="/lookout/#subscribe">Get the Monday notice by email</a><a class="btn-line dev-only" href="/lookout/rss.xml">RSS</a></div>
+      <p class="plain-only">Spotted something new? Tell us. Every notice names who first raised it.</p>
+      <p class="dev-only">Report a pattern by GitHub issue. Confirmed reports are credited in the notice and in the rule's source.</p>
+    </div>
+  </section>
+
+  <section class="flags-band" id="flags" aria-labelledby="flags-h">
+    <div class="flags-in">
+      <div class="flags-head rv">
+        <p class="cap"><b>07</b><span>Fly your flag</span><i></i><span>Fig. 7</span></p>
+        <h2 id="flags-h"><span class="plain-only">Passed the check? <span>Show the world.</span></span><span class="dev-only">Passed? <span>Hoist the flag.</span></span></h2>
+        <p class="lede">Three real signal flags, three levels of proof, each with a public page that shows what was checked and when.<span class="plain-only"> Hover a flag.</span></p>
+      </div>
+<!--@plaques-->
+      <div class="flags-acts rv">
+        <div class="row"><a class="btn-ink plain-only" href="/guides/check-lovable-bolt-replit-app/">Earn my first flag, free</a><button class="btn-ink dev-only" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button><a class="btn-line" href="/flags/">How the flags work</a></div>
+        <p class="honest-line"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M9 8v5M9 5.5v.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>A flag says the owner checked before launching. It is not a security certificate, and the public page says that too. A GO means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits">{{dag}}<span class="sr">Footnote: </span> What a GO doesn't mean</a></span></p>
+      </div>
+    </div>
+  </section>
+
   <section class="sect" id="pricing" data-stage="5" aria-labelledby="pricing-h">
-    <p class="cap"><b>06</b><span>Plans</span><i></i><span>Fig. 6</span></p>
+    <p class="cap"><b>08</b><span>Plans</span><i></i><span>Fig. 8</span></p>
     <h2 id="pricing-h">Free today. <span>Paid plans are on the waitlist.</span></h2>
+    <p class="lede pr-plain plain-only">Three ways to use SIGSHIP. <b>Free</b> on your own computer, for everyone. <b>Pay once</b> for more checks and client reports. Or <b>pay monthly</b> and we keep watch over your app for you. <a href="/pricing/#plans">Compare every feature {{gright}}</a></p>
     <div class="live-row">
 <!--@liveRow-->
     </div>
@@ -982,11 +1098,11 @@ html:has(dialog[open]) { overflow: clip; }
   <section class="finale" id="why" data-stage="6" aria-labelledby="why-h">
     <div class="fin-inner">
       <div class="fin-copy">
-        <p class="cap"><b>07</b><span>Ready to sail</span><i></i><span>Fig. 7</span></p>
+        <p class="cap"><b>09</b><span>Ready to sail</span><i></i><span>Fig. 9</span></p>
         <h2 id="why-h">Ships raise a flag before they leave port. <span>Software never did.</span></h2>
         <p class="fin-p">In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In computing, a "signal" is a message a running program has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn't yet.</p>
         <ul class="eq" aria-label="Flag P plus SIGTERM equals SIGSHIP"><li><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Flag P</li><li class="op" aria-hidden="true">+</li><li><code>SIGTERM</code></li><li class="op" aria-hidden="true">=</li><li><strong>SIGSHIP</strong></li></ul>
-        <div class="fin-pad"><p class="fin-turn">Your turn.</p><div class="pad-row"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div></div>
+        <div class="fin-pad"><p class="fin-turn">Your turn.</p><div class="pad-row dev-only"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div><div class="hb-row plain-only"><a class="btn-ink" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a><a class="btn-line" href="/pricing/">See the plans</a></div></div>
         <p class="fin-go">A GO means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits">{{dag}}<span class="sr">Footnote: </span> What a GO doesn't mean</a></p>
       </div>
       <figure class="mast-fig" aria-label="Flag P, the Blue Peter, at the top of its mast. The masthead lamp is on.">
@@ -1005,24 +1121,27 @@ html:has(dialog[open]) { overflow: clip; }
   <div class="foot-top">
     <div class="foot-brand">
       <a class="brand" href="#top" aria-label="SIGSHIP home"><svg viewBox="0 0 34 28" aria-hidden="true"><rect x="1" width="2.4" height="28" rx="1.2" fill="var(--ink)"/><rect x="3.4" y="2" width="29.6" height="20" rx="1" fill="var(--blue)"/><rect x="13.27" y="8.67" width="9.87" height="6.67" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-      <p>The go/no-go check for AI-built apps. The postmortem, before the outage.</p>
-      <div class="foot-cmd"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+      <p><span class="plain-only">The safety check for apps made with AI. Know before your users do.</span><span class="dev-only">The go/no-go check for AI-built apps. The postmortem, before the outage.</span></p>
+      <div class="foot-cmd dev-only"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
+      <div class="foot-cta plain-only"><a class="btn-ink" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a></div>
       <p class="ver-chip">v{{ver}} · <a href="/changelog/">Changelog</a></p>
     </div>
     <nav class="foot-cols" aria-label="Footer">
-      <div><p>Product</p><a href="/features/">Features</a><a href="/ai-agents/">AI agents</a><a href="/pricing/">Pricing</a><a href="/#checks">All 17 checks</a></div>
-      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
+      <div><p>Product</p><a href="/features/">Features</a><a href="/lookout/">The Lookout</a><a href="/flags/">GO flags</a><a href="/pricing/">Pricing</a><a href="/ai-agents/">AI agents</a><a href="/#checks">All 17 checks</a></div>
+      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="/lookout/rss.xml">Lookout RSS</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
       <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="https://discord.gg/hKG6rNM4W">Discord</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
-      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a></div>
+      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="https://github.com/sigship/sigship/blob/main/SECURITY.md">Security policy</a></div>
     </nav>
   </div>
   <div class="foot-ctl">
+    <fieldset class="ctl"><legend class="sr">Words</legend><span aria-hidden="true">Words</span><span class="opts"><label><input type="radio" name="mode-f" value="plain"><span>Plain</span></label><label><input type="radio" name="mode-f" value="dev"><span>Dev</span></label></span></fieldset>
     <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-f" value="system"><span>System</span></label><label><input type="radio" name="theme-f" value="light"><span>Day</span></label><label><input type="radio" name="theme-f" value="dark"><span>Night</span></label></span></fieldset>
     <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-f" value="on"><span>On</span></label><label><input type="radio" name="motion-f" value="off"><span>Off</span></label></span></fieldset>
   </div>
   <div class="foot-bottom">
     <span>© 2026 Zoof04 Inc.</span>
     <span class="foot-status"><span class="lamp warm" aria-hidden="true"></span>The free tool runs on your machine. Nothing leaves it.</span>
+    <span class="made-us"><svg viewBox="0 0 22 15" aria-hidden="true"><rect width="22" height="15" fill="#b22234"/><g fill="#fff"><rect y="1.15" width="22" height="1.15"/><rect y="3.46" width="22" height="1.15"/><rect y="5.77" width="22" height="1.15"/><rect y="8.08" width="22" height="1.15"/><rect y="10.38" width="22" height="1.15"/><rect y="12.69" width="22" height="1.15"/></g><rect width="9" height="8.08" fill="#3c3b6e"/></svg>Proudly conceived and built in the United States</span>
     <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
   </div>
   <div class="foot-word" aria-hidden="true"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><b>G</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><b>H</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><b>P</b></span></div>
@@ -1034,13 +1153,17 @@ html:has(dialog[open]) { overflow: clip; }
     <ol class="menu-list">
       <li><a href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Home</a></li>
       <li><a href="/features/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Features</a></li>
-      <li><a href="/ai-agents/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>AI agents</a></li>
+      <li><a href="/lookout/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>The Lookout</a></li>
+      <li><a href="/flags/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-q"/></svg>GO flags</a></li>
       <li><a href="/pricing/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Pricing</a></li>
       <li><a href="/docs/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg>Docs</a></li>
+      <li><a href="/ai-agents/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-c"/></svg>AI agents</a></li>
       <li><a href="/resources/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Resources</a></li>
       <li><a href="/community/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Community</a></li>
     </ol>
-    <button class="btn-ink" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
+    <button class="btn-ink dev-only" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
+    <a class="btn-ink plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a>
+    <fieldset class="ctl"><legend class="sr">Words</legend><span aria-hidden="true">Words</span><span class="opts"><label><input type="radio" name="mode-m" value="plain"><span>Plain</span></label><label><input type="radio" name="mode-m" value="dev"><span>Dev</span></label></span></fieldset>
     <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-m" value="system"><span>System</span></label><label><input type="radio" name="theme-m" value="light"><span>Day</span></label><label><input type="radio" name="theme-m" value="dark"><span>Night</span></label></span></fieldset>
     <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-m" value="on"><span>On</span></label><label><input type="radio" name="motion-m" value="off"><span>Off</span></label></span></fieldset>
     <p class="menu-by">SIGSHIP is made by zoof04.</p>
@@ -1089,7 +1212,7 @@ html:has(dialog[open]) { overflow: clip; }
 
   // ---------- Theme (lamp-on reveal from the button) and the Motion switch ----------
   const meta = $('meta[name="theme-color"]');
-  const themeMode = () => { try { return localStorage.getItem('sigship-theme') || 'system'; } catch (e) { return 'system'; } };
+  const themeMode = () => { try { return localStorage.getItem('sigship-theme') || 'dark'; } catch (e) { return 'dark'; } };
   const syncCtl = () => {
     const tm = themeMode(), mo = root.dataset.motion === 'off' ? 'off' : 'on';
     $$('input[name^="theme-"]').forEach((i) => { i.checked = i.value === tm; });
@@ -1097,8 +1220,8 @@ html:has(dialog[open]) { overflow: clip; }
   };
   const setTheme = (mode, from) => {
     const dark = mode === 'dark' || (mode !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
-    try { if (mode === 'system') localStorage.removeItem('sigship-theme'); else localStorage.setItem('sigship-theme', mode); } catch (e) { /* private mode */ }
-    const flip = () => { root.classList.toggle('dark', dark); meta.content = dark ? '#060b14' : '#edf2f6'; };
+    try { localStorage.setItem('sigship-theme', mode); } catch (e) { /* private mode */ }
+    const flip = () => { root.classList.toggle('dark', dark); meta.content = dark ? '#0b1324' : '#f6f7f9'; };
     if (from) { const r = from.getBoundingClientRect(); root.style.setProperty('--vt-x', `${r.left + r.width / 2}px`); root.style.setProperty('--vt-y', `${r.top + r.height / 2}px`); }
     if (root.classList.contains('dark') !== dark && !calm() && document.startViewTransition && from) document.startViewTransition(flip); else flip();
     syncCtl();
@@ -1388,7 +1511,7 @@ html:has(dialog[open]) { overflow: clip; }
     tr(chip, [[0, { '--lamp': LRED }], ...sw(T.chipAt + OUT)]);
     // NO-GO loses its NO (C8): strike, collapse, widen on the spring. The width axis moves only inside the fixed, contained box.
     tr(strike, [[0, { transform: 'scaleX(0)' }], [T.m0, { transform: 'scaleX(0)' }, E.out], [T.m0 + 160, { transform: 'scaleX(1)' }]]);
-    tr(neg, [[0, { maxInlineSize: '1.5em' }], [T.m0 + 160, { maxInlineSize: '1.5em' }, E.io], [T.m0 + 400, { maxInlineSize: '0em' }]]);
+    tr(neg, [[0, { maxInlineSize: '2.4em' }], [T.m0 + 160, { maxInlineSize: '2.4em' }, E.io], [T.m0 + 400, { maxInlineSize: '0em' }]]);
     tr(word, [[0, { fontStretch: '62%', fontWeight: '800' }], [T.widen, { fontStretch: '62%', fontWeight: '800' }, E.spring], [T.widen + 520, { fontStretch: '125%', fontWeight: '750' }]]);
     refresh(tv.files.closest('.tel'), [T.sum]);
     refresh(tv.checks.closest('.tel'), [T.sum]);
@@ -1596,5 +1719,6 @@ html:has(dialog[open]) { overflow: clip; }
   window.__rec = { setT, play, runFixed, replay, build, get t() { return t; }, get anims() { return anims; }, T, marks, setRaw };
 })();
 </script>
+<script src="/harbour.js" defer></script>
 </body>
 </html>
