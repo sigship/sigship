@@ -243,7 +243,20 @@ const homeLd = ld({
     faqFromHtml(homeFaq),
   ],
 });
-const blocks = { homeFaq, homeLd, rows, raw1, raw2, peeks, plates, board, liveRow, plannedSelf: planned('self'), plannedCloud: planned('cloud'), formPlans, rundata: JSON.stringify(runData).replace(/</g, '\\u003c'), lookout: homeCards(), lkBridge: bridge(RULES.length), watchline: watchline(), plaques: plaques() };
+// The Dev-mode hero terminal: the first run's real output, shortened to one line per finding.
+const heroTerm = [
+  `<span class="tl" style="--i:0"><span class="kd">$</span> <span class="kw">npx sigship</span></span>`,
+  `<span class="tl" style="--i:1">${esc(sum1)}</span>`,
+  `<span class="tl" style="--i:2"> </span>`,
+  ...r1.findings.flatMap((f, i) => [
+    `<span class="tl" style="--i:${3 + i * 2}"><span class="${f.severity === 1 ? 'k1' : f.severity === 2 ? 'k2' : 'kd'}">SEV-${f.severity}</span>  ${esc(f.id)}</span>`,
+    `<span class="tl" style="--i:${4 + i * 2}"><span class="kd">       ${esc(`${f.file}:${f.line}`)}</span></span>`,
+  ]),
+  `<span class="tl" style="--i:${3 + r1.findings.length * 2}"> </span>`,
+  `<span class="tl" style="--i:${4 + r1.findings.length * 2}"><span class="k1">NO-GO</span>  ${esc(v1.replace(/^NO-GO\s*/, ''))}</span>`,
+  `<span class="tl" style="--i:${5 + r1.findings.length * 2}"><span class="kd">$</span> <span class="cur" aria-hidden="true"></span></span>`,
+].join('\n');
+const blocks = { heroTerm, homeFaq, homeLd, rows, raw1, raw2, peeks, plates, board, liveRow, plannedSelf: planned('self'), plannedCloud: planned('cloud'), formPlans, rundata: JSON.stringify(runData).replace(/</g, '\\u003c'), lookout: homeCards(), lkBridge: bridge(RULES.length), watchline: watchline(), plaques: plaques() };
 
 let html = readFileSync(join(HOME, 'page.html'), 'utf8');
 html = html.replace(/<!--@(\w+)-->/g, (_, k) => { if (!(k in blocks)) throw new Error(`Unknown block ${k}`); return blocks[k]; });

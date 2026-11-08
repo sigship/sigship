@@ -63,6 +63,22 @@
     tick();
   }
 
+  // ---------- Hero: a glow that follows the pointer, and the flow's SVG motion paused when motion is off ----------
+  const hero = $('.nh-hero');
+  if (hero) {
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      hero.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        hero.style.setProperty('--gx', `${e.clientX - r.left}px`);
+        hero.style.setProperty('--gy', `${e.clientY - r.top}px`);
+      }, { passive: true });
+    }
+    const flow = $('.flow', hero);
+    const still = () => { if (!flow || !flow.pauseAnimations) return; if (calm()) { flow.pauseAnimations(); flow.setCurrentTime(0); } else flow.unpauseAnimations(); };
+    still();
+    new MutationObserver(still).observe(root, { attributes: true, attributeFilter: ['data-motion'] });
+  }
+
   // ---------- The GO-flag plaques: tilt and a holographic shimmer that follow the pointer (desktop only) ----------
   if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm()) {
     $$('.plaque').forEach((pl) => {

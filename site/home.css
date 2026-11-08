@@ -1065,3 +1065,62 @@ body { overflow-x: clip; }
 }
 :root[data-motion="off"] .pl-float, :root[data-motion="off"] .plaque .sheen, :root[data-motion="off"] .plaque, :root[data-motion="off"] .watchline .tk, :root[data-motion="off"] .flow .found, :root[data-motion="off"] .flow .fixed, :root[data-motion="off"] .flow .gostamp { animation: none !important; }
 :root[data-motion="off"] .flow .found { opacity: 0; } :root[data-motion="off"] .flow .fixed, :root[data-motion="off"] .flow .gostamp { opacity: 1; }
+
+/* ---------- Hero, as in the Night Harbour concept: copy left, the flow (Plain) or a terminal (Dev) right,
+   over a soft glow, a pointer glow and a drifting perspective grid. The flag row moves out of the way. ---------- */
+.hoist-wrap { display: none; }
+.nh-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); grid-template-areas: none; column-gap: 48px; align-items: center; max-width: none; padding: 72px var(--gutter) 96px; }
+.nh-hero > .nh-copy, .nh-hero > .nh-viz { position: relative; z-index: 1; min-width: 0; grid-area: auto; }
+.nh-copy .copy { margin-top: 22px; }
+.nh-hero h1 { font-size: clamp(2.4rem, 5.2vw, 4.15rem); line-height: 1.02; letter-spacing: -.028em; font-stretch: 100%; }
+.nh-glow { position: absolute; inset: -10% -10% auto; height: 120%; background: radial-gradient(45% 40% at 72% 42%, rgba(var(--glow-rgb), .30), rgba(var(--glow-rgb), 0) 70%); pointer-events: none; }
+.nh-cursor { position: absolute; inset: 0; background: radial-gradient(360px circle at var(--gx, 70%) var(--gy, 40%), rgba(var(--glow-rgb), .16), transparent 60%); opacity: 0; transition: opacity .5s; pointer-events: none; }
+.nh-hero:hover .nh-cursor { opacity: 1; }
+.nh-sea { position: absolute; left: -20%; right: -20%; bottom: -80px; height: 560px; background-image: linear-gradient(rgba(var(--glow-rgb), .16) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--glow-rgb), .16) 1px, transparent 1px); background-size: 80px 80px; transform: perspective(900px) rotateX(68deg); transform-origin: 50% 0; animation: nhSea 5s linear infinite; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 70%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 70%, transparent); pointer-events: none; }
+.flow { display: block; width: 100%; height: auto; max-width: 720px; margin-left: auto; filter: drop-shadow(0 30px 60px rgba(0, 0, 0, .35)); }
+.flow .fchip rect { fill: var(--paper); stroke: var(--line); }
+.flow .fchip text { fill: var(--ink); font: 500 14px 'Inter', sans-serif; }
+.flow .fchip circle { fill: var(--link); }
+.flow .lane { fill: none; stroke: rgba(var(--glow-rgb), .3); stroke-width: 1.5; }
+.flow .lane.ok { stroke: color-mix(in srgb, var(--go-text) 45%, transparent); }
+.flow .pulse { fill: #dfe8ff; filter: drop-shadow(0 0 6px rgba(var(--glow-rgb), .95)); }
+.flow .pulse.ok { fill: #c8ffdf; filter: drop-shadow(0 0 6px rgba(74, 222, 128, .9)); }
+.flow .node { fill: var(--paper); stroke: var(--line); }
+.flow .staff { fill: var(--staff); } .flow .fp { fill: var(--flag-blue); } .flow .fw { fill: var(--flag-white); }
+.flow .label, .flow .vt { fill: var(--slate); font: 700 11px 'Inter', sans-serif; letter-spacing: 1.1px; }
+.flow .vrow { fill: var(--ink); font: 500 12px 'Inter', sans-serif; }
+.flow .found rect { fill: color-mix(in srgb, var(--stop) 16%, transparent); } .flow .found text { fill: var(--stop); font: 600 11px 'Inter', sans-serif; }
+.flow .fixed rect { fill: color-mix(in srgb, var(--go-text) 16%, transparent); } .flow .fixed text { fill: var(--go-text); font: 600 11px 'Inter', sans-serif; }
+.flow .found { animation: nhFound 9s infinite; } .flow .fixed { animation: nhFixed 9s infinite; }
+.flow .gogo rect:first-child { fill: color-mix(in srgb, var(--go-text) 12%, transparent); stroke: color-mix(in srgb, var(--go-text) 35%, transparent); }
+.flow .gogo text { fill: var(--go-text); font: 800 13px 'Inter', sans-serif; letter-spacing: .4px; }
+.flow .gogo { animation: nhGo 9s infinite; }
+.flow .ring { fill: none; stroke: url(#nh-ring); stroke-width: 3; stroke-linecap: round; }
+.flow .g0 { stop-color: rgb(var(--glow-rgb)); stop-opacity: 0; } .flow .g1 { stop-color: rgb(var(--glow-rgb)); stop-opacity: .9; }
+.nh-term { width: 100%; overflow: hidden; border: 1px solid #26304a; border-radius: 16px; background: #070d1b; box-shadow: 0 30px 80px rgba(0, 0, 0, .45); color: #c9d3e6; font: 400 13.5px/1.75 'JetBrains Mono', ui-monospace, monospace; }
+.nh-term .bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #26304a; color: #9aa3b5; font: 500 12px/1 'Inter', sans-serif; }
+.nh-term .bar i { width: 10px; height: 10px; border-radius: 50%; background: #26304a; }
+.nh-term .bar span { margin-left: 8px; }
+.nh-term .body { padding: 18px 22px 22px; overflow-x: auto; }
+.nh-term .tl { display: block; white-space: pre; animation: nhType .35s ease-out both; animation-delay: calc(var(--i, 0) * .28s); }
+.nh-term .k1 { color: #f87171; font-weight: 600; } .nh-term .k2 { color: #fbbf24; font-weight: 600; } .nh-term .kd { color: #7a8599; } .nh-term .kw { color: #f3f5f8; }
+.nh-term .cur { display: inline-block; width: 8px; height: 15px; background: #f3f5f8; vertical-align: -2px; animation: nhBlink 1s steps(1) infinite; }
+.nh-demo-in { margin-top: 32px; max-width: 760px; }
+@keyframes nhSea { to { background-position: 0 80px; } }
+@keyframes nhFound { 0%, 34% { opacity: 1; transform: none; } 40%, 100% { opacity: 0; transform: translateY(-6px); } }
+@keyframes nhFixed { 0%, 40% { opacity: 0; transform: translateY(6px); } 46%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes nhGo { 0%, 56% { opacity: 0; transform: translateY(6px); } 62%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes nhType { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+@keyframes nhBlink { 50% { opacity: 0; } }
+@media (max-width: 980px) {
+  .nh-hero { grid-template-columns: minmax(0, 1fr); row-gap: 40px; padding: 40px var(--gutter) 64px; }
+  .flow { margin: 0 auto; }
+}
+/* Still frames when motion is off: the fixed state and the GO stay on screen. */
+@media (prefers-reduced-motion: reduce) {
+  .nh-sea, .nh-term .tl, .nh-term .cur { animation: none; }
+  .flow .found { animation: none; opacity: 0; } .flow .fixed, .flow .gogo { animation: none; opacity: 1; }
+}
+:root[data-motion="off"] .nh-sea, :root[data-motion="off"] .nh-term .tl, :root[data-motion="off"] .nh-term .cur { animation: none; }
+:root[data-motion="off"] .flow .found { animation: none; opacity: 0; }
+:root[data-motion="off"] .flow .fixed, :root[data-motion="off"] .flow .gogo { animation: none; opacity: 1; }
