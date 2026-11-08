@@ -1050,17 +1050,14 @@ html:has(dialog[open]) { overflow: clip; }
   </section>
 
   <section class="sect" id="limits" data-stage="3" aria-labelledby="limits-h">
-    <p class="cap"><b>04</b><span>Limits</span><i></i><span>Fig. 4</span></p>
-    <h2 id="limits-h">What a GO doesn't mean.</h2>
-    <div class="log">
-      <h3>A GO means these checks found nothing that blocks launch. <span>It does not prove the app is safe.</span></h3>
-      <ol>
-        <li><code>FR-1</code><p>It looks for known mistakes, so it can miss a real problem, or warn about code that's actually fine. <a href="https://github.com/sigship/sigship/issues">Tell us when it's wrong</a></p></li>
-        <li><code>FR-2</code><p>It reads your code, so it can't see settings you changed only on a website dashboard, like Supabase. Run your database provider's own security advisor too.</p></li>
-        <li><code>FR-3</code><p>It checks your code, not the live website your users visit.</p></li>
-      </ol>
-      <p class="log-foot">Ask for a <a href="#pricing">pilot review</a> when the stakes are high.</p>
+    <p class="cap"><b>04</b><span>Straight talk</span><i></i><span>What a GO doesn't mean</span></p>
+    <h2 id="limits-h">What SIGSHIP can't do. <span>A GO means these checks found nothing that blocks launch. It does not prove the app is safe.</span></h2>
+    <div class="honest">
+      <div class="rv" style="--i:1"><b>It can miss things, and it can cry wolf.</b><span class="plain-only">It looks for known patterns. A problem it hasn't learned, it won't see, and once in a while it flags something that's fine. <a href="https://github.com/sigship/sigship/issues">Tell us when it's wrong</a>.</span><span class="dev-only">Pattern matching, not analysis. Expect false negatives on novel patterns and occasional false positives. <a href="https://github.com/sigship/sigship/issues">Report them</a>.</span></div>
+      <div class="rv" style="--i:2"><b>It can't see your hosting settings.</b><span class="plain-only">Things that only live in a dashboard, like your database's online settings, are outside its reach. Run your provider's own security advisor too.</span><span class="dev-only">Anything configured only in a provider console (Supabase dashboard policies, Vercel env scopes) is out of scope. It reads the repo, not the live site.</span></div>
+      <div class="rv" style="--i:3"><b>A GO is not a promise.</b><span class="plain-only">It means these {{rtotal}} checks found nothing that blocks your launch. It doesn't mean your app can't be attacked.</span><span class="dev-only">Exit 0 means no SEV-1 or SEV-2 findings across {{rtotal}} rules. It is not a security audit or a guarantee.</span></div>
     </div>
+    <p class="honest-foot">When the stakes are high, ask for a <a href="#pricing">pilot review</a>: a person reads your code.</p>
   </section>
 
   <section class="sect" id="where" data-stage="4" aria-labelledby="where-h">
@@ -1111,6 +1108,30 @@ html:has(dialog[open]) { overflow: clip; }
     </div>
   </section>
 
+  <section class="sect" id="who" aria-labelledby="who-h">
+    <p class="cap"><b>▸</b><span>Who it's for</span><i></i><span>Two kinds of builder</span></p>
+    <h2 id="who-h">Built for the people who build with AI, <span>and the people who ship for them.</span></h2>
+    <div class="who-grid">
+      <article class="who-card rv" style="--i:1">
+        <div class="who-txt">
+          <h3>Founders who built it themselves</h3>
+          <ul><li>Plain words, no tech degree needed</li><li>Click a button, read the answer, copy the fix</li><li>Nothing uploaded. Your app stays on your computer</li><li>A <a href="/flags/">flag</a> to show customers you checked</li></ul>
+          <a class="btn-line" href="/guides/check-lovable-bolt-replit-app/">Check my app</a>
+        </div>
+        <div class="who-art" aria-hidden="true"><svg viewBox="0 0 220 200"><g class="bob"><rect x="46" y="60" width="128" height="86" rx="10" class="c-card"/><rect x="56" y="72" width="108" height="8" rx="4" class="c-line"/><rect x="56" y="88" width="60" height="6" rx="3" class="c-line"/><rect x="56" y="100" width="84" height="6" rx="3" class="c-line"/><rect x="56" y="118" width="48" height="16" rx="6" class="c-gobg"/><text x="80" y="130" text-anchor="middle" class="c-go">GO</text><rect x="130" y="114" width="3" height="24" class="c-staff"/><rect x="133" y="116" width="26" height="17" rx="1" class="c-flag"/><rect x="141.7" y="121.7" width="8.7" height="5.7" class="c-white"/></g><circle cx="110" cy="30" r="15" class="c-link" opacity=".9"/><rect x="82" y="48" width="56" height="26" rx="13" class="c-link" opacity=".55"/><rect x="30" y="150" width="160" height="6" rx="3" class="c-line"/></svg></div>
+      </article>
+      <article class="who-card rv" style="--i:2">
+        <div class="who-txt">
+          <h3>Developers and studios shipping for clients</h3>
+          <ul><li><span class="plain-only">A check on every change before it goes live</span><span class="dev-only">GitHub check on every pull request, exit code for CI</span></li><li><span class="plain-only">Works inside Cursor, Claude Code and your AI tools</span><span class="dev-only">MCP server: sigship_check and sigship_explain</span></li><li><span class="plain-only">A clean report to send your client</span><span class="dev-only"><code>--json</code> and <code>--markdown</code> for your pipeline; white-label reports planned for Business</span></li><li><span class="plain-only">Deeper checks when you need them (Pro, on the waitlist)</span><span class="dev-only">Pro pack, on the waitlist: more rules, Supabase policy depth, git-history secrets</span></li></ul>
+          <div class="cmdline dev-only"><code>npx sigship init</code><button class="copy-btn" type="button" data-copy="npx sigship init" data-copy-label="npx sigship init">Copy</button></div>
+          <a class="btn-line plain-only" href="#pricing">See plans for teams</a>
+        </div>
+        <div class="who-art" aria-hidden="true"><svg viewBox="0 0 220 200"><g class="bob" style="animation-delay:-2.5s"><rect x="36" y="54" width="148" height="96" rx="10" fill="#070d1b" class="c-strokeline"/><circle cx="50" cy="66" r="3" fill="#26304a"/><circle cx="60" cy="66" r="3" fill="#26304a"/><circle cx="70" cy="66" r="3" fill="#26304a"/><text x="48" y="92" fill="#7a8599" font-family="JetBrains Mono,monospace" font-size="9">$ npx sigship</text><rect x="48" y="100" width="40" height="6" rx="3" fill="#f87171"/><rect x="94" y="100" width="60" height="6" rx="3" fill="#26304a"/><rect x="48" y="114" width="40" height="6" rx="3" fill="#fbbf24"/><rect x="94" y="114" width="44" height="6" rx="3" fill="#26304a"/><rect x="48" y="130" width="52" height="8" rx="4" fill="#4ade80" opacity=".9"/></g><circle cx="110" cy="26" r="14" class="c-ink" opacity=".85"/><rect x="84" y="42" width="52" height="24" rx="12" class="c-ink" opacity=".5"/><rect x="30" y="156" width="160" height="6" rx="3" class="c-line"/></svg></div>
+      </article>
+    </div>
+  </section>
+
   <section class="sect" id="pricing" data-stage="5" aria-labelledby="pricing-h">
     <p class="cap"><b>08</b><span>Plans</span><i></i><span>Fig. 8</span></p>
     <h2 id="pricing-h">Free today. <span>Paid plans are on the waitlist.</span></h2>
@@ -1149,27 +1170,19 @@ html:has(dialog[open]) { overflow: clip; }
     <p class="faq-more">Still stuck on a word? <a href="/glossary/">Every term, explained in plain English</a> · <a href="/guides/vibe-coding-security-checklist/">The vibe coding security checklist</a></p>
   </section>
 
-  <section class="finale" id="why" data-stage="6" aria-labelledby="why-h">
-    <div class="fin-inner">
-      <div class="fin-copy">
-        <p class="cap"><b>09</b><span>Ready to sail</span><i></i><span>Fig. 9</span></p>
-        <h2 id="why-h">Ships raise a flag before they leave port. <span>Software never did.</span></h2>
-        <p class="fin-p">In harbour, flag P, the <a href="https://oceanservice.noaa.gov/education/dyw-blue-peter.html">Blue Peter</a>, tells everyone the vessel is about to sail. In computing, a "signal" is a message a running program has to act on. SIGSHIP is both: one clear message that this app is ready to leave port, or that it isn't yet.</p>
-        <ul class="eq" aria-label="Flag P plus SIGTERM equals SIGSHIP"><li><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Flag P</li><li class="op" aria-hidden="true">+</li><li><code>SIGTERM</code></li><li class="op" aria-hidden="true">=</li><li><strong>SIGSHIP</strong></li></ul>
-        <div class="fin-pad"><p class="fin-turn">Your turn.</p><div class="pad-row dev-only"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div><div class="hb-row plain-only"><a class="btn-ink" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a><a class="btn-line" href="/pricing/">See the plans</a></div></div>
-        <p class="fin-go">A GO means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits">{{dag}}<span class="sr">Footnote: </span> What a GO doesn't mean</a></p>
-      </div>
-      <figure class="mast-fig" aria-label="Flag P, the Blue Peter, at the top of its mast. The masthead lamp is on.">
-        <span class="cone" aria-hidden="true"></span>
-        <span class="pole" aria-hidden="true"></span>
-        <span class="halyard" aria-hidden="true"></span>
-        <span class="truck" aria-hidden="true"><span class="lamp warm big"></span></span>
-        <span class="mh-read" aria-hidden="true">Flag P · close up<br>All aboard</span>
-        <span class="p-run" aria-hidden="true"><span class="p-wrap"><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg></span></span>
-      </figure>
+  <section class="closer" id="why" data-stage="6" aria-labelledby="why-h">
+    <div class="closer-glow" aria-hidden="true"></div>
+    <div class="closer-in rv">
+      <h2 id="why-h">The postmortem, before the outage.</h2>
+      <p class="closer-lead plain-only">Find out in a minute. Fix it tonight. Launch tomorrow knowing what you shipped.</p>
+      <p class="closer-lead dev-only">One command, no account, no network. Exit 0, then ship.</p>
+      <div class="closer-acts"><a class="btn-ink plain-only" href="/guides/check-lovable-bolt-replit-app/">Check it before the internet does</a><div class="pad-row dev-only"><code><span class="p">$</span> npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div><a class="btn-line" href="https://github.com/sigship/sigship" target="_blank" rel="noopener">View on GitHub</a></div>
+      <p class="fin-go">A GO means these checks found nothing that blocks launch. It does not prove the app is safe. <a href="#limits">{{dag}}<span class="sr">Footnote: </span> What a GO doesn't mean</a></p>
     </div>
   </section>
 </main>
+
+<div class="flag-marquee" aria-hidden="true"><div class="track"><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-white"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-yellow"/><circle cx="33" cy="22" r="9" class="m-black"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5.00" y="3" width="9.34" height="38" class="m-yellow"/><rect x="14.33" y="3" width="9.34" height="38" class="m-blue"/><rect x="23.67" y="3" width="9.34" height="38" class="m-yellow"/><rect x="33.00" y="3" width="9.34" height="38" class="m-blue"/><rect x="42.33" y="3" width="9.34" height="38" class="m-yellow"/><rect x="51.66" y="3" width="9.34" height="38" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-white"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="28" height="38" class="m-white"/><rect x="33" y="3" width="28" height="38" class="m-red"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-yellow"/><circle cx="33" cy="22" r="9" class="m-black"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-blue"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-white"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-white"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-yellow"/><circle cx="33" cy="22" r="9" class="m-black"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5.00" y="3" width="9.34" height="38" class="m-yellow"/><rect x="14.33" y="3" width="9.34" height="38" class="m-blue"/><rect x="23.67" y="3" width="9.34" height="38" class="m-yellow"/><rect x="33.00" y="3" width="9.34" height="38" class="m-blue"/><rect x="42.33" y="3" width="9.34" height="38" class="m-yellow"/><rect x="51.66" y="3" width="9.34" height="38" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-white"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="28" height="38" class="m-white"/><rect x="33" y="3" width="28" height="38" class="m-red"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-yellow"/><circle cx="33" cy="22" r="9" class="m-black"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-blue"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-white"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-white"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-yellow"/><circle cx="33" cy="22" r="9" class="m-black"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5.00" y="3" width="9.34" height="38" class="m-yellow"/><rect x="14.33" y="3" width="9.34" height="38" class="m-blue"/><rect x="23.67" y="3" width="9.34" height="38" class="m-yellow"/><rect x="33.00" y="3" width="9.34" height="38" class="m-blue"/><rect x="42.33" y="3" width="9.34" height="38" class="m-yellow"/><rect x="51.66" y="3" width="9.34" height="38" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-white"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="28" height="38" class="m-white"/><rect x="33" y="3" width="28" height="38" class="m-red"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-yellow"/><circle cx="33" cy="22" r="9" class="m-black"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-blue"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-white"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-white"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-yellow"/><circle cx="33" cy="22" r="9" class="m-black"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5.00" y="3" width="9.34" height="38" class="m-yellow"/><rect x="14.33" y="3" width="9.34" height="38" class="m-blue"/><rect x="23.67" y="3" width="9.34" height="38" class="m-yellow"/><rect x="33.00" y="3" width="9.34" height="38" class="m-blue"/><rect x="42.33" y="3" width="9.34" height="38" class="m-yellow"/><rect x="51.66" y="3" width="9.34" height="38" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-white"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-blue"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="28" height="38" class="m-white"/><rect x="33" y="3" width="28" height="38" class="m-red"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-yellow"/><circle cx="33" cy="22" r="9" class="m-black"/></svg><svg viewBox="0 0 64 44"><rect x="2" y="0" width="3" height="44" rx="1.5" class="m-staff"/><rect x="5" y="3" width="56" height="38" rx="2" class="m-blue"/><rect x="23.7" y="15.7" width="18.7" height="12.7" class="m-white"/></svg></div></div>
 
 <footer class="site-foot">
   <div class="foot-top">

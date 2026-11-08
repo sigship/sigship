@@ -378,3 +378,46 @@ body { overflow-x: clip; }
 :root[data-motion="off"] .nh-sea, :root[data-motion="off"] .nh-term .tl, :root[data-motion="off"] .nh-term .cur { animation: none; }
 :root[data-motion="off"] .flow .found { animation: none; opacity: 0; }
 :root[data-motion="off"] .flow .fixed, :root[data-motion="off"] .flow .gogo { animation: none; opacity: 1; }
+
+/* ---------- Straight talk, Who it's for, the closer and the flag marquee (Night Harbour concept) ---------- */
+.honest { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 32px; }
+.honest > div { display: grid; gap: 6px; align-content: start; padding: 22px; border-radius: 16px; border: 1px solid var(--line); background: var(--paper); color: var(--slate); font: 400 15px/1.5 'Inter', sans-serif; }
+.honest b { color: var(--ink); font: 700 16px/1.3 'Inter', sans-serif; }
+.honest a { color: var(--link); }
+.honest-foot { margin-top: 20px; color: var(--slate); }
+.honest-foot a { color: var(--link); }
+.who-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 40px; }
+.who-card { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 20px; align-items: center; padding: 28px; border-radius: 20px; border: 1px solid var(--line); background: var(--paper); transition: transform .3s, border-color .3s, box-shadow .3s; }
+.who-card:hover { transform: translateY(-5px); border-color: var(--link); box-shadow: 0 0 0 1px rgba(var(--glow-rgb), .18), var(--card-shadow); }
+.who-txt { display: grid; gap: 14px; justify-items: start; min-width: 0; }
+.who-txt h3 { font: 700 21px/1.25 'Inter', sans-serif; }
+.who-txt ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; color: var(--slate); font: 400 15px/1.45 'Inter', sans-serif; }
+.who-txt li { position: relative; padding-left: 16px; }
+.who-txt li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--link); }
+.who-txt a:not(.btn-line) { color: var(--link); }
+.who-art { height: 200px; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: var(--deck); }
+.who-art svg { display: block; width: 100%; height: 100%; }
+.who-art .c-card { fill: var(--paper); stroke: var(--line); } .who-art .c-line { fill: var(--line); } .who-art .c-link { fill: var(--link); } .who-art .c-ink { fill: var(--ink); }
+.who-art .c-gobg { fill: color-mix(in srgb, var(--go-text) 16%, transparent); } .who-art .c-go { fill: var(--go-text); font: 800 10px 'Inter', sans-serif; }
+.who-art .c-staff { fill: var(--staff); } .who-art .c-flag { fill: var(--flag-blue); } .who-art .c-white { fill: var(--flag-white); } .who-art .c-strokeline { stroke: var(--line); }
+.who-art .bob { animation: nhFloat 5s ease-in-out infinite; }
+.closer { position: relative; overflow: hidden; padding: 140px var(--gutter); text-align: center; }
+.closer-glow { position: absolute; inset: 0; background: radial-gradient(60% 60% at 50% 110%, rgba(var(--glow-rgb), .34), rgba(var(--glow-rgb), 0) 70%); animation: nhBreathe 6s ease-in-out infinite; pointer-events: none; }
+.closer-in { position: relative; display: grid; justify-items: center; gap: 24px; }
+.closer h2 { max-width: 840px; margin: 0; font: 800 clamp(2.1rem, 4.6vw, 3.75rem)/1.05 'Inter', sans-serif; letter-spacing: -.028em; text-wrap: balance; }
+.closer-lead { max-width: 62ch; color: var(--slate); font-size: clamp(1rem, 1.3vw, 1.2rem); }
+.closer-acts { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; }
+.closer-acts .btn-ink, .closer-acts .btn-line { min-height: 52px; padding: 0 24px; font-size: 1rem; }
+.closer .fin-go { max-width: 60ch; color: var(--slate); font-size: .9rem; }
+.flag-marquee { overflow: hidden; padding-block: 22px; border-top: 1px solid var(--line); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.flag-marquee .track { display: flex; gap: 40px; width: max-content; animation: nhMarquee 38s linear infinite; }
+.flag-marquee:hover .track { animation-play-state: paused; }
+.flag-marquee svg { flex: none; width: 66px; height: 44px; }
+.flag-marquee .m-staff { fill: var(--staff); } .flag-marquee .m-white { fill: var(--flag-white); } .flag-marquee .m-blue { fill: var(--flag-blue); } .flag-marquee .m-yellow { fill: var(--flag-yellow); } .flag-marquee .m-red { fill: var(--flag-red); } .flag-marquee .m-black { fill: var(--flag-black); }
+@keyframes nhFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes nhBreathe { 0%, 100% { opacity: .7; } 50% { opacity: 1; } }
+@keyframes nhMarquee { to { transform: translateX(-50%); } }
+@media (max-width: 980px) { .honest, .who-grid { grid-template-columns: minmax(0, 1fr); } .closer { padding: 96px var(--gutter); } }
+@media (max-width: 640px) { .who-card { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .who-art .bob, .closer-glow, .flag-marquee .track { animation: none; } }
+:root[data-motion="off"] .who-art .bob, :root[data-motion="off"] .closer-glow, :root[data-motion="off"] .flag-marquee .track { animation: none; }
