@@ -6,12 +6,12 @@
     "url": "https://github.com/sigship/sigship",
     "source": "github"
   },
-  "version": "0.3.1",
+  "version": "0.3.2",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "sigship",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "packageArguments": [
         {
           "type": "positional",

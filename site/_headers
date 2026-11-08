@@ -12,3 +12,15 @@
 
 /*.txt
   Cache-Control: public, max-age=3600
+
+/lookout/feed.json
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+/lookout/rss.xml
+  Cache-Control: public, max-age=3600
+  Content-Type: application/rss+xml; charset=utf-8
+
+/flags/cleared.svg
+  Cache-Control: public, max-age=86400
+  Access-Control-Allow-Origin: *

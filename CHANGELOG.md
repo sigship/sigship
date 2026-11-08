@@ -2,6 +2,11 @@
 
 All notable changes to SIGSHIP are listed here. Versions follow [Semantic Versioning](https://semver.org).
 
+## 0.3.2 — 2026-11-09
+
+### Changed
+- `npx sigship ui`: the dashboard has the new Night Harbour look, with Plain and Dev wording and a Night and Day switch. It still runs only on your computer and shows findings, never your files.
+
 ## 0.3.1 — 2026-11-07
 
 ### Changed

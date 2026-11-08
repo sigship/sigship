@@ -14,6 +14,8 @@
 - [Docs](https://sigship.dev/docs/): install, commands, reading the report, exit codes
 - [AI agents](https://sigship.dev/ai-agents/): MCP setup for Claude Code, Cursor and other agents
 - [Pricing](https://sigship.dev/pricing/): free today; self-hosted and Cloud plans on the waitlist
+- [The Lookout](https://sigship.dev/lookout/): new ways attackers get into AI-built apps, each mapped to a SIGSHIP check (feeds: /lookout/feed.json, /lookout/rss.xml)
+- [GO flags](https://sigship.dev/flags/): Cleared (free, self-declared), Verified (nightly, SIGSHIP Cloud) and Pilot on board (human review)
 - [Glossary](https://sigship.dev/glossary/): app security terms in plain English
 - [Full text for language models](https://sigship.dev/llms-full.txt)
 

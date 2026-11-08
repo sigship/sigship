@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="289" height="24" role="img" aria-label="SIGSHIP: cleared, 17 checks, version 0.3.2. Self-declared by the app's owner.">
+<title>SIGSHIP cleared: the owner ran sigship 0.3.2 and all 17 checks passed. Self-declared; not a security certificate.</title>
+<clipPath id="r"><rect width="289" height="24" rx="4"/></clipPath>
+<g clip-path="url(#r)"><rect width="94" height="24" fill="#0b1324"/><rect x="94" width="195.20000000000002" height="24" fill="#f5c518"/></g>
+<rect x="9" y="6.5" width="2" height="12" fill="#6b7a99"/><rect x="11" y="7" width="14" height="9.3" rx="1" fill="#1f4fd1"/><rect x="15.7" y="10.1" width="4.7" height="3.1" fill="#fff"/>
+<text x="31" y="16" fill="#f3f5f8" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="11" font-weight="700" letter-spacing=".3">SIGSHIP</text>
+<text x="102" y="16" fill="#0b1324" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="11" font-weight="600">cleared · 17 checks · v0.3.2</text>
+</svg>

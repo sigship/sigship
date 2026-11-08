@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>SIGSHIP Lookout</title>
+<link>https://sigship.dev/lookout/</link>
+<atom:link href="https://sigship.dev/lookout/rss.xml" rel="self" type="application/rss+xml"/>
+<description>New ways attackers get into AI-built apps, each mapped to what SIGSHIP covers, is writing, or is watching.</description>
+<language>en</language>
+<item>
+<title>A hole in Next.js lets a crafted link run code on your server</title>
+<link>https://sigship.dev/lookout/#nextjs-imageresponse-rce-2026-09</link>
+<guid isPermaLink="true">https://sigship.dev/lookout/#nextjs-imageresponse-rce-2026-09</guid>
+<pubDate>Wed, 23 Sep 2026 09:00:00 GMT</pubDate>
+<description>If your app makes social-preview images and runs Next.js 16.2 to 16.3.5, a visitor can slip code into them. Fixed in 16.3.6. SIGSHIP: Check being written. Ask your AI tool to update Next.js to 16.3.6 (or 15.5.26). Until then, keep anything a visitor can type out of your preview images.</description>
+</item>
+<item>
+<title>282 of 444 AI apps on iPhone gave away their paid AI access</title>
+<link>https://sigship.dev/lookout/#ios-ai-apps-leak-llm-keys-2026-06</link>
+<guid isPermaLink="true">https://sigship.dev/lookout/#ios-ai-apps-leak-llm-keys-2026-06</guid>
+<pubDate>Tue, 30 Jun 2026 09:00:00 GMT</pubDate>
+<description>Researchers watched 444 AI chat apps. 282 handed paid AI access to anyone who looked at their traffic. SIGSHIP: Covered since 0.1.0. Run the check. If it finds your key, create a new one and let the AI talk to the provider from your server, behind a login and a limit.</description>
+</item>
+<item>
+<title>A worm hides in code packages and steals every password on your computer</title>
+<link>https://sigship.dev/lookout/#npm-worm-canistersprawl-2026-04</link>
+<guid isPermaLink="true">https://sigship.dev/lookout/#npm-worm-canistersprawl-2026-04</guid>
+<pubDate>Wed, 22 Apr 2026 09:00:00 GMT</pubDate>
+<description>Installing one bad package ran a hidden script that took your .env file, cloud logins and SSH keys, then used them to infect more packages. SIGSHIP: Watching. Keep a lockfile so versions don't change on their own, and ask your AI tool to check whether any of the six named packages are in your app. If one is, treat every password on that computer as stolen and change them.</description>
+</item>
+<item>
+<title>Thousands of Lovable projects were readable by anyone for 48 days</title>
+<link>https://sigship.dev/lookout/#lovable-48-day-exposure-2026-04</link>
+<guid isPermaLink="true">https://sigship.dev/lookout/#lovable-48-day-exposure-2026-04</guid>
+<pubDate>Tue, 21 Apr 2026 09:00:00 GMT</pubDate>
+<description>Any free account could reach other people's source code, database passwords and chat history. Older projects stayed open after new ones were fixed. SIGSHIP: Partly covered. If your project is older than November 2025, create new database keys today, then run the check and fix anything marked Stop.</description>
+</item>
+<item>
+<title>One AI-built exam app left 18,697 people's details open to anyone</title>
+<link>https://sigship.dev/lookout/#lovable-exam-app-18k-users-2026-02</link>
+<guid isPermaLink="true">https://sigship.dev/lookout/#lovable-exam-app-18k-users-2026-02</guid>
+<pubDate>Fri, 27 Feb 2026 09:00:00 GMT</pubDate>
+<description>An exam app had no protection on its database. Anyone could read every user record, delete accounts and grade other people's tests. SIGSHIP: Covered since 0.1.0. Run the check. If it says a table is open, copy the fix into your AI tool, then run it again until you get a GO.</description>
+</item>
+<item>
+<title>The plug-ins your AI coding tool uses had 30 security holes in 60 days</title>
+<link>https://sigship.dev/lookout/#mcp-30-cves-60-days-2026-02</link>
+<guid isPermaLink="true">https://sigship.dev/lookout/#mcp-30-cves-60-days-2026-02</guid>
+<pubDate>Sat, 28 Feb 2026 09:00:00 GMT</pubDate>
+<description>Over 30 holes in two months in the helper programs AI coding tools connect to: some run hidden commands, some have no login, some are fakes that copy your keys. SIGSHIP: Watching. Only install helpers from people you can name, remove the ones you don't use, and don't let them see your secrets file.</description>
+</item>
+<item>
+<title>1 in 5 AI-built websites is leaking a secret key</title>
+<link>https://sigship.dev/lookout/#vibe-coded-sites-leak-secrets-2025-09</link>
+<guid isPermaLink="true">https://sigship.dev/lookout/#vibe-coded-sites-leak-secrets-2025-09</guid>
+<pubDate>Tue, 23 Sep 2025 09:00:00 GMT</pubDate>
+<description>Of 130,000 websites built with AI tools, about 26,000 had a secret key sitting where any visitor could read it. SIGSHIP: Covered since 0.1.0. Run the check. Any key it finds is already public: create a new one and delete the old one, then move it to your server.</description>
+</item>
+</channel>
+</rss>

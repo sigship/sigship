@@ -10,6 +10,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DEMO, writeDemo } from './demo.js';
 import { HOME_FAQ, ORG, appLd, faqFromHtml, ld } from './seo.js';
+import { bridge, homeCards, watchline } from './lookout.js';
+import { plaques } from './flags.js';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const HOME = join(REPO, 'scripts/home');
@@ -241,7 +243,7 @@ const homeLd = ld({
     faqFromHtml(homeFaq),
   ],
 });
-const blocks = { homeFaq, homeLd, rows, raw1, raw2, peeks, plates, board, liveRow, plannedSelf: planned('self'), plannedCloud: planned('cloud'), formPlans, rundata: JSON.stringify(runData).replace(/</g, '\\u003c') };
+const blocks = { homeFaq, homeLd, rows, raw1, raw2, peeks, plates, board, liveRow, plannedSelf: planned('self'), plannedCloud: planned('cloud'), formPlans, rundata: JSON.stringify(runData).replace(/</g, '\\u003c'), lookout: homeCards(), lkBridge: bridge(RULES.length), watchline: watchline(), plaques: plaques() };
 
 let html = readFileSync(join(HOME, 'page.html'), 'utf8');
 html = html.replace(/<!--@(\w+)-->/g, (_, k) => { if (!(k in blocks)) throw new Error(`Unknown block ${k}`); return blocks[k]; });
@@ -277,7 +279,17 @@ const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 const main = scripts.reduce((a, b) => (b[1].length > a[1].length ? b : a));
 html = html.replace(main[0], '<script src="/home.js" defer></script>');
 if (/prototype|scratch|2027 kit/i.test(html.replace(/HTMLButtonElement\.prototype|\.prototype\b/g, ''))) throw new Error('Prototype wording left in the page.');
-writeFileSync(join(REPO, 'site/home.css'), css.trim() + '\n');
+// ---------- Plain/Dev test: every plain-only block has a dev twin where the words differ, and no mode hides a form or a verdict ----------
+{
+  const text = html.replace(/<script[\s\S]*?<\/script>/g, '');
+  if (!/data-mode-toggle/.test(text)) throw new Error('Mode test: the Plain/Dev switch is missing from the header.');
+  if (!/name="mode-f"/.test(text) || !/name="mode-m"/.test(text)) throw new Error('Mode test: the footer or the menu has no Plain/Dev control.');
+  for (const m of text.matchAll(/<(form|dialog)\b[^>]*class="[^"]*\b(plain|dev)-only\b/g)) throw new Error(`Mode test: a ${m[1]} is hidden in one mode.`);
+  if (/go-block[^>]*(plain|dev)-only|class="[^"]*\b(plain|dev)-only[^"]*"[^>]*data-vt="l-go"/.test(text)) throw new Error('Mode test: the verdict is hidden in one mode.');
+}
+// The Night Harbour design layer rides after the page styles, so its rules win on equal specificity.
+const harbour = readFileSync(join(HOME, 'harbour.css'), 'utf8');
+writeFileSync(join(REPO, 'site/home.css'), `${css.trim()}\n\n${harbour.trim()}\n`);
 writeFileSync(join(REPO, 'site/home.js'), main[1].trim() + '\n');
 writeFileSync(join(REPO, 'site/index.html'), html);
-console.log(`Built the home page (${(html.length / 1024).toFixed(1)} KB HTML, ${(css.length / 1024).toFixed(1)} KB CSS, ${(main[1].length / 1024).toFixed(1)} KB JS) from the sigship ${cap.version} capture of ${date}.`);
+console.log(`Built the home page (${(html.length / 1024).toFixed(1)} KB HTML, ${((css.length + harbour.length) / 1024).toFixed(1)} KB CSS, ${(main[1].length / 1024).toFixed(1)} KB JS) from the sigship ${cap.version} capture of ${date}.`);
