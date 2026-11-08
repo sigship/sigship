@@ -93,8 +93,8 @@ html:not(.js) .needs-js { display: none !important; }
 .mast { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 16px; height: var(--mast-h); padding: 0 var(--gutter); background: var(--sail); }
 .mast::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--telemetry); transform-origin: 0 50%; transform: scaleX(0); }
 .brand { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--ink); font-weight: 700; font-stretch: 120%; text-decoration: none; }
-.brand svg { width: 30px; height: 27px; margin-top: -6px; }
-.hud { display: flex; align-items: center; gap: 12px; opacity: 0; translate: 0 -6px; pointer-events: none; }
+.brand svg { flex: none; width: 30px; height: 25px; }
+.hud { display: none; align-items: center; gap: 12px; opacity: 0; translate: 0 -6px; pointer-events: none; }
 .docked .hud { opacity: 1; translate: 0 0; }
 .mini { display: flex; gap: 3px; }
 .mini span { display: grid; gap: 3px; }
@@ -107,7 +107,6 @@ html:not(.js) .needs-js { display: none !important; }
 .chip .dim { color: var(--slate); font-weight: 600; }
 @media (max-width: 1439px) { .mini { display: none; } }
 .pill-cmd { flex: none; white-space: nowrap; }
-@media (max-width: 767px) { .hud { display: none; } }
 .nav { display: flex; gap: 22px; margin-left: auto; font-size: .95rem; }
 .nav a { color: var(--ink); text-decoration: none; padding: 10px 0; }
 .nav a[aria-current="true"] { text-decoration: underline 2px var(--telemetry); text-underline-offset: 8px; }
