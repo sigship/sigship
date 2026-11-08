@@ -85,7 +85,11 @@
 </div>
 
 <main id="main">
-  <section class="hero" id="start" data-stage="0" aria-labelledby="h1">
+  <section class="hero nh-hero" id="start" data-stage="0" aria-labelledby="h1">
+    <div class="nh-glow" aria-hidden="true"></div>
+    <div class="nh-cursor" aria-hidden="true"></div>
+    <div class="nh-sea" aria-hidden="true"></div>
+    <div class="nh-copy">
     <p class="hb-kicker plain-only"><i aria-hidden="true"></i>Free check for apps made with AI</p>
     <h1 id="h1"><span class="plain-only">You built it fast. Now make sure it's safe to launch.</span><span class="dev-only">The postmortem, before the outage.</span></h1>
     <div class="copy">
@@ -102,6 +106,66 @@
       <p class="pad-note dev-only">Free. No signup. Runs on your computer and uploads nothing.<span class="node"> Needs Node.js 22+.</span> <a href="#where">Never used a terminal?</a></p>
       <ul class="spec dev-only"><li>Free · MIT</li><li><button type="button" popovertarget="pv-spec-checks" interestfor="pv-spec-checks" style="anchor-name:--a-pv-spec-checks">17 checks</button></li><li>Exit 0 = GO</li><li class="ver"><button type="button" popovertarget="pv-spec-ver" interestfor="pv-spec-ver" style="anchor-name:--a-pv-spec-ver">v0.3.2</button></li></ul>
     </div>
+    </div>
+    <div class="nh-viz">
+      <div class="plain-only">
+        <svg class="flow" viewBox="0 0 720 560" role="img" aria-label="Your app comes in from Lovable, Bolt, Cursor, v0 or Claude Code, goes through 17 checks, and comes out with a GO as three problems turn from Found to Fixed.">
+          <defs><linearGradient id="nh-ring" x1="0" y1="0" x2="1" y2="1"><stop class="g0" offset="0"/><stop class="g1" offset="1"/></linearGradient></defs>
+          <path class="lane" d="M150 90 C 225 90 215 290 285 290"/><path class="lane" d="M150 190 C 225 190 215 290 285 290"/><path class="lane" d="M150 290 L 285 290"/><path class="lane" d="M150 390 C 225 390 215 290 285 290"/><path class="lane" d="M150 490 C 225 490 215 290 285 290"/><path class="lane ok" d="M435 290 L 520 290"/>
+          <g class="fchip"><rect x="0" y="68" width="150" height="44" rx="10"/><circle cx="20" cy="90" r="4"/><text x="34" y="95">Lovable</text></g>
+          <g class="fchip"><rect x="0" y="168" width="150" height="44" rx="10"/><circle cx="20" cy="190" r="4"/><text x="34" y="195">Bolt</text></g>
+          <g class="fchip"><rect x="0" y="268" width="150" height="44" rx="10"/><circle cx="20" cy="290" r="4"/><text x="34" y="295">Cursor</text></g>
+          <g class="fchip"><rect x="0" y="368" width="150" height="44" rx="10"/><circle cx="20" cy="390" r="4"/><text x="34" y="395">v0</text></g>
+          <g class="fchip"><rect x="0" y="468" width="150" height="44" rx="10"/><circle cx="20" cy="490" r="4"/><text x="34" y="495">Claude Code</text></g>
+          <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin="0s" path="M150 90 C 225 90 215 290 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin="0s"/></circle>
+          <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin=".5s" path="M150 190 C 225 190 215 290 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin=".5s"/></circle>
+          <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin="1s" path="M150 290 L 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin="1s"/></circle>
+          <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin="1.5s" path="M150 390 C 225 390 215 290 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin="1.5s"/></circle>
+          <circle class="pulse" r="5" opacity="0"><animateMotion dur="2.6s" repeatCount="indefinite" begin="2s" path="M150 490 C 225 490 215 290 285 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="2.6s" repeatCount="indefinite" begin="2s"/></circle>
+          <circle class="pulse ok" r="5" opacity="0"><animateMotion dur="1.8s" repeatCount="indefinite" begin=".8s" path="M435 290 L 520 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="1.8s" repeatCount="indefinite" begin=".8s"/></circle>
+          <circle class="pulse ok" r="5" opacity="0"><animateMotion dur="1.8s" repeatCount="indefinite" begin="1.7s" path="M435 290 L 520 290"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="1.8s" repeatCount="indefinite" begin="1.7s"/></circle>
+          <circle class="ring" cx="360" cy="290" r="96" stroke-dasharray="190 420"><animateTransform attributeName="transform" type="rotate" from="0 360 290" to="360 360 290" dur="3.2s" repeatCount="indefinite"/></circle>
+          <rect class="node" x="285" y="215" width="150" height="150" rx="24"/>
+          <rect x="325" y="258" width="3" height="56" rx="1.5" class="staff"/><rect x="328" y="262" width="60" height="40" rx="1.5" class="fp"/><rect x="348" y="275.3" width="20" height="13.3" class="fw"/>
+          <text class="label" x="360" y="340" text-anchor="middle">17 CHECKS</text>
+          <rect class="node" x="520" y="140" width="200" height="300" rx="18"/>
+          <text class="vt" x="538" y="172">BEFORE YOU LAUNCH</text>
+          <text class="vrow" x="538" y="212">Secret key showing</text>
+          <g class="found" style="animation-delay:0s"><rect x="646" y="198" width="60" height="20" rx="5"/><text x="676" y="212" text-anchor="middle">Found</text></g>
+          <g class="fixed" style="animation-delay:0s"><rect x="646" y="198" width="60" height="20" rx="5"/><text x="676" y="212" text-anchor="middle">Fixed</text></g>
+          <text class="vrow" x="538" y="258">Users' data open</text>
+          <g class="found" style="animation-delay:.5s"><rect x="646" y="244" width="60" height="20" rx="5"/><text x="676" y="258" text-anchor="middle">Found</text></g>
+          <g class="fixed" style="animation-delay:.5s"><rect x="646" y="244" width="60" height="20" rx="5"/><text x="676" y="258" text-anchor="middle">Fixed</text></g>
+          <text class="vrow" x="538" y="304">No AI spend limit</text>
+          <g class="found" style="animation-delay:1s"><rect x="646" y="290" width="60" height="20" rx="5"/><text x="676" y="304" text-anchor="middle">Found</text></g>
+          <g class="fixed" style="animation-delay:1s"><rect x="646" y="290" width="60" height="20" rx="5"/><text x="676" y="304" text-anchor="middle">Fixed</text></g>
+          <g class="gogo"><rect x="538" y="372" width="164" height="44" rx="10"/><rect x="552" y="383" width="2" height="22" class="staff"/><rect x="554" y="385" width="24" height="16" rx="1" class="fp"/><rect x="562" y="390.3" width="8" height="5.3" class="fw"/><text x="590" y="399">GO · nothing blocking</text></g>
+        </svg>
+      </div>
+      <div class="dev-only">
+        <div class="nh-term" role="img" aria-label="Terminal: real output of npx sigship on the demo app, ending NO-GO">
+          <div class="bar"><i></i><i></i><i></i><span>~/demo-app</span></div>
+          <div class="body"><span class="tl" style="--i:0"><span class="kd">$</span> <span class="kw">npx sigship</span></span>
+<span class="tl" style="--i:1">SIGSHIP read 6 files in 25 ms, ran 17 checks</span>
+<span class="tl" style="--i:2"> </span>
+<span class="tl" style="--i:3"><span class="k1">SEV-1</span>  stripe-webhook-unverified</span>
+<span class="tl" style="--i:4"><span class="kd">       src/api/stripe-webhook.ts:3</span></span>
+<span class="tl" style="--i:5"><span class="k1">SEV-1</span>  rls-missing</span>
+<span class="tl" style="--i:6"><span class="kd">       supabase/migrations/001_init.sql:1</span></span>
+<span class="tl" style="--i:7"><span class="k2">SEV-2</span>  ai-route-no-rate-limit</span>
+<span class="tl" style="--i:8"><span class="kd">       src/api/chat.ts:2</span></span>
+<span class="tl" style="--i:9"> </span>
+<span class="tl" style="--i:10"><span class="k1">NO-GO</span>  2 SEV-1, 1 SEV-2, 0 SEV-3. Exit 1.</span>
+<span class="tl" style="--i:11"><span class="kd">$</span> <span class="cur" aria-hidden="true"></span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sect nh-demo" id="demo" aria-labelledby="demo-h">
+    <p class="cap"><b>▸</b><span>A real check</span><i></i><span>Live demo</span></p>
+    <h2 id="demo-h"><span class="plain-only">Watch a real check. <span>Not a mock-up: the actual tool on a small demo app we wrote with three mistakes.</span></span><span class="dev-only">Real output. <span>sigship 0.3.2 on a demo app with three planted mistakes, replayable line by line.</span></span></h2>
+    <div class="nh-demo-in">
     <div class="con-col">
       <figure class="console" id="console" aria-labelledby="con-cap">
         <div class="con-clip">
@@ -193,6 +257,7 @@
         </div>
       </figure>
       <a class="see-fix" href="#how">3 things block this launch. See each fix <svg class="g" aria-hidden="true"><use href="#g-down"/></svg></a>
+    </div>
     </div>
   </section>
 
