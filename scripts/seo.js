@@ -7,6 +7,15 @@ export const GH = 'https://github.com/sigship/sigship';
 export const NPM = 'https://www.npmjs.com/package/sigship';
 export const DISCORD = 'https://discord.gg/hKG6rNM4W';
 export const PUBLISHED = '2026-11-08';
+// The 60-second film on Vimeo. The player loads only when a visitor presses play.
+export const FILM = {
+  vimeoId: '1245020182',
+  title: 'SIGSHIP in 60 seconds: is your AI-built app safe to launch?',
+  description: 'Built your app with Lovable, Cursor, Bolt, Replit or Claude Code? SIGSHIP is a free, open source check that spots the mistakes hackers look for, explains them in plain words, and gives you a fix to paste back into your AI. One line, no sign-up, nothing uploaded.',
+  duration: 'PT56S',
+  uploadDate: '2026-11-09',
+  poster: '/media/film-poster.jpg',
+};
 // IndexNow key: public by design. It is served at /4545ec5815994cddeed0d89c88ad8e57.txt so search engines can confirm our submissions.
 export const INDEXNOW_KEY = '4545ec5815994cddeed0d89c88ad8e57';
 

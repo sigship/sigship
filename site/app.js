@@ -116,12 +116,21 @@
     if (!calm()) setInterval(() => { step = step >= 4 ? 0 : step + 1; paint(); }, 1500);
   }
 
-  // ---------- Film ----------
+  // ---------- Film: the Vimeo player is created only when the visitor presses play ----------
   const frame = $('.film-frame');
   if (frame) {
-    const v = $('video', frame), play = $('.play', frame);
-    if (play) play.addEventListener('click', () => { v.controls = true; v.play(); });
-    if (v) v.addEventListener('play', () => frame.classList.add('playing'));
+    const play = $('.play', frame);
+    play.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = `https://player.vimeo.com/video/${frame.dataset.vimeo}?autoplay=1&dnt=1&title=0&byline=0&portrait=0`;
+      f.title = frame.dataset.title || 'SIGSHIP film';
+      f.allow = 'autoplay; fullscreen; picture-in-picture';
+      f.setAttribute('allowfullscreen', '');
+      f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      frame.append(f);
+      frame.classList.add('playing');
+      say('Playing the film.');
+    });
     if (!calm()) {
       const grow = () => {
         const r = frame.getBoundingClientRect();

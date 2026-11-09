@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { RULES } from '../src/rules.js';
 import { FEATURES, TRACKS } from './pricing.js';
 import { BRAND_LABEL, brandIcon } from './brands.js';
-import { CHECK_EXTRA, DISCORD, GH, GLOSSARY, GUIDES, HOME_FAQ, INDEXNOW_KEY, NPM, ORG, ORIGIN, PUBLISHED, appLd, crumbs, faqFromHtml, ld } from './seo.js';
+import { CHECK_EXTRA, DISCORD, FILM, GH, GLOSSARY, GUIDES, HOME_FAQ, INDEXNOW_KEY, NPM, ORG, ORIGIN, PUBLISHED, appLd, crumbs, faqFromHtml, ld } from './seo.js';
 import { NOTICES, STATUS, STACKS, feedJson, fmtDate, rssXml } from './lookout.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -21,7 +21,7 @@ const cap = JSON.parse(readFileSync(join(here, 'home/demo-run.json'), 'utf8'));
 if (cap.version !== VERSION) throw new Error(`The demo capture is from ${cap.version}, package.json is ${VERSION}. Run npm run capture.`);
 if (cap.rules.total !== RULES.length) throw new Error('RULES changed since the capture. Run npm run capture.');
 const LASTMOD = (() => { try { return execFileSync('git', ['log', '-1', '--format=%cs'], { cwd: root, encoding: 'utf8' }).trim(); } catch { return PUBLISHED; } })();
-const FILM = existsSync(join(site, 'media/sigship-explainer.mp4')) ? '/media/sigship-explainer.mp4' : (process.env.SIGSHIP_FILM_URL || '');
+if (!existsSync(join(site, FILM.poster))) throw new Error(`The film poster ${FILM.poster} is missing.`);
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const inline = (s) => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -250,7 +250,9 @@ const home = () => `<section class="hero"><div class="grid-bg"></div><div class=
 
 <section class="builtwith"><p>Works with apps made in</p><div class="marquee" aria-label="Lovable, Cursor, Bolt, Replit, v0, Claude Code, Windsurf and GitHub Copilot"><div class="track" aria-hidden="true">${[...BUILT, ...BUILT].map((b) => `<div class="brand-item">${brandIcon(b, 26)}<span>${BRAND_LABEL[b]}</span></div>`).join('')}</div></div></section>
 
-${FILM ? `<section class="film"><div class="film-head">${eyebrow('60-second film', 'pink')}${splitH('See SIGSHIP in a minute.')}</div><div class="film-frame"><video src="${FILM}" playsinline preload="metadata" poster="/og.png"></video><button class="play" type="button" aria-label="Play the film"><span><svg width="28" height="28" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span></button></div></section>` : ''}
+<section class="film" aria-labelledby="film-h"><div class="film-head">${eyebrow('60-second film', 'pink')}${splitH('See SIGSHIP in a minute.').replace('<h2 ', '<h2 id="film-h" ')}</div>
+<div class="film-frame" data-vimeo="${FILM.vimeoId}" data-title="${esc(FILM.title)}"><img class="film-poster" src="${FILM.poster}" width="1280" height="720" alt="${esc(FILM.title)}" loading="lazy"><button class="play" type="button" aria-label="Play the film (loads the Vimeo player)"><span><svg width="28" height="28" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span></button></div>
+<p class="fine">${FILM.duration.replace('PT', '').replace('S', ' seconds')}. The video player loads from Vimeo only when you press play.</p></section>
 
 <section class="hiw" aria-labelledby="hiw-h"><div class="hiw-sticky">
   <div class="hiw-head">${eyebrow('How it works', 'amber')}<h2 class="display h2" id="hiw-h">Three steps. <span class="muted">No tech degree.</span></h2><div class="bar"><i></i></div></div>
@@ -329,14 +331,14 @@ function badgeLevels() {
   return `<div class="grid-3 levels">${L.map(([t, p, c, d, tag, hot], i) => `<div class="card rv${hot ? ' hot spectrum-border' : ''}" style="--d:${i * 0.1}s"><div class="row"><span>${p}</span><span class="tag" style="--c:var(--${c})">${tag}</span></div><h3>${t}</h3><p class="sub">${d}</p></div>`).join('')}</div>`;
 }
 
-const homeDescription = `Free, open source launch check for apps built with Lovable, Cursor, Bolt, Replit and Claude Code. Finds leaked keys, open databases and fake payments, in plain words, with a fix for your AI. Powered by zoof04.`;
+const homeDescription = `Free, open source launch check for apps built with Lovable, Cursor, Bolt, Replit and Claude Code. Finds leaked keys, open databases and fake payments, in plain words, with a fix for your AI. Watch the 60-second film. Powered by zoof04.`;
 write('', page({
   title: 'SIGSHIP — Is your AI-built app safe to launch?',
   description: homeDescription,
   path: '/',
   body: home(),
   trail: [['Home', '/']],
-  ld: [ORG, { '@type': 'WebSite', '@id': `${ORIGIN}/#site`, name: 'SIGSHIP', url: `${ORIGIN}/`, publisher: { '@id': `${ORIGIN}/#org` }, inLanguage: 'en' }, appLd({ version: VERSION, description: homeDescription })],
+  ld: [ORG, { '@type': 'WebSite', '@id': `${ORIGIN}/#site`, name: 'SIGSHIP', url: `${ORIGIN}/`, publisher: { '@id': `${ORIGIN}/#org` }, inLanguage: 'en' }, appLd({ version: VERSION, description: homeDescription }), { '@type': 'VideoObject', '@id': `${ORIGIN}/#film`, name: FILM.title, description: FILM.description, thumbnailUrl: [`${ORIGIN}${FILM.poster}`], uploadDate: FILM.uploadDate, duration: FILM.duration, embedUrl: `https://player.vimeo.com/video/${FILM.vimeoId}`, contentUrl: `https://vimeo.com/${FILM.vimeoId}`, publisher: { '@id': `${ORIGIN}/#org` }, inLanguage: 'en', isFamilyFriendly: true }],
 }));
 
 // ---------- Checks ----------
@@ -495,7 +497,7 @@ write('roadmap', page({
 const prosePage = (slug, title, description, eb, color, sub, html) => write(slug, page({ title: `${title} — SIGSHIP`, description, path: `/${slug}/`, body: pageHero({ eyebrow: eb, color, title, sub }) + section(`<div class="prose">${html}</div>`, 'sec-tight') }));
 prosePage('privacy', 'Privacy', 'SIGSHIP runs on your computer and sends nothing anywhere. What the tool, the website, the waitlist and paid plans collect, in plain English.', 'Privacy', 'teal', 'Last updated: 2026-11-09.', `<h2>The command line tool and MCP server</h2><p>They run on your machine and have no telemetry. Without a licence key they make no network calls at all. Your code, findings and secrets stay with you.</p>
 <h2>Licence keys</h2><p>If you set <code>SIGSHIP_KEY</code>, the tool sends two things to api.sigship.dev: your licence key, and a one-way fingerprint of the repository made from its git address mixed with your key. It sends no code, file names or findings. We pass the key to Polar to check it and to count the repository against your plan's limit. The Pro pack is cached on your machine for 24 hours.</p>
-<h2>This website</h2><p>This site uses Cloudflare Web Analytics, which counts visits without cookies. Your theme and wording choice are kept in your own browser only.</p>
+<h2>This website</h2><p>This site uses Cloudflare Web Analytics, which counts visits without cookies. Your theme and wording choice are kept in your own browser only. The 60-second film is hosted on Vimeo; its player, and Vimeo's own privacy terms, apply only after you press play.</p>
 <h2>Waitlist and the Lookout email</h2><p>If you join a waitlist or ask for the Lookout notice by email, we keep your email address, the plan or list you picked, your country as reported by Cloudflare, and the time. It is stored in a Google Sheet that only Zoof04 can open. We use it only to email you when your plan opens or to send the Lookout notice. Every email has an unsubscribe link, or email <a href="mailto:support@sigship.dev">support@sigship.dev</a> and we will delete it.</p>
 <h2>Payments</h2><p>Polar is the merchant of record. Polar collects your payment details and shares your name, email and order with us so we can provide the service.</p>
 <h2>Pilot review</h2><p>If you buy a pilot review, you choose what code to share with us. We use it only for that review and delete it when the review ends, unless you ask us to keep it.</p>
@@ -516,7 +518,8 @@ writeFileSync(join(site, '404.html'), page({ title: 'Page not found — SIGSHIP'
 // ---------- Crawler files ----------
 const urls = ['/', '/checks/', '/cloud/', '/badge/', '/lookout/', '/pricing/', '/docs/', '/agents/', '/api/', '/changelog/', '/releases/', '/resources/', '/guides/', ...GUIDES.map((g) => `/guides/${g.slug}/`), '/glossary/', '/open-source/', '/community/', '/roadmap/', ...RULES.map((r) => `/checks/${r.id}/`), '/brand/', '/privacy/', '/terms/'];
 const priority = (u) => (u === '/' ? '1.0' : /^\/(pricing|checks|docs|agents|cloud|badge|resources)\/$/.test(u) ? '0.9' : u.startsWith('/guides/') || u.startsWith('/checks/') || u === '/glossary/' || u === '/lookout/' ? '0.8' : /^\/(privacy|terms|brand)\/$/.test(u) ? '0.3' : '0.6');
-writeFileSync(join(site, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${LASTMOD}</lastmod><priority>${priority(u)}</priority></url>`).join('\n')}\n</urlset>\n`);
+const videoXml = `<video:video><video:thumbnail_loc>${ORIGIN}${FILM.poster}</video:thumbnail_loc><video:title>${esc(FILM.title)}</video:title><video:description>${esc(FILM.description)}</video:description><video:player_loc>https://player.vimeo.com/video/${FILM.vimeoId}</video:player_loc><video:duration>56</video:duration><video:publication_date>${FILM.uploadDate}T00:00:00+00:00</video:publication_date><video:family_friendly>yes</video:family_friendly><video:live>no</video:live></video:video>`;
+writeFileSync(join(site, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${LASTMOD}</lastmod><priority>${priority(u)}</priority>${u === '/' ? videoXml : ''}</url>`).join('\n')}\n</urlset>\n`);
 const BOTS = ['Googlebot', 'Bingbot', 'GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-SearchBot', 'Claude-User', 'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot', 'Applebot-Extended', 'DuckDuckBot', 'CCBot'];
 writeFileSync(join(site, 'robots.txt'), `${BOTS.map((b) => `User-agent: ${b}`).join('\n')}\nAllow: /\nDisallow: /api/\n\nUser-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
 const ABOUT = `SIGSHIP is a free, open source launch check for apps built with AI tools such as Lovable, Bolt, Cursor, Replit, v0 and Claude Code. It reads a project on the user's own computer, explains in plain words what could leak, break or cost money once real people use the app, gives the fix for each problem (including one prompt to paste into an AI tool), and ends with a verdict: GO (Ready) or NO-GO. It exits 0 only on GO. A GO means its ${RULES.length} checks found nothing that blocks launch; it does not prove an app is safe. Made by Zoof04 Inc. Contact: support@sigship.dev.`;
@@ -534,4 +537,4 @@ writeFileSync(join(site, 'favicon.svg'), `<svg xmlns="http://www.w3.org/2000/svg
 const homeHtml = readFileSync(join(site, 'index.html'), 'utf8');
 if (!homeHtml.includes('It does not prove the app is safe.')) throw new Error('The GO caveat is missing from the footer.');
 if (/combinator/i.test(homeHtml)) throw new Error('The page must not mention Y Combinator.');
-console.log(`Built ${urls.length} pages for ${ORIGIN} with sigship ${VERSION}${FILM ? ' (film on)' : ' (film off: no site/media/sigship-explainer.mp4)'}.`);
+console.log(`Built ${urls.length} pages for ${ORIGIN} with sigship ${VERSION}.`);
