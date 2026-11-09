@@ -231,7 +231,11 @@ html.light .icon-btn .sun { display: block; }
 .film { padding: 112px 16px; }
 .film-head { max-width: 48rem; margin: 0 auto 48px; text-align: center; }
 .film-frame { position: relative; max-width: 72rem; margin: 0 auto; overflow: hidden; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); box-shadow: var(--shadow-float); transform: scale(var(--s, 1)); transform-origin: 50% 50%; transition: transform .1s linear; }
-.film-frame video { aspect-ratio: 16 / 9; width: 100%; background: #000; }
+.film-frame { aspect-ratio: 16 / 9; }
+.film-frame .film-poster { width: 100%; height: 100%; object-fit: cover; }
+.film-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+.film-frame.playing .film-poster { visibility: hidden; }
+.film .fine { margin-top: 16px; }
 .film-frame .play { position: absolute; inset: 0; display: grid; place-items: center; background: color-mix(in oklab, var(--background) 40%, transparent); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
 .film-frame .play span { display: grid; place-items: center; width: 96px; height: 96px; border-radius: 50%; background: var(--primary); color: var(--primary-foreground); transition: transform .2s; }
 .film-frame .play:hover span { transform: scale(1.1); }
