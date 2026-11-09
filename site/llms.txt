@@ -1,6 +1,6 @@
 # SIGSHIP
 
-> SIGSHIP is a free, open source safety check for apps built with AI tools such as Lovable, Bolt, Cursor, Replit, v0 and Claude Code. It reads a project on the user's own computer, explains in plain English what will leak, break or cost money in production, gives the fix for each problem (including one prompt to paste into an AI tool), and ends with a verdict: GO or NO-GO. It exits 0 only on GO. A GO means its checks found nothing that blocks launch; it does not prove an app is safe. Made by Zoof04 Inc. Contact: support@sigship.dev.
+> SIGSHIP is a free, open source launch check for apps built with AI tools such as Lovable, Bolt, Cursor, Replit, v0 and Claude Code. It reads a project on the user's own computer, explains in plain words what could leak, break or cost money once real people use the app, gives the fix for each problem (including one prompt to paste into an AI tool), and ends with a verdict: GO (Ready) or NO-GO. It exits 0 only on GO. A GO means its 17 checks found nothing that blocks launch; it does not prove an app is safe. Made by Zoof04 Inc. Contact: support@sigship.dev.
 
 - Check a project: `npx sigship`
 - Get every fix as one prompt for an AI tool: `npx sigship --prompt`
@@ -10,12 +10,12 @@
 - Requires Node.js 22 or newer. The free tool makes no network calls and never prints a secret value.
 
 ## Start here
-- [Features](https://sigship.dev/features/): what it checks and where it runs
-- [Docs](https://sigship.dev/docs/): install, commands, reading the report, exit codes
-- [AI agents](https://sigship.dev/ai-agents/): MCP setup for Claude Code, Cursor and other agents
-- [Pricing](https://sigship.dev/pricing/): free today; self-hosted and Cloud plans on the waitlist
-- [The Lookout](https://sigship.dev/lookout/): new ways attackers get into AI-built apps, each mapped to a SIGSHIP check (feeds: /lookout/feed.json, /lookout/rss.xml)
-- [GO flags](https://sigship.dev/flags/): Cleared (free, self-declared), Verified (nightly, SIGSHIP Cloud) and Pilot on board (human review)
+- [The 17 checks](https://sigship.dev/checks/): every mistake it looks for, in plain words
+- [Docs](https://sigship.dev/docs/): install, commands, flags, exit codes
+- [AI agents](https://sigship.dev/agents/): MCP setup for Claude Code, Cursor, Windsurf, Copilot, Gemini CLI and Codex
+- [Pricing](https://sigship.dev/pricing/): free today; paid plans on the waitlist
+- [SIGSHIP Cloud](https://sigship.dev/cloud/): nightly checks and a Verified badge, coming soon
+- [Lookout](https://sigship.dev/lookout/): new threats and what SIGSHIP does about each
 - [Glossary](https://sigship.dev/glossary/): app security terms in plain English
 - [Full text for language models](https://sigship.dev/llms-full.txt)
 

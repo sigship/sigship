@@ -2,7 +2,7 @@
 // Sign-ups go to a Google Sheet through an Apps Script web app. Its address is the Worker secret
 // WAITLIST_URL and never appears in the page. WAITLIST_SECRET is an optional second lock.
 // 'lookout' is the Monday notice from /lookout/, kept in the same sheet.
-const PLANS = new Set(['pro', 'business', 'solo', 'team', 'agency', 'lookout']);
+const PLANS = new Set(['pro', 'business', 'solo', 'team', 'agency', 'cloud', 'lookout']);
 const TOOLS = new Set(['lovable', 'bolt', 'replit', 'v0', 'cursor', 'claude-code', 'codex', 'copilot', 'windsurf', 'other']);
 const EMAIL = /^[^\s@<>"']{1,64}@[^\s@<>"']{1,190}\.[a-z]{2,24}$/i;
 // A real person takes a few seconds to fill the form. Bots post at once.
