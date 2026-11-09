@@ -97,7 +97,7 @@ html.light .glass { background: oklch(100% 0 0 / .72); }
 .btn-ghost:hover { background: var(--accent); }
 .btn-lg { min-height: 50px; padding: 0 28px; }
 .btn-sm { min-height: 34px; padding: 0 16px; font-size: .85rem; }
-.copy-pill { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 20px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); font: 500 .9rem var(--mono); transition: border-color .2s; }
+.copy-pill { display: inline-flex; align-items: center; gap: 12px; min-height: 50px; padding: 0 20px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); font: 500 .9rem var(--mono); transition: border-color .2s; }
 .copy-pill:hover { border-color: var(--fg-20); }
 .copy-pill .dollar { color: var(--go); }
 .copy-pill .state { color: var(--muted-foreground); font-size: .75rem; }
@@ -465,21 +465,25 @@ html.light .icon-btn .sun { display: block; }
 .seg-note { max-width: 44rem; margin: 20px auto 24px; text-align: center; color: var(--muted-foreground); font-size: .95rem; }
 [role="tabpanel"][hidden] { display: none; }
 @media (max-width: 480px) { .seg [role="tab"] { min-height: 54px; padding: 8px 12px; } .seg [role="tab"] b { font-size: .85rem; } }
-.plan-grid { display: grid; gap: 16px; }
-@media (min-width: 768px) { .plan-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .plan-grid.six { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.plan { display: flex; height: 100%; flex-direction: column; border-radius: 32px; padding: 28px; }
+.plan-grid { display: grid; gap: 16px; align-items: stretch; }
+@media (min-width: 768px) { .plan-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* One rhythm for every card: the rows that vary in length get a fixed height, so lists start level and buttons end level. */
+.plan { display: flex; height: 100%; flex-direction: column; border-radius: 28px; padding: 28px; }
 .plan.hot { border-color: transparent; }
-.plan .row { display: flex; align-items: center; justify-content: space-between; }
-.plan h3 { font-size: 1.25rem; }
-.plan .price { display: flex; align-items: baseline; gap: 6px; margin-top: 24px; }
+.plan .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 28px; }
+.plan h3 { font-size: 1.25rem; line-height: 1.2; }
+.plan .price { display: flex; align-items: flex-end; min-height: 4.6rem; margin-top: 22px; }
+.plan .price .y, .plan .price .m { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; row-gap: 2px; }
 .plan .price b { font-size: 3rem; font-weight: 600; letter-spacing: -.035em; line-height: 1; }
-.plan .price span { color: var(--muted-foreground); font-size: .875rem; }
-.plan .d { margin-top: 8px; color: var(--muted-foreground); font-size: .875rem; }
-.plan ul { display: grid; gap: 10px; flex: 1; margin-top: 24px; font-size: .875rem; align-content: start; }
-.plan li { display: flex; gap: 10px; }
-.plan li i { color: var(--go); font-style: normal; }
-.plan .btn { margin-top: 32px; width: 100%; }
-.plan .note { margin-top: 12px; color: var(--muted-foreground); font-size: .75rem; }
+.plan .price span { color: var(--muted-foreground); font-size: .85rem; line-height: 1.3; }
+.plan .price .m, .bill-panel.bill-m .plan .price .y { display: none; }
+.bill-panel.bill-m .plan .price .m { display: flex; }
+.plan .who { min-height: 2.75em; margin-top: 10px; color: var(--muted-foreground); font-size: .9rem; line-height: 1.4; }
+.plan ul { display: grid; flex: 1; align-content: start; gap: 10px; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); font-size: .875rem; }
+.plan li { display: flex; align-items: flex-start; gap: 10px; line-height: 1.45; }
+.plan li i { flex: none; width: 1rem; color: var(--go); font-style: normal; text-align: center; }
+.plan .note { min-height: 2.6em; margin-top: 20px; color: var(--muted-foreground); font-size: .78rem; line-height: 1.35; }
+.plan .btn { width: 100%; margin-top: 14px; }
 .plan-group { margin-top: 48px; }
 .plan-group .gh { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
 .plan-group .gh h2 { font-size: 1.5rem; }
@@ -659,9 +663,6 @@ html.has-strip .strip { display: flex; }
 .bill button small { padding: 2px 8px; border-radius: 999px; background: color-mix(in oklab, var(--go) 16%, transparent); color: var(--go); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .bill button[aria-pressed="true"] { background: var(--primary); color: var(--primary-foreground); }
 .bill button[aria-pressed="true"] small { background: color-mix(in oklab, var(--primary-foreground) 14%, transparent); color: var(--primary-foreground); }
-.plan .price .m, .bill-panel.bill-m .plan .price .y { display: none; }
-.bill-panel.bill-m .plan .price .m { display: flex; }
-.plan .price .y, .plan .price .m { display: flex; align-items: baseline; gap: 6px; }
 
 /* ---------- Waitlist page ---------- */
 .wl-page { max-width: 46rem; padding: 28px; }
@@ -683,8 +684,20 @@ html.has-strip .strip { display: flex; }
 @media (min-width: 768px) and (max-width: 1023px) {
   .plan { padding: 22px; border-radius: 24px; }
   .plan .price b { font-size: 2.4rem; }
+  .plan .price { min-height: 4.2rem; }
   .plan ul { font-size: .82rem; }
   .plan .btn { padding: 0 16px; font-size: .85rem; }
   .levels .card, .grid-3 > .card { padding: 20px; }
   .hero-h1 { font-size: 5.2rem; }
 }
+
+/* ---------- Card rows that sit side by side ---------- */
+.levels .card, .grid-3 > .card, .grid-2 > .card { display: flex; flex-direction: column; }
+.levels .card .sub, .grid-3 > .card .sub { flex: 1; }
+.aud-card .in { display: flex; height: 100%; flex-direction: column; }
+.aud-card .in .btn { margin-top: auto; padding-top: 0; align-self: flex-start; }
+.aud-card ul { margin-bottom: 32px; }
+.fix-card { display: flex; flex-direction: column; }
+.fix-card pre { flex: 1; }
+.steps-grid .card { display: flex; flex-direction: column; }
+.steps-grid .card .sub { flex: 1; }
