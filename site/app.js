@@ -220,7 +220,7 @@
       const ns = [good ? 0 : 1, good ? 0 : 2, 1];
       meters.forEach((m, i) => { m.style.setProperty('--w', `${ns[i] * 30 + 4}%`); });
       counts.forEach((n, i) => { n.textContent = String(ns[i]); });
-      if (badge) { $('.vbadge', badge).hidden = !good; $('.paused', badge).hidden = good; $$('[data-app]', badge).forEach((el) => { el.textContent = a.n; }); }
+      if (badge) { $('.sg-pill', badge).hidden = !good; $('.paused', badge).hidden = good; $$('[data-app]', badge).forEach((el) => { el.textContent = a.n; }); }
     };
     btns.forEach((b, i) => b.addEventListener('click', () => { sel = i; paint(); }));
     paint();
