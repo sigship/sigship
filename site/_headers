@@ -10,6 +10,12 @@
 /og.png
   Cache-Control: public, max-age=86400
 
+/og/*
+  Cache-Control: public, max-age=86400
+
+/media/*
+  Cache-Control: public, max-age=604800
+
 /*.txt
   Cache-Control: public, max-age=3600
 

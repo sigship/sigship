@@ -10,6 +10,8 @@ import { FEATURES, TRACKS } from './pricing.js';
 import { BRAND_LABEL, brandIcon } from './brands.js';
 import { CHECK_EXTRA, DISCORD, FILM, GH, GLOSSARY, GUIDES, HOME_FAQ, INDEXNOW_KEY, NPM, ORG, ORIGIN, PUBLISHED, appLd, crumbs, faqFromHtml, ld } from './seo.js';
 import { NOTICES, STATUS, STACKS, feedJson, fmtDate, rssXml } from './lookout.js';
+import { CARD, GROUPS, LEVEL } from './checks-copy.js';
+import { ogFor } from './og-pages.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
@@ -40,10 +42,11 @@ const code = (text, title) => `<div class="code">${title ? `<div class="code-t">
 const codeCopy = (text, title) => `<div class="code"><div class="code-t code-row"><span>${esc(title || '')}</span><button class="copy-btn" type="button" data-copy="${esc(text)}"><span class="copy-label">copy</span></button></div><pre><code>${esc(text)}</code></pre></div>`;
 const vbadge = (app = 'myapp.com', big = false, level = 'Verified nightly') => `<span class="vbadge${big ? ' big' : ''}"><span class="m">${mark(big ? 19 : 13)}</span><span class="l"><b><span class="check">✓</span> ${level}</b><span>SIGSHIP · <span data-app>${esc(app)}</span></span></span></span>`;
 const MENUS = {
-  Product: [['/checks/', 'The 17 checks', 'What we look for, in plain words'], ['/cloud/', 'SIGSHIP Cloud', 'Nightly checks + dashboard'], ['/badge/', 'Verified badge', 'Show customers you checked'], ['/lookout/', 'Lookout', 'New threats, caught early'], ['/pricing/', 'Pricing', 'Free forever, plans soon']],
+  Product: [['/checks/', 'The 17 checks', 'What we look for, in plain words'], ['/cloud/', 'SIGSHIP Cloud', 'Nightly checks + dashboard'], ['/badge/', 'Verified badge', 'Show customers you checked'], ['/lookout/', 'Lookout', 'New threats, caught early'], ['/pricing/', 'Pricing', 'Free forever, plans soon'], ['/waitlist/', 'Waitlist', 'Early-bird pricing for paid plans']],
   Developers: [['/docs/', 'Docs', 'Install, flags, exit codes'], ['/agents/', 'AI agents', 'Claude Code, Cursor, MCP'], ['/api/', 'API', 'Connect SIGSHIP Cloud'], ['/changelog/', 'Changelog', 'Every change, dated'], ['/releases/', 'Releases', 'Versions and downloads']],
   Resources: [['/resources/', 'Guides', 'Check your Lovable or Bolt app'], ['/glossary/', 'Jargon, explained', 'Every term in plain words'], ['/open-source/', 'Open source', 'MIT, built in public'], ['/community/', 'Community', 'GitHub, Discord and help']],
 };
+const discordIcon = (sz = 18) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.32 4.37A19.8 19.8 0 0 0 15.43 2.8a13.7 13.7 0 0 0-.63 1.28 18.4 18.4 0 0 0-5.6 0 13.7 13.7 0 0 0-.63-1.28 19.7 19.7 0 0 0-4.89 1.52C.6 9.03-.24 13.57.18 18.05a19.9 19.9 0 0 0 6 3.03 14.6 14.6 0 0 0 1.28-2.1 12.9 12.9 0 0 1-2.02-.97l.5-.38a14.2 14.2 0 0 0 12.12 0l.5.38c-.64.38-1.32.71-2.02.97.37.74.8 1.44 1.28 2.1a19.8 19.8 0 0 0 6-3.03c.5-5.18-.84-9.68-3.5-13.68zM8.02 15.33c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.34-.95 2.42-2.15 2.42zm7.96 0c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.34-.94 2.42-2.15 2.42z"/></svg>`;
 const SUN = '<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>';
 const MOON = '<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>';
 const header = () => `<header class="top">
@@ -56,19 +59,21 @@ const header = () => `<header class="top">
   <div class="nav-acts">
     <button class="mode-sw" type="button" data-mode-toggle aria-pressed="false" aria-label="Switch between simple and dev wording"><span class="knob"><i></i></span><span class="s">simple</span><span class="d">dev mode</span></button>
     <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between dark and light">${SUN}${MOON}</button>
-    <a class="icon-btn" href="${GH}" aria-label="GitHub">${brandIcon('github', 18, true)}</a>
+    <a class="icon-btn social" href="${GH}" target="_blank" rel="noopener" aria-label="GitHub (opens in a new tab)">${brandIcon('github', 18, true)}</a>
+    <a class="icon-btn social" href="${DISCORD}" target="_blank" rel="noopener" aria-label="Discord (opens in a new tab)">${discordIcon(18)}</a>
     <a class="btn btn-primary btn-sm nav-cta" href="/resources/">Check my app</a>
     <button class="burger" type="button" data-mobile-toggle aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
   </div>
 </nav>
 <div class="mobile-menu" hidden>
-  ${Object.values(MENUS).flat().map(([to, t]) => `<a href="${to}">${t}</a>`).join('')}
+  <div class="links">${Object.values(MENUS).flat().map(([to, t]) => `<a href="${to}">${t}</a>`).join('')}</div>
   <div class="row"><button type="button" data-mode-toggle aria-pressed="false"><span class="s">Dev mode: off</span><span class="d">Dev mode: on</span></button><button type="button" data-theme-toggle aria-label="Switch between dark and light">${SUN}${MOON} Theme</button></div>
+  <div class="row"><a href="${GH}" target="_blank" rel="noopener">${brandIcon('github', 16, true)} GitHub</a><a href="${DISCORD}" target="_blank" rel="noopener">${discordIcon(16)} Discord</a></div>
   <div class="row"><a class="btn btn-primary" href="/resources/">Check my app</a></div>
 </div>
 </header>`;
 const FOOT_COLS = [
-  ['Product', [['/checks/', '17 checks'], ['/cloud/', 'Cloud'], ['/badge/', 'Verified badge'], ['/lookout/', 'Lookout'], ['/pricing/', 'Pricing']]],
+  ['Product', [['/checks/', '17 checks'], ['/cloud/', 'Cloud'], ['/badge/', 'Verified badge'], ['/lookout/', 'Lookout'], ['/pricing/', 'Pricing'], ['/waitlist/', 'Waitlist']]],
   ['Developers', [['/docs/', 'Docs'], ['/agents/', 'AI agents'], ['/api/', 'API'], ['/changelog/', 'Changelog'], ['/releases/', 'Releases']]],
   ['Company', [['/resources/', 'Resources'], ['/guides/', 'Guides'], ['/open-source/', 'Open source'], ['/community/', 'Community'], ['/brand/', 'Brand'], ['/privacy/', 'Privacy'], ['/terms/', 'Terms']]],
 ];
@@ -80,11 +85,20 @@ const footer = () => `<footer class="foot">
 <div class="word" aria-hidden="true">SIGSHIP</div>
 <div class="legal"><span>© 2026 SIGSHIP by Zoof04 Inc. · MIT licensed · <a href="mailto:support@sigship.dev">support@sigship.dev</a></span><span>A GO means our checks found nothing blocking launch. It does not prove the app is safe.</span></div>
 </footer>`;
-const HEAD_SCRIPT = `<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null,m=null;try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-dev')}catch(e){}if(t==='light')d.classList.add('light');if(m==='1'||(m===null&&/github\\.com|npmjs\\.com/.test(document.referrer)))d.setAttribute('data-dev','1');var q=new URLSearchParams(location.search);if(q.get('theme')==='light')d.classList.add('light');if(q.get('theme')==='dark')d.classList.remove('light');if(q.get('mode')==='dev')d.setAttribute('data-dev','1');if(q.get('mode')==='plain')d.removeAttribute('data-dev');})();</script>`;
+// Before first paint: theme, voice, whether the announcement strip shows, and whether the loader shows (once per tab).
+const STRIP_UNTIL = '2026-12-01T08:00:00Z';
+const HEAD_SCRIPT = `<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null,m=null,x=null,b=null;try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-dev');x=localStorage.getItem('sigship-strip-cm26');b=sessionStorage.getItem('sigship-boot');sessionStorage.setItem('sigship-boot','1')}catch(e){}if(t==='light')d.classList.add('light');if(m==='1'||(m===null&&/github\\.com|npmjs\\.com/.test(document.referrer)))d.setAttribute('data-dev','1');var q=new URLSearchParams(location.search);if(q.get('theme')==='light')d.classList.add('light');if(q.get('theme')==='dark')d.classList.remove('light');if(q.get('mode')==='dev')d.setAttribute('data-dev','1');if(q.get('mode')==='plain')d.removeAttribute('data-dev');if(!x&&Date.now()<Date.parse('${STRIP_UNTIL}'))d.classList.add('has-strip');if(b||matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('no-boot');})();</script>`;
+// The loader: the flag waves while the page loads, with a short progress bar. Shown once per tab, never for reduced motion.
+const BOOT_CSS = `<style>.boot{position:fixed;inset:0;z-index:300;display:grid;place-content:center;justify-items:center;gap:22px;background:#121316;transition:opacity .45s ease,visibility .45s}html.light .boot{background:#f9f9fb}html.no-boot .boot,.boot.done{opacity:0;visibility:hidden}.boot svg{width:96px;height:79px;color:#f4f4f6}html.light .boot svg{color:#16171b}.boot-bar{width:128px;height:3px;overflow:hidden;border-radius:999px;background:rgba(128,128,140,.25)}.boot-bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#b48cf2,#7cc4f0,#86d8d0,#c7f26b,#f2c66b,#f09b7a);transition:width .35s ease;animation:bootbar 1.4s cubic-bezier(.2,.7,.2,1) forwards}.boot.done .boot-bar i,.boot.full .boot-bar i{width:100%!important;animation:none}@keyframes bootbar{to{width:78%}}</style>`;
+const BOOT = `<div class="boot" id="boot" aria-hidden="true"><svg viewBox="0 0 256 211"><rect width="12" height="211" rx="6" fill="currentColor"/><path fill="#2f5be0"><animate attributeName="d" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" values="M16 13 Q76 1 136 13 T256 13 L256 173 Q196 185 136 173 T16 173 Z;M16 13 Q76 25 136 13 T256 13 L256 173 Q196 161 136 173 T16 173 Z;M16 13 Q76 1 136 13 T256 13 L256 173 Q196 185 136 173 T16 173 Z"/></path><path fill="#fff"><animate attributeName="d" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" values="M99 52 Q118 48 136 52 T173 52 L173 126 Q154 130 136 126 T99 126 Z;M99 52 Q118 56 136 52 T173 52 L173 126 Q154 122 136 126 T99 126 Z;M99 52 Q118 48 136 52 T173 52 L173 126 Q154 130 136 126 T99 126 Z"/></path></svg><div class="boot-bar"><i></i></div></div>
+<script>(function(){var b=document.getElementById('boot');if(!b||document.documentElement.classList.contains('no-boot'))return;var t0=Date.now();function go(){b.classList.add('full');setTimeout(function(){b.classList.add('done');setTimeout(function(){b.remove()},500)},Math.max(0,700-(Date.now()-t0)))}if(document.readyState==='complete')go();else addEventListener('load',go);setTimeout(go,2500)})();</script>`;
+// The announcement strip. Dismissable; it hides itself after Cyber Monday.
+const STRIP = `<div class="strip" id="strip" role="region" aria-label="Announcement"><div class="strip-in"><span class="strip-tag">Cyber Monday · Nov 30</span><span class="strip-text">Early birds get <b>50% off self-hosted plans</b>. Join the waitlist to lock in the price.</span><span class="strip-short">Early birds: <b>50% off self-hosted</b></span><a class="strip-cta" href="/waitlist/?plan=pro">Join the waitlist →</a></div><button class="strip-x" type="button" data-strip-close aria-label="Hide this announcement">×</button></div>`;
 
 // Every indexed page gets social tags, breadcrumbs and FAQ data built from its own visible questions.
 const page = ({ title, description, path, body, trail, ld: extra = [], ogType = 'website', canonical, noindex = false }) => {
   const url = `${ORIGIN}${canonical || path}`;
+  const og = `${ORIGIN}${ogFor(canonical || path)}`;
   const graph = noindex ? [] : [crumbs(trail || [['Home', '/'], [title.split(' — ')[0], path]]), faqFromHtml(body), ...extra].filter(Boolean);
   return `<!doctype html>
 <html lang="en">
@@ -102,13 +116,14 @@ const page = ({ title, description, path, body, trail, ld: extra = [], ogType = 
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${ORIGIN}/og.png">
+<meta property="og:image" content="${og}">
+<meta property="og:image:alt" content="${esc(title)}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
-<meta name="twitter:image" content="${ORIGIN}/og.png">
+<meta name="twitter:image" content="${og}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -116,6 +131,7 @@ const page = ({ title, description, path, body, trail, ld: extra = [], ogType = 
 <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <meta name="theme-color" content="#121316">
 <meta name="color-scheme" content="dark light">
+${BOOT_CSS}
 ${graph.length ? ld({ '@context': 'https://schema.org', '@graph': graph }) : ''}
 ${HEAD_SCRIPT}
 <link rel="stylesheet" href="/app.css">
@@ -123,6 +139,8 @@ ${HEAD_SCRIPT}
 </head>
 <body class="grain">
 <a class="skip" href="#main">Skip to content</a>
+${BOOT}
+${STRIP}
 ${header()}
 <main id="main">
 ${body}
@@ -143,36 +161,6 @@ ${extra ? `<div class="extra rv" style="--d:.3s">${extra}</div>` : ''}
 const section = (inner, cls = '') => `<section class="sec ${cls}"><div class="wrap wrap-5">${inner}</div></section>`;
 
 // ---------- Content ----------
-const LEVEL = { 1: { label: 'Fix now', dev: 'SEV-1', c: 'stop' }, 2: { label: 'Fix soon', dev: 'SEV-2', c: 'warn' }, 3: { label: 'Nice to fix', dev: 'SEV-3', c: 'muted-foreground' } };
-const GROUPS = {
-  keys: { label: 'Keys & passwords', emoji: '🔑', color: 'amber' },
-  data: { label: "Your users' data", emoji: '🗂️', color: 'violet' },
-  payments: { label: 'Payments', emoji: '💳', color: 'lime' },
-  ai: { label: 'AI costs', emoji: '✨', color: 'pink' },
-  login: { label: 'Logins', emoji: '🔐', color: 'sky' },
-  web: { label: 'Website safety', emoji: '🌐', color: 'teal' },
-  ops: { label: 'Launch hygiene', emoji: '🧰', color: 'coral' },
-};
-// The card lines, in the site's voice. Titles come from the rules themselves.
-const CARD = {
-  'secret-in-code': ['keys', 'Anyone who reads your code or your site’s JavaScript can copy it and spend your money.', 'Rotate the key, then move it to a server-side environment variable.'],
-  'env-file-committed': ['keys', 'Your .env file is in the repo, so every password in it is public.', 'Remove .env from git, add it to .gitignore, and rotate every value.'],
-  'public-env-secret': ['keys', 'A NEXT_PUBLIC_ or VITE_ name ships the secret to every visitor’s browser.', 'Drop the public prefix and move the call to a server route.'],
-  'secret-in-logs': ['keys', 'Passwords end up in logs that more people can read than your database.', 'Log that it happened, never the value.'],
-  'rls-missing': ['data', 'Anyone with your public key can read every row in this table.', 'Turn on row level security and add an owner-only policy.'],
-  'rls-open-write': ['data', 'The lock exists, but it’s set to “allow all”. Anyone can edit or delete.', 'Replace true with a real condition, like auth.uid() = user_id.'],
-  'sql-string-concat': ['data', 'A crafted form entry becomes a database command.', 'Use a parameterised query. Never build SQL with template strings.'],
-  'stripe-webhook-unverified': ['payments', 'Someone sends a fake “payment succeeded” and gets paid features free.', 'Verify every Stripe event with its signing secret.'],
-  'ai-key-in-browser': ['ai', 'Strangers copy your key from the browser and use your OpenAI credits for free.', 'Call the AI from a server route that holds the key.'],
-  'ai-route-no-rate-limit': ['ai', 'One script loops overnight and you wake up to a huge bill.', 'Add a per-user rate limit and a monthly spending cap.'],
-  'role-in-local-storage': ['login', 'Users flip one browser setting and become admin.', 'Store roles in the database and check them on the server.'],
-  'unsanitized-html': ['web', 'A comment with a hidden script runs in every visitor’s browser.', 'Sanitise it with DOMPurify, or render it as plain text.'],
-  'cors-wildcard': ['web', 'Other sites can talk to your app on your users’ behalf.', 'Replace the wildcard with your own domain.'],
-  'no-error-boundary': ['ops', 'One bad record gives your users a blank white page.', 'Add an error boundary (error.tsx in Next.js) with a retry.'],
-  'no-error-tracking': ['ops', 'Your app breaks for a week before anyone tells you.', 'Add an error tracker such as Sentry on the client and the server.'],
-  'no-tests': ['ops', 'A Friday fix breaks signup until Monday.', 'One test each for sign up, log in and pay, run on every pull request.'],
-  'no-lockfile': ['ops', 'A package updates itself on deploy and your live app breaks.', 'Commit your lockfile.'],
-};
 for (const r of RULES) if (!CARD[r.id]) throw new Error(`scripts/build-site.js has no card lines for the check ${r.id}.`);
 const CHECKS = RULES.map((r) => ({ ...r, group: CARD[r.id][0], risk: CARD[r.id][1], fix1: CARD[r.id][2], level: LEVEL[r.severity] }));
 const checkCard = (c, i) => { const g = GROUPS[c.group]; return `<a class="check-card rv" href="/checks/${c.id}/" data-group="${c.group}" style="--c:var(--${g.color});--d:${Math.min(i, 8) * 0.03}s">
@@ -219,21 +207,22 @@ const feed = (n = NOTICES.length) => `<div class="feed">${NOTICES.slice(0, n).ma
 const pipeline = () => `<div class="pipeline"><div class="line"><i></i></div>${[['📡', 'Threat spotted', 'We watch security news, CVEs and attacks on apps like yours.', 'coral'], ['🛠️', 'New check written', 'Our team turns it into a new check within days.', 'amber'], ['🛡️', "You're covered", 'Your next check catches it — no action needed.', 'go']].map(([e, t, d, c], i) => `<div class="card pipe rv" style="--c:var(--${c});--d:${i * 0.25}s"><div class="em" style="--d:${i * 0.5}s">${e}</div><h3>${t}</h3><p class="sub">${d}</p></div>`).join('')}</div>`;
 
 const byId = Object.fromEntries(TRACKS.flatMap((t) => t.plans).map((p) => [p.id, p]));
-const planCard = (p, { hot = false, live = false, from = false, href, cta } = {}) => `<div class="plan card rv${hot ? ' hot spectrum-border' : ''}">
+const planCard = (p, { hot = false, live = false, href, cta } = {}) => `<div class="plan card rv${hot ? ' hot spectrum-border' : ''}">
 <div class="row"><h3>${esc(p.name)}</h3><span class="tag${live ? '' : ' tag-plain'}" style="--c:var(--go)">${live ? 'Live' : 'Waitlist'}</span></div>
-<div class="price"><b>${from ? 'from ' : ''}${esc(p.price)}</b><span>${esc(p.per)}</span></div>
+${p.monthly ? `<div class="price"><span class="y"><b>${esc(p.price)}</b><span>${esc(p.per)}</span></span><span class="m"><b>${esc(p.monthly)}</b><span>${esc(p.perMonthly)}</span></span></div>` : `<div class="price"><b>${esc(p.price)}</b><span>${esc(p.per)}</span></div>`}
 <p class="d">${esc(p.tagline)}</p>
 <ul>${p.items.slice(0, 6).map((f) => `<li><i>✓</i>${esc(f)}</li>`).join('')}</ul>
-<a class="btn ${live || hot ? 'btn-primary' : 'btn-ghost'}" href="${href || (live ? '/resources/' : '/cloud/')}">${cta || (live ? 'Check my app' : 'Join waitlist')}</a>
+<a class="btn ${live || hot ? 'btn-primary' : 'btn-ghost'}" href="${href || (live ? '/resources/' : `/waitlist/?plan=${p.id}`)}">${cta || (live ? 'Check my app' : 'Join waitlist')}</a>
 ${p.note ? `<p class="note">${esc(p.note)}</p>` : ''}
 </div>`;
+const billToggle = () => `<div class="bill" role="group" aria-label="Billing"><button type="button" data-bill="yearly" aria-pressed="true">Yearly <small>save 20%</small></button><button type="button" data-bill="monthly" aria-pressed="false">Monthly</button></div>`;
 // Self-hosted and Cloud, behind one segmented switch. Same component on the home page and the pricing page.
 const pricingTabs = (id) => `<div class="seg rv" role="tablist" aria-label="How you want to run SIGSHIP">
 <button type="button" role="tab" id="${id}-t-self" aria-controls="${id}-p-self" aria-selected="true"><b>On your computer</b><small>Self-hosted · pay once</small></button>
 <button type="button" role="tab" id="${id}-t-cloud" aria-controls="${id}-p-cloud" aria-selected="false" tabindex="-1"><b>In the cloud</b><small>Coming soon · monthly</small></button>
 </div>
 <div role="tabpanel" id="${id}-p-self" aria-labelledby="${id}-t-self"><p class="seg-note">Like an app you install. Runs on your computer and in your own GitHub; your code never leaves.</p><div class="plan-grid">${planCard(byId.free, { live: true })}${planCard(byId.pro, { hot: true })}${planCard(byId.business)}</div></div>
-<div role="tabpanel" id="${id}-p-cloud" aria-labelledby="${id}-t-cloud" hidden><p class="seg-note">Like Gmail: we run it for you and watch your live apps every night. Every Cloud plan includes every Pro check.</p><div class="plan-grid">${planCard(byId.solo)}${planCard(byId.team, { hot: true })}${planCard(byId.agency)}</div></div>`;
+<div role="tabpanel" id="${id}-p-cloud" aria-labelledby="${id}-t-cloud" hidden class="bill-panel"><p class="seg-note">Like Gmail: we run it for you and watch your live apps every night. Every Cloud plan includes every Pro check.</p>${billToggle()}<div class="plan-grid">${planCard(byId.solo)}${planCard(byId.team, { hot: true })}${planCard(byId.agency)}</div></div>`;
 const homePricing = () => pricingTabs('hp');
 
 // ---------- Home ----------
@@ -418,6 +407,21 @@ write('pricing', page({
     + section(`<h2 class="display" style="font-size:1.875rem;margin-bottom:24px">Questions</h2><div class="faq">${[['Is the free version really free?', "Yes. It's open source (MIT) and runs on your computer. No account, no limits on projects, no card."], ['Do you upload my code?', 'Never in the free version: it makes no network calls at all. With a licence key it sends only the key and a one-way repo fingerprint. Cloud will read only the apps you connect, in an isolated runner, and you can disconnect any time.'], ["Does a 'Ready' mean my app is 100% safe?", `No tool can promise that. It means our ${RULES.length} checks found nothing blocking launch. It does not prove the app is safe.`], ['What does one-time mean?', 'Pay once and use it for as long as you like. The price includes a year of new checks. After that you can renew, or keep the version you have.'], ['When do paid plans open?', "Soon. Join the waitlist and we'll email you once, when your plan opens, with launch pricing."], ["What if it isn't right for me?", 'Ask within 14 days of your first payment for a full refund.']].map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</div>`, 'sec-tight'),
 }));
 
+// ---------- Waitlist ----------
+const WL_PLANS = [['pro', 'Pro', byId.pro.price + ' one-time', 'self-hosted'], ['business', 'Business', byId.business.price + ' one-time', 'self-hosted'], ['solo', 'Solo', byId.solo.price + ' a month', 'cloud'], ['team', 'Team', byId.team.price + ' a month', 'cloud'], ['agency', 'Agency', byId.agency.price + ' a month', 'cloud']];
+write('waitlist', page({
+  title: 'Join the waitlist — SIGSHIP', description: 'Paid SIGSHIP plans open soon. Pick a plan, leave your email, and get one message when it opens. Early birds get 50% off self-hosted plans on Cyber Monday.', path: '/waitlist/',
+  body: pageHero({ eyebrow: 'Waitlist · early birds', color: 'amber', title: 'Lock in the early-bird price.', sub: 'Paid plans open soon. Tell us which one you want and we email you once, when it opens. <b>Early birds get 50% off self-hosted plans on Cyber Monday, 30 November.</b> No spam, and you can leave any time.' })
+    + section(`<form class="card wl-page" method="post" action="/api/waitlist" data-waitlist novalidate>
+<fieldset class="plan-pick"><legend>Which plan?</legend>${WL_PLANS.map(([id, name, price, kind], i) => `<label class="pick"><input type="radio" name="plan" value="${id}"${i === 0 ? ' checked' : ''}><span><b>${name}</b><small>${esc(price)} · ${kind}</small></span></label>`).join('')}</fieldset>
+<label class="wl-label" for="wl-email">Your email</label>
+<div class="wl-form" style="max-width:none"><input id="wl-email" type="email" name="email" placeholder="you@startup.com" autocomplete="email" inputmode="email" required><input type="hidden" name="started" value=""><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn btn-primary" type="submit">Join the waitlist</button></div>
+<p class="wl-err" hidden></p>
+<p class="muted" style="margin-top:16px;font-size:.85rem">One email when your plan opens, with the early-bird price. Prices shown are early estimates. <a href="/privacy/" style="text-decoration:underline">Privacy</a>.</p>
+</form><div class="wl-ok card" hidden tabindex="-1">You're on the list 🎉 We'll email you once, when your plan opens, with the early-bird price.</div>
+<div class="grid-3" style="margin-top:40px">${[['🖥️', 'Self-hosted', 'Pro and Business run on your computer and in your own GitHub. Pay once, keep it, and get a year of new checks.'], ['☁️', 'Cloud', 'Solo, Team and Agency check your live apps every night and keep a Verified badge up to date.'], ['🎟️', 'Early birds', '50% off self-hosted plans for everyone on the waitlist when they open on Cyber Monday.']].map(([e, t, d]) => `<div class="card"><div style="font-size:1.75rem">${e}</div><h3 style="margin-top:12px">${t}</h3><p class="sub">${d}</p></div>`).join('')}</div>`, 'sec-tight'),
+}));
+
 // ---------- Docs ----------
 const DOCS = [
   ['install', 'Install', `You need Node.js ${NODE_MIN} or newer. No install step — run it with npx in your project folder.`, 'npx sigship'],
@@ -492,7 +496,7 @@ write('open-source', page({
 }));
 write('community', page({
   title: 'Community and help — SIGSHIP', description: 'Get help with SIGSHIP: ask questions on GitHub Discussions or Discord, report a false positive, suggest a new check, or contribute code.', path: '/community/',
-  body: pageHero({ eyebrow: 'Community', color: 'pink', title: 'Built in the open, with builders.', sub: 'Ask a question, suggest a check, report something it got wrong, or help build it. Every message is read by the team.', extra: `<a class="btn btn-primary btn-lg" href="${GH}/discussions">Ask a question</a>` }) + section(`<div class="grid-3" style="gap:12px">${[[brandIcon('github', 28, true), 'GitHub', 'The code, releases and issues. Star it to follow along.', GH], ['<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.32 4.37A19.8 19.8 0 0 0 15.43 2.8a13.7 13.7 0 0 0-.63 1.28 18.4 18.4 0 0 0-5.6 0 13.7 13.7 0 0 0-.63-1.28 19.7 19.7 0 0 0-4.89 1.52C.6 9.03-.24 13.57.18 18.05a19.9 19.9 0 0 0 6 3.03 14.6 14.6 0 0 0 1.28-2.1 12.9 12.9 0 0 1-2.02-.97l.5-.38a14.2 14.2 0 0 0 12.12 0l.5.38c-.64.38-1.32.71-2.02.97.37.74.8 1.44 1.28 2.1a19.8 19.8 0 0 0 6-3.03c.5-5.18-.84-9.68-3.5-13.68zM8.02 15.33c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.34-.95 2.42-2.15 2.42zm7.96 0c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.34-.94 2.42-2.15 2.42z"/></svg>', 'Discord', 'Chat with other builders and the team behind SIGSHIP.', DISCORD], ['💬', 'Discussions', 'Questions, ideas and show-and-tell.', `${GH}/discussions`], ['🐛', 'Report a false positive', 'It flagged safe code, or missed a real problem? Tell us with the smallest example.', `${GH}/issues/new/choose`], ['🛠️', 'Contribute', 'Add a check or fix a bug. The guide shows how, tests included.', `${GH}/blob/main/CONTRIBUTING.md`], ['🔒', 'Report a security problem', 'Found a problem in SIGSHIP itself? Report it privately.', `${GH}/blob/main/SECURITY.md`], ['✉️', 'Email us', 'support@sigship.dev for anything else, including pilot reviews.', 'mailto:support@sigship.dev']].map(([ic, t, d, href]) => `<a class="card rv" href="${href}"><div style="font-size:1.75rem;height:32px;display:flex;align-items:center">${ic}</div><h3 style="margin-top:16px">${t}</h3><p class="sub">${d}</p></a>`).join('')}</div>`, 'sec-tight'),
+  body: pageHero({ eyebrow: 'Community', color: 'pink', title: 'Built in the open, with builders.', sub: 'Ask a question, suggest a check, report something it got wrong, or help build it. Every message is read by the team.', extra: `<a class="btn btn-primary btn-lg" href="${GH}/discussions">Ask a question</a>` }) + section(`<div class="grid-3" style="gap:12px">${[[brandIcon('github', 28, true), 'GitHub', 'The code, releases and issues. Star it to follow along.', GH], [discordIcon(28), 'Discord', 'Chat with other builders and the team behind SIGSHIP.', DISCORD], ['💬', 'Discussions', 'Questions, ideas and show-and-tell.', `${GH}/discussions`], ['🐛', 'Report a false positive', 'It flagged safe code, or missed a real problem? Tell us with the smallest example.', `${GH}/issues/new/choose`], ['🛠️', 'Contribute', 'Add a check or fix a bug. The guide shows how, tests included.', `${GH}/blob/main/CONTRIBUTING.md`], ['🔒', 'Report a security problem', 'Found a problem in SIGSHIP itself? Report it privately.', `${GH}/blob/main/SECURITY.md`], ['✉️', 'Email us', 'support@sigship.dev for anything else, including pilot reviews.', 'mailto:support@sigship.dev']].map(([ic, t, d, href]) => `<a class="card rv" href="${href}"><div style="font-size:1.75rem;height:32px;display:flex;align-items:center">${ic}</div><h3 style="margin-top:16px">${t}</h3><p class="sub">${d}</p></a>`).join('')}</div>`, 'sec-tight'),
 }));
 write('roadmap', page({
   title: 'Roadmap — SIGSHIP', description: 'What SIGSHIP has shipped, what is planned next for self-hosted Pro and Business, and what comes with Cloud. No dates promised.', path: '/roadmap/',
@@ -503,7 +507,7 @@ write('roadmap', page({
 const prosePage = (slug, title, description, eb, color, sub, html) => write(slug, page({ title: `${title} — SIGSHIP`, description, path: `/${slug}/`, body: pageHero({ eyebrow: eb, color, title, sub }) + section(`<div class="prose">${html}</div>`, 'sec-tight') }));
 prosePage('privacy', 'Privacy', 'SIGSHIP runs on your computer and sends nothing anywhere. What the tool, the website, the waitlist and paid plans collect, in plain English.', 'Privacy', 'teal', 'Last updated: 2026-11-09.', `<h2>The command line tool and MCP server</h2><p>They run on your machine and have no telemetry. Without a licence key they make no network calls at all. Your code, findings and secrets stay with you.</p>
 <h2>Licence keys</h2><p>If you set <code>SIGSHIP_KEY</code>, the tool sends two things to api.sigship.dev: your licence key, and a one-way fingerprint of the repository made from its git address mixed with your key. It sends no code, file names or findings. We pass the key to Polar to check it and to count the repository against your plan's limit. The Pro pack is cached on your machine for 24 hours.</p>
-<h2>This website</h2><p>This site uses Cloudflare Web Analytics, which counts visits without cookies. Your theme and wording choice are kept in your own browser only. The 60-second film is hosted on Vimeo; its player, and Vimeo's own privacy terms, apply only after you press play.</p>
+<h2>This website</h2><p>This site has no analytics scripts and sets no cookies. Cloudflare, which serves it, counts requests at the network edge. Your theme, wording choice and whether you closed an announcement are kept in your own browser only. The 60-second film is hosted on Vimeo; its player, and Vimeo's own privacy terms, apply only after you press play.</p>
 <h2>Waitlist and the Lookout email</h2><p>If you join a waitlist or ask for the Lookout notice by email, we keep your email address, the plan or list you picked, your country as reported by Cloudflare, and the time. It is stored in a Google Sheet that only Zoof04 can open. We use it only to email you when your plan opens or to send the Lookout notice. Every email has an unsubscribe link, or email <a href="mailto:support@sigship.dev">support@sigship.dev</a> and we will delete it.</p>
 <h2>Payments</h2><p>Polar is the merchant of record. Polar collects your payment details and shares your name, email and order with us so we can provide the service.</p>
 <h2>Pilot review</h2><p>If you buy a pilot review, you choose what code to share with us. We use it only for that review and delete it when the review ends, unless you ask us to keep it.</p>
@@ -522,7 +526,7 @@ prosePage('brand', 'Brand', 'The SIGSHIP logo, colours, type and flag story, wit
 writeFileSync(join(site, '404.html'), page({ title: 'Page not found — SIGSHIP', description: 'This page does not exist.', path: '/404.html', noindex: true, body: pageHero({ eyebrow: '404', color: 'coral', title: 'Page not found.', sub: "The page you're looking for doesn't exist or has been moved.", extra: '<a class="btn btn-primary" href="/">Go home</a> <a class="btn btn-ghost" href="/checks/">See every check</a>' }) }));
 
 // ---------- Crawler files ----------
-const urls = ['/', '/checks/', '/cloud/', '/badge/', '/lookout/', '/pricing/', '/docs/', '/agents/', '/api/', '/changelog/', '/releases/', '/resources/', '/guides/', ...GUIDES.map((g) => `/guides/${g.slug}/`), '/glossary/', '/open-source/', '/community/', '/roadmap/', ...RULES.map((r) => `/checks/${r.id}/`), '/brand/', '/privacy/', '/terms/'];
+const urls = ['/', '/checks/', '/cloud/', '/badge/', '/lookout/', '/pricing/', '/waitlist/', '/docs/', '/agents/', '/api/', '/changelog/', '/releases/', '/resources/', '/guides/', ...GUIDES.map((g) => `/guides/${g.slug}/`), '/glossary/', '/open-source/', '/community/', '/roadmap/', ...RULES.map((r) => `/checks/${r.id}/`), '/brand/', '/privacy/', '/terms/'];
 const priority = (u) => (u === '/' ? '1.0' : /^\/(pricing|checks|docs|agents|cloud|badge|resources)\/$/.test(u) ? '0.9' : u.startsWith('/guides/') || u.startsWith('/checks/') || u === '/glossary/' || u === '/lookout/' ? '0.8' : /^\/(privacy|terms|brand)\/$/.test(u) ? '0.3' : '0.6');
 const videoXml = `<video:video><video:thumbnail_loc>${ORIGIN}${FILM.poster}</video:thumbnail_loc><video:title>${esc(FILM.title)}</video:title><video:description>${esc(FILM.description)}</video:description><video:player_loc>https://player.vimeo.com/video/${FILM.vimeoId}</video:player_loc><video:duration>56</video:duration><video:publication_date>${FILM.uploadDate}T00:00:00+00:00</video:publication_date><video:family_friendly>yes</video:family_friendly><video:live>no</video:live></video:video>`;
 writeFileSync(join(site, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${LASTMOD}</lastmod><priority>${priority(u)}</priority>${u === '/' ? videoXml : ''}</url>`).join('\n')}\n</urlset>\n`);
