@@ -8,7 +8,7 @@
     "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": ["/api/*", "/b/*"]
   }
   // Waitlist secrets, set once with: npx wrangler secret put WAITLIST_URL, then WAITLIST_SECRET.
   // See docs/WAITLIST.md.

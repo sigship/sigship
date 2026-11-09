@@ -13,6 +13,7 @@ import { NOTICES, STATUS, STACKS, feedJson, fmtDate, rssXml } from './lookout.js
 import { CARD, GROUPS, LEVEL } from './checks-copy.js';
 import { ogFor } from './og-pages.js';
 import { LEVELS, TOP, pill, shield, selfCheckedSvg } from './badges.js';
+import { OWN_ID, OWN_SITE, badgeId } from './badge-id.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
@@ -79,7 +80,7 @@ const FOOT_COLS = [
 ];
 const footer = () => `<footer class="foot">
 <div class="foot-grid">
-  <div>${logo()}<p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p><a class="foot-badge" href="/badge/" title="This site’s own code passes the free SIGSHIP check on every deploy">${pill(LEVELS[0])}</a></div>
+  <div>${logo()}<p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p><div class="foot-badge" title="sigship.dev holds the top SIGSHIP badge. Click it to see the record.">${pill(TOP, { site: OWN_SITE })}</div></div>
   ${FOOT_COLS.map(([h, links]) => `<div class="col"><div class="k">${h}</div><ul>${links.map(([to, t]) => `<li><a href="${to}">${t}</a></li>`).join('')}</ul></div>`).join('')}
 </div>
 <div class="word" aria-hidden="true">SIGSHIP</div>
@@ -319,32 +320,32 @@ const home = () => `<section class="hero"><div class="grid-bg"></div><div class=
 
 function badgeStage() {
   return `<div class="badge-stage rv"><div class="glow"></div><div class="badge-grid">
-  <div><label for="badge-app">Try it with your app</label><input id="badge-app" value="myapp.com" maxlength="28" autocomplete="off" spellcheck="false"><div class="badge-preview"><div class="tilt">${pill(LEVELS[3], { cls: 'big' })}</div></div>
-    <ul><li>✓ Drawn by sigship.dev, so it can’t be copied or go stale</li><li>✓ Turns off automatically if a check fails</li><li>✓ Links to a public page anyone can open</li></ul></div>
+  <div><label for="badge-app">Try it with your app</label><input id="badge-app" value="myapp.com" maxlength="40" autocomplete="off" spellcheck="false"><div class="badge-preview"><div class="tilt">${pill(LEVELS[3], { cls: 'big', site: 'myapp.com' })}</div></div>
+    <ul><li>✓ A unique ID for your site, printed on the badge</li><li>✓ Click it and you land on its public record on sigship.dev</li><li>✓ Live badges turn off by themselves if a check fails</li></ul></div>
   <div class="mock tilt" aria-hidden="true"><div class="mbar"><i></i><i></i><span data-app>myapp.com</span></div><div class="mbody"><div class="ln a"></div><div class="ln b"></div><div class="ln c"></div><div class="ln e"></div><div class="btns"><i></i><i></i></div><div class="mfoot"><div class="ln"></div>${pill(LEVELS[3], { brand: false, meter: false })}</div></div></div>
 </div></div>`;
 }
-const METALS = () => `<div class="metal-strip" aria-label="Badge levels from lowest to highest">${[...LEVELS, TOP].map((l) => `<div class="m-${l.metal}">${l.metalName}<small>${l === TOP ? 'Top' : `L${l.n} · ${l.plan === 'Free' ? 'Free' : l.per.split('· ')[1] || 'Review'}`}</small></div>`).join('')}</div>`;
+const METALS = () => `<div class="metal-strip" aria-label="Badge levels from lowest to highest">${[...LEVELS, TOP].map((l) => `<a href="#lv-${l.id}" class="m-${l.metal}">${l.metalName}<small>${l === TOP ? 'Top level' : `Level ${l.n}`}</small></a>`).join('')}</div>`;
 const TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-function badgeLevels() {
-  return `${METALS()}<div class="ladder">${LEVELS.map((l, i) => `<div class="lv lm-${l.metal}${l.pop ? ' pop' : ''} rv" style="--d:${i * 0.06}s">${l.pop ? '<span class="pop-tag">Recommended</span>' : ''}
-<div class="lv-head"><span class="lv-no">L${l.n} · <b>${l.metalName}</b></span><span class="meter" aria-label="Level ${l.n} of 5">${[1, 2, 3, 4, 5].map((k) => `<i${k <= l.n ? ' class="f"' : ''}></i>`).join('')}</span></div>
+const meter = (n) => `<span class="meter" aria-hidden="true">${[1, 2, 3, 4, 5].map((k) => `<i${k <= n ? ' class="f"' : ''}></i>`).join('')}</span>`;
+// One row per level: who it is for and which plan it comes with, what it proves, and the badge itself.
+const levelRow = (l, i) => `<article class="lv lm-${l.metal}${l.pop ? ' pop' : ''} rv" id="lv-${l.id}" style="--d:${i * 0.05}s">
+<div class="lv-a"><div class="lv-head"><span class="lv-no">${l === TOP ? 'Top level' : `Level ${l.n}`} · <b>${l.metalName}</b></span>${meter(l.n)}</div>
 <h3>${l.title}</h3>
-<div class="lv-plan"><b>${l.plan}</b><span>${l.per}</span></div>
-<span class="tag${l.live ? '' : ' tag-plain'}" style="--c:var(--go);align-self:start">${l.status}</span>
-<div class="badgebox">${pill(l, { brand: false, meter: false })}${shield(l)}</div>
-<ul>${l.items.map((x) => `<li>${TICK}<span>${x}</span></li>`).join('')}</ul>
-${l.alt ? `<div class="alt">${l.alt}</div>` : ''}
-<div class="why">${l.why}</div>
-</div>`).join('')}</div>
-<div class="top-card rv"><div><span class="lv-no">Top level · <b>${TOP.metalName}</b></span><h3>${TOP.title}</h3><p>${TOP.text}</p></div><div class="top-badges">${pill(TOP)}${shield(TOP)}</div></div>`;
+<div class="lv-comes"><span>Comes with</span><b>${l.comes}</b></div>
+<span class="tag${l.live ? '' : ' tag-plain'}" style="--c:var(--go)">${l.status}</span>${l.pop ? '<span class="tag pop-tag">Most picked</span>' : ''}</div>
+<div class="lv-b">${l === TOP ? `<p>${l.text}</p>` : `<ul>${l.items.map((x) => `<li>${TICK}<span>${x}</span></li>`).join('')}</ul>`}${l.alt ? `<p class="alt">${l.alt}</p>` : ''}${l.why ? `<p class="why">${l.why}</p>` : ''}</div>
+<div class="lv-c">${pill(l, { brand: false, site: 'myapp.com' })}${shield(l)}</div>
+</article>`;
+function badgeLevels() {
+  return `${METALS()}<div class="ladder">${[...LEVELS, TOP].map(levelRow).join('')}</div><p class="muted badge-free-note">Badges are never sold on their own. Each one comes with the plan or review above it, and moves up when you do.</p>`;
 }
 const BADGE_ROWS = [
-  ['You ran the 17 core checks', [1, 1, 1, 1, 1]], ['Pro pack checks', [0, 1, 1, 1, 1]], ['SIGSHIP re-runs the check itself', [0, 0, 'Nightly', 'Every change', 'At review']],
+  ['A unique ID that links back to its record on sigship.dev', [1, 1, 1, 1, 1]], ['You ran the 17 core checks', [1, 1, 1, 1, 1]], ['Pro pack checks', [0, 1, 1, 1, 1]], ['SIGSHIP re-runs the check itself', [0, 0, 'Nightly', 'Every change', 'At review']],
   ['Date drawn on the badge', [0, 0, 1, 1, 'Review date']], ['Turns off by itself on a failed check', [0, 0, 1, 1, 0]], ['Clean-days streak', [0, 0, 0, 1, 0]],
-  ['Your own public page', ['Shared explainer', 'Shared explainer', 'Verification page', 'Page + history', 'Review report']], ['An expert engineer reviews the code', [0, 0, 0, 0, 1]], ['Signed with name and date', [0, 0, 0, 0, 1]],
+  ['Your own public page', ['ID record', 'ID record', 'Verification page', 'Page + history', 'Review report']], ['An expert engineer reviews the code', [0, 0, 0, 0, 1]], ['Signed with name and date', [0, 0, 0, 0, 1]],
 ];
-const badgeTable = () => `<div class="table-wrap"><table class="cmp"><thead><tr><th>What each badge proves</th>${LEVELS.map((l) => `<th><span class="sw m-${l.metal}"></span>${l.title}<small style="display:block;color:var(--muted-foreground);font-weight:400">${l.plan} ${l.per.replace('· ', '')}</small></th>`).join('')}</tr></thead><tbody>${BADGE_ROWS.map(([name, v]) => `<tr><td>${name}</td>${v.map((x) => `<td>${x === 1 ? '<span class="check">✓</span>' : x === 0 ? '<span class="no">—</span>' : esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const badgeTable = () => `<div class="table-wrap"><table class="cmp"><thead><tr><th>What each badge proves</th>${LEVELS.map((l) => `<th><span class="sw m-${l.metal}"></span>${l.title}<small style="display:block;color:var(--muted-foreground);font-weight:400">${l.plans}</small></th>`).join('')}</tr></thead><tbody>${BADGE_ROWS.map(([name, v]) => `<tr><td>${name}</td>${v.map((x) => `<td>${x === 1 ? '<span class="check">✓</span>' : x === 0 ? '<span class="no">—</span>' : esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 
 const homeDescription = `Free, open source launch check for apps built with Lovable, Cursor, Bolt, Replit and Claude Code. Finds leaked keys, open databases and fake payments, in plain words, with a fix for your AI. Watch the 60-second film. Powered by zoof04.`;
 write('', page({
@@ -394,11 +395,40 @@ write('cloud', page({
 }));
 const badgeBody = pageHero({ eyebrow: 'Verified badge', color: 'go', title: 'Trust you can show.', sub: 'One badge family, five levels and a top tier, each in a metal people already rank: Steel, Bronze, Silver, Gold, Platinum, then Black platinum. Every level adds a proof the one below can’t give. None of them says “certified”.' })
   + `<div class="wrap">${badgeStage()}<h2 class="display h2" style="margin-top:80px">Each level proves more.</h2><p class="lede" style="margin-top:12px;max-width:44rem">Each badge answers two questions in everyday words: who checked it, and how often. The metal answers the third: how high is this. The bars repeat the level for anyone who can’t tell colours apart.</p>${badgeLevels()}</div>`
-  + section(`<h2 class="display" style="font-size:1.875rem">Same footer, every level</h2><p class="muted" style="margin-top:8px">The metal climbs, and the word and the bars climb with it. The same badge reads on a light site and a dark one.</p><div class="grid-2" style="margin-top:24px"><div class="badge-demo light">${[...LEVELS, TOP].map((l) => pill(l)).join('')}</div><div class="badge-demo dark">${[...LEVELS, TOP].map((l) => pill(l)).join('')}</div></div>`, 'sec-tight')
+  + section(`<h2 class="display" style="font-size:1.875rem">Same footer, every level</h2><p class="muted" style="margin-top:8px">The metal climbs, and the word and the bars climb with it. Every badge ends in its own ID and links to its record. It reads on a light site and a dark one.</p><div class="grid-2" style="margin-top:24px"><div class="badge-demo light">${[...LEVELS, TOP].map((l) => pill(l, { site: 'myapp.com' })).join('')}</div><div class="badge-demo dark">${[...LEVELS, TOP].map((l) => pill(l, { site: 'myapp.com' })).join('')}</div></div>`, 'sec-tight')
   + section(`<h2 class="display" style="font-size:1.875rem;margin-bottom:24px">What each badge actually proves</h2>${badgeTable()}`, 'sec-tight')
-  + section(`<h2 class="display" style="font-size:1.875rem">Add it to your site</h2><p class="muted" style="margin-top:8px">The <b>Self-checked</b> badge is available today: run the free check, pass, and paste this. <b>Expert-reviewed</b> comes with a pilot review. The live badges (Checked daily, Live-checked, Black platinum) are drawn by sigship.dev and arrive with Cloud.</p><div class="grid-2" style="margin-top:24px"><div class="card" style="display:grid;gap:16px;justify-items:start"><img src="/badge/self-checked.svg" width="236" height="32" alt="Self-checked with SIGSHIP">${shield(LEVELS[0])}<a class="btn btn-ghost btn-sm" href="/badge/self-checked.svg" download>Download the SVG</a></div>${codeCopy(`<a href="https://sigship.dev/badge/">\n  <img src="https://sigship.dev/badge/self-checked.svg"\n       alt="Self-checked with SIGSHIP" height="32">\n</a>`, 'Paste into your site')}</div><p class="muted" style="margin-top:24px;font-size:.875rem">A badge means the owner checked before launching, or that SIGSHIP or an expert did, as the level says. It isn’t a security certificate, and this page says so.</p>`);
+  + section(`<h2 class="display" style="font-size:1.875rem" id="embed">Add it to your site</h2><p class="muted" style="margin-top:8px">The <b>Self-checked</b> badge comes with the free check, today. Type your site’s address, copy the code, and paste it into your footer. The badge carries your site’s own ID and links to its record on sigship.dev. The live badges arrive with Cloud and are drawn by sigship.dev.</p>
+<div class="embed-card card"><label for="embed-site">Your site</label><input id="embed-site" data-embed-site value="myapp.com" maxlength="80" autocomplete="off" spellcheck="false" inputmode="url">
+<div class="embed-preview"><a data-embed-link href="/verify/?id=${badgeId('S', 'myapp.com')}&amp;site=myapp.com"><img data-embed-img src="/b/${badgeId('S', 'myapp.com')}.svg" height="32" alt="Self-checked with SIGSHIP, badge ${badgeId('S', 'myapp.com')}"></a><span class="muted">Badge ID <b class="mono" data-embed-id>${badgeId('S', 'myapp.com')}</b></span></div>
+<div class="code"><div class="code-t code-row"><span>Paste into your site</span><button class="copy-btn" type="button" data-embed-copy data-copy=""><span class="copy-label">copy</span></button></div><pre><code data-embed-code></code></pre></div></div>
+<p class="muted" style="margin-top:24px;font-size:.875rem">Anyone can open a badge’s record at <a href="/verify/" style="text-decoration:underline">sigship.dev/verify</a> and see what it means and who checked. A badge means the owner checked before launching, or that SIGSHIP or an expert did, as the level says. It isn’t a security certificate, and the record says so.</p>`);
 write('badge', page({ title: 'Verified badge — SIGSHIP', description: 'Show customers your app was checked. A SIGSHIP badge for apps that pass the free check today, and a live nightly badge with Cloud.', path: '/badge/', body: badgeBody }));
 write('flags', page({ title: 'Verified badge — SIGSHIP', description: 'Show customers your app was checked.', path: '/flags/', canonical: '/badge/', noindex: true, body: badgeBody }));
+
+// ---------- Badge records: every badge's ID links here ----------
+const CHECKED_ON = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+const recRow = (k, v) => `<div class="rec-row"><dt>${k}</dt><dd>${v}</dd></div>`;
+const verifyBody = pageHero({ eyebrow: 'Badge record', color: 'go', title: 'Check a SIGSHIP badge.', sub: 'Every SIGSHIP badge carries its own ID and links here. This page shows what the badge means, who checked, and whether the ID belongs to the site showing it.' })
+  + section(`<div class="verify-app" data-own-id="${OWN_ID}" data-own-site="${OWN_SITE}">
+<div class="rec card" data-rec aria-live="polite">
+  <div class="rec-top"><span class="tag" style="--c:var(--go)" data-rec-state>Genuine · issued by SIGSHIP</span><span class="mono muted" data-rec-id>${OWN_ID}</span></div>
+  <div class="rec-badge" data-rec-badge>${pill(TOP, { site: OWN_SITE })}</div>
+  <h2 class="display" data-rec-title>${OWN_SITE} holds the top SIGSHIP badge</h2>
+  <dl class="rec-list" data-rec-list>
+    ${recRow('Site', `<a href="https://${OWN_SITE}/">${OWN_SITE}</a>`)}
+    ${recRow('Level', `${TOP.metalName} · ${TOP.title}`)}
+    ${recRow('Live-checked', 'The SIGSHIP check runs on every change to this site. A deploy can’t go out unless the check passes, and every push to GitHub runs it again.')}
+    ${recRow('Expert-reviewed', 'Reviewed by the SIGSHIP team against the SIGSHIP review protocol: logins and access, user data, payments, secret keys and AI spending.')}
+    ${recRow('Last check', `GO with sigship ${VERSION}, ${CHECKED_ON}`)}
+  </dl>
+  <p class="rec-note">A GO means these checks found nothing that blocks launch. It does not prove the app is safe.</p>
+</div>
+<form class="rec-form card" action="/verify/" method="get"><h3>Check another badge</h3><p class="muted">Enter the ID printed on the badge and the site that shows it.</p>
+  <label for="v-id">Badge ID</label><input id="v-id" name="id" placeholder="SG-S-4K7Q2M" maxlength="11" autocomplete="off" spellcheck="false" style="text-transform:uppercase">
+  <label for="v-site">Site</label><input id="v-site" name="site" placeholder="myapp.com" maxlength="80" autocomplete="off" spellcheck="false" inputmode="url">
+  <button class="btn btn-primary" type="submit">Check badge</button></form>
+</div>`, 'sec-tight');
+write('verify', page({ title: 'Check a badge — SIGSHIP', description: 'Every SIGSHIP badge has its own ID. Look one up to see what it means, who checked, and whether it belongs to the site showing it.', path: '/verify/', body: verifyBody }));
 
 const ENDPOINTS = [['POST', '/v1/scans', 'Start a check for an app'], ['GET', '/v1/scans/{id}', "Get a check's result"], ['GET', '/v1/apps', 'List your connected apps'], ['GET', '/v1/apps/{id}/badge', 'Badge status and last pass date'], ['POST', '/v1/webhooks', 'Get notified when a check fails']];
 const SAMPLES = [['curl', 'curl https://api.sigship.dev/v1/scans \\\n  -H "Authorization: Bearer $SIGSHIP_KEY" \\\n  -d \'{ "app": "plantpal.app" }\''], ['JavaScript', 'const res = await fetch("https://api.sigship.dev/v1/scans", {\n  method: "POST",\n  headers: { Authorization: `Bearer ${process.env.SIGSHIP_KEY}` },\n  body: JSON.stringify({ app: "plantpal.app" }),\n});\nconst scan = await res.json(); // { id, verdict: "GO" | "NO-GO", findings }'], ['Python', 'import os, requests\nr = requests.post(\n  "https://api.sigship.dev/v1/scans",\n  headers={"Authorization": f"Bearer {os.environ[\'SIGSHIP_KEY\']}"},\n  json={"app": "plantpal.app"},\n)\nprint(r.json()["verdict"])']];
@@ -554,7 +584,7 @@ writeFileSync(join(site, 'badge/self-checked.svg'), selfCheckedSvg());
 writeFileSync(join(site, 'flags/cleared.svg'), selfCheckedSvg());
 
 // ---------- Crawler files ----------
-const urls = ['/', '/checks/', '/cloud/', '/badge/', '/lookout/', '/pricing/', '/waitlist/', '/docs/', '/agents/', '/api/', '/changelog/', '/releases/', '/resources/', '/guides/', ...GUIDES.map((g) => `/guides/${g.slug}/`), '/glossary/', '/open-source/', '/community/', '/roadmap/', ...RULES.map((r) => `/checks/${r.id}/`), '/brand/', '/privacy/', '/terms/'];
+const urls = ['/', '/checks/', '/cloud/', '/badge/', '/verify/', '/lookout/', '/pricing/', '/waitlist/', '/docs/', '/agents/', '/api/', '/changelog/', '/releases/', '/resources/', '/guides/', ...GUIDES.map((g) => `/guides/${g.slug}/`), '/glossary/', '/open-source/', '/community/', '/roadmap/', ...RULES.map((r) => `/checks/${r.id}/`), '/brand/', '/privacy/', '/terms/'];
 const priority = (u) => (u === '/' ? '1.0' : /^\/(pricing|checks|docs|agents|cloud|badge|resources)\/$/.test(u) ? '0.9' : u.startsWith('/guides/') || u.startsWith('/checks/') || u === '/glossary/' || u === '/lookout/' ? '0.8' : /^\/(privacy|terms|brand)\/$/.test(u) ? '0.3' : '0.6');
 const videoXml = `<video:video><video:thumbnail_loc>${ORIGIN}${FILM.poster}</video:thumbnail_loc><video:title>${esc(FILM.title)}</video:title><video:description>${esc(FILM.description)}</video:description><video:player_loc>https://player.vimeo.com/video/${FILM.vimeoId}</video:player_loc><video:duration>56</video:duration><video:publication_date>${FILM.uploadDate}T00:00:00+00:00</video:publication_date><video:family_friendly>yes</video:family_friendly><video:live>no</video:live></video:video>`;
 writeFileSync(join(site, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${LASTMOD}</lastmod><priority>${priority(u)}</priority>${u === '/' ? videoXml : ''}</url>`).join('\n')}\n</urlset>\n`);

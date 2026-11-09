@@ -113,3 +113,23 @@ describe('waitlist', () => {
     assert.equal(await res.text(), 'asset /brand/');
   });
 });
+
+describe('badge pictures', async () => {
+  const { badge } = await import('../worker/site.js');
+  const { badgeId, OWN_ID } = await import('../scripts/badge-id.js');
+  it('draws a self-checked badge with its ID', async () => {
+    const id = badgeId('S', 'myapp.com');
+    const res = badge(`/b/${id}.svg`);
+    assert.equal(res.status, 200);
+    assert.match(await res.text(), new RegExp(id));
+  });
+  it('draws the top badge only for sigship.dev', () => {
+    assert.equal(badge(`/b/${OWN_ID}.svg`).status, 200);
+    assert.equal(badge(`/b/${badgeId('T', 'other.com')}.svg`).status, 404);
+    assert.equal(badge(`/b/${badgeId('L', 'other.com')}.svg`).status, 404);
+  });
+  it('refuses anything that is not an ID', () => {
+    assert.equal(badge('/b/<script>.svg').status, 404);
+    assert.equal(badge('/b/SG-S-AAAAAA.png').status, 404);
+  });
+});
