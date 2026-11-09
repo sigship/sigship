@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open source — SIGSHIP</title>
+<meta name="description" content="SIGSHIP is MIT licensed and built in public. Zero dependencies, every check a small readable rule. Powered and backed by zoof04.">
+<link rel="canonical" href="https://sigship.dev/open-source/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Zoof04 Inc.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SIGSHIP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Open source — SIGSHIP">
+<meta property="og:description" content="SIGSHIP is MIT licensed and built in public. Zero dependencies, every check a small readable rule. Powered and backed by zoof04.">
+<meta property="og:url" content="https://sigship.dev/open-source/">
+<meta property="og:image" content="https://sigship.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Open source — SIGSHIP">
+<meta name="twitter:description" content="SIGSHIP is MIT licensed and built in public. Zero dependencies, every check a small readable rule. Powered and backed by zoof04.">
+<meta name="twitter:image" content="https://sigship.dev/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt">
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#121316">
+<meta name="color-scheme" content="dark light">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sigship.dev/"},{"@type":"ListItem","position":2,"name":"Open source","item":"https://sigship.dev/open-source/"}]}]}</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null,m=null;try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-dev')}catch(e){}if(t==='light')d.classList.add('light');if(m==='1'||(m===null&&/github\.com|npmjs\.com/.test(document.referrer)))d.setAttribute('data-dev','1');var q=new URLSearchParams(location.search);if(q.get('theme')==='light')d.classList.add('light');if(q.get('theme')==='dark')d.classList.remove('light');if(q.get('mode')==='dev')d.setAttribute('data-dev','1');if(q.get('mode')==='plain')d.removeAttribute('data-dev');})();</script>
+<link rel="stylesheet" href="/app.css">
+<script src="/app.js" defer></script>
+</head>
+<body class="grain">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+<nav class="navbar" aria-label="Main">
+  <a class="logo" href="/" aria-label="SIGSHIP home"><svg width="27" height="22" viewBox="0 0 256 211" aria-hidden="true"><rect width="12" height="211" rx="6" fill="currentColor"/><rect x="16" y="12.8" width="240" height="160" rx="9.6" fill="var(--brand)"/><rect x="99.2" y="56" width="73.6" height="73.6" fill="#fff"/></svg><b>SIGSHIP</b></a>
+  <div class="menus">
+    <div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Product</button><div class="mega"><a href="/checks/"><b>The 17 checks</b><span>What we look for, in plain words</span></a><a href="/cloud/"><b>SIGSHIP Cloud</b><span>Nightly checks + dashboard</span></a><a href="/badge/"><b>Verified badge</b><span>Show customers you checked</span></a><a href="/lookout/"><b>Lookout</b><span>New threats, caught early</span></a><a href="/pricing/"><b>Pricing</b><span>Free forever, plans soon</span></a></div></div><div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Developers</button><div class="mega"><a href="/docs/"><b>Docs</b><span>Install, flags, exit codes</span></a><a href="/agents/"><b>AI agents</b><span>Claude Code, Cursor, MCP</span></a><a href="/api/"><b>API</b><span>Connect SIGSHIP Cloud</span></a><a href="/changelog/"><b>Changelog</b><span>Every change, dated</span></a><a href="/releases/"><b>Releases</b><span>Versions and downloads</span></a></div></div><div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Resources</button><div class="mega"><a href="/resources/"><b>Guides</b><span>Check your Lovable or Bolt app</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/open-source/"><b>Open source</b><span>MIT, built in public</span></a><a href="/community/"><b>Community</b><span>GitHub, Discord and help</span></a></div></div>
+    <a class="nav-link" href="/pricing/">Pricing</a>
+  </div>
+  <div class="nav-acts">
+    <button class="mode-sw" type="button" data-mode-toggle aria-pressed="false" aria-label="Switch between simple and dev wording"><span class="knob"><i></i></span><span class="s">simple</span><span class="d">dev mode</span></button>
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between dark and light"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg></button>
+    <a class="icon-btn" href="https://github.com/sigship/sigship" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" role="img" aria-label="GitHub"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg></a>
+    <a class="btn btn-primary btn-sm nav-cta" href="/resources/">Check my app</a>
+    <button class="burger" type="button" data-mobile-toggle aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" hidden>
+  <a href="/checks/">The 17 checks</a><a href="/cloud/">SIGSHIP Cloud</a><a href="/badge/">Verified badge</a><a href="/lookout/">Lookout</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><a href="/agents/">AI agents</a><a href="/api/">API</a><a href="/changelog/">Changelog</a><a href="/releases/">Releases</a><a href="/resources/">Guides</a><a href="/glossary/">Jargon, explained</a><a href="/open-source/">Open source</a><a href="/community/">Community</a>
+  <div class="row"><button type="button" data-mode-toggle aria-pressed="false"><span class="s">Dev mode: off</span><span class="d">Dev mode: on</span></button><button type="button" data-theme-toggle aria-label="Switch between dark and light"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg> Theme</button></div>
+  <div class="row"><a class="btn btn-primary" href="/resources/">Check my app</a></div>
+</div>
+</header>
+<main id="main">
+<section class="page-hero"><div class="grid-bg"></div><div class="glow" style="--c:var(--violet)"></div><div class="in">
+
+<div class="eyebrow" style="--c:var(--violet)"><i></i>Open source · MIT</div>
+<h1 class="display split-h"><span class="w"><i style="--i:0">Open&nbsp;</i></span><span class="w"><i style="--i:1">by&nbsp;</i></span><span class="w"><i style="--i:2">default.&nbsp;</i></span></h1>
+<p class="lede rv" style="--d:.2s">You should be able to read every line of the tool that checks your code. So you can.</p>
+<div class="extra rv" style="--d:.3s"><a class="btn btn-primary btn-lg" href="https://github.com/sigship/sigship"><svg width="16" height="16" viewBox="0 0 24 24" role="img" aria-label="GitHub"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg> View on GitHub</a></div>
+</div></section><section class="sec sec-tight"><div class="wrap wrap-5"><div class="grid-3"><div class="card"><h3>Read it</h3><p class="sub">Zero dependencies. Every check is a small, readable rule.</p></div><div class="card"><h3>Improve it</h3><p class="sub">Found a false alarm or a missed mistake? Open an issue or PR.</p></div><div class="card"><h3>Use it anywhere</h3><p class="sub">MIT license — personal, commercial, client work.</p></div></div></div></section><section class="sec sec-tight"><div class="wrap wrap-5"><div class="grid-2" style="align-items:center;gap:32px"><div><h2 class="display" style="font-size:1.875rem">Powered and backed by <span class="text-spectrum">zoof04</span></h2><p class="muted" style="margin-top:12px">SIGSHIP is built and maintained by Zoof04 Inc. The core stays free and open forever; Cloud and Pro fund the work.</p></div><div class="code"><div class="code-t code-row"><span>Contribute</span><button class="copy-btn" type="button" data-copy="git clone https://github.com/sigship/sigship
+cd sigship
+npm test"><span class="copy-label">copy</span></button></div><pre><code>git clone https://github.com/sigship/sigship
+cd sigship
+npm test</code></pre></div></div></div></section>
+</main>
+<footer class="foot">
+<div class="foot-grid">
+  <div><a class="logo" href="/" aria-label="SIGSHIP home"><svg width="27" height="22" viewBox="0 0 256 211" aria-hidden="true"><rect width="12" height="211" rx="6" fill="currentColor"/><rect x="16" y="12.8" width="240" height="160" rx="9.6" fill="var(--brand)"/><rect x="99.2" y="56" width="73.6" height="73.6" fill="#fff"/></svg><b>SIGSHIP</b></a><p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p></div>
+  <div class="col"><div class="k">Product</div><ul><li><a href="/checks/">17 checks</a></li><li><a href="/cloud/">Cloud</a></li><li><a href="/badge/">Verified badge</a></li><li><a href="/lookout/">Lookout</a></li><li><a href="/pricing/">Pricing</a></li></ul></div><div class="col"><div class="k">Developers</div><ul><li><a href="/docs/">Docs</a></li><li><a href="/agents/">AI agents</a></li><li><a href="/api/">API</a></li><li><a href="/changelog/">Changelog</a></li><li><a href="/releases/">Releases</a></li></ul></div><div class="col"><div class="k">Company</div><ul><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Guides</a></li><li><a href="/open-source/">Open source</a></li><li><a href="/community/">Community</a></li><li><a href="/brand/">Brand</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="word" aria-hidden="true">SIGSHIP</div>
+<div class="legal"><span>© 2026 SIGSHIP by Zoof04 Inc. · MIT licensed · <a href="mailto:support@sigship.dev">support@sigship.dev</a></span><span>A GO means our checks found nothing blocking launch. It does not prove the app is safe.</span></div>
+</footer>
+<p class="sr" id="live" aria-live="polite"></p>
+</body>
+</html>

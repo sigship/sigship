@@ -3,193 +3,161 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Features: what SIGSHIP checks in your AI-built app | SIGSHIP</title>
-<meta name="description" content="What SIGSHIP finds in apps built with Lovable, Bolt, Cursor or Replit: leaked API keys, open Supabase tables, fake payments and runaway AI bills, plus the fix.">
-<link rel="canonical" href="https://sigship.dev/features/">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<title>The 17 checks — SIGSHIP</title>
+<meta name="description" content="Every mistake SIGSHIP looks for in AI-built apps, in plain words with the fix.">
+<link rel="canonical" href="https://sigship.dev/checks/">
+<meta name="robots" content="noindex, follow">
+<meta name="author" content="Zoof04 Inc.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SIGSHIP">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Features: what SIGSHIP checks in your AI-built app | SIGSHIP">
-<meta property="og:description" content="What SIGSHIP finds in apps built with Lovable, Bolt, Cursor or Replit: leaked API keys, open Supabase tables, fake payments and runaway AI bills, plus the fix.">
-<meta property="og:url" content="https://sigship.dev/features/">
+<meta property="og:title" content="The 17 checks — SIGSHIP">
+<meta property="og:description" content="Every mistake SIGSHIP looks for in AI-built apps, in plain words with the fix.">
+<meta property="og:url" content="https://sigship.dev/checks/">
 <meta property="og:image" content="https://sigship.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Features: what SIGSHIP checks in your AI-built app | SIGSHIP">
-<meta name="twitter:description" content="What SIGSHIP finds in apps built with Lovable, Bolt, Cursor or Replit: leaked API keys, open Supabase tables, fake payments and runaway AI bills, plus the fix.">
+<meta name="twitter:title" content="The 17 checks — SIGSHIP">
+<meta name="twitter:description" content="Every mistake SIGSHIP looks for in AI-built apps, in plain words with the fix.">
 <meta name="twitter:image" content="https://sigship.dev/og.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
+<link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt">
 <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
-<meta name="theme-color" content="#0b1324">
-<meta name="color-scheme" content="light dark">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sigship.dev/"},{"@type":"ListItem","position":2,"name":"Features","item":"https://sigship.dev/features/"}]}]}</script>
-<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t==='system'?matchMedia('(prefers-color-scheme: dark)').matches:t!=='light');if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#0b1324':'#f6f7f9';if(m==='off')d.dataset.motion='off';var mo;try{mo=localStorage.getItem('sigship-mode')}catch(e){}if(q.get('mode'))mo=q.get('mode');if(!mo&&/github\.com|npmjs\.com|modelcontextprotocol|mcp\.so|glama\.ai|smithery\.ai/.test(document.referrer))mo='dev';if(mo==='dev')d.dataset.mode='dev';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
-<link rel="stylesheet" href="/home.css">
-<link rel="stylesheet" href="/page.css">
-<script src="/page.js" defer></script>
-<script src="/harbour.js" defer></script>
+<meta name="theme-color" content="#121316">
+<meta name="color-scheme" content="dark light">
+
+<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null,m=null;try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-dev')}catch(e){}if(t==='light')d.classList.add('light');if(m==='1'||(m===null&&/github\.com|npmjs\.com/.test(document.referrer)))d.setAttribute('data-dev','1');var q=new URLSearchParams(location.search);if(q.get('theme')==='light')d.classList.add('light');if(q.get('theme')==='dark')d.classList.remove('light');if(q.get('mode')==='dev')d.setAttribute('data-dev','1');if(q.get('mode')==='plain')d.removeAttribute('data-dev');})();</script>
+<link rel="stylesheet" href="/app.css">
+<script src="/app.js" defer></script>
 </head>
-<body>
+<body class="grain">
 <a class="skip" href="#main">Skip to content</a>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-blue)"/></symbol>
-<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
-<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/><rect x="15" width="15" height="60" fill="var(--flag-blue)"/><rect x="45" width="15" height="60" fill="var(--flag-blue)"/><rect x="75" width="15" height="60" fill="var(--flag-blue)"/></symbol>
-<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--flag-red)"/></symbol>
-<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
-<symbol id="flag-q" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/></symbol>
-<symbol id="flag-c" viewBox="0 0 90 60"><rect width="90" height="12" fill="var(--flag-blue)"/><rect y="12" width="90" height="12" fill="var(--flag-white)"/><rect y="24" width="90" height="12" fill="var(--flag-red)"/><rect y="36" width="90" height="12" fill="var(--flag-white)"/><rect y="48" width="90" height="12" fill="var(--flag-blue)"/></symbol>
-<symbol id="g-dagger" viewBox="0 0 10 18"><path d="M4.1 0h1.8v4.6h3.6v1.8H5.9V18H4.1V6.4H.5V4.6h3.6z"/></symbol>
-<symbol id="g-right" viewBox="0 0 16 16"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></symbol>
-<symbol id="g-down" viewBox="0 0 16 16"><path d="M8 2.5V13M4 9l4 4 4-4"/></symbol>
-<symbol id="g-up" viewBox="0 0 16 16"><path d="M8 13.5V3M4 7l4-4 4 4"/></symbol>
-<symbol id="g-prev" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></symbol>
-<symbol id="g-next" viewBox="0 0 16 16"><path d="M6 3.5l4.5 4.5L6 12.5"/></symbol>
-<symbol id="g-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
-</defs></svg>
-<header class="mast" id="top">
-  <a class="brand" href="/" aria-label="SIGSHIP home"><svg viewBox="0 0 34 28" aria-hidden="true"><rect x="1" width="2.4" height="28" rx="1.2" fill="var(--ink)"/><rect x="3.4" y="2" width="29.6" height="20" rx="1" fill="var(--blue)"/><rect x="13.27" y="8.67" width="9.87" height="6.67" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/lookout/">Lookout</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/lookout/"><b>The Lookout</b><span>New ways in, and what we do about each</span></a><a href="/flags/"><b>GO flags</b><span>Cleared, Verified, Pilot on board</span></a><a href="/ai-agents/"><b>AI agents</b><span>Claude Code, Cursor and MCP</span></a><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a href="/community/"><b>Community</b><span>GitHub, Discord and help</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div></nav>
-  <div class="acts">
-    <button class="sw" type="button" data-mode-toggle aria-pressed="false" aria-label="Switch between plain words and developer mode"><span class="l1">Plain</span><span class="knob" aria-hidden="true"></span><span class="l2">Dev</span></button>
-    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
-    <a class="cta-plain plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app</a>
-    <button class="pill-cmd dev-only" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
-    <button class="icon-btn menu-btn" type="button" commandfor="menu" command="show-modal" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
+<header class="top">
+<nav class="navbar" aria-label="Main">
+  <a class="logo" href="/" aria-label="SIGSHIP home"><svg width="27" height="22" viewBox="0 0 256 211" aria-hidden="true"><rect width="12" height="211" rx="6" fill="currentColor"/><rect x="16" y="12.8" width="240" height="160" rx="9.6" fill="var(--brand)"/><rect x="99.2" y="56" width="73.6" height="73.6" fill="#fff"/></svg><b>SIGSHIP</b></a>
+  <div class="menus">
+    <div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Product</button><div class="mega"><a href="/checks/"><b>The 17 checks</b><span>What we look for, in plain words</span></a><a href="/cloud/"><b>SIGSHIP Cloud</b><span>Nightly checks + dashboard</span></a><a href="/badge/"><b>Verified badge</b><span>Show customers you checked</span></a><a href="/lookout/"><b>Lookout</b><span>New threats, caught early</span></a><a href="/pricing/"><b>Pricing</b><span>Free forever, plans soon</span></a></div></div><div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Developers</button><div class="mega"><a href="/docs/"><b>Docs</b><span>Install, flags, exit codes</span></a><a href="/agents/"><b>AI agents</b><span>Claude Code, Cursor, MCP</span></a><a href="/api/"><b>API</b><span>Connect SIGSHIP Cloud</span></a><a href="/changelog/"><b>Changelog</b><span>Every change, dated</span></a><a href="/releases/"><b>Releases</b><span>Versions and downloads</span></a></div></div><div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Resources</button><div class="mega"><a href="/resources/"><b>Guides</b><span>Check your Lovable or Bolt app</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/open-source/"><b>Open source</b><span>MIT, built in public</span></a><a href="/community/"><b>Community</b><span>GitHub, Discord and help</span></a></div></div>
+    <a class="nav-link" href="/pricing/">Pricing</a>
   </div>
-</header>
-<main class="page wide" id="main">
-<header class="phero">
-<p class="eyebrow"><b>SIGSHIP</b><i></i><span>Features</span></p>
-<h1>Everything it does. <span>In plain English.</span></h1>
-<p class="lede">SIGSHIP reads the code your AI tool wrote and tells you, before launch, what will leak, break or cost you money. <b>Then it hands you the fix.</b></p>
-<div class="acts-row"><a class="btn-ink" href="/docs/">Get started free</a><a class="btn-line" href="/pricing/">See pricing</a></div>
-</header>
-
-<section class="block"><h2>Catches the mistakes <span>that cost you.</span></h2>
-<p class="sub">17 checks, chosen from how AI-built apps actually fail: leaked keys, open databases, fake payments and runaway AI bills. Tap any check to see what goes wrong and how to fix it.</p>
-<div class="sevlist"><div class="sevcol"><h3><span class="dot" style="background:var(--red)"></span>SEV-1 · 8 checks</h3><p>Blocks launch. Puts your data or money at risk.</p>
-<ul><li><a href="/checks/secret-in-code/">A live secret is sitting in your code</a></li><li><a href="/checks/env-file-committed/">Your .env file is committed</a></li><li><a href="/checks/public-env-secret/">A server secret has a browser-visible name</a></li><li><a href="/checks/ai-key-in-browser/">Your AI key runs in the browser</a></li><li><a href="/checks/rls-missing/">A database table has no row level security</a></li><li><a href="/checks/rls-open-write/">A database policy lets anyone write</a></li><li><a href="/checks/stripe-webhook-unverified/">Your Stripe webhook accepts anything</a></li><li><a href="/checks/sql-string-concat/">User input may be pasted into a SQL query</a></li></ul></div><div class="sevcol"><h3><span class="dot" style="background:var(--yellow)"></span>SEV-2 · 3 checks</h3><p>Blocks launch. Makes abuse easy.</p>
-<ul><li><a href="/checks/ai-route-no-rate-limit/">Your AI route has no spending brake</a></li><li><a href="/checks/role-in-local-storage/">Admin access is decided in the browser</a></li><li><a href="/checks/unsanitized-html/">Raw HTML goes straight onto the page</a></li></ul></div><div class="sevcol"><h3><span class="dot" style="background:var(--lamp-slate)"></span>SEV-3 · 6 checks</h3><p>Worth fixing. Blocks only in strict mode.</p>
-<ul><li><a href="/checks/cors-wildcard/">Any website can call your API</a></li><li><a href="/checks/secret-in-logs/">A secret may be going to your logs</a></li><li><a href="/checks/no-error-boundary/">One crash takes down the whole screen</a></li><li><a href="/checks/no-error-tracking/">You will hear about errors from your users</a></li><li><a href="/checks/no-tests/">Nothing checks that a change did not break login</a></li><li><a href="/checks/no-lockfile/">Your deploys are not repeatable</a></li></ul></div></div></section>
-
-<section class="block"><h2>Fixes with the AI tool <span>you already use.</span></h2>
-<div class="split2"><div>
-<p>Every problem comes with a plain fix. Run <code>npx sigship --prompt</code> and you get one prompt with every fix, in order, ready to paste into Lovable, Cursor, Bolt, Replit or Claude Code.</p>
-<p>Your AI tool makes the changes. Run SIGSHIP again, and when it says GO, nothing serious is left.</p>
-<p><a href="/ai-agents/">Let your coding agent do the loop for you →</a></p>
-</div><div class="code"><div class="code-bar"><span>Real output · npx sigship --prompt</span><button class="copy-btn" type="button" data-copy="Fix these production problems in order. Change only what each fix needs.
-After the fixes, run `npx sigship` again and keep going until it exits 0.
-If a fix needs a key rotated or a dashboard changed, stop and tell me what to do.
-
-1. [SEV-1] Your Stripe webhook accepts anything
-   Where: src/api/stripe-webhook.ts:3
-   Fix: Verify every event with stripe.webhooks.constructEvent, using the raw request body and your webhook signing secret, before you act on it.
-2. [SEV-1] A database table has no row level security
-   Where: supabase/migrations/001_init.sql:1
-   Fix: Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner.
-3. [SEV-2] Your AI route has no spending brake
-   Where: src/api/chat.ts:2
-   Fix: Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard." data-copy-label="Real output · npx sigship --prompt">Copy</button></div><pre><code>Fix these production problems in order. Change only what each fix needs.
-After the fixes, run `npx sigship` again and keep going until it exits 0.
-If a fix needs a key rotated or a dashboard changed, stop and tell me what to do.
-
-1. [SEV-1] Your Stripe webhook accepts anything
-   Where: src/api/stripe-webhook.ts:3
-   Fix: Verify every event with stripe.webhooks.constructEvent, using the raw request body and your webhook signing secret, before you act on it.
-2. [SEV-1] A database table has no row level security
-   Where: supabase/migrations/001_init.sql:1
-   Fix: Add &quot;alter table &lt;name&gt; enable row level security;&quot; in a new migration, then write a policy that limits each row to its owner.
-3. [SEV-2] Your AI route has no spending brake
-   Where: src/api/chat.ts:2
-   Fix: Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard.</code></pre></div></div></section>
-
-<section class="block"><h2>Runs where <span>you work.</span></h2>
-<div class="cards">
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6l5 6-5 6M12 18h8"/></svg></span><h3>Your terminal</h3><p>One command, no signup. A clear GO or NO-GO in seconds.</p></div>
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span><h3>Your browser</h3><p>Prefer buttons? <code>npx sigship ui</code> opens a private dashboard on your own computer.</p></div>
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 8.5v7M18 15.5V9a3 3 0 0 0-3-3h-4M13 4l-2 2 2 2"/></svg></span><h3>Every pull request</h3><p>A GitHub check that fails when a change brings a serious problem back.</p></div>
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9 16h6"/></svg></span><h3>Your AI coding agent</h3><p>Connect it to Claude Code, Cursor and others, with one rule: the job isn't done until SIGSHIP says GO.</p><a class="more" href="/ai-agents/">AI agents →</a></div>
-</div></section>
-
-<section class="block"><h2>Private <span>by design.</span></h2>
-<div class="cards">
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><h3>Nothing leaves your machine</h3><p>The free tool makes no network calls. Your code, keys and findings stay with you.</p></div>
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><h3>Never prints a secret</h3><p>When it finds a leaked key it tells you where, never what.</p></div>
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></span><h3>Open source</h3><p>Free to use, with all the code public on GitHub, so anyone can check what it does.</p><a class="more" href="https://github.com/sigship/sigship">GitHub →</a></div>
-<div class="card"><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 9.5C8 19.3 5 15.5 5 11V6l7-3z"/></svg></span><h3>An honest verdict</h3><p>GO means these checks found nothing that blocks launch. It does not prove your app is safe, and we say so.</p></div>
-</div></section>
-
-<section class="block"><h2>Coming with <span>paid plans.</span></h2>
-<p class="sub">Planned features, on the waitlist. They arrive at launch.</p>
-<div class="cards">
-<div class="card"><span class="tagline">Waitlist</span><h3>More checks</h3><p>Deeper Supabase policy checks, security headers, login rate limits, risky packages and secrets in your git history.</p></div>
-<div class="card"><span class="tagline">Waitlist</span><h3>Reports for clients</h3><p>A clean report and a pre-launch checklist you can send to a client or investor.</p></div>
-<div class="card"><span class="tagline">Waitlist</span><h3>SIGSHIP Cloud</h3><p>Connect a repo once. We check every change and watch your live site, and tell you what to fix in plain English.</p></div>
+  <div class="nav-acts">
+    <button class="mode-sw" type="button" data-mode-toggle aria-pressed="false" aria-label="Switch between simple and dev wording"><span class="knob"><i></i></span><span class="s">simple</span><span class="d">dev mode</span></button>
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between dark and light"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg></button>
+    <a class="icon-btn" href="https://github.com/sigship/sigship" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" role="img" aria-label="GitHub"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg></a>
+    <a class="btn btn-primary btn-sm nav-cta" href="/resources/">Check my app</a>
+    <button class="burger" type="button" data-mobile-toggle aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" hidden>
+  <a href="/checks/">The 17 checks</a><a href="/cloud/">SIGSHIP Cloud</a><a href="/badge/">Verified badge</a><a href="/lookout/">Lookout</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><a href="/agents/">AI agents</a><a href="/api/">API</a><a href="/changelog/">Changelog</a><a href="/releases/">Releases</a><a href="/resources/">Guides</a><a href="/glossary/">Jargon, explained</a><a href="/open-source/">Open source</a><a href="/community/">Community</a>
+  <div class="row"><button type="button" data-mode-toggle aria-pressed="false"><span class="s">Dev mode: off</span><span class="d">Dev mode: on</span></button><button type="button" data-theme-toggle aria-label="Switch between dark and light"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg> Theme</button></div>
+  <div class="row"><a class="btn btn-primary" href="/resources/">Check my app</a></div>
 </div>
-<div class="acts-row"><a class="btn-line" href="/roadmap/">See the roadmap</a><a class="btn-line" href="/pricing/">Compare plans</a></div></section>
-<section class="cta-band" aria-labelledby="cta-h">
-<div><h2 id="cta-h">Check your app before your users do.</h2><p>Free, open source, and nothing leaves your machine.</p></div>
-<div><div class="cta-cmd dev-only"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div><a class="btn-ink cta-go plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a>
-<div class="cta-links"><a href="/docs/">Read the docs</a><a href="/pricing/">See pricing</a><a href="/lookout/">The Lookout</a></div></div>
-</section>
+</header>
+<main id="main">
+<section class="page-hero"><div class="grid-bg"></div><div class="glow" style="--c:var(--amber)"></div><div class="in">
+
+<div class="eyebrow" style="--c:var(--amber)"><i></i>The 17 checks</div>
+<h1 class="display split-h"><span class="w"><i style="--i:0">Every&nbsp;</i></span><span class="w"><i style="--i:1">mistake&nbsp;</i></span><span class="w"><i style="--i:2">we&nbsp;</i></span><span class="w"><i style="--i:3">look&nbsp;</i></span><span class="w"><i style="--i:4">for,&nbsp;</i></span><span class="w"><i style="--i:5">in&nbsp;</i></span><span class="w"><i style="--i:6">plain&nbsp;</i></span><span class="w"><i style="--i:7">words.&nbsp;</i></span></h1>
+<p class="lede rv" style="--d:.2s">Hover any card to see the fix. Switch on Dev mode in the menu to see rule IDs and severity codes.</p>
+
+</div></section><section class="sec sec-tight"><div class="wrap wrap-5"><div class="levels-row"><div class="card card-sm" style="--c:var(--stop)"><b>Fix now</b><div>Don't launch until this is fixed. <span class="mono" style="font-size:.75rem">(SEV-1)</span></div></div><div class="card card-sm" style="--c:var(--warn)"><b>Fix soon</b><div>Fix this before you grow. <span class="mono" style="font-size:.75rem">(SEV-2)</span></div></div><div class="card card-sm" style="--c:var(--muted-foreground)"><b>Nice to fix</b><div>Good habit, low risk. <span class="mono" style="font-size:.75rem">(SEV-3)</span></div></div></div><div class="filters" role="group" aria-label="Filter by what the check protects"><button class="chip" type="button" data-group="all" aria-pressed="true">All 17</button><button class="chip" type="button" data-group="keys" aria-pressed="false">🔑 Keys & passwords</button><button class="chip" type="button" data-group="data" aria-pressed="false">🗂️ Your users' data</button><button class="chip" type="button" data-group="payments" aria-pressed="false">💳 Payments</button><button class="chip" type="button" data-group="ai" aria-pressed="false">✨ AI costs</button><button class="chip" type="button" data-group="login" aria-pressed="false">🔐 Logins</button><button class="chip" type="button" data-group="web" aria-pressed="false">🌐 Website safety</button><button class="chip" type="button" data-group="ops" aria-pressed="false">🧰 Launch hygiene</button></div>
+<div class="check-grid"><a class="check-card rv" href="/checks/secret-in-code/" data-group="keys" style="--c:var(--amber);--d:0s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🔑</span><span class="tag" style="--c:var(--stop)"><span class="s">Fix now</span><span class="d">SEV-1</span></span></div><h3><span class="s">A live secret is sitting in your code</span><span class="d">secret-in-code</span></h3><p class="risk">Anyone who reads your code or your site’s JavaScript can copy it and spend your money.</p></div>
+<div class="back"><div class="k">The fix</div><p>Rotate the key, then move it to a server-side environment variable.</p><div class="id">secret-in-code</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/env-file-committed/" data-group="keys" style="--c:var(--amber);--d:0.03s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🔑</span><span class="tag" style="--c:var(--stop)"><span class="s">Fix now</span><span class="d">SEV-1</span></span></div><h3><span class="s">Your .env file is committed</span><span class="d">env-file-committed</span></h3><p class="risk">Your .env file is in the repo, so every password in it is public.</p></div>
+<div class="back"><div class="k">The fix</div><p>Remove .env from git, add it to .gitignore, and rotate every value.</p><div class="id">env-file-committed</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/public-env-secret/" data-group="keys" style="--c:var(--amber);--d:0.06s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🔑</span><span class="tag" style="--c:var(--stop)"><span class="s">Fix now</span><span class="d">SEV-1</span></span></div><h3><span class="s">A server secret has a browser-visible name</span><span class="d">public-env-secret</span></h3><p class="risk">A NEXT_PUBLIC_ or VITE_ name ships the secret to every visitor’s browser.</p></div>
+<div class="back"><div class="k">The fix</div><p>Drop the public prefix and move the call to a server route.</p><div class="id">public-env-secret</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/ai-key-in-browser/" data-group="ai" style="--c:var(--pink);--d:0.09s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">✨</span><span class="tag" style="--c:var(--stop)"><span class="s">Fix now</span><span class="d">SEV-1</span></span></div><h3><span class="s">Your AI key runs in the browser</span><span class="d">ai-key-in-browser</span></h3><p class="risk">Strangers copy your key from the browser and use your OpenAI credits for free.</p></div>
+<div class="back"><div class="k">The fix</div><p>Call the AI from a server route that holds the key.</p><div class="id">ai-key-in-browser</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/rls-missing/" data-group="data" style="--c:var(--violet);--d:0.12s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🗂️</span><span class="tag" style="--c:var(--stop)"><span class="s">Fix now</span><span class="d">SEV-1</span></span></div><h3><span class="s">A database table has no row level security</span><span class="d">rls-missing</span></h3><p class="risk">Anyone with your public key can read every row in this table.</p></div>
+<div class="back"><div class="k">The fix</div><p>Turn on row level security and add an owner-only policy.</p><div class="id">rls-missing</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/rls-open-write/" data-group="data" style="--c:var(--violet);--d:0.15s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🗂️</span><span class="tag" style="--c:var(--stop)"><span class="s">Fix now</span><span class="d">SEV-1</span></span></div><h3><span class="s">A database policy lets anyone write</span><span class="d">rls-open-write</span></h3><p class="risk">The lock exists, but it’s set to “allow all”. Anyone can edit or delete.</p></div>
+<div class="back"><div class="k">The fix</div><p>Replace true with a real condition, like auth.uid() = user_id.</p><div class="id">rls-open-write</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/stripe-webhook-unverified/" data-group="payments" style="--c:var(--lime);--d:0.18s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">💳</span><span class="tag" style="--c:var(--stop)"><span class="s">Fix now</span><span class="d">SEV-1</span></span></div><h3><span class="s">Your Stripe webhook accepts anything</span><span class="d">stripe-webhook-unverified</span></h3><p class="risk">Someone sends a fake “payment succeeded” and gets paid features free.</p></div>
+<div class="back"><div class="k">The fix</div><p>Verify every Stripe event with its signing secret.</p><div class="id">stripe-webhook-unverified</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/sql-string-concat/" data-group="data" style="--c:var(--violet);--d:0.21s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🗂️</span><span class="tag" style="--c:var(--stop)"><span class="s">Fix now</span><span class="d">SEV-1</span></span></div><h3><span class="s">User input may be pasted into a SQL query</span><span class="d">sql-string-concat</span></h3><p class="risk">A crafted form entry becomes a database command.</p></div>
+<div class="back"><div class="k">The fix</div><p>Use a parameterised query. Never build SQL with template strings.</p><div class="id">sql-string-concat</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/ai-route-no-rate-limit/" data-group="ai" style="--c:var(--pink);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">✨</span><span class="tag" style="--c:var(--warn)"><span class="s">Fix soon</span><span class="d">SEV-2</span></span></div><h3><span class="s">Your AI route has no spending brake</span><span class="d">ai-route-no-rate-limit</span></h3><p class="risk">One script loops overnight and you wake up to a huge bill.</p></div>
+<div class="back"><div class="k">The fix</div><p>Add a per-user rate limit and a monthly spending cap.</p><div class="id">ai-route-no-rate-limit</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/role-in-local-storage/" data-group="login" style="--c:var(--sky);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🔐</span><span class="tag" style="--c:var(--warn)"><span class="s">Fix soon</span><span class="d">SEV-2</span></span></div><h3><span class="s">Admin access is decided in the browser</span><span class="d">role-in-local-storage</span></h3><p class="risk">Users flip one browser setting and become admin.</p></div>
+<div class="back"><div class="k">The fix</div><p>Store roles in the database and check them on the server.</p><div class="id">role-in-local-storage</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/unsanitized-html/" data-group="web" style="--c:var(--teal);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🌐</span><span class="tag" style="--c:var(--warn)"><span class="s">Fix soon</span><span class="d">SEV-2</span></span></div><h3><span class="s">Raw HTML goes straight onto the page</span><span class="d">unsanitized-html</span></h3><p class="risk">A comment with a hidden script runs in every visitor’s browser.</p></div>
+<div class="back"><div class="k">The fix</div><p>Sanitise it with DOMPurify, or render it as plain text.</p><div class="id">unsanitized-html</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/cors-wildcard/" data-group="web" style="--c:var(--teal);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🌐</span><span class="tag" style="--c:var(--muted-foreground)"><span class="s">Nice to fix</span><span class="d">SEV-3</span></span></div><h3><span class="s">Any website can call your API</span><span class="d">cors-wildcard</span></h3><p class="risk">Other sites can talk to your app on your users’ behalf.</p></div>
+<div class="back"><div class="k">The fix</div><p>Replace the wildcard with your own domain.</p><div class="id">cors-wildcard</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/secret-in-logs/" data-group="keys" style="--c:var(--amber);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🔑</span><span class="tag" style="--c:var(--muted-foreground)"><span class="s">Nice to fix</span><span class="d">SEV-3</span></span></div><h3><span class="s">A secret may be going to your logs</span><span class="d">secret-in-logs</span></h3><p class="risk">Passwords end up in logs that more people can read than your database.</p></div>
+<div class="back"><div class="k">The fix</div><p>Log that it happened, never the value.</p><div class="id">secret-in-logs</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/no-error-boundary/" data-group="ops" style="--c:var(--coral);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🧰</span><span class="tag" style="--c:var(--muted-foreground)"><span class="s">Nice to fix</span><span class="d">SEV-3</span></span></div><h3><span class="s">One crash takes down the whole screen</span><span class="d">no-error-boundary</span></h3><p class="risk">One bad record gives your users a blank white page.</p></div>
+<div class="back"><div class="k">The fix</div><p>Add an error boundary (error.tsx in Next.js) with a retry.</p><div class="id">no-error-boundary</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/no-error-tracking/" data-group="ops" style="--c:var(--coral);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🧰</span><span class="tag" style="--c:var(--muted-foreground)"><span class="s">Nice to fix</span><span class="d">SEV-3</span></span></div><h3><span class="s">You will hear about errors from your users</span><span class="d">no-error-tracking</span></h3><p class="risk">Your app breaks for a week before anyone tells you.</p></div>
+<div class="back"><div class="k">The fix</div><p>Add an error tracker such as Sentry on the client and the server.</p><div class="id">no-error-tracking</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/no-tests/" data-group="ops" style="--c:var(--coral);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🧰</span><span class="tag" style="--c:var(--muted-foreground)"><span class="s">Nice to fix</span><span class="d">SEV-3</span></span></div><h3><span class="s">Nothing checks that a change did not break login</span><span class="d">no-tests</span></h3><p class="risk">A Friday fix breaks signup until Monday.</p></div>
+<div class="back"><div class="k">The fix</div><p>One test each for sign up, log in and pay, run on every pull request.</p><div class="id">no-tests</div><span class="more">How to fix it →</span></div>
+</a>
+<a class="check-card rv" href="/checks/no-lockfile/" data-group="ops" style="--c:var(--coral);--d:0.24s">
+<div class="glow"></div>
+<div class="front"><div class="row"><span class="emoji">🧰</span><span class="tag" style="--c:var(--muted-foreground)"><span class="s">Nice to fix</span><span class="d">SEV-3</span></span></div><h3><span class="s">Your deploys are not repeatable</span><span class="d">no-lockfile</span></h3><p class="risk">A package updates itself on deploy and your live app breaks.</p></div>
+<div class="back"><div class="k">The fix</div><p>Commit your lockfile.</p><div class="id">no-lockfile</div><span class="more">How to fix it →</span></div>
+</a></div></div></section>
 </main>
-<footer class="site-foot">
-  <div class="foot-top">
-    <div class="foot-brand">
-      <a class="brand" href="/" aria-label="SIGSHIP home"><svg viewBox="0 0 34 28" aria-hidden="true"><rect x="1" width="2.4" height="28" rx="1.2" fill="var(--ink)"/><rect x="3.4" y="2" width="29.6" height="20" rx="1" fill="var(--blue)"/><rect x="13.27" y="8.67" width="9.87" height="6.67" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-      <p><span class="plain-only">The safety check for apps made with AI. Know before your users do.</span><span class="dev-only">The go/no-go check for AI-built apps. The postmortem, before the outage.</span></p>
-      <div class="foot-cmd dev-only"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
-      <div class="foot-cta plain-only"><a class="btn-ink" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a></div>
-      <p class="ver-chip">v0.3.2 · <a href="/changelog/">Changelog</a></p>
-    </div>
-    <nav class="foot-cols" aria-label="Footer">
-      <div><p>Product</p><a href="/features/">Features</a><a href="/lookout/">The Lookout</a><a href="/flags/">GO flags</a><a href="/pricing/">Pricing</a><a href="/ai-agents/">AI agents</a><a href="/#checks">All 17 checks</a></div>
-      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="/lookout/rss.xml">Lookout RSS</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
-      <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="https://discord.gg/hKG6rNM4W">Discord</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
-      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="https://github.com/sigship/sigship/blob/main/SECURITY.md">Security policy</a></div>
-    </nav>
-  </div>
-  <div class="foot-ctl">
-    <fieldset class="ctl"><legend class="sr">Words</legend><span aria-hidden="true">Words</span><span class="opts"><label><input type="radio" name="mode-f" value="plain"><span>Plain</span></label><label><input type="radio" name="mode-f" value="dev"><span>Dev</span></label></span></fieldset>
-    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-f" value="system"><span>System</span></label><label><input type="radio" name="theme-f" value="light"><span>Day</span></label><label><input type="radio" name="theme-f" value="dark"><span>Night</span></label></span></fieldset>
-    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-f" value="on"><span>On</span></label><label><input type="radio" name="motion-f" value="off"><span>Off</span></label></span></fieldset>
-  </div>
-  <div class="foot-bottom">
-    <span>© 2026 Zoof04 Inc.</span>
-    <span class="foot-status"><span class="lamp warm" aria-hidden="true"></span>The free tool runs on your machine. Nothing leaves it.</span>
-    <span class="made-us"><svg viewBox="0 0 22 15" aria-hidden="true"><rect width="22" height="15" fill="#b22234"/><g fill="#fff"><rect y="1.15" width="22" height="1.15"/><rect y="3.46" width="22" height="1.15"/><rect y="5.77" width="22" height="1.15"/><rect y="8.08" width="22" height="1.15"/><rect y="10.38" width="22" height="1.15"/><rect y="12.69" width="22" height="1.15"/></g><rect width="9" height="8.08" fill="#3c3b6e"/></svg>Proudly conceived and built in the United States</span>
-    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  </div>
-  <div class="foot-word" aria-hidden="true"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><b>G</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><b>H</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><b>P</b></span></div>
+<footer class="foot">
+<div class="foot-grid">
+  <div><a class="logo" href="/" aria-label="SIGSHIP home"><svg width="27" height="22" viewBox="0 0 256 211" aria-hidden="true"><rect width="12" height="211" rx="6" fill="currentColor"/><rect x="16" y="12.8" width="240" height="160" rx="9.6" fill="var(--brand)"/><rect x="99.2" y="56" width="73.6" height="73.6" fill="#fff"/></svg><b>SIGSHIP</b></a><p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p></div>
+  <div class="col"><div class="k">Product</div><ul><li><a href="/checks/">17 checks</a></li><li><a href="/cloud/">Cloud</a></li><li><a href="/badge/">Verified badge</a></li><li><a href="/lookout/">Lookout</a></li><li><a href="/pricing/">Pricing</a></li></ul></div><div class="col"><div class="k">Developers</div><ul><li><a href="/docs/">Docs</a></li><li><a href="/agents/">AI agents</a></li><li><a href="/api/">API</a></li><li><a href="/changelog/">Changelog</a></li><li><a href="/releases/">Releases</a></li></ul></div><div class="col"><div class="k">Company</div><ul><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Guides</a></li><li><a href="/open-source/">Open source</a></li><li><a href="/community/">Community</a></li><li><a href="/brand/">Brand</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="word" aria-hidden="true">SIGSHIP</div>
+<div class="legal"><span>© 2026 SIGSHIP by Zoof04 Inc. · MIT licensed · <a href="mailto:support@sigship.dev">support@sigship.dev</a></span><span>A GO means our checks found nothing blocking launch. It does not prove the app is safe.</span></div>
 </footer>
-<dialog class="menu" id="menu" aria-label="Menu" closedby="any">
-  <div class="menu-in">
-    <div class="menu-head"><span>Menu</span><button class="icon-btn" type="button" commandfor="menu" command="close" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-    <ol class="menu-list">
-      <li><a href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Home</a></li>
-      <li><a href="/features/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Features</a></li>
-      <li><a href="/lookout/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>The Lookout</a></li>
-      <li><a href="/flags/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-q"/></svg>GO flags</a></li>
-      <li><a href="/pricing/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Pricing</a></li>
-      <li><a href="/docs/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg>Docs</a></li>
-      <li><a href="/ai-agents/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-c"/></svg>AI agents</a></li>
-      <li><a href="/resources/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Resources</a></li>
-      <li><a href="/community/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Community</a></li>
-    </ol>
-    <button class="btn-ink dev-only" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
-    <a class="btn-ink plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a>
-    <fieldset class="ctl"><legend class="sr">Words</legend><span aria-hidden="true">Words</span><span class="opts"><label><input type="radio" name="mode-m" value="plain"><span>Plain</span></label><label><input type="radio" name="mode-m" value="dev"><span>Dev</span></label></span></fieldset>
-    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-m" value="system"><span>System</span></label><label><input type="radio" name="theme-m" value="light"><span>Day</span></label><label><input type="radio" name="theme-m" value="dark"><span>Night</span></label></span></fieldset>
-    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-m" value="on"><span>On</span></label><label><input type="radio" name="motion-m" value="off"><span>Off</span></label></span></fieldset>
-    <p class="menu-by">SIGSHIP is made by zoof04.</p>
-  </div>
-</dialog>
 <p class="sr" id="live" aria-live="polite"></p>
 </body>
 </html>

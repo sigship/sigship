@@ -3,137 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Raw HTML rendered with dangerouslySetInnerHTML: XSS risk | SIGSHIP</title>
+<title>Raw HTML rendered with dangerouslySetInnerHTML: XSS risk — SIGSHIP</title>
 <meta name="description" content="Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can…">
 <link rel="canonical" href="https://sigship.dev/checks/unsanitized-html/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Zoof04 Inc.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="SIGSHIP">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Raw HTML rendered with dangerouslySetInnerHTML: XSS risk | SIGSHIP">
+<meta property="og:title" content="Raw HTML rendered with dangerouslySetInnerHTML: XSS risk — SIGSHIP">
 <meta property="og:description" content="Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can…">
 <meta property="og:url" content="https://sigship.dev/checks/unsanitized-html/">
 <meta property="og:image" content="https://sigship.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Raw HTML rendered with dangerouslySetInnerHTML: XSS risk | SIGSHIP">
+<meta name="twitter:title" content="Raw HTML rendered with dangerouslySetInnerHTML: XSS risk — SIGSHIP">
 <meta name="twitter:description" content="Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can…">
 <meta name="twitter:image" content="https://sigship.dev/og.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
+<link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt">
 <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
-<meta name="theme-color" content="#0b1324">
-<meta name="color-scheme" content="light dark">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sigship.dev/"},{"@type":"ListItem","position":2,"name":"Checks","item":"https://sigship.dev/#checks"},{"@type":"ListItem","position":3,"name":"Raw HTML goes straight onto the page","item":"https://sigship.dev/checks/unsanitized-html/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is XSS?","acceptedAnswer":{"@type":"Answer","text":"Cross-site scripting: when an attacker gets their own code to run on your site in other people's browsers, usually through text your app shows without cleaning it first."}},{"@type":"Question","name":"How do I fix it?","acceptedAnswer":{"@type":"Answer","text":"Show user text as plain text, or clean it with a library such as DOMPurify before showing it as HTML."}}]},{"@type":"TechArticle","headline":"Raw HTML rendered with dangerouslySetInnerHTML: XSS risk","description":"Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can steal their login. This is called XSS (cross-site scripting).","url":"https://sigship.dev/checks/unsanitized-html/","inLanguage":"en","datePublished":"2026-11-08","dateModified":"2026-11-09","author":{"@id":"https://sigship.dev/#org"},"publisher":{"@type":"Organization","@id":"https://sigship.dev/#org","name":"Zoof04 Inc.","alternateName":"zoof04","url":"https://zoof04.com","email":"support@sigship.dev","logo":"https://sigship.dev/apple-touch-icon.png","sameAs":["https://github.com/sigship/sigship","https://www.npmjs.com/package/sigship","https://discord.gg/hKG6rNM4W"]},"about":"Raw HTML goes straight onto the page","proficiencyLevel":"Beginner"}]}</script>
-<script>(function(){var d=document.documentElement,t,m;d.classList.add('js');try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-motion')}catch(e){}var q=new URLSearchParams(location.search);if(q.get('theme'))t=q.get('theme');if(q.get('motion'))m=q.get('motion');var dark=t==='dark'||(t==='system'?matchMedia('(prefers-color-scheme: dark)').matches:t!=='light');if(dark)d.classList.add('dark');document.querySelector('meta[name="theme-color"]').content=dark?'#0b1324':'#f6f7f9';if(m==='off')d.dataset.motion='off';var mo;try{mo=localStorage.getItem('sigship-mode')}catch(e){}if(q.get('mode'))mo=q.get('mode');if(!mo&&/github\.com|npmjs\.com|modelcontextprotocol|mcp\.so|glama\.ai|smithery\.ai/.test(document.referrer))mo='dev';if(mo==='dev')d.dataset.mode='dev';var calm=d.dataset.motion==='off'||matchMedia('(prefers-reduced-motion: reduce)').matches;if(!calm)d.classList.add('run-pending')})()</script>
-<link rel="stylesheet" href="/home.css">
-<link rel="stylesheet" href="/page.css">
-<script src="/page.js" defer></script>
-<script src="/harbour.js" defer></script>
+<meta name="theme-color" content="#121316">
+<meta name="color-scheme" content="dark light">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sigship.dev/"},{"@type":"ListItem","position":2,"name":"The 17 checks","item":"https://sigship.dev/checks/"},{"@type":"ListItem","position":3,"name":"Raw HTML goes straight onto the page","item":"https://sigship.dev/checks/unsanitized-html/"}]},{"@type":"TechArticle","headline":"Raw HTML rendered with dangerouslySetInnerHTML: XSS risk","description":"Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can steal their login. This is called XSS (cross-site scripting).","url":"https://sigship.dev/checks/unsanitized-html/","inLanguage":"en","datePublished":"2026-11-08","dateModified":"2026-11-09","author":{"@id":"https://sigship.dev/#org"},"publisher":{"@type":"Organization","@id":"https://sigship.dev/#org","name":"Zoof04 Inc.","alternateName":"zoof04","url":"https://zoof04.com","email":"support@sigship.dev","logo":"https://sigship.dev/apple-touch-icon.png","sameAs":["https://github.com/sigship/sigship","https://www.npmjs.com/package/sigship","https://discord.gg/hKG6rNM4W"]},"about":"Raw HTML goes straight onto the page","proficiencyLevel":"Beginner"}]}</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null,m=null;try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-dev')}catch(e){}if(t==='light')d.classList.add('light');if(m==='1'||(m===null&&/github\.com|npmjs\.com/.test(document.referrer)))d.setAttribute('data-dev','1');var q=new URLSearchParams(location.search);if(q.get('theme')==='light')d.classList.add('light');if(q.get('theme')==='dark')d.classList.remove('light');if(q.get('mode')==='dev')d.setAttribute('data-dev','1');if(q.get('mode')==='plain')d.removeAttribute('data-dev');})();</script>
+<link rel="stylesheet" href="/app.css">
+<script src="/app.js" defer></script>
 </head>
-<body>
+<body class="grain">
 <a class="skip" href="#main">Skip to content</a>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<symbol id="flag-s" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-white)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-blue)"/></symbol>
-<symbol id="flag-i" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/><circle cx="45" cy="30" r="17" fill="var(--flag-black)"/></symbol>
-<symbol id="flag-g" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/><rect x="15" width="15" height="60" fill="var(--flag-blue)"/><rect x="45" width="15" height="60" fill="var(--flag-blue)"/><rect x="75" width="15" height="60" fill="var(--flag-blue)"/></symbol>
-<symbol id="flag-h" viewBox="0 0 90 60"><rect width="45" height="60" fill="var(--flag-white)"/><rect x="45" width="45" height="60" fill="var(--flag-red)"/></symbol>
-<symbol id="flag-p" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-blue)"/><rect x="30" y="20" width="30" height="20" fill="var(--flag-white)"/></symbol>
-<symbol id="flag-q" viewBox="0 0 90 60"><rect width="90" height="60" fill="var(--flag-yellow)"/></symbol>
-<symbol id="flag-c" viewBox="0 0 90 60"><rect width="90" height="12" fill="var(--flag-blue)"/><rect y="12" width="90" height="12" fill="var(--flag-white)"/><rect y="24" width="90" height="12" fill="var(--flag-red)"/><rect y="36" width="90" height="12" fill="var(--flag-white)"/><rect y="48" width="90" height="12" fill="var(--flag-blue)"/></symbol>
-<symbol id="g-dagger" viewBox="0 0 10 18"><path d="M4.1 0h1.8v4.6h3.6v1.8H5.9V18H4.1V6.4H.5V4.6h3.6z"/></symbol>
-<symbol id="g-right" viewBox="0 0 16 16"><path d="M2.5 8h10.5M9 4l4 4-4 4"/></symbol>
-<symbol id="g-down" viewBox="0 0 16 16"><path d="M8 2.5V13M4 9l4 4 4-4"/></symbol>
-<symbol id="g-up" viewBox="0 0 16 16"><path d="M8 13.5V3M4 7l4-4 4 4"/></symbol>
-<symbol id="g-prev" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8l4.5 4.5"/></symbol>
-<symbol id="g-next" viewBox="0 0 16 16"><path d="M6 3.5l4.5 4.5L6 12.5"/></symbol>
-<symbol id="g-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
-</defs></svg>
-<header class="mast" id="top">
-  <a class="brand" href="/" aria-label="SIGSHIP home"><svg viewBox="0 0 34 28" aria-hidden="true"><rect x="1" width="2.4" height="28" rx="1.2" fill="var(--ink)"/><rect x="3.4" y="2" width="29.6" height="20" rx="1" fill="var(--blue)"/><rect x="13.27" y="8.67" width="9.87" height="6.67" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-  <nav class="nav" aria-label="Main"><a href="/features/">Features</a><a href="/lookout/">Lookout</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><div class="nav-dd"><button type="button" class="nav-dd-btn" aria-expanded="false" aria-controls="dd-res">Resources<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button><div class="dd" id="dd-res"><a href="/lookout/"><b>The Lookout</b><span>New ways in, and what we do about each</span></a><a href="/flags/"><b>GO flags</b><span>Cleared, Verified, Pilot on board</span></a><a href="/ai-agents/"><b>AI agents</b><span>Claude Code, Cursor and MCP</span></a><a href="/guides/"><b>Guides</b><span>Launch safely, in plain English</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/changelog/"><b>Changelog</b><span>Every release and what changed</span></a><a href="/roadmap/"><b>Roadmap</b><span>What's live and what's next</span></a><a href="/#checks"><b>All 17 checks</b><span>What each one catches</span></a><a href="/brand/"><b>Brand</b><span>Logos, colours and flags</span></a><a href="/community/"><b>Community</b><span>GitHub, Discord and help</span></a><a class="dd-all" href="/resources/"><b>All resources →</b></a></div></div></nav>
-  <div class="acts">
-    <button class="sw" type="button" data-mode-toggle aria-pressed="false" aria-label="Switch between plain words and developer mode"><span class="l1">Plain</span><span class="knob" aria-hidden="true"></span><span class="l2">Dev</span></button>
-    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between day and night"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
-    <a class="cta-plain plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app</a>
-    <button class="pill-cmd dev-only" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><span><span class="p">$</span> npx sigship</span><svg class="g" aria-hidden="true"><use href="#g-copy"/></svg></button>
-    <button class="icon-btn menu-btn" type="button" commandfor="menu" command="show-modal" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16"/></svg></button>
+<header class="top">
+<nav class="navbar" aria-label="Main">
+  <a class="logo" href="/" aria-label="SIGSHIP home"><svg width="27" height="22" viewBox="0 0 256 211" aria-hidden="true"><rect width="12" height="211" rx="6" fill="currentColor"/><rect x="16" y="12.8" width="240" height="160" rx="9.6" fill="var(--brand)"/><rect x="99.2" y="56" width="73.6" height="73.6" fill="#fff"/></svg><b>SIGSHIP</b></a>
+  <div class="menus">
+    <div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Product</button><div class="mega"><a href="/checks/"><b>The 17 checks</b><span>What we look for, in plain words</span></a><a href="/cloud/"><b>SIGSHIP Cloud</b><span>Nightly checks + dashboard</span></a><a href="/badge/"><b>Verified badge</b><span>Show customers you checked</span></a><a href="/lookout/"><b>Lookout</b><span>New threats, caught early</span></a><a href="/pricing/"><b>Pricing</b><span>Free forever, plans soon</span></a></div></div><div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Developers</button><div class="mega"><a href="/docs/"><b>Docs</b><span>Install, flags, exit codes</span></a><a href="/agents/"><b>AI agents</b><span>Claude Code, Cursor, MCP</span></a><a href="/api/"><b>API</b><span>Connect SIGSHIP Cloud</span></a><a href="/changelog/"><b>Changelog</b><span>Every change, dated</span></a><a href="/releases/"><b>Releases</b><span>Versions and downloads</span></a></div></div><div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Resources</button><div class="mega"><a href="/resources/"><b>Guides</b><span>Check your Lovable or Bolt app</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/open-source/"><b>Open source</b><span>MIT, built in public</span></a><a href="/community/"><b>Community</b><span>GitHub, Discord and help</span></a></div></div>
+    <a class="nav-link" href="/pricing/">Pricing</a>
   </div>
+  <div class="nav-acts">
+    <button class="mode-sw" type="button" data-mode-toggle aria-pressed="false" aria-label="Switch between simple and dev wording"><span class="knob"><i></i></span><span class="s">simple</span><span class="d">dev mode</span></button>
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between dark and light"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg></button>
+    <a class="icon-btn" href="https://github.com/sigship/sigship" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" role="img" aria-label="GitHub"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg></a>
+    <a class="btn btn-primary btn-sm nav-cta" href="/resources/">Check my app</a>
+    <button class="burger" type="button" data-mobile-toggle aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" hidden>
+  <a href="/checks/">The 17 checks</a><a href="/cloud/">SIGSHIP Cloud</a><a href="/badge/">Verified badge</a><a href="/lookout/">Lookout</a><a href="/pricing/">Pricing</a><a href="/docs/">Docs</a><a href="/agents/">AI agents</a><a href="/api/">API</a><a href="/changelog/">Changelog</a><a href="/releases/">Releases</a><a href="/resources/">Guides</a><a href="/glossary/">Jargon, explained</a><a href="/open-source/">Open source</a><a href="/community/">Community</a>
+  <div class="row"><button type="button" data-mode-toggle aria-pressed="false"><span class="s">Dev mode: off</span><span class="d">Dev mode: on</span></button><button type="button" data-theme-toggle aria-label="Switch between dark and light"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg> Theme</button></div>
+  <div class="row"><a class="btn btn-primary" href="/resources/">Check my app</a></div>
+</div>
 </header>
-<main class="page" id="main">
-<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/#checks">Checks</a></li><li aria-current="page">Raw HTML goes straight onto the page</li></ol></nav>
-<p class="sev">SEV-2 · Serious: fix before launch</p>
-<h1>Raw HTML goes straight onto the page</h1>
-<p class="plain"><b>In plain English:</b> Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can steal their login. This is called XSS (cross-site scripting).</p>
-<h2>What happens if you ship it</h2>
-<p>A comment or profile field carries a script, and it runs in the browser of every visitor who sees it.</p>
-<h2>How to fix it <span class="dev-tag">Technical</span></h2>
-<p class="fix">Sanitise the value with DOMPurify before rendering it, or render it as plain text.</p>
-<h2>Let your AI tool fix it</h2>
-<p>Paste this into Lovable, Bolt, Cursor, Replit or Claude Code:</p>
-<div class="code"><div class="code-bar"><span>Prompt for your AI tool</span><button class="copy-btn" type="button" data-copy="Fix this problem in my project: Raw HTML goes straight onto the page. Sanitise the value with DOMPurify before rendering it, or render it as plain text. Change only what this fix needs, then tell me what you changed and anything I have to do myself." data-copy-label="Prompt for your AI tool">Copy</button></div><pre><code>Fix this problem in my project: Raw HTML goes straight onto the page. Sanitise the value with DOMPurify before rendering it, or render it as plain text. Change only what this fix needs, then tell me what you changed and anything I have to do myself.</code></pre></div>
-<h2>Check your app</h2>
-<div class="try"><code class="cmd">npx sigship</code><p>Run it in your project folder. It reports this problem as <code>unsanitized-html</code>, along with 16 other checks. Nothing leaves your computer. <a href="/guides/check-lovable-bolt-replit-app/">New to the terminal?</a></p></div>
-<h2>Questions</h2>
-<div class="acc"><details><summary>What is XSS?</summary><div class="acc-body"><p>Cross-site scripting: when an attacker gets their own code to run on your site in other people's browsers, usually through text your app shows without cleaning it first.</p></div></details>
-<details><summary>How do I fix it?</summary><div class="acc-body"><p>Show user text as plain text, or clean it with a library such as DOMPurify before showing it as HTML.</p></div></details></div>
+<main id="main">
+<section class="page-hero"><div class="grid-bg"></div><div class="glow" style="--c:var(--teal)"></div><div class="in">
+<ol class="crumbs"><li><a href="/">Home</a></li><li><a href="/checks/">The 17 checks</a></li><li aria-current="page">Raw HTML goes straight onto the page</li></ol>
+<div class="eyebrow" style="--c:var(--teal)"><i></i>🌐 Website safety · Fix soon (SEV-2)</div>
+<h1 class="display split-h"><span class="w"><i style="--i:0">Raw&nbsp;</i></span><span class="w"><i style="--i:1">HTML&nbsp;</i></span><span class="w"><i style="--i:2">goes&nbsp;</i></span><span class="w"><i style="--i:3">straight&nbsp;</i></span><span class="w"><i style="--i:4">onto&nbsp;</i></span><span class="w"><i style="--i:5">the&nbsp;</i></span><span class="w"><i style="--i:6">page&nbsp;</i></span></h1>
+<p class="lede rv" style="--d:.2s"><b>In plain English:</b> Your app shows text from users as raw HTML. Someone can hide a script in a comment or profile, and it runs in the browser of everyone who views it, which can steal their login. This is called XSS (cross-site scripting).</p>
+
+</div></section><section class="sec sec-tight"><div class="wrap wrap-5"><div class="prose">
+<h2>What happens if you ship it</h2><p>A comment or profile field carries a script, and it runs in the browser of every visitor who sees it.</p>
+<h2>How to fix it <span class="tag tag-plain">technical</span></h2><div class="callout">Sanitise the value with DOMPurify before rendering it, or render it as plain text.</div>
+<h2>Let your AI tool fix it</h2><p>Paste this into Lovable, Bolt, Cursor, Replit or Claude Code:</p><div class="code"><div class="code-t code-row"><span>Prompt for your AI tool</span><button class="copy-btn" type="button" data-copy="Fix this problem in my project: Raw HTML goes straight onto the page. Sanitise the value with DOMPurify before rendering it, or render it as plain text. Change only what this fix needs, then tell me what you changed and anything I have to do myself."><span class="copy-label">copy</span></button></div><pre><code>Fix this problem in my project: Raw HTML goes straight onto the page. Sanitise the value with DOMPurify before rendering it, or render it as plain text. Change only what this fix needs, then tell me what you changed and anything I have to do myself.</code></pre></div>
+<h2>Check your app</h2><p>Run <code>npx sigship</code> in your project folder. It reports this problem as <code>unsanitized-html</code>, along with 16 other checks. Nothing leaves your computer. <a href="/resources/">New to the terminal?</a></p>
+<h2>Questions</h2></div><div class="faq" style="max-width:46rem"><details><summary>What is XSS?</summary><p>Cross-site scripting: when an attacker gets their own code to run on your site in other people's browsers, usually through text your app shows without cleaning it first.</p></details><details><summary>How do I fix it?</summary><p>Show user text as plain text, or clean it with a library such as DOMPurify before showing it as HTML.</p></details></div>
 <nav class="pager" aria-label="More checks"><a href="/checks/role-in-local-storage/"><span>Previous</span>Admin access is decided in the browser</a><a href="/checks/cors-wildcard/"><span>Next</span>Any website can call your API</a></nav>
-<p><a href="/#checks">See every check</a> · <a href="/glossary/">Jargon, explained</a></p>
+<p style="margin-top:24px"><a href="/checks/" style="color:var(--sky)">See every check</a> · <a href="/glossary/" style="color:var(--sky)">Jargon, explained</a></p></div></section>
 </main>
-<footer class="site-foot">
-  <div class="foot-top">
-    <div class="foot-brand">
-      <a class="brand" href="/" aria-label="SIGSHIP home"><svg viewBox="0 0 34 28" aria-hidden="true"><rect x="1" width="2.4" height="28" rx="1.2" fill="var(--ink)"/><rect x="3.4" y="2" width="29.6" height="20" rx="1" fill="var(--blue)"/><rect x="13.27" y="8.67" width="9.87" height="6.67" fill="var(--flag-white)"/></svg>SIGSHIP</a>
-      <p><span class="plain-only">The safety check for apps made with AI. Know before your users do.</span><span class="dev-only">The go/no-go check for AI-built apps. The postmortem, before the outage.</span></p>
-      <div class="foot-cmd dev-only"><code>$ npx sigship</code><button class="copy-btn" type="button" data-copy="npx sigship" data-copy-label="npx sigship">Copy</button></div>
-      <div class="foot-cta plain-only"><a class="btn-ink" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a></div>
-      <p class="ver-chip">v0.3.2 · <a href="/changelog/">Changelog</a></p>
-    </div>
-    <nav class="foot-cols" aria-label="Footer">
-      <div><p>Product</p><a href="/features/">Features</a><a href="/lookout/">The Lookout</a><a href="/flags/">GO flags</a><a href="/pricing/">Pricing</a><a href="/ai-agents/">AI agents</a><a href="/#checks">All 17 checks</a></div>
-      <div><p>Resources</p><a href="/guides/">Guides</a><a href="/glossary/">Glossary</a><a href="/docs/">Docs</a><a href="/changelog/">Changelog</a><a href="/roadmap/">Roadmap</a><a href="/lookout/rss.xml">Lookout RSS</a><a href="https://github.com/sigship/sigship">GitHub</a></div>
-      <div><p>Community</p><a href="/community/">Community</a><a href="https://github.com/sigship/sigship/discussions">Discussions</a><a href="https://discord.gg/hKG6rNM4W">Discord</a><a href="mailto:support@sigship.dev">support@sigship.dev</a><a href="/brand/">Brand</a></div>
-      <div><p>Company</p><a href="https://zoof04.com" target="_blank" rel="noopener">zoof04<span class="sr"> (opens in a new tab)</span></a><a href="/privacy/">Privacy</a><a href="/terms/">Terms and refunds</a><a href="https://github.com/sigship/sigship/blob/main/SECURITY.md">Security policy</a></div>
-    </nav>
-  </div>
-  <div class="foot-ctl">
-    <fieldset class="ctl"><legend class="sr">Words</legend><span aria-hidden="true">Words</span><span class="opts"><label><input type="radio" name="mode-f" value="plain"><span>Plain</span></label><label><input type="radio" name="mode-f" value="dev"><span>Dev</span></label></span></fieldset>
-    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-f" value="system"><span>System</span></label><label><input type="radio" name="theme-f" value="light"><span>Day</span></label><label><input type="radio" name="theme-f" value="dark"><span>Night</span></label></span></fieldset>
-    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-f" value="on"><span>On</span></label><label><input type="radio" name="motion-f" value="off"><span>Off</span></label></span></fieldset>
-  </div>
-  <div class="foot-bottom">
-    <span>© 2026 Zoof04 Inc.</span>
-    <span class="foot-status"><span class="lamp warm" aria-hidden="true"></span>The free tool runs on your machine. Nothing leaves it.</span>
-    <span class="made-us"><svg viewBox="0 0 22 15" aria-hidden="true"><rect width="22" height="15" fill="#b22234"/><g fill="#fff"><rect y="1.15" width="22" height="1.15"/><rect y="3.46" width="22" height="1.15"/><rect y="5.77" width="22" height="1.15"/><rect y="8.08" width="22" height="1.15"/><rect y="10.38" width="22" height="1.15"/><rect y="12.69" width="22" height="1.15"/></g><rect width="9" height="8.08" fill="#3c3b6e"/></svg>Proudly conceived and built in the United States</span>
-    <a class="made-by" href="https://zoof04.com" target="_blank" rel="noopener" aria-label="SIGSHIP by zoof04 (opens in a new tab)"><span>by</span><img src="/zoof04-logo.svg" alt="" width="156" height="28"></a>
-  </div>
-  <div class="foot-word" aria-hidden="true"><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-g"/></svg><b>G</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-s"/></svg><b>S</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-h"/></svg><b>H</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-i"/></svg><b>I</b></span><span><svg viewBox="0 0 90 60"><use href="#flag-p"/></svg><b>P</b></span></div>
+<footer class="foot">
+<div class="foot-grid">
+  <div><a class="logo" href="/" aria-label="SIGSHIP home"><svg width="27" height="22" viewBox="0 0 256 211" aria-hidden="true"><rect width="12" height="211" rx="6" fill="currentColor"/><rect x="16" y="12.8" width="240" height="160" rx="9.6" fill="var(--brand)"/><rect x="99.2" y="56" width="73.6" height="73.6" fill="#fff"/></svg><b>SIGSHIP</b></a><p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p></div>
+  <div class="col"><div class="k">Product</div><ul><li><a href="/checks/">17 checks</a></li><li><a href="/cloud/">Cloud</a></li><li><a href="/badge/">Verified badge</a></li><li><a href="/lookout/">Lookout</a></li><li><a href="/pricing/">Pricing</a></li></ul></div><div class="col"><div class="k">Developers</div><ul><li><a href="/docs/">Docs</a></li><li><a href="/agents/">AI agents</a></li><li><a href="/api/">API</a></li><li><a href="/changelog/">Changelog</a></li><li><a href="/releases/">Releases</a></li></ul></div><div class="col"><div class="k">Company</div><ul><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Guides</a></li><li><a href="/open-source/">Open source</a></li><li><a href="/community/">Community</a></li><li><a href="/brand/">Brand</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="word" aria-hidden="true">SIGSHIP</div>
+<div class="legal"><span>© 2026 SIGSHIP by Zoof04 Inc. · MIT licensed · <a href="mailto:support@sigship.dev">support@sigship.dev</a></span><span>A GO means our checks found nothing blocking launch. It does not prove the app is safe.</span></div>
 </footer>
-<dialog class="menu" id="menu" aria-label="Menu" closedby="any">
-  <div class="menu-in">
-    <div class="menu-head"><span>Menu</span><button class="icon-btn" type="button" commandfor="menu" command="close" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-    <ol class="menu-list">
-      <li><a href="/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Home</a></li>
-      <li><a href="/features/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Features</a></li>
-      <li><a href="/lookout/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-g"/></svg>The Lookout</a></li>
-      <li><a href="/flags/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-q"/></svg>GO flags</a></li>
-      <li><a href="/pricing/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-s"/></svg>Pricing</a></li>
-      <li><a href="/docs/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-h"/></svg>Docs</a></li>
-      <li><a href="/ai-agents/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-c"/></svg>AI agents</a></li>
-      <li><a href="/resources/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-i"/></svg>Resources</a></li>
-      <li><a href="/community/"><svg viewBox="0 0 90 60" aria-hidden="true"><use href="#flag-p"/></svg>Community</a></li>
-    </ol>
-    <button class="btn-ink dev-only" type="button" data-copy="npx sigship" data-copy-label="npx sigship"><code>$ npx sigship</code><span>Copy</span></button>
-    <a class="btn-ink plain-only" href="/guides/check-lovable-bolt-replit-app/">Check my app, free</a>
-    <fieldset class="ctl"><legend class="sr">Words</legend><span aria-hidden="true">Words</span><span class="opts"><label><input type="radio" name="mode-m" value="plain"><span>Plain</span></label><label><input type="radio" name="mode-m" value="dev"><span>Dev</span></label></span></fieldset>
-    <fieldset class="ctl"><legend class="sr">Theme</legend><span aria-hidden="true">Theme</span><span class="opts"><label><input type="radio" name="theme-m" value="system"><span>System</span></label><label><input type="radio" name="theme-m" value="light"><span>Day</span></label><label><input type="radio" name="theme-m" value="dark"><span>Night</span></label></span></fieldset>
-    <fieldset class="ctl"><legend class="sr">Motion</legend><span aria-hidden="true">Motion</span><span class="opts"><label><input type="radio" name="motion-m" value="on"><span>On</span></label><label><input type="radio" name="motion-m" value="off"><span>Off</span></label></span></fieldset>
-    <p class="menu-by">SIGSHIP is made by zoof04.</p>
-  </div>
-</dialog>
 <p class="sr" id="live" aria-live="polite"></p>
 </body>
 </html>

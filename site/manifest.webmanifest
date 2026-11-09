@@ -1,11 +1,11 @@
 {
   "name": "SIGSHIP",
   "short_name": "SIGSHIP",
-  "description": "Free security check for vibe-coded and AI-built apps.",
+  "description": "Is your AI-built app safe to launch? Free, open source launch check.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b1324",
-  "theme_color": "#0b1324",
+  "background_color": "#121316",
+  "theme_color": "#121316",
   "icons": [
     {
       "src": "/apple-touch-icon.png",
