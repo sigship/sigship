@@ -16,12 +16,13 @@
   "scripts": {
     "test": "node --test",
     "docs": "node scripts/build-site.js",
-    "brand": "node scripts/build-brand.js",
+    "brand": "node scripts/build-brand.js && node scripts/build-og.js",
     "build": "npm run docs && npm run brand",
     "preview": "npm run docs && npx wrangler dev",
     "ship": "npm run build && npm test && node bin/sigship.js . && npx wrangler deploy && (node scripts/indexnow.js || true)",
     "capture": "node scripts/capture-demo.js",
-    "indexnow": "node scripts/indexnow.js"
+    "indexnow": "node scripts/indexnow.js",
+    "og": "node scripts/build-og.js"
   },
   "engines": {
     "node": ">=22"

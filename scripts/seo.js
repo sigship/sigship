@@ -45,7 +45,7 @@ export const appLd = ({ version, description }) => ({
   operatingSystem: 'macOS, Windows, Linux',
   softwareVersion: version,
   downloadUrl: NPM,
-  installUrl: `${ORIGIN}/docs/#start`,
+  installUrl: `${ORIGIN}/docs/#install`,
   license: 'https://opensource.org/licenses/MIT',
   isAccessibleForFree: true,
   image: `${ORIGIN}/og.png`,

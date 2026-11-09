@@ -236,6 +236,33 @@
     spy();
   }
 
+  // ---------- Old links to the previous home page still land somewhere useful ----------
+  if (location.pathname === '/' && location.hash === '#waitlist') location.replace('/waitlist/');
+  if (location.pathname === '/' && /^#(start|how|where|limits|why)$/.test(location.hash)) history.replaceState(null, '', '/');
+
+  // ---------- A link to a folded notice opens it ----------
+  const openHash = () => { const el = location.hash && document.getElementById(location.hash.slice(1)); if (el && el.tagName === 'DETAILS') el.open = true; };
+  addEventListener('hashchange', openHash);
+  openHash();
+
+  // ---------- Announcement strip ----------
+  $$('[data-strip-close]').forEach((b) => b.addEventListener('click', () => { root.classList.remove('has-strip'); store.set('sigship-strip-cm26', 'x'); }));
+
+  // ---------- Cloud billing: yearly (as shown) or monthly (25% more) ----------
+  for (const panel of $$('.bill-panel')) {
+    const btns = $$('[data-bill]', panel);
+    btns.forEach((b) => b.addEventListener('click', () => {
+      const monthly = b.dataset.bill === 'monthly';
+      panel.classList.toggle('bill-m', monthly);
+      btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      say(monthly ? 'Showing monthly prices.' : 'Showing yearly prices.');
+    }));
+  }
+
+  // ---------- Waitlist page: preselect the plan from the link ----------
+  const want = new URLSearchParams(location.search).get('plan');
+  if (want) { const r = $(`.plan-pick input[value="${CSS.escape(want)}"]`); if (r) r.checked = true; }
+
   // ---------- Waitlist forms: /api/waitlist, same Worker as before ----------
   for (const form of $$('form[data-waitlist]')) {
     const started = $('input[name="started"]', form);

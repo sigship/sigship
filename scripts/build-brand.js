@@ -82,7 +82,6 @@ const IMAGES = [
   ['gallery-1-no-go', 1270, 760, frame('The postmortem, before the outage.', 'npx sigship', noGo, 'NO-GO'), [out]],
   ['gallery-2-fix-prompt', 1270, 760, frame('Every finding becomes a fix your AI tool can use.', 'npx sigship --prompt', fixPrompt), [out]],
   ['gallery-3-go', 1270, 760, frame('Exit 0 is the signal to ship.', 'npx sigship', go, 'GO', 'big'), [out]],
-  ['og', 1200, 630, `<div class="o">${HOIST}<div class="h">The postmortem, before the outage.</div><div class="row">${VERDICT}<div class="by">${mark(ON_LIGHT, ' class="m"')}<span><b>SIGSHIP</b> by zoof04</span><code>npx sigship</code></div></div></div>`, [out]],
 ];
 
 const extra = `
@@ -138,5 +137,4 @@ for (const folder of [out, press]) {
   writeFileSync(join(folder, 'sigship-mark.svg'), mark(HEX, ' xmlns="http://www.w3.org/2000/svg"'));
   writeFileSync(join(folder, 'sigship-icon.svg'), icon(HEX, ' xmlns="http://www.w3.org/2000/svg"'));
 }
-writeFileSync(join(site, 'og.png'), readFileSync(join(out, 'og.png')));
-console.log(`Rebuilt ${IMAGES.length} brand images, the logo files and site/og.png.`);
+console.log(`Rebuilt ${IMAGES.length} brand images and the logo files.`);

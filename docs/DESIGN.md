@@ -25,9 +25,16 @@ CSS only, plus a few scroll listeners in `site/app.js`: the hero shrinks as it s
 sideways on wide screens, cards rise in as they enter view, the app window fixes its own findings, the dashboard cycles
 through demo apps. Everything stops for `prefers-reduced-motion`, and every element is visible without JavaScript.
 
+## Small parts
+
+- **Announcement strip** above the header: `STRIP` in `scripts/build-site.js`, with an end date. Closing it is remembered in the browser.
+- **Loader**: flag P waves with a short progress bar while the page loads, once per tab, never for reduced motion (`BOOT` and `BOOT_CSS`).
+- **Cloud billing**: yearly prices are the ones in `scripts/pricing.js`; monthly is 25% more (`monthly`), behind the Yearly / Monthly switch.
+- **Social pictures**: `scripts/og-pages.js` lists one per page; `scripts/build-og.js` draws them.
+
 ## Where the words come from
 
-- The 17 checks, their titles and fixes: `src/rules.js`, with the short card lines in `scripts/build-site.js` (`CARD`).
+- The 17 checks, their titles and fixes: `src/rules.js`, with the short card lines in `scripts/checks-copy.js`.
 - Plans and prices: `scripts/pricing.js`. Lookout notices: `scripts/lookout.js` (every notice has a source).
 - The changelog and releases pages: `CHANGELOG.md`. The hero's findings: the pinned capture in `scripts/home/demo-run.json`.
 - Guides, glossary, per-check explanations and structured data: `scripts/seo.js`.
