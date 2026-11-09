@@ -246,28 +246,54 @@ args = [&quot;-y&quot;, &quot;sigship&quot;, &quot;mcp&quot;]</pre></div><div cl
 
 <section class="sec" id="pricing"><div class="wrap">
   <div class="rv center" style="margin-bottom:48px"><div class="eyebrow" style="--c:var(--amber)"><i></i>Pricing</div><h2 class="display h2">Free today. <span class="muted">Bigger powers soon.</span></h2></div>
-  <div class="plan-grid"><div class="plan card rv">
+  <div class="seg rv" role="tablist" aria-label="How you want to run SIGSHIP">
+<button type="button" role="tab" id="hp-t-self" aria-controls="hp-p-self" aria-selected="true"><b>On your computer</b><small>Self-hosted · pay once</small></button>
+<button type="button" role="tab" id="hp-t-cloud" aria-controls="hp-p-cloud" aria-selected="false" tabindex="-1"><b>In the cloud</b><small>Coming soon · monthly</small></button>
+</div>
+<div role="tabpanel" id="hp-p-self" aria-labelledby="hp-t-self"><p class="seg-note">Like an app you install. Runs on your computer and in your own GitHub; your code never leaves.</p><div class="plan-grid"><div class="plan card rv">
 <div class="row"><h3>Free</h3><span class="tag" style="--c:var(--go)">Live</span></div>
 <div class="price"><b>$0</b><span>forever</span></div>
 <p class="d">The open source check for every AI-built app.</p>
 <ul><li><i>✓</i>17 core checks</li><li><i>✓</i>Unlimited repos, on your machine</li><li><i>✓</i>Terminal, browser dashboard and MCP</li><li><i>✓</i>Pull request check for GitHub</li><li><i>✓</i>Fix prompt for any AI tool</li><li><i>✓</i>JSON and Markdown output</li></ul>
 <a class="btn btn-primary" href="/resources/">Check my app</a>
 
-</div><div class="plan card rv">
+</div><div class="plan card rv hot spectrum-border">
 <div class="row"><h3>Pro</h3><span class="tag tag-plain" style="--c:var(--go)">Waitlist</span></div>
 <div class="price"><b>$149</b><span>one-time</span></div>
 <p class="d">Every check we have, on your own machine and CI.</p>
 <ul><li><i>✓</i>Pro pack of extra checks</li><li><i>✓</i>Deep Supabase policy check</li><li><i>✓</i>Security headers and login rate limits</li><li><i>✓</i>Hallucinated and vulnerable packages</li><li><i>✓</i>Secrets in your git history</li><li><i>✓</i>Prompts tuned for Lovable, Cursor, Bolt and more</li></ul>
+<a class="btn btn-primary" href="/cloud/">Join waitlist</a>
+<p class="note">Includes 1 year of new checks. Keep it forever.</p>
+</div><div class="plan card rv">
+<div class="row"><h3>Business</h3><span class="tag tag-plain" style="--c:var(--go)">Waitlist</span></div>
+<div class="price"><b>$499</b><span>one-time</span></div>
+<p class="d">For studios and agencies shipping client apps.</p>
+<ul><li><i>✓</i>25 repos</li><li><i>✓</i>White-label client reports</li><li><i>✓</i>Priority support</li><li><i>✓</i>Unlimited team members</li></ul>
 <a class="btn btn-ghost" href="/cloud/">Join waitlist</a>
 <p class="note">Includes 1 year of new checks. Keep it forever.</p>
-</div><div class="plan card rv hot spectrum-border">
-<div class="row"><h3>Cloud</h3><span class="tag tag-plain" style="--c:var(--go)">Waitlist</span></div>
-<div class="price"><b>from $19</b><span>a month</span></div>
-<p class="d">We watch your live apps every night.</p>
+</div></div></div>
+<div role="tabpanel" id="hp-p-cloud" aria-labelledby="hp-t-cloud" hidden><p class="seg-note">Like Gmail: we run it for you and watch your live apps every night. Every Cloud plan includes every Pro check.</p><div class="plan-grid"><div class="plan card rv">
+<div class="row"><h3>Solo</h3><span class="tag tag-plain" style="--c:var(--go)">Waitlist</span></div>
+<div class="price"><b>$19</b><span>a month</span></div>
+<p class="d">For a founder with an app in production.</p>
 <ul><li><i>✓</i>Connect from GitHub, Lovable, Bolt, Replit or v0</li><li><i>✓</i>Checks on every push and every night</li><li><i>✓</i>Live site scan, 1 site daily</li><li><i>✓</i>Live Supabase probe</li><li><i>✓</i>SSL, domain and downtime alerts</li><li><i>✓</i>New vulnerability alerts</li></ul>
+<a class="btn btn-ghost" href="/cloud/">Join waitlist</a>
+<p class="note">Billed monthly. Cancel anytime.</p>
+</div><div class="plan card rv hot spectrum-border">
+<div class="row"><h3>Team</h3><span class="tag tag-plain" style="--c:var(--go)">Waitlist</span></div>
+<div class="price"><b>$59</b><span>a month</span></div>
+<p class="d">For small teams shipping every week.</p>
+<ul><li><i>✓</i>10 projects and 5 seats</li><li><i>✓</i>Live site scans, 10 sites hourly</li><li><i>✓</i>One-click fix pull requests</li><li><i>✓</i>Pull request comments and merge block</li><li><i>✓</i>Slack, Discord and email alerts</li><li><i>✓</i>Roles and activity log</li></ul>
 <a class="btn btn-primary" href="/cloud/">Join waitlist</a>
 <p class="note">Billed monthly. Cancel anytime.</p>
-</div></div>
+</div><div class="plan card rv">
+<div class="row"><h3>Agency</h3><span class="tag tag-plain" style="--c:var(--go)">Waitlist</span></div>
+<div class="price"><b>$149</b><span>a month</span></div>
+<p class="d">For agencies running many client apps.</p>
+<ul><li><i>✓</i>30 projects and 15 seats</li><li><i>✓</i>Live site scans, 30 sites hourly</li><li><i>✓</i>White-label client reports</li><li><i>✓</i>An alert channel per client</li><li><i>✓</i>Single sign-on</li><li><i>✓</i>Onboarding call</li></ul>
+<a class="btn btn-ghost" href="/cloud/">Join waitlist</a>
+<p class="note">Billed monthly. Cancel anytime.</p>
+</div></div></div>
   <p class="center muted" style="margin-top:20px;font-size:.875rem">Prices for paid plans are early estimates and may change before launch. <a href="/pricing/" style="text-decoration:underline">See every plan →</a></p>
 </div></section>
 
