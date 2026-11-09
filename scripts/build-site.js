@@ -207,13 +207,15 @@ const feed = (n = NOTICES.length) => `<div class="feed">${NOTICES.slice(0, n).ma
 const pipeline = () => `<div class="pipeline"><div class="line"><i></i></div>${[['📡', 'Threat spotted', 'We watch security news, CVEs and attacks on apps like yours.', 'coral'], ['🛠️', 'New check written', 'Our team turns it into a new check within days.', 'amber'], ['🛡️', "You're covered", 'Your next check catches it — no action needed.', 'go']].map(([e, t, d, c], i) => `<div class="card pipe rv" style="--c:var(--${c});--d:${i * 0.25}s"><div class="em" style="--d:${i * 0.5}s">${e}</div><h3>${t}</h3><p class="sub">${d}</p></div>`).join('')}</div>`;
 
 const byId = Object.fromEntries(TRACKS.flatMap((t) => t.plans).map((p) => [p.id, p]));
+// Every card has the same rows in the same order (name, price, tagline, list, note, button), with fixed-height rows
+// where the words vary, so the buttons sit on one line across the grid.
 const planCard = (p, { hot = false, live = false, href, cta } = {}) => `<div class="plan card rv${hot ? ' hot spectrum-border' : ''}">
 <div class="row"><h3>${esc(p.name)}</h3><span class="tag${live ? '' : ' tag-plain'}" style="--c:var(--go)">${live ? 'Live' : 'Waitlist'}</span></div>
-${p.monthly ? `<div class="price"><span class="y"><b>${esc(p.price)}</b><span>${esc(p.per)}</span></span><span class="m"><b>${esc(p.monthly)}</b><span>${esc(p.perMonthly)}</span></span></div>` : `<div class="price"><b>${esc(p.price)}</b><span>${esc(p.per)}</span></div>`}
-<p class="d">${esc(p.tagline)}</p>
-<ul>${p.items.slice(0, 6).map((f) => `<li><i>✓</i>${esc(f)}</li>`).join('')}</ul>
+${p.monthly ? `<div class="price"><span class="y"><b>${esc(p.price)}</b><span>${esc(p.per)}</span></span><span class="m"><b>${esc(p.monthly)}</b><span>${esc(p.perMonthly)}</span></span></div>` : `<div class="price"><span class="y"><b>${esc(p.price)}</b><span>${esc(p.per)}</span></span></div>`}
+<p class="who">${esc(p.tagline)}</p>
+<ul>${p.items.slice(0, 6).map((f) => `<li><i>✓</i><span>${esc(f)}</span></li>`).join('')}</ul>
+<p class="note">${esc(p.note || (live ? 'Open source under MIT. No account, no card, no limits.' : 'Early estimate. You pay nothing until it opens.'))}</p>
 <a class="btn ${live || hot ? 'btn-primary' : 'btn-ghost'}" href="${href || (live ? '/resources/' : `/waitlist/?plan=${p.id}`)}">${cta || (live ? 'Check my app' : 'Join waitlist')}</a>
-${p.note ? `<p class="note">${esc(p.note)}</p>` : ''}
 </div>`;
 const billToggle = () => `<div class="bill" role="group" aria-label="Billing"><button type="button" data-bill="yearly" aria-pressed="true">Yearly <small>save 20%</small></button><button type="button" data-bill="monthly" aria-pressed="false">Monthly</button></div>`;
 // Self-hosted and Cloud, behind one segmented switch. Same component on the home page and the pricing page.
