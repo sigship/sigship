@@ -187,10 +187,65 @@
     });
   }
 
+
+  // ---------- Badge IDs (same as scripts/badge-id.js) ----------
+  const host = (v) => String(v || '').trim().toLowerCase().replace(/^[a-z]+:\/\//, '').replace(/^www\./, '').split(/[/?#:\s]/)[0].slice(0, 80);
+  const badgeId = (letter, site) => {
+    let h = 0x811c9dc5;
+    for (const ch of `${letter}:${host(site)}`) h = Math.imul(h ^ ch.charCodeAt(0), 0x01000193) >>> 0;
+    let code = '';
+    for (let i = 0; i < 6; i++) { code += '0123456789ABCDEFGHJKMNPQRSTVWXYZ'[h & 31]; h >>>= 5; }
+    return `SG-${letter}-${code}`;
+  };
+
+  // ---------- Badge: the embed code for your own site ----------
+  for (const card of $$('.embed-card')) {
+    const input = $('[data-embed-site]', card);
+    const paint = () => {
+      const site = host(input.value) || 'myapp.com', id = badgeId('S', site), rec = `https://sigship.dev/verify/?id=${id}&site=${encodeURIComponent(site)}`;
+      const code = `<a href="${rec}" title="Check this SIGSHIP badge">\n  <img src="https://sigship.dev/b/${id}.svg"\n       alt="Self-checked with SIGSHIP, badge ${id}" height="32">\n</a>`;
+      $('[data-embed-code]', card).textContent = code;
+      $('[data-embed-copy]', card).dataset.copy = code;
+      $('[data-embed-id]', card).textContent = id;
+      $('[data-embed-link]', card).href = rec.replace('https://sigship.dev', '');
+      const img = $('[data-embed-img]', card); img.src = `/b/${id}.svg`; img.alt = `Self-checked with SIGSHIP, badge ${id}`;
+    };
+    input.addEventListener('input', paint); paint();
+  }
+
+  // ---------- Badge records: /verify/?id=…&site=… ----------
+  for (const app of $$('.verify-app')) {
+    const q = new URLSearchParams(location.search), id = (q.get('id') || '').trim().toUpperCase(), site = host(q.get('site'));
+    $('#v-id', app).value = id; $('#v-site', app).value = site;
+    if (!id || (id === app.dataset.ownId && (!site || site === app.dataset.ownSite))) continue;
+    const LV = { S: ['Steel', 'Self-checked'], D: ['Bronze', 'Deep self-check'], C: ['Silver', 'Checked daily'], L: ['Gold', 'Live-checked'], X: ['Platinum', 'Expert-reviewed'], T: ['Black platinum', 'Expert-reviewed & live-checked'] };
+    const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const row = (k, v) => `<div class="rec-row"><dt>${k}</dt><dd>${v}</dd></div>`;
+    const ok = /^SG-[SDCLXT]-[0-9A-HJKMNP-TV-Z]{6}$/.test(id), L = ok ? id[3] : '', lv = LV[L];
+    let state, tone, title, rows = [], img = false;
+    if (!ok) { state = 'Not a SIGSHIP ID'; tone = 'stop'; title = 'This isn’t a SIGSHIP badge ID'; rows = [row('What we got', esc(id)), row('What IDs look like', 'SG-, a level letter, a dash and six characters, like SG-S-4K7Q2M.')]; }
+    else if (!site) { state = 'Site missing'; tone = 'warn'; title = 'Which site shows this badge?'; rows = [row('Badge ID', id), row('Level', `${lv[0]} · ${lv[1]}`), row('Next step', 'Add the site’s address below. An ID only fits the site it was made for.')]; }
+    else if (badgeId(L, site) !== id) { state = 'Doesn’t match'; tone = 'stop'; title = `This ID doesn’t belong to ${esc(site)}`; rows = [row('Badge ID', id), row('Site', esc(site)), row('What it means', 'The badge was copied from another site or edited. Treat it as not genuine.')]; }
+    else if (site === 'myapp.com') { state = 'Example'; tone = 'sky'; title = 'This is a sample badge'; img = 'SD'.includes(L); rows = [row('Badge ID', id), row('Level', `${lv[0]} · ${lv[1]}`), row('Where it’s from', 'The examples on <a href="/badge/">sigship.dev/badge</a>. Real badges carry the ID of the site that shows them.')]; }
+    else if ('SD'.includes(L)) { state = 'Self-declared'; tone = 'warn'; img = true; title = `${esc(site)} says it passed the ${L === 'S' ? 'free' : 'Pro'} check`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Who checked', `The site’s owner, on their own computer, with ${L === 'S' ? 'the 17 core checks' : 'the core checks and the Pro pack'}. The free check sends nothing to SIGSHIP, so we can’t confirm the result. That is why this level is self-declared.`), row('Stronger proof', 'Checked daily and Live-checked badges are run and drawn by sigship.dev itself. <a href="/badge/">See the levels</a>.')]; }
+    else { state = 'Not in our records'; tone = 'warn'; title = `No ${esc(lv[1])} record for ${esc(site)}`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('What it means', 'This level is issued by sigship.dev, and we have no record of it for this site. Treat the badge as not verified, and ask the owner to contact support@sigship.dev.')]; }
+    const st = $('[data-rec-state]', app); st.textContent = state; st.style.setProperty('--c', `var(--${tone})`);
+    $('[data-rec-id]', app).textContent = ok ? id : '';
+    $('[data-rec-title]', app).innerHTML = title;
+    $('[data-rec-list]', app).innerHTML = rows.join('');
+    const b = $('[data-rec-badge]', app); b.innerHTML = img ? `<img src="/b/${id}.svg" height="32" alt="SIGSHIP badge ${id}">` : ''; b.hidden = !img;
+    document.title = `${ok ? id : 'Badge'} — check a SIGSHIP badge`;
+  }
+
   // ---------- Badge: type an app name, tilt with the pointer ----------
   for (const stage of $$('.badge-stage')) {
     const input = $('input', stage);
-    const apply = () => { const v = (input.value.trim().slice(0, 28) || 'myapp.com'); $$('[data-app]').forEach((el) => { el.textContent = v; }); $$('[data-app-code]').forEach((el) => { el.textContent = el.dataset.appCode.replaceAll('{app}', v); }); };
+    const apply = () => {
+      const v = (input.value.trim().slice(0, 40) || 'myapp.com');
+      $$('[data-app]').forEach((el) => { el.textContent = host(v) || v; });
+      // Every sample badge on the page takes the typed site's own ID.
+      $$('a.sg-pill[data-letter]').forEach((a) => { if (a.closest('.foot-badge, .verify-app')) return; const id = badgeId(a.dataset.letter, v); const t = $('[data-badge-id]', a); if (t) t.textContent = id; a.href = `/verify/?id=${id}&site=${encodeURIComponent(host(v))}`; });
+    };
     if (input) { input.addEventListener('input', apply); apply(); }
     if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm()) {
       stage.addEventListener('pointermove', (e) => {

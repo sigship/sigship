@@ -1,4 +1,5 @@
-// The sigship.dev Worker. It serves the static site and takes waitlist sign-ups.
+// The sigship.dev Worker. It serves the static site, takes waitlist sign-ups and draws badge pictures at /b/<ID>.svg.
+import { ID_RE, OWN_ID, badgeSvg } from '../scripts/badge-id.js';
 // Sign-ups go to a Google Sheet through an Apps Script web app. Its address is the Worker secret
 // WAITLIST_URL and never appears in the page. WAITLIST_SECRET is an optional second lock.
 // 'lookout' is the Monday notice from /lookout/, kept in the same sheet.
@@ -66,10 +67,19 @@ export async function waitlist(request, env, { fetch = globalThis.fetch, now = D
   return reply(200, true);
 }
 
+// Self-declared badges (S, D) for any site, and the top badge only for sigship.dev itself.
+export function badge(pathname) {
+  const id = decodeURIComponent(pathname.slice(3, -4)).toUpperCase();
+  const svg = pathname.endsWith('.svg') && ID_RE.test(id) && ('SD'.includes(id[3]) || id === OWN_ID) ? badgeSvg(id) : null;
+  if (!svg) return new Response('Not a SIGSHIP badge.', { status: 404, headers: { 'content-type': 'text/plain; charset=utf-8' } });
+  return new Response(svg, { headers: { 'content-type': 'image/svg+xml; charset=utf-8', 'cache-control': 'public, max-age=86400', 'access-control-allow-origin': '*', 'x-content-type-options': 'nosniff', 'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'" } });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/api/waitlist') return waitlist(request, env);
+    if (url.pathname.startsWith('/b/')) return badge(url.pathname);
     return env.ASSETS.fetch(request);
   },
 };

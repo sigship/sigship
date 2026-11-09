@@ -30,6 +30,7 @@ through demo apps. Everything stops for `prefers-reduced-motion`, and every elem
 - **Announcement strip** above the header: `STRIP` in `scripts/build-site.js`, with an end date. Closing it is remembered in the browser.
 - **Loader**: flag P waves with a short progress bar while the page loads, once per tab, never for reduced motion (`BOOT` and `BOOT_CSS`).
 - **Cloud billing**: yearly prices are the ones in `scripts/pricing.js`; monthly is 25% more (`monthly`), behind the Yearly / Monthly switch.
+- **Badges**: `scripts/badges.js` holds the levels (each says which plan it comes with; badges have no price of their own). `scripts/badge-id.js` gives every badge an ID like `SG-S-4K7Q2M` from its level and site, used by the build, by `site/app.js` and by the Worker, which draws `/b/<ID>.svg`. Every ID links to its record on `/verify/`. The footer carries sigship.dev's own top badge.
 - **Social pictures**: `scripts/og-pages.js` lists one per page; `scripts/build-og.js` draws them.
 
 ## Where the words come from
