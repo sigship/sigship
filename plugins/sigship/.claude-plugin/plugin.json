@@ -1,0 +1,14 @@
+{
+  "name": "sigship",
+  "displayName": "SIGSHIP",
+  "description": "The go/no-go check for AI-built apps. Reads your repo on your machine, lists what will break in production, and exits 0 only when it finds nothing serious.",
+  "author": {
+    "name": "Zoof04 Inc.",
+    "email": "support@sigship.dev",
+    "url": "https://sigship.dev"
+  },
+  "homepage": "https://sigship.dev",
+  "repository": "https://github.com/sigship/sigship",
+  "license": "MIT",
+  "keywords": ["production-readiness", "security", "secrets", "go-no-go", "mcp"]
+}

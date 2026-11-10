@@ -1,0 +1,15 @@
+{
+  "name": "sigship",
+  "description": "SIGSHIP, the go/no-go check for AI-built apps, as a Claude Code plugin.",
+  "owner": {
+    "name": "Zoof04 Inc.",
+    "email": "support@sigship.dev"
+  },
+  "plugins": [
+    {
+      "name": "sigship",
+      "source": "./plugins/sigship",
+      "description": "Runs the SIGSHIP go/no-go check from Claude Code: an MCP server, the /sigship:launch skill, and an optional launch mode that will not let a session finish on NO-GO."
+    }
+  ]
+}
