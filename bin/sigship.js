@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, extname, resolve } from 'node:path';
 import { scan, verdict } from '../src/scan.js';
+import { ACCEPT_FILE, addFindings } from '../src/engine.js';
 import { toHtml, toJson, toMarkdown, toPrompt, toSarif, toTerminal } from '../src/report.js';
 import { TOOLS } from '../src/prompts.js';
 import { init } from '../src/init.js';
@@ -11,7 +12,7 @@ const { version } = JSON.parse(readFileSync(new URL('../package.json', import.me
 
 const HELP = `sigship ${version}
 The go/no-go check for AI-built apps. Runs on your machine. Sends nothing anywhere
-unless you set SIGSHIP_KEY, and then only the key and a one-way repo fingerprint.
+unless you pass --online or set SIGSHIP_KEY, and then only what is listed below.
 
 Usage
   npx sigship [folder]        Check a project. Exits 0 for GO, 1 for NO-GO.
@@ -40,6 +41,11 @@ Options
   --report         Also write sigship-report.html to send to a client (Solo and Team).
   --brand <name>   With --report, put this name on the report instead of SIGSHIP.
   --logo <file>    With --report, put this PNG, JPEG, SVG, GIF or WebP logo on the report.
+  --online         Also check for packages with known vulnerabilities. This is the
+                   one free check that uses the network. It sends the name and
+                   version of every package in package.json and your lockfile to
+                   OSV at https://api.osv.dev/v1/querybatch, and nothing else: no
+                   code, no file names, no findings. A vulnerable package is SEV-2.
   --strict         Also block on SEV-3 findings.
   --no-open        With ui, print the dashboard link without opening a browser.
   --version        Print the version.
@@ -93,7 +99,7 @@ async function main() {
   if (flags.has('--help') || flags.has('-h')) return void process.stdout.write(HELP);
   if (flags.has('--version') || flags.has('-v')) return void console.log(version);
 
-  const known = new Set(['--prompt', '--json', '--markdown', '--sarif', '--strict', '--report', '--pro', '--hook', '--no-open', ...VALUE_FLAGS]);
+  const known = new Set(['--prompt', '--json', '--markdown', '--sarif', '--strict', '--report', '--pro', '--hook', '--online', '--no-open', ...VALUE_FLAGS]);
   const unknown = [...flags].filter((f) => !known.has(f));
   if (unknown.length) {
     console.error(`Unknown option ${unknown[0]}. Run npx sigship --help to see the options.`);
@@ -164,7 +170,14 @@ async function main() {
     process.exitCode = 2;
     return;
   }
-  const result = scan(target, { extraRules: pro.rules });
+  let result = scan(target, { extraRules: pro.rules });
+  if (flags.has('--online')) {
+    const { packageFiles, vulnerablePackages } = await import('../src/online.js');
+    const online = await vulnerablePackages(packageFiles(target), { url: process.env.SIGSHIP_OSV || undefined });
+    const acceptPath = resolve(target, ACCEPT_FILE);
+    result = addFindings(result, online.findings, { accept: existsSync(acceptPath) ? readFileSync(acceptPath, 'utf8') : undefined });
+    result.warnings.push(...online.warnings);
+  }
   const options = { strict, pro, tool: values['--tool'], version };
 
   // Warnings go to stderr so they never break JSON or SARIF on stdout.

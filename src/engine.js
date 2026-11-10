@@ -119,6 +119,16 @@ export function scanFiles({ files = [], tracked, paths, deps, pkg, sql, usesSupa
   return { findings, accepted, warnings, counts: countBySeverity(findings), checksRun: rules.length };
 }
 
+// Adds findings from a check that ran outside scanFiles (the online check), under the same accepted
+// risks. Warnings about the accept file were already given by scanFiles, so they are not repeated.
+export function addFindings(result, extra, { accept, now } = {}) {
+  const { entries } = parseAccepts(accept, now === undefined ? {} : { now });
+  const split = applyAccepts(extra, entries);
+  const findings = sortFindings([...result.findings, ...split.findings]);
+  const accepted = [...(result.accepted ?? []), ...split.accepted];
+  return { ...result, findings, accepted, counts: countBySeverity(findings), checksRun: result.checksRun + 1, warnings: [...(result.warnings ?? [])] };
+}
+
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
 export function verdict(result, { strict = false } = {}) {
