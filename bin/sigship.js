@@ -12,7 +12,7 @@ const { version } = JSON.parse(readFileSync(new URL('../package.json', import.me
 
 const HELP = `sigship ${version}
 The go/no-go check for AI-built apps. Runs on your machine. Sends nothing anywhere
-unless you pass --online or set SIGSHIP_KEY, and then only what is listed below.
+unless you pass --online, set SIGSHIP_KEY or sign in, and then only what is listed below.
 
 Usage
   npx sigship [folder]        Check a project. Exits 0 for GO, 1 for NO-GO.
@@ -31,6 +31,13 @@ Usage
   npx sigship ui [folder]     Open the dashboard in your browser. It runs on this
                               computer only. Press Ctrl+C to stop it.
   npx sigship mcp             Start the MCP server for Claude Code, Cursor and others.
+  npx sigship badge <site>    Print the Self-checked badge code for a site, to paste into
+                              its footer after a GO. No account needed and no network call.
+                              With SIGSHIP_KEY set, registers the site for the Deep
+                              self-check badge instead (sends the key and the site name).
+  npx sigship login           Sign in to SIGSHIP Cloud. Shows a short code to approve in
+                              your browser, then saves a token in your cache folder.
+  npx sigship logout          Forget that token.
 
 Options
   --prompt         Print the fixes as one prompt for your AI tool.
@@ -56,6 +63,14 @@ Accepted risks
   [{ "rule": "cors-wildcard", "file": "src/api/x.ts", "reason": "why", "expires": "2026-12-31" }]
   Accepted findings are listed but don't count for the verdict until they expire.
   There is no flag or command that accepts a risk; only that file does.
+
+Signed in
+  After npx sigship login, every check reports its result to SIGSHIP Cloud, so your
+  dashboard shows it. That report is exactly: a one-way fingerprint of the repo, the
+  SIGSHIP version, the SEV-1, SEV-2 and SEV-3 counts, GO or NO-GO, the date and the
+  folder's name. Never code, file names or findings. It is sent after the check and
+  can neither slow it down nor fail it. Set SIGSHIP_NO_REPORT=1 to turn it off, or
+  run npx sigship logout.
 
 Solo and Team
   Set SIGSHIP_KEY to your licence key to add the Pro pack of extra checks.
@@ -122,6 +137,35 @@ async function main() {
       console.log('\nStopped the dashboard.');
       process.exit(0);
     });
+    return;
+  }
+  if (words[0] === 'badge') {
+    const { badge, badgeText } = await import('../src/badge.js');
+    let site = words[1];
+    if (!site) {
+      try {
+        site = JSON.parse(readFileSync('package.json', 'utf8')).homepage;
+      } catch {
+        // No package.json here. The message below says what to pass.
+      }
+    }
+    if (!site) {
+      console.error('Which site is the badge for? Run: npx sigship badge myapp.com');
+      process.exitCode = 2;
+      return;
+    }
+    console.log(badgeText(await badge(site)));
+    return;
+  }
+  if (words[0] === 'login') {
+    const { login } = await import('../src/cloud.js');
+    const { openBrowser } = await import('../src/ui.js');
+    await login({ open: flags.has('--no-open') ? () => {} : openBrowser });
+    return;
+  }
+  if (words[0] === 'logout') {
+    const { logout } = await import('../src/cloud.js');
+    console.log(logout() ? 'Signed out. Checks no longer report to SIGSHIP Cloud.' : 'You were not signed in.');
     return;
   }
   if (words[0] === 'init') {
@@ -195,6 +239,10 @@ async function main() {
   }
 
   process.exitCode = verdict(result, { strict }).exitCode;
+
+  // Signed in with npx sigship login: report the verdict, never code. Silent, and never fails the scan.
+  const { reportRun } = await import('../src/cloud.js');
+  await reportRun(result, { root: target, version });
 }
 
 main().catch((error) => {

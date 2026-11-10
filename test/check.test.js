@@ -90,6 +90,9 @@ import { scan } from '../src/scan.js';
 import { toPrompt as cliPrompt } from '../src/report.js';
 import { buildCheck } from '../scripts/build-check.js';
 
+// A signed-in machine would report every CLI run these tests make. Keep the tests off the network.
+process.env.SIGSHIP_NO_REPORT = '1';
+
 const FAKE_OPENAI = ['sk', 'proj', 'a1B2c3D4e5F6g7H8i9J0k1L2m3N4o5P6q7R8'].join('-');
 const b64 = (o) => Buffer.from(JSON.stringify(o)).toString('base64url');
 const jwt = (role) => [b64({ alg: 'HS256', typ: 'JWT' }), b64({ iss: 'supabase', role, exp: 2000000000 }), 'c2lnbmF0dXJlLXZhbHVlLWhlcmU'].join('.');
