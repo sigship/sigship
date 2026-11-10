@@ -11,5 +11,25 @@
     "run_worker_first": ["/api/*", "/b/*"]
   }
   // Waitlist secrets, set once with: npx wrangler secret put WAITLIST_URL, then WAITLIST_SECRET.
-  // See docs/WAITLIST.md. LOOKOUT_API (docs/LOOKOUT.md) sends the Monday notice sign-ups to the cloud API instead.
+  // See docs/WAITLIST.md. LOOKOUT_API (docs/LOOKOUT.md) sends the Monday notice sign-ups to the cloud API instead.,
+  // The private beta site at beta.example: the pages from npm run beta (site-beta/), badges and the
+  // Lookout form against the beta cloud and licence Workers.
+  "env": {
+    "beta": {
+      "name": "sigship-site-beta",
+      "routes": [{ "pattern": "beta.example", "custom_domain": true }],
+      "assets": {
+        "directory": "./site-beta",
+        "binding": "ASSETS",
+        "html_handling": "auto-trailing-slash",
+        "not_found_handling": "404-page",
+        "run_worker_first": ["/api/*", "/b/*"]
+      },
+      "vars": {
+        "BADGE_API": "https://beta-app.example/api/v1/badges/",
+        "LICENCE_BADGE_API": "https://beta-api.example/v1/badge/",
+        "LOOKOUT_API": "https://beta-app.example/api/v1/lookout/subscribe"
+      }
+    }
+  }
 }

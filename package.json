@@ -25,7 +25,8 @@
     "indexnow": "node scripts/indexnow.js",
     "og": "node scripts/build-og.js",
     "bench": "node bench/run.js",
-    "bench:real": "node bench/real.js"
+    "bench:real": "node bench/real.js",
+    "beta": "node scripts/build-beta.js"
   },
   "engines": {
     "node": ">=22"
