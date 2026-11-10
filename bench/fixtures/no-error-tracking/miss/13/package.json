@@ -1,0 +1,9 @@
+{
+  "name": "lib",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "devDependencies": {
+    "tsup": "^8.2.0"
+  }
+}

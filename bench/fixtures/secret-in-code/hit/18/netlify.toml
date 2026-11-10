@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  STRIPE_SECRET_KEY = "sk_live_wYSFu0rNQumE7qcDtTxnc8"

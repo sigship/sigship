@@ -1,0 +1,705 @@
+{
+  "about": "Hand labels for bench/real-results.json. For every finding the scanner made, set label to true (a real problem), false (a false alarm) or leave null (not yet looked at), and add a short note. List checks the scanner should have fired but did not under missed, as check ids. Precision per check = true / (true + false). Run node bench/real.js --score.",
+  "repos": {
+    "https://github.com/cfircoo/aws-sso-manager": {
+      "tool": "lovable",
+      "set": "held-out",
+      "commit": "f807dcf9537f8204bf82fbea04c542b136ca073f",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "secret-in-logs": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/eryngordon/quiz-lead-magnet-maker": {
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "ee2cdcfbe4dc89da22aee66434bd8d257429eb65",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "cors-wildcard": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/josephkamau32/LinguaLearn": {
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "f1cc2e2ea82ec7e7504da0d931503112e80ec25e",
+      "findings": {
+        "ai-route-no-rate-limit": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "cors-wildcard": {
+          "count": 5,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/karthik558/GuestIT-Portal": {
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "43e5066475f0474d751aa760b0ae1bec15361e7f",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "cors-wildcard": {
+          "count": 2,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/thefixer3x/sync-plan-flow": {
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "9bbf2bf4b86d9a193d3ac37a09f7be7b3a4db0e1",
+      "findings": {
+        "rls-open-write": {
+          "count": 10,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/JatinxKumar/Campus-Connect-Hub": {
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "328a8b5a35d7458da28fc99a62ebec718cef71fb",
+      "findings": {
+        "secret-in-logs": {
+          "count": 5,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/SankrityaT/InstaCare": {
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "41d34138d3297d12096e4816e11fb65401394020",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/mugisha-gordon/semkat-hub": {
+      "tool": "lovable",
+      "set": "held-out",
+      "commit": "49c972a20e96b7bc247cd835cae33fc99daa3e2d",
+      "findings": {
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "secret-in-logs": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/thamarakandabada/physicalmediavault": {
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "c411c1698cf6cc68541536e3981526a51e7606ba",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "cors-wildcard": {
+          "count": 4,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/jotaefe373/gh-account-manager": {
+      "tool": "lovable",
+      "set": "held-out",
+      "commit": "8039683a7efff52b6f0b8bc96fe8d8567d175bea",
+      "findings": {
+        "secret-in-logs": {
+          "count": 4,
+          "label": null,
+          "note": ""
+        },
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/lucianlavric/Gaslytics": {
+      "tool": "bolt",
+      "set": "dev",
+      "commit": "ad6c3cfaf8aa7467bd53606642cc55c618a8b800",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/MohammedSardarSaajit4488/URL-Shortener-Pro": {
+      "tool": "bolt",
+      "set": "dev",
+      "commit": "870a139a38a88bbcfafc13eec32fe5b3c65844d0",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/Rahultaxi123/taxiNearMe": {
+      "tool": "bolt",
+      "set": "dev",
+      "commit": "fc4a11737def870dc6a16e967c10a1aeb3b826e4",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/Wonderlyve/guestly": {
+      "tool": "bolt",
+      "set": "dev",
+      "commit": "14288273e0a30dbf91b781534ae8c3bfb9af7c52",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/JeromeLamarr/ucc-ipo-repo": {
+      "tool": "bolt",
+      "set": "held-out",
+      "commit": "4298f5736dab503a3b51ff2bc512dbe1dadea923",
+      "findings": {
+        "rls-open-write": {
+          "count": 11,
+          "label": null,
+          "note": ""
+        },
+        "rls-missing": {
+          "count": 3,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-lockfile": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "cors-wildcard": {
+          "count": 30,
+          "label": null,
+          "note": ""
+        },
+        "secret-in-logs": {
+          "count": 11,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/Salvador0302/AhorrApp": {
+      "tool": "bolt",
+      "set": "held-out",
+      "commit": "986023d0aa9c980f4af796bdfbfd9aa6a44bebac",
+      "findings": {
+        "ai-route-no-rate-limit": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/SamanthaJeanneb/Portfolio-site": {
+      "tool": "v0",
+      "set": "dev",
+      "commit": "651ae9529645c0a2321da8954c4236f7ece0bdaa",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "secret-in-logs": {
+          "count": 2,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/ZESCODE/Zes-Dashboard": {
+      "tool": "v0",
+      "set": "dev",
+      "commit": "26282cf348b7c7782a6f701b74a804ba4fe55eee",
+      "findings": {
+        "unsanitized-html": {
+          "count": 2,
+          "label": null,
+          "note": ""
+        },
+        "cors-wildcard": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/jrodolforojas/votarimporta.cr": {
+      "tool": "v0",
+      "set": "dev",
+      "commit": "6fc4a6eb27a007087882ff313d3ad40d84e3c608",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/danij91/resonanceDeckBuilder": {
+      "tool": "v0",
+      "set": "dev",
+      "commit": "4a0aca2ab167bc49eb41a11674b67cf1dffc305f",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/akshayborade09/coverio": {
+      "tool": "v0",
+      "set": "held-out",
+      "commit": "cb9d801749952fa9f7294048a03b4a030e204e8b",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/Sam15b/FirstNextjs": {
+      "tool": "v0",
+      "set": "held-out",
+      "commit": "9c774064a4d414e93071ca037dfb2dd2eda8201e",
+      "findings": {
+        "ai-route-no-rate-limit": {
+          "count": 2,
+          "label": null,
+          "note": ""
+        },
+        "unsanitized-html": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/Melv1C/CompetitionManagerSaaS": {
+      "tool": "cursor",
+      "set": "dev",
+      "commit": "db2b5ffaa6e5b7eadfa7149ad604395d4167cc28",
+      "findings": {
+        "unsanitized-html": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/papotte/stundenzettel": {
+      "tool": "cursor",
+      "set": "dev",
+      "commit": "7f579727680fc8317beff115245738e5e4ab9a33",
+      "findings": {
+        "stripe-webhook-unverified": {
+          "count": 2,
+          "label": null,
+          "note": ""
+        },
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/maneki-neeko/dojo-dash-portal": {
+      "tool": "cursor",
+      "set": "held-out",
+      "commit": "d29ef8c9a1c948fc496bf9184fde984ca1d7e725",
+      "findings": {
+        "env-file-committed": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-tests": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/benesvoj/hazenasvinov-nextjs": {
+      "tool": "claude-code",
+      "set": "dev",
+      "commit": "a5229af4bfae0282636dec38ebe626656d634c0f",
+      "findings": {
+        "rls-open-write": {
+          "count": 24,
+          "label": null,
+          "note": ""
+        },
+        "rls-missing": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/kmgrassi/PopcornReady": {
+      "tool": "claude-code",
+      "set": "held-out",
+      "commit": "d36e5d6a9a603f6396f7ea6aa04785f618d6e05c",
+      "findings": {
+        "rls-open-write": {
+          "count": 6,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/umarallure/mvalawyersportal": {
+      "tool": "windsurf",
+      "set": "dev",
+      "commit": "301a932a62a3db9a8c24fe147c495668f012b21d",
+      "findings": {
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "cors-wildcard": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/Peym4n/viennaflow-app": {
+      "tool": "windsurf",
+      "set": "held-out",
+      "commit": "5bae0d8f12c4ae33fc84267ca806502e180fcd2f",
+      "findings": {
+        "env-file-committed": {
+          "count": 3,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    },
+    "https://github.com/Vishalsnw/WhatsOrder": {
+      "tool": "replit",
+      "set": "dev",
+      "commit": "5a3f92a0ed5bee268abde0afa91a7f8299400f27",
+      "findings": {
+        "no-error-boundary": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "no-error-tracking": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        },
+        "secret-in-logs": {
+          "count": 1,
+          "label": null,
+          "note": ""
+        }
+      },
+      "missed": []
+    }
+  }
+}

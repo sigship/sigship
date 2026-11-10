@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test:unit": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.5"
+  }
+}

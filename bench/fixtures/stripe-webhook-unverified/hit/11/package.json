@@ -1,0 +1,13 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "stripe": "^16.8.0",
+    "@nestjs/common": "^10.4.0"
+  }
+}

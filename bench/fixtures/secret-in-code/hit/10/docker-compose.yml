@@ -1,0 +1,8 @@
+services:
+  api:
+    build: .
+    environment:
+      NODE_ENV: production
+      STRIPE_SECRET_KEY: sk_live_x0KoytaaPtpTDAPqC82arz
+    ports:
+      - "3000:3000"

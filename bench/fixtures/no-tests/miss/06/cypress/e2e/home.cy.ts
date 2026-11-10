@@ -1,0 +1,1 @@
+it('loads', () => cy.visit('/'));
