@@ -1,0 +1,33 @@
+name: Publish to npm
+# Publishes the package to npm when a GitHub release is published, or by hand.
+# npm trusted publishing: GitHub's OIDC token proves the run comes from this repo and this
+# workflow file, so there is no npm token secret. Provenance is attached to the package.
+# One-time setup on npmjs.com is in docs/LISTINGS.md.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm test
+      - name: SIGSHIP checks its own repo
+        run: node bin/sigship.js .
+      - name: Check the release tag matches package.json
+        if: github.event_name == 'release'
+        run: |
+          pkg=$(node -p "require('./package.json').version")
+          test "v$pkg" = "${{ github.event.release.tag_name }}" || { echo "package.json is $pkg but the release tag is ${{ github.event.release.tag_name }}"; exit 1; }
+      - name: Publish
+        run: npm publish --provenance --access public

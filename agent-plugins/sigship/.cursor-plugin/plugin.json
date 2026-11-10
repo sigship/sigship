@@ -1,0 +1,7 @@
+{
+  "name": "sigship",
+  "description": "The go/no-go check for AI-built apps. Runs on your machine, lists what will break in production, and exits 0 only when it finds nothing serious.",
+  "author": {
+    "name": "Zoof04 Inc."
+  }
+}
