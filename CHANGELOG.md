@@ -2,6 +2,23 @@
 
 All notable changes to SIGSHIP are listed here. Versions follow [Semantic Versioning](https://semver.org).
 
+## Unreleased
+
+### Added
+- `--online`: the one free check that uses the network, and only when you ask. It sends the name and version of every package in `package.json` and your lockfile to OSV (`api.osv.dev/v1/querybatch`), nothing else, and reports a package with a known vulnerability as SEV-2. If OSV can't be reached, the scan runs without it and says so.
+- Accepted risks: `sigship-accept.json` in the checked folder, a list of `{ rule, file?, reason, expires }`. A matching finding is listed as an accepted risk and does not count for the verdict, which reads `GO with 1 accepted risk` in the terminal, JSON, Markdown, SARIF and HTML outputs. Expired or malformed entries are ignored with a warning. There is no flag or command that accepts a risk.
+- `--sarif`: SARIF 2.1.0 output with one rule per check and a stable fingerprint per result, for GitHub code scanning.
+- `--tool lovable|cursor|bolt|claude|replit|windsurf`: words the fix prompt for one tool. Without it the prompt is unchanged.
+- `npx sigship history [folder]`: finds secrets committed in the past, even ones a later commit removed, with the commit and file and never the value. Reads up to 5,000 commits or 50 MB of `git log -p`.
+- `npx sigship init --hook`: a pre-commit hook (`.git/hooks/pre-commit`, or a line in `.husky/pre-commit`) that runs only the secret checks on the staged files and blocks a commit that adds one. `npx sigship hook` is what it runs.
+- `init` adds the definition of done to `CLAUDE.md` too, when that file exists.
+- `--report --brand "Name" --logo file.png`: the client report with your name and logo instead of SIGSHIP's. The logo is inlined, so the page still loads nothing from the network.
+- Pack format v2 for the Pro pack: `projectLacks` (a pattern that must appear somewhere in the project), `policy` checks (`policyFor`, `policyWhere`) that read `create policy` blocks in SQL, and `dep` checks (`depMatch`, `depBelow`) that compare dependency versions against `package.json` and the lockfile. Every v1 field still works.
+
+### Changed
+- The checks now run in `src/engine.js`, which takes files already in memory and imports nothing from the file system or the network. `src/scan.js` only loads a folder from disk and calls it. Output is unchanged.
+- The scanner reads `yarn.lock` and `pnpm-lock.yaml` for pinned versions.
+
 ## 0.3.2 — 2026-11-09
 
 ### Changed

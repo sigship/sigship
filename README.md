@@ -69,7 +69,9 @@ Requires Node.js 22 or later.
 ```bash
 npx sigship                 # check the current folder
 npx sigship path/to/app     # check another folder
-npx sigship --prompt        # turn every fix into one prompt for Lovable, Cursor, Bolt or Claude Code
+npx sigship --prompt        # turn every fix into one prompt for your AI tool
+npx sigship --prompt --tool lovable   # worded for Lovable, Cursor, Bolt, Claude Code, Replit or Windsurf
+npx sigship --online        # also ask OSV about your packages (the one network call, only when you ask)
 npx sigship ui              # open the same results as a dashboard in your browser
 ```
 
@@ -79,18 +81,52 @@ npx sigship ui              # open the same results as a dashboard in your brows
 | --- | --- |
 | `npx sigship [folder]` | Check a project and print the postmortem. |
 | `npx sigship ui [folder]` | Open a local dashboard: verdict, findings, a copy-the-fix-prompt button and re-run. |
-| `npx sigship init [folder]` | Add a pull request check and a definition of done to `AGENTS.md`. |
+| `npx sigship init [folder]` | Add a pull request check and a definition of done to `AGENTS.md` and, when it exists, `CLAUDE.md`. With `--hook`, add a pre-commit hook too. |
+| `npx sigship history [folder]` | Find secrets committed in the past, even ones a later commit removed. |
+| `npx sigship hook [folder]` | What the pre-commit hook runs: the secret checks on the staged files only. |
 | `npx sigship mcp` | Start the MCP server for coding agents. |
 
 | Option | What it does |
 | --- | --- |
 | `--prompt` | Print the fixes as one prompt for your AI tool. |
+| `--tool <name>` | Word the prompt for one tool: `lovable`, `cursor`, `bolt`, `claude`, `replit` or `windsurf`. |
 | `--json` | Print the result as JSON. |
 | `--markdown` | Print the result as Markdown, for pull request comments. |
+| `--sarif` | Print the result as SARIF 2.1.0, for GitHub code scanning and other tools that read it. |
+| `--online` | Also check for packages with known vulnerabilities through OSV. The one free check that uses the network, and only when you ask. See [Privacy](#privacy). |
 | `--strict` | Also block on SEV-3 findings. |
 | `--report` | Also write `sigship-report.html` for a client. Needs a licence key. |
+| `--brand <name>`, `--logo <file>` | With `--report`, put your name and logo on the report instead of SIGSHIP's. |
 | `--no-open` | With `ui`, print the dashboard link without opening a browser. |
 | `--version`, `--help` | Print the version or the help. |
+
+### Accepted risks
+
+Sometimes a finding is real but you have decided to live with it for now. Put `sigship-accept.json` in the folder you check:
+
+```json
+[
+  { "rule": "cors-wildcard", "file": "src/api/public.ts", "reason": "This endpoint is public by design.", "expires": "2026-12-31" }
+]
+```
+
+`rule` is the check id, `file` is optional, and `expires` is a date. A matching finding is listed as an accepted risk and no longer counts for the verdict, which reads `GO with 1 accepted risk`. An expired or malformed entry is ignored with a warning, so the finding counts again. There is no flag, command or MCP tool that accepts a risk: only that file, which goes through code review like everything else.
+
+### Secrets in git history
+
+```bash
+npx sigship history
+```
+
+A secret that was committed and later removed is still in every clone. This reads `git log -p` for up to 5,000 commits or 50 MB, runs the secret checks on every added line, and prints the commit and file of each secret, with whether a later commit removed it. It never prints the value. It is a separate command because it is slower than a scan.
+
+### Pre-commit hook
+
+```bash
+npx sigship init --hook
+```
+
+Writes `.git/hooks/pre-commit`, or adds a line to `.husky/pre-commit` when your project uses Husky. The hook runs only the secret checks, only on the staged files, so it takes well under a second, and it blocks a commit that would add a secret.
 
 The dashboard listens on `127.0.0.1` only, answers only the private link it prints, and serves findings, never file contents. Press Ctrl+C to stop it.
 
@@ -100,7 +136,9 @@ The dashboard listens on `127.0.0.1` only, answers only the private link it prin
 npx sigship init
 ```
 
-Adds `.github/workflows/sigship.yml`, which fails a pull request that brings back a SEV-1 or SEV-2 problem, and a definition of done in `AGENTS.md` that tells coding agents to run SIGSHIP before saying they are finished. It never overwrites an existing file.
+Adds `.github/workflows/sigship.yml`, which fails a pull request that brings back a SEV-1 or SEV-2 problem, and a definition of done in `AGENTS.md` (and in `CLAUDE.md`, when that file exists) that tells coding agents to run SIGSHIP before saying they are finished. It never overwrites an existing file.
+
+For GitHub code scanning, run `npx sigship --sarif > sigship.sarif` in the workflow and upload it with `github/codeql-action/upload-sarif`. Each result carries a stable fingerprint, so a finding stays one alert across runs.
 
 ## Coding agents (MCP)
 
@@ -149,6 +187,7 @@ The agent gets two tools, `sigship_check` and `sigship_explain`, and one instruc
 
 - The free tool, dashboard and MCP server run entirely on your machine. They make no network calls and have no telemetry.
 - SIGSHIP never prints a secret value, in any output format.
+- With `--online`, and only then, SIGSHIP sends the name and version of every package in `package.json` and your lockfile to OSV at `api.osv.dev/v1/querybatch`, and nothing else: no code, no file names, no findings. A vulnerable package is a SEV-2 finding. If OSV can't be reached, the other checks still run and the scan still passes or fails on them.
 - With a licence key, and only then, SIGSHIP sends the key and a one-way repo fingerprint to `api.sigship.dev`. It never sends code, file names or findings.
 
 Full details: [sigship.dev/privacy](https://sigship.dev/privacy/).
@@ -167,6 +206,7 @@ If you already have a licence key, set it to add the Pro pack of extra checks:
 ```bash
 SIGSHIP_KEY=your-key npx sigship            # free checks plus the Pro pack
 SIGSHIP_KEY=your-key npx sigship --report   # also write a client-ready HTML report
+SIGSHIP_KEY=your-key npx sigship --report --brand "Your Studio" --logo logo.png   # with your name and logo on it
 npx sigship init --pro                      # pull request comments and a nightly check
 ```
 
