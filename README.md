@@ -28,6 +28,9 @@ No signup, no telemetry, no runtime dependencies. The free tool never touches th
 - [Commands](#commands)
 - [Pull requests](#pull-requests)
 - [Coding agents (MCP)](#coding-agents-mcp)
+- [Agents: what the tools return](#agents)
+- [Badge](#badge)
+- [Sign in](#sign-in)
 - [What it checks](#what-it-checks)
 - [Privacy](#privacy)
 - [Plans and licence keys](#sigship-cloud-and-licence-keys)
@@ -85,6 +88,8 @@ npx sigship ui              # open the same results as a dashboard in your brows
 | `npx sigship history [folder]` | Find secrets committed in the past, even ones a later commit removed. |
 | `npx sigship hook [folder]` | What the pre-commit hook runs: the secret checks on the staged files only. |
 | `npx sigship mcp` | Start the MCP server for coding agents. |
+| `npx sigship badge <site>` | Print the badge code for a site after a GO. See [Badge](#badge). |
+| `npx sigship login`, `npx sigship logout` | Sign in to SIGSHIP Cloud so each check reports its verdict, or stop. See [Sign in](#sign-in). |
 
 | Option | What it does |
 | --- | --- |
@@ -154,7 +159,52 @@ Cursor, in `.cursor/mcp.json`:
 { "mcpServers": { "sigship": { "command": "npx", "args": ["-y", "sigship", "mcp"] } } }
 ```
 
-The agent gets two tools, `sigship_check` and `sigship_explain`, and one instruction: don't say it's done while the verdict is NO-GO. SIGSHIP is listed in the MCP Registry as `io.github.sigship/sigship`.
+The agent gets three tools, `sigship_check`, `sigship_explain` and `sigship_badge`, a `launch-check` prompt, and one instruction: don't say it's done while the verdict is NO-GO. SIGSHIP is listed in the MCP Registry as `io.github.sigship/sigship`.
+
+## Agents
+
+What the MCP tools return, for anyone wiring SIGSHIP into an agent.
+
+`sigship_check` takes an optional `path` (default: the folder the server was started in) and `strict`. It returns one summary line as text and the same facts as structured content with a schema:
+
+| Field | What it is |
+| --- | --- |
+| `verdict`, `verdictText`, `go` | `GO` or `NO-GO`, the verdict in words (`GO with 1 accepted risk`), and a boolean. |
+| `summary` | One line: verdict, counts, what changed since the last run, and after a GO the badge command. |
+| `counts` | `sev1`, `sev2`, `sev3`. |
+| `findings` | One entry per check that found something, worst first: `id`, `severity`, `title`, `fix`, `count`, `where` (up to 10 places, each `file`, `line`, `detail`) and `more`, how many places are not listed. |
+| `accepted` | Accepted risks from `sigship-accept.json`. They don't count for the verdict. |
+| `since` | Compared with the last run of the same folder on this machine: `fixed`, `left`, `new` and `previousRun`. Null on the first run. The comparison lives in a small file in your cache folder that lists check ids and file names, never code. |
+| `fixPrompt` | The fixes as one brief, worded for the connected client (Claude Code, Cursor, Windsurf and others get their own `--tool` template). |
+| `checksRun`, `filesRead`, `warnings` | How much was read, and anything that went wrong on the way. |
+
+`sigship_explain` takes a check `id` and returns its title, forecast and fix. `sigship_badge` takes a `site` (and an optional `path`), checks the folder first, refuses while the verdict is NO-GO, and otherwise returns the badge `id`, `level`, `embed` code and `verify` link. It makes no network call without a licence key.
+
+The `launch-check` prompt (optional arguments `path` and `site`) tells the agent to check, fix worst first, re-run until GO, then get the badge. There is no tool that accepts a risk; only `sigship-accept.json` does that.
+
+## Badge
+
+After a GO, show it:
+
+```bash
+npx sigship badge myapp.com
+```
+
+This prints the Self-checked badge for the site: an image at `sigship.dev/b/<ID>.svg` wrapped in a link to its record at `sigship.dev/verify/`. The ID comes from the level and the site name, so a badge only fits the site it was made for. No account is needed and nothing is sent anywhere. Without a site, the command uses `homepage` from `package.json`.
+
+With `SIGSHIP_KEY` set, the same command registers the site for the Deep self-check badge instead. That sends the key and the site's host name to `api.sigship.dev`, nothing else. If the server can't be reached or refuses the key, you get the Self-checked badge and a line saying why.
+
+The Self-checked badge says you ran SIGSHIP yourself. What each level means is on [sigship.dev/badge](https://sigship.dev/badge/).
+
+## Sign in
+
+```bash
+npx sigship login
+```
+
+SIGSHIP shows a short code and opens `app.sigship.dev` in your browser. Approve the code there, and the terminal saves a token in your cache folder (`~/.cache/sigship/token`, or under `XDG_CACHE_HOME`, readable by you only). `npx sigship logout` deletes it.
+
+While you are signed in, every check reports its result to SIGSHIP Cloud so your dashboard shows it. The report is exactly: a one-way fingerprint of the repo (salted with your token), the SIGSHIP version, the SEV-1, SEV-2 and SEV-3 counts, GO or NO-GO, the date, and the folder's name. Never code, file names or findings. It is sent after the check finishes, so it can neither slow the check down nor fail it; if the server can't be reached, nothing is said and the exit code is unchanged. Set `SIGSHIP_NO_REPORT=1` to keep a check to yourself without signing out.
 
 ## Plugins
 
@@ -192,7 +242,8 @@ Claude Code: `claude plugin marketplace add sigship/sigship`, then `claude plugi
 - The free tool, dashboard and MCP server run entirely on your machine. They make no network calls and have no telemetry.
 - SIGSHIP never prints a secret value, in any output format.
 - With `--online`, and only then, SIGSHIP sends the name and version of every package in `package.json` and your lockfile to OSV at `api.osv.dev/v1/querybatch`, and nothing else: no code, no file names, no findings. A vulnerable package is a SEV-2 finding. If OSV can't be reached, the other checks still run and the scan still passes or fails on them.
-- With a licence key, and only then, SIGSHIP sends the key and a one-way repo fingerprint to `api.sigship.dev`. It never sends code, file names or findings.
+- With a licence key, and only then, SIGSHIP sends the key and a one-way repo fingerprint to `api.sigship.dev`. It never sends code, file names or findings. `npx sigship badge` with a key also sends the site's host name.
+- After `npx sigship login`, and only then, each check sends its verdict, counts, version, date, a repo fingerprint and the folder's name to `app.sigship.dev`. See [Sign in](#sign-in). `SIGSHIP_NO_REPORT=1` turns it off.
 
 Full details: [sigship.dev/privacy](https://sigship.dev/privacy/).
 
