@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from 'node:fs';
-import { basename, resolve } from 'node:path';
+import { basename, extname, resolve } from 'node:path';
 import { scan, verdict } from '../src/scan.js';
-import { toHtml, toJson, toMarkdown, toPrompt, toTerminal } from '../src/report.js';
+import { toHtml, toJson, toMarkdown, toPrompt, toSarif, toTerminal } from '../src/report.js';
+import { TOOLS } from '../src/prompts.js';
 import { init } from '../src/init.js';
 import { hasPro, loadPro } from '../src/pro.js';
 
@@ -22,29 +23,68 @@ Usage
   npx sigship mcp             Start the MCP server for Claude Code, Cursor and others.
 
 Options
-  --prompt     Print the fixes as one prompt for your AI tool.
-  --json       Print the result as JSON.
-  --markdown   Print the result as Markdown, for pull request comments.
-  --report     Also write sigship-report.html to send to a client (Solo and Team).
-  --strict     Also block on SEV-3 findings.
-  --no-open    With ui, print the dashboard link without opening a browser.
-  --version    Print the version.
-  --help       Print this help.
+  --prompt         Print the fixes as one prompt for your AI tool.
+  --tool <name>    Word the prompt for one tool: ${TOOLS.join(', ')}.
+  --json           Print the result as JSON.
+  --markdown       Print the result as Markdown, for pull request comments.
+  --sarif          Print the result as SARIF 2.1.0, for GitHub code scanning.
+  --report         Also write sigship-report.html to send to a client (Solo and Team).
+  --brand <name>   With --report, put this name on the report instead of SIGSHIP.
+  --logo <file>    With --report, put this PNG, JPEG, SVG, GIF or WebP logo on the report.
+  --strict         Also block on SEV-3 findings.
+  --no-open        With ui, print the dashboard link without opening a browser.
+  --version        Print the version.
+  --help           Print this help.
+
+Accepted risks
+  Put sigship-accept.json in the folder to accept a finding for a while:
+  [{ "rule": "cors-wildcard", "file": "src/api/x.ts", "reason": "why", "expires": "2026-12-31" }]
+  Accepted findings are listed but don't count for the verdict until they expire.
+  There is no flag or command that accepts a risk; only that file does.
 
 Solo and Team
   Set SIGSHIP_KEY to your licence key to add the Pro pack of extra checks.
   See https://sigship.dev/#pricing
 `;
 
+// Options that take a value: --tool cursor or --tool=cursor.
+const VALUE_FLAGS = new Set(['--tool', '--brand', '--logo']);
 const args = process.argv.slice(2);
-const flags = new Set(args.filter((a) => a.startsWith('-')));
-const words = args.filter((a) => !a.startsWith('-'));
+const flags = new Set();
+const values = {};
+const words = [];
+for (let i = 0; i < args.length; i += 1) {
+  const arg = args[i];
+  if (!arg.startsWith('-')) {
+    words.push(arg);
+    continue;
+  }
+  const eq = arg.indexOf('=');
+  const name = eq > 0 ? arg.slice(0, eq) : arg;
+  if (VALUE_FLAGS.has(name)) {
+    values[name] = eq > 0 ? arg.slice(eq + 1) : args[(i += 1)];
+    if (values[name] === undefined) {
+      console.error(`${name} needs a value. Run npx sigship --help to see the options.`);
+      process.exit(2);
+    }
+  }
+  flags.add(name);
+}
+
+const LOGO_TYPES = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp', svg: 'image/svg+xml' };
+function logoDataUri(file) {
+  const type = LOGO_TYPES[extname(file).slice(1).toLowerCase()];
+  if (!type) throw new Error(`--logo must be a PNG, JPEG, SVG, GIF or WebP file, not ${basename(file)}.`);
+  const bytes = readFileSync(file);
+  if (bytes.length > 2 * 1024 * 1024) throw new Error('--logo must be under 2 MB.');
+  return `data:${type};base64,${bytes.toString('base64')}`;
+}
 
 async function main() {
   if (flags.has('--help') || flags.has('-h')) return void process.stdout.write(HELP);
   if (flags.has('--version') || flags.has('-v')) return void console.log(version);
 
-  const known = new Set(['--prompt', '--json', '--markdown', '--strict', '--report', '--pro', '--no-open']);
+  const known = new Set(['--prompt', '--json', '--markdown', '--sarif', '--strict', '--report', '--pro', '--no-open', ...VALUE_FLAGS]);
   const unknown = [...flags].filter((f) => !known.has(f));
   if (unknown.length) {
     console.error(`Unknown option ${unknown[0]}. Run npx sigship --help to see the options.`);
@@ -76,6 +116,7 @@ async function main() {
 
   const target = (words[0] === 'check' ? words[1] : words[0]) ?? '.';
   const strict = flags.has('--strict');
+  const logo = values['--logo'] ? logoDataUri(values['--logo']) : undefined;
   const pro = await loadPro(target);
   if (flags.has('--report') && !hasPro(pro)) {
     const reason = pro.message ? `${pro.message.replace(' Ran the free checks.', '')} ` : '';
@@ -83,16 +124,25 @@ async function main() {
     process.exitCode = 2;
     return;
   }
+  if (values['--tool'] !== undefined && !TOOLS.includes(values['--tool'])) {
+    console.error(`Unknown tool ${values['--tool']}. Choose one of ${TOOLS.join(', ')}.`);
+    process.exitCode = 2;
+    return;
+  }
   const result = scan(target, { extraRules: pro.rules });
-  const options = { strict, pro };
+  const options = { strict, pro, tool: values['--tool'], version };
+
+  // Warnings go to stderr so they never break JSON or SARIF on stdout.
+  if (!flags.has('--json') && !flags.has('--markdown')) for (const line of result.warnings ?? []) console.error(line);
 
   if (flags.has('--json')) console.log(JSON.stringify(toJson(result, options), null, 2));
+  else if (flags.has('--sarif')) console.log(JSON.stringify(toSarif(result, options), null, 2));
   else if (flags.has('--markdown')) console.log(toMarkdown(result, options));
   else if (flags.has('--prompt')) console.log(toPrompt(result, options));
   else console.log(toTerminal(result, options));
 
   if (flags.has('--report')) {
-    writeFileSync('sigship-report.html', toHtml(result, { strict, name: basename(resolve(target)) }));
+    writeFileSync('sigship-report.html', toHtml(result, { strict, name: basename(resolve(target)), brand: values['--brand'], logo }));
     console.error('Wrote sigship-report.html.');
   }
 
