@@ -24,7 +24,11 @@ const PAGES = {
   releases: { eyebrow: 'Releases', color: 'sky', head: ['Every version,', 'on npm and GitHub.'], sub: 'npx sigship@latest always gets the newest checks.' },
   'open-source': { eyebrow: 'Open source · MIT', color: 'violet', head: ['Open', 'by default.'], sub: 'You should be able to read every line of the tool that checks your code. So you can.' },
   community: { eyebrow: 'Community', color: 'pink', head: ['Built in the open,', 'with builders.'], sub: 'GitHub, Discord, Discussions and support@sigship.dev. Every message is read by the team.' },
-  roadmap: { eyebrow: 'Roadmap', color: 'lime', head: ['Where SIGSHIP', 'is going.'], sub: "What is live, what is next, and what comes after. No dates promised." },
+  roadmap: { eyebrow: 'Roadmap', color: 'lime', head: ['Where SIGSHIP', 'is going.'], sub: 'What is live, what lands by 30 November, and what Cloud aims for. No dates promised for Cloud.' },
+  score: { eyebrow: 'Readiness score', color: 'lime', head: ['The score,', 'with the sums shown.'], sub: 'Start at 100, take points off per finding by severity, floor at 0. Accepted risks do not count.' },
+  accuracy: { eyebrow: 'Accuracy', color: 'teal', head: ['How often', 'each check is right.'], sub: 'Precision and recall per check from the public benchmark. No claims we have not measured.' },
+  'expert-review-protocol': { eyebrow: 'Expert review · protocol', color: 'violet', head: ['What an expert', 'review covers.'], sub: 'Logins and access, user data, payments, secret keys, AI spending. Signed by name. Three a week.' },
+  'incident-rule': { eyebrow: 'Incident rule', color: 'coral', head: ['If a badge fails you,', 'this is what we do.'], sub: 'Revoke the badge, publish a write-up, ship a new check through the Lookout.' },
   brand: { eyebrow: 'Brand', color: 'violet', head: ['Flag P,', 'the Blue Peter.'], sub: 'The SIGSHIP logo, colours and type, with files to download.' },
 };
 for (const r of RULES) {
