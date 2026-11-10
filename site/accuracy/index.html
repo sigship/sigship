@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Accuracy — SIGSHIP</title>
-<meta name="description" content="SIGSHIP makes no accuracy claims yet. The public benchmark is being built, and this page shows precision and recall per check the day it exists.">
+<meta name="description" content="How often each SIGSHIP check is right, measured by the public benchmark: precision and recall per check, with the date and version.">
 <link rel="canonical" href="https://sigship.dev/accuracy/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Zoof04 Inc.">
@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="SIGSHIP">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="Accuracy — SIGSHIP">
-<meta property="og:description" content="SIGSHIP makes no accuracy claims yet. The public benchmark is being built, and this page shows precision and recall per check the day it exists.">
+<meta property="og:description" content="How often each SIGSHIP check is right, measured by the public benchmark: precision and recall per check, with the date and version.">
 <meta property="og:url" content="https://sigship.dev/accuracy/">
 <meta property="og:image" content="https://sigship.dev/og/accuracy.png">
 <meta property="og:image:alt" content="Accuracy — SIGSHIP">
@@ -20,7 +20,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Accuracy — SIGSHIP">
-<meta name="twitter:description" content="SIGSHIP makes no accuracy claims yet. The public benchmark is being built, and this page shows precision and recall per check the day it exists.">
+<meta name="twitter:description" content="How often each SIGSHIP check is right, measured by the public benchmark: precision and recall per check, with the date and version.">
 <meta name="twitter:image" content="https://sigship.dev/og/accuracy.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -67,18 +67,33 @@
 <section class="page-hero"><div class="grid-bg"></div><div class="glow" style="--c:var(--teal)"></div><div class="in">
 
 <div class="eyebrow" style="--c:var(--teal)"><i></i>Accuracy</div>
-<h1 class="display split-h"><span class="w"><i style="--i:0">No&nbsp;</i></span><span class="w"><i style="--i:1">numbers&nbsp;</i></span><span class="w"><i style="--i:2">yet.&nbsp;</i></span><span class="w"><i style="--i:3">Here&nbsp;</i></span><span class="w"><i style="--i:4">is&nbsp;</i></span><span class="w"><i style="--i:5">what&nbsp;</i></span><span class="w"><i style="--i:6">we&nbsp;</i></span><span class="w"><i style="--i:7">will&nbsp;</i></span><span class="w"><i style="--i:8">measure.&nbsp;</i></span></h1>
+<h1 class="display split-h"><span class="w"><i style="--i:0">How&nbsp;</i></span><span class="w"><i style="--i:1">often&nbsp;</i></span><span class="w"><i style="--i:2">each&nbsp;</i></span><span class="w"><i style="--i:3">check&nbsp;</i></span><span class="w"><i style="--i:4">is&nbsp;</i></span><span class="w"><i style="--i:5">right.&nbsp;</i></span></h1>
 <p class="lede rv" style="--d:.2s"><span class="s">We don’t claim an accuracy number we haven’t measured in public. The benchmark lives in the open source repo, so anyone can re-run it.</span><span class="d">The benchmark is in <a href="https://github.com/sigship/sigship/tree/main/bench" style="color:var(--sky);text-decoration:underline">bench/</a> in the public repo. Re-run it yourself; the numbers on this page come from its results file.</span></p>
 
-</div></section><section class="sec sec-tight"><div class="wrap wrap-5"><div class="prose"><h2>Being built</h2>
-<p><span class="s">The benchmark is being built now and we aim to publish it in December. This page will show its results, by check, the day they exist. Until then we make no accuracy claims.</span><span class="d">bench/run.js and bench/results.json are in progress; publication is planned for December. No precision or recall figures are claimed until then.</span></p>
-<h2>What it will measure</h2>
-<ul>
-<li><span class="s">For each of the 17 checks, about 20 files that must set it off and 20 look-alike files that must not.</span><span class="d">Per check, ~20 planted positives and ~20 near-miss negatives.</span></li>
-<li><span class="s">How often a check is right when it flags something, and how often it finds a problem that is really there.</span><span class="d">Precision and recall per check, written to bench/results.json with the date and version.</span></li>
-<li><span class="s">A run over public apps built with AI tools, labelled by hand once, with a separate set kept back so we can’t tune to it.</span><span class="d">A labelled set of public AI-built repositories, plus a held-out set listed separately.</span></li>
-<li><span class="s">A release is blocked if any check gets worse than its last published number.</span><span class="d">A test fails the release if any check’s precision drops below its recorded value.</span></li>
-</ul><h2>Something it got wrong?</h2><p><span class="s">A false alarm or a missed problem is a bug. Tell us with the smallest example you can.</span><span class="d">Report false positives and misses with a minimal case; each one becomes a benchmark fixture.</span> <a href="https://github.com/sigship/sigship/issues/new/choose">Report it on GitHub</a>.</p></div></div></section>
+</div></section><section class="sec sec-tight"><div class="wrap wrap-5"><div class="prose"><h2>The numbers</h2>
+<p><span class="s">Measured on 2026-11-10 with sigship 0.3.2. For each check, the benchmark runs it over files that must set it off and look-alike files that must not.</span><span class="d">Run 2026-11-10, sigship 0.3.2. Per check: planted positives and look-alike negatives. Precision = true positives ÷ flagged. Recall = true positives ÷ planted.</span></p>
+<table><thead><tr><th>Check</th><th><span class="s">Right when it flags</span><span class="d">Precision</span></th><th><span class="s">Finds what is there</span><span class="d">Recall</span></th><th>Cases</th></tr></thead><tbody>
+<tr><td>A live secret is sitting in your code</td><td>90.9%</td><td>83.3%</td><td></td></tr>
+<tr><td>Your .env file is committed</td><td>70.8%</td><td>85%</td><td></td></tr>
+<tr><td>A server secret has a browser-visible name</td><td>81.8%</td><td>85.7%</td><td></td></tr>
+<tr><td>Your AI key runs in the browser</td><td>84.2%</td><td>80%</td><td></td></tr>
+<tr><td>A database table has no row level security</td><td>94.7%</td><td>90%</td><td></td></tr>
+<tr><td>A database policy lets anyone write</td><td>94.4%</td><td>85%</td><td></td></tr>
+<tr><td>Your Stripe webhook accepts anything</td><td>65.2%</td><td>75%</td><td></td></tr>
+<tr><td>User input may be pasted into a SQL query</td><td>88.2%</td><td>75%</td><td></td></tr>
+<tr><td>Your AI route has no spending brake</td><td>81.3%</td><td>65%</td><td></td></tr>
+<tr><td>Admin access is decided in the browser</td><td>94.1%</td><td>76.2%</td><td></td></tr>
+<tr><td>Raw HTML goes straight onto the page</td><td>71.4%</td><td>71.4%</td><td></td></tr>
+<tr><td>Any website can call your API</td><td>82.4%</td><td>66.7%</td><td></td></tr>
+<tr><td>A secret may be going to your logs</td><td>72.2%</td><td>61.9%</td><td></td></tr>
+<tr><td>One crash takes down the whole screen</td><td>81.8%</td><td>85.7%</td><td></td></tr>
+<tr><td>You will hear about errors from your users</td><td>75%</td><td>100%</td><td></td></tr>
+<tr><td>Nothing checks that a change did not break login</td><td>100%</td><td>59.1%</td><td></td></tr>
+<tr><td>Your deploys are not repeatable</td><td>90.5%</td><td>95%</td><td></td></tr>
+</tbody></table>
+
+<h2>How to read it</h2>
+<p><span class="s">100% on both lines means the check never cried wolf and never missed a planted problem in the benchmark. Real apps are messier, so treat these as the best case.</span><span class="d">Planted cases are the upper bound. A check’s recorded precision is a floor for releases: a release fails if any check drops below it.</span></p><h2>Something it got wrong?</h2><p><span class="s">A false alarm or a missed problem is a bug. Tell us with the smallest example you can.</span><span class="d">Report false positives and misses with a minimal case; each one becomes a benchmark fixture.</span> <a href="https://github.com/sigship/sigship/issues/new/choose">Report it on GitHub</a>.</p></div></div></section>
 </main>
 <footer class="foot">
 <div class="foot-grid">

@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "test": "node --test",
-    "docs": "node scripts/build-site.js",
+    "docs": "node scripts/build-site.js && node scripts/build-check.js",
     "check": "node scripts/build-check.js",
     "brand": "node scripts/build-brand.js && node scripts/build-og.js",
     "build": "npm run docs && npm run brand",
