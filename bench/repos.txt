@@ -1,0 +1,35 @@
+# Public repositories built with AI app builders or AI coding tools, found on GitHub by
+# their fingerprint files (lovable-tagger in package.json, a .bolt/ folder, v0 default
+# project name, .cursorrules, CLAUDE.md, .windsurfrules, .replit). They are not endorsed and
+# not owned by us; bench/real.js clones each shallowly, scans it and deletes the clone.
+# Columns: url  tool  set (dev or held-out; see bench/HELD-OUT.md).
+https://github.com/cfircoo/aws-sso-manager	lovable	held-out
+https://github.com/eryngordon/quiz-lead-magnet-maker	lovable	dev
+https://github.com/josephkamau32/LinguaLearn	lovable	dev
+https://github.com/karthik558/GuestIT-Portal	lovable	dev
+https://github.com/thefixer3x/sync-plan-flow	lovable	dev
+https://github.com/JatinxKumar/Campus-Connect-Hub	lovable	dev
+https://github.com/SankrityaT/InstaCare	lovable	dev
+https://github.com/mugisha-gordon/semkat-hub	lovable	held-out
+https://github.com/thamarakandabada/physicalmediavault	lovable	dev
+https://github.com/jotaefe373/gh-account-manager	lovable	held-out
+https://github.com/lucianlavric/Gaslytics	bolt	dev
+https://github.com/MohammedSardarSaajit4488/URL-Shortener-Pro	bolt	dev
+https://github.com/Rahultaxi123/taxiNearMe	bolt	dev
+https://github.com/Wonderlyve/guestly	bolt	dev
+https://github.com/JeromeLamarr/ucc-ipo-repo	bolt	held-out
+https://github.com/Salvador0302/AhorrApp	bolt	held-out
+https://github.com/SamanthaJeanneb/Portfolio-site	v0	dev
+https://github.com/ZESCODE/Zes-Dashboard	v0	dev
+https://github.com/jrodolforojas/votarimporta.cr	v0	dev
+https://github.com/danij91/resonanceDeckBuilder	v0	dev
+https://github.com/akshayborade09/coverio	v0	held-out
+https://github.com/Sam15b/FirstNextjs	v0	held-out
+https://github.com/Melv1C/CompetitionManagerSaaS	cursor	dev
+https://github.com/papotte/stundenzettel	cursor	dev
+https://github.com/maneki-neeko/dojo-dash-portal	cursor	held-out
+https://github.com/benesvoj/hazenasvinov-nextjs	claude-code	dev
+https://github.com/kmgrassi/PopcornReady	claude-code	held-out
+https://github.com/umarallure/mvalawyersportal	windsurf	dev
+https://github.com/Peym4n/viennaflow-app	windsurf	held-out
+https://github.com/Vishalsnw/WhatsOrder	replit	dev

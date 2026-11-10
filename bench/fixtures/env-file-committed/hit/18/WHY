@@ -1,0 +1,1 @@
+.gitignore ignores .env.* but the file is .env (the engine reads that as ignored)

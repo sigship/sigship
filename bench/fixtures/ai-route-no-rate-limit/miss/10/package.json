@@ -1,0 +1,14 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "openai": "^4.56.0",
+    "hono": "^4.5.0",
+    "hono-rate-limiter": "^0.4.0"
+  }
+}

@@ -23,7 +23,9 @@
     "ship": "npm run build && npm test && node bin/sigship.js . && npx wrangler deploy && (node scripts/indexnow.js || true)",
     "capture": "node scripts/capture-demo.js",
     "indexnow": "node scripts/indexnow.js",
-    "og": "node scripts/build-og.js"
+    "og": "node scripts/build-og.js",
+    "bench": "node bench/run.js",
+    "bench:real": "node bench/real.js"
   },
   "engines": {
     "node": ">=22"
