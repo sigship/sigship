@@ -72,7 +72,7 @@ PR title: `Add sigship`
 PR body:
 
 ```md
-Adds SIGSHIP, an MCP server (`npx -y sigship mcp`) with two tools: `sigship_check` scans a project folder and returns a GO or NO-GO verdict with findings and fixes, and `sigship_explain` explains one finding. It runs locally with no network access and no runtime dependencies. MIT licensed. Also in the official MCP Registry as io.github.sigship/sigship.
+Adds SIGSHIP, an MCP server (`npx -y sigship mcp`) with three tools: `sigship_badge` gives the badge code after a GO, and `sigship_check` scans a project folder and returns a GO or NO-GO verdict with findings and fixes, and `sigship_explain` explains one finding. It runs locally with no network access and no runtime dependencies. MIT licensed. Also in the official MCP Registry as io.github.sigship/sigship.
 ```
 
 ### GitHub MCP Registry email

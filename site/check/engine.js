@@ -12,7 +12,7 @@ const Buffer = globalThis.Buffer || {
   },
 };
 
-export const VERSION = "0.3.2";
+export const VERSION = "0.4.0";
 
 // Every SIGSHIP check lives here. A check is plain data plus one small function.
 // Checks only read files. They never call the network and never print a secret.
