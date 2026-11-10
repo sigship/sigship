@@ -38,6 +38,9 @@ function proLines(pro) {
 }
 
 const accepted = (result) => result.accepted ?? [];
+
+// What a GO ends with, in every format: the badge is how you show it.
+export const BADGE_HINT = 'Show it with: npx sigship badge <site>';
 const day = (iso) => String(iso).slice(0, 10);
 
 export function toTerminal(result, options = {}) {
@@ -74,6 +77,7 @@ export function toTerminal(result, options = {}) {
   if (v.go) {
     out.push(`${green(v.text)}  ${tally}. Exit 0.`);
     out.push(dim('This means these checks found nothing that blocks launch. It does not prove the app is safe.'));
+    out.push(dim(BADGE_HINT));
   } else {
     out.push(`${red(v.text)}  ${tally}. Exit 1.`);
     out.push(dim('Paste the fixes into your AI tool: npx sigship --prompt'));
@@ -112,7 +116,7 @@ export function toMarkdown(result, options = {}) {
     out.push('', '### Accepted risks', '', 'From `sigship-accept.json`. They do not count for the verdict.', '', '| Severity | Problem | Where | Accepted until | Reason |', '| --- | --- | --- | --- | --- |');
     for (const f of accepted(result)) out.push(`| SEV-${f.severity} | ${cell(f.title)} | \`${cell(f.file)}:${f.line}\` | ${day(f.expires)} | ${cell(f.reason)} |`);
   }
-  out.push('', v.go ? 'GO means these checks found nothing that blocks launch. It does not prove the app is safe.' : 'Run `npx sigship --prompt` and paste the fixes into your AI tool.');
+  out.push('', v.go ? `GO means these checks found nothing that blocks launch. It does not prove the app is safe. ${BADGE_HINT.replace(/: (.*)$/, ': `$1`')}` : 'Run `npx sigship --prompt` and paste the fixes into your AI tool.');
   return out.join('\n');
 }
 

@@ -11,6 +11,9 @@ import { scan, verdict } from '../src/scan.js';
 import { toJson, toPrompt, toTerminal } from '../src/report.js';
 import { RULES } from '../src/rules.js';
 
+// A signed-in machine would report every CLI run these tests make. Keep the tests off the network.
+process.env.SIGSHIP_NO_REPORT = '1';
+
 const CLI = join(dirname(fileURLToPath(import.meta.url)), '../bin/sigship.js');
 
 // Fake secrets are assembled at run time so this file never trips a secret scanner.
@@ -181,14 +184,16 @@ describe('sigship', () => {
     const client = new Client({ name: 'test', version: '0.0.0' });
     await client.connect(new StdioClientTransport({ command: 'node', args: [CLI, 'mcp'] }));
     const { tools } = await client.listTools();
-    assert.deepEqual(tools.map((t) => t.name).sort(), ['sigship_check', 'sigship_explain']);
+    assert.deepEqual(tools.map((t) => t.name).sort(), ['sigship_badge', 'sigship_check', 'sigship_explain']);
     assert.match(client.getInstructions(), /NO-GO/);
 
     const res = await client.callTool({ name: 'sigship_check', arguments: { path: bad } });
-    const body = JSON.parse(res.content[0].text);
+    const body = res.structuredContent;
     assert.equal(body.verdict, 'NO-GO');
-    assert.ok(body.findings.length >= RULES.length);
-    assert.ok(!res.content[0].text.includes(FAKE_OPENAI));
+    assert.equal(res.content[0].text, body.summary);
+    assert.equal(body.findings.length, RULES.length, 'one group per check, and every check fires on the bad project');
+    assert.ok(body.findings.every((f) => f.count >= 1 && f.where.length >= 1));
+    assert.ok(!JSON.stringify(body).includes(FAKE_OPENAI));
 
     const explain = await client.callTool({ name: 'sigship_explain', arguments: { id: 'rls-missing' } });
     assert.equal(JSON.parse(explain.content[0].text).severity, 1);
