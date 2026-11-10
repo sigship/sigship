@@ -1,0 +1,17 @@
+{
+  "description": "SIGSHIP launch mode. Does nothing until you switch it on; see the plugin README.",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/launch-mode.js"],
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

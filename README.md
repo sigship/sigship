@@ -156,6 +156,10 @@ Cursor, in `.cursor/mcp.json`:
 
 The agent gets two tools, `sigship_check` and `sigship_explain`, and one instruction: don't say it's done while the verdict is NO-GO. SIGSHIP is listed in the MCP Registry as `io.github.sigship/sigship`.
 
+## Plugins
+
+Claude Code: `claude plugin marketplace add sigship/sigship`, then `claude plugin install sigship@sigship`. You get the MCP server, a `/sigship:launch` skill that fixes findings and re-runs until GO, and an optional launch mode that will not let a session finish on NO-GO (off until you switch it on, see [`plugins/sigship`](plugins/sigship/README.md)). Cursor, Codex, Copilot, VS Code and Kiro can load the folder in [`agent-plugins/sigship`](agent-plugins/sigship/README.md). Where SIGSHIP is listed is in [`docs/LISTINGS.md`](docs/LISTINGS.md).
+
 ## What it checks
 
 17 checks, chosen for how AI-built apps actually fail. Each links to a page with what goes wrong and how to fix it.
