@@ -11,6 +11,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
+// The beta build (npm run beta) writes into site-beta/ instead.
+const OUT = process.env.SIGSHIP_OUT || 'site';
 
 export const ENGINE_HEAD = `// Built by scripts/build-check.js from src/rules.js. Do not edit; edit the source and rebuild.
 // Runs in a Web Worker on sigship.dev/check/ and in Node for the tests. It never touches the network.
@@ -257,7 +259,7 @@ function body() {
 
 // Takes the head, header and footer from a built page so the nav, strip and footer always match the rest of the site.
 export function buildPage() {
-  const built = read('site/resources/index.html');
+  const built = read(`${OUT}/resources/index.html`);
   const mainStart = built.indexOf('<main id="main">');
   const mainEnd = built.indexOf('</main>');
   if (mainStart < 0 || mainEnd < 0) throw new Error('site/resources/index.html has no <main>; run npm run docs first');
@@ -290,12 +292,12 @@ export function buildPage() {
 }
 
 export function buildCheck() {
-  mkdirSync(join(ROOT, 'site/check'), { recursive: true });
-  writeFileSync(join(ROOT, 'site/check/engine.js'), buildEngine());
-  writeFileSync(join(ROOT, 'site/check/index.html'), buildPage());
+  mkdirSync(join(ROOT, `${OUT}/check`), { recursive: true });
+  writeFileSync(join(ROOT, `${OUT}/check/engine.js`), buildEngine());
+  writeFileSync(join(ROOT, `${OUT}/check/index.html`), buildPage());
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   buildCheck();
-  console.log('Built site/check/engine.js and site/check/index.html');
+  console.log(`Built ${OUT}/check/engine.js and ${OUT}/check/index.html`);
 }

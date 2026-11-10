@@ -20,7 +20,11 @@ if (OWN_LETTER !== 'L') throw new Error('sigship.dev shows the Live-checked badg
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
-const site = join(root, 'site');
+// The private beta builds the same pages into another folder (SIGSHIP_OUT), marked noindex, with the
+// Cloud buttons pointing at the beta app instead of the waitlist. The public site is untouched.
+const BETA = process.env.SIGSHIP_BETA === '1';
+const APP_URL = process.env.SIGSHIP_APP_URL || (BETA ? 'https://app.beta1.sigship.dev' : 'https://app.sigship.dev');
+const site = process.env.SIGSHIP_OUT ? join(root, process.env.SIGSHIP_OUT) : join(root, 'site');
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 const VERSION = pkg.version;
 const NODE_MIN = pkg.engines.node.replace('>=', '');
@@ -73,6 +77,7 @@ const header = () => `<header class="top">
     <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between dark and light">${SUN}${MOON}</button>
     <a class="icon-btn social" href="${GH}" target="_blank" rel="noopener" aria-label="GitHub (opens in a new tab)">${brandIcon('github', 18, true)}</a>
     <a class="icon-btn social" href="${DISCORD}" target="_blank" rel="noopener" aria-label="Discord (opens in a new tab)">${discordIcon(18)}</a>
+    ${BETA ? `<a class="nav-link" href="${APP_URL}/signin">Sign in</a>` : ''}
     <a class="btn btn-primary btn-sm nav-cta" href="${CHECK}">Check my app</a>
     <button class="burger" type="button" data-mobile-toggle aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
   </div>
@@ -99,16 +104,17 @@ const footer = () => `<footer class="foot">
 </footer>`;
 // Before first paint: theme, voice, whether the announcement strip shows, and whether the loader shows (once per tab).
 const STRIP_UNTIL = '2026-12-01T08:00:00Z';
-const HEAD_SCRIPT = `<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null,m=null,x=null,b=null;try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-dev');x=localStorage.getItem('sigship-strip-cm26');b=sessionStorage.getItem('sigship-boot');sessionStorage.setItem('sigship-boot','1')}catch(e){}if(t==='light')d.classList.add('light');if(m==='1'||(m===null&&/github\\.com|npmjs\\.com/.test(document.referrer)))d.setAttribute('data-dev','1');var q=new URLSearchParams(location.search);if(q.get('theme')==='light')d.classList.add('light');if(q.get('theme')==='dark')d.classList.remove('light');if(q.get('mode')==='dev')d.setAttribute('data-dev','1');if(q.get('mode')==='plain')d.removeAttribute('data-dev');if(!x&&Date.now()<Date.parse('${STRIP_UNTIL}'))d.classList.add('has-strip');if(b||matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('no-boot');})();</script>`;
+const HEAD_SCRIPT = `<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null,m=null,x=null,b=null;try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-dev');x=localStorage.getItem('sigship-strip-cm26');b=sessionStorage.getItem('sigship-boot');sessionStorage.setItem('sigship-boot','1')}catch(e){}if(t==='light')d.classList.add('light');if(m==='1'||(m===null&&/github\\.com|npmjs\\.com/.test(document.referrer)))d.setAttribute('data-dev','1');var q=new URLSearchParams(location.search);if(q.get('theme')==='light')d.classList.add('light');if(q.get('theme')==='dark')d.classList.remove('light');if(q.get('mode')==='dev')d.setAttribute('data-dev','1');if(q.get('mode')==='plain')d.removeAttribute('data-dev');if(${BETA ? 'true' : `!x&&Date.now()<Date.parse('${STRIP_UNTIL}')`})d.classList.add('has-strip');if(b||matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('no-boot');})();</script>`;
 // The loader: the flag waves while the page loads, with a short progress bar. Shown once per tab, never for reduced motion.
 const BOOT_CSS = `<style>.boot{position:fixed;inset:0;z-index:300;display:grid;place-content:center;justify-items:center;gap:22px;background:#121316;transition:opacity .45s ease,visibility .45s}html.light .boot{background:#f9f9fb}html.no-boot .boot,.boot.done{opacity:0;visibility:hidden}.boot svg{width:96px;height:79px;color:#f4f4f6}html.light .boot svg{color:#16171b}.boot-bar{width:128px;height:3px;overflow:hidden;border-radius:999px;background:rgba(128,128,140,.25)}.boot-bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#b48cf2,#7cc4f0,#86d8d0,#c7f26b,#f2c66b,#f09b7a);transition:width .35s ease;animation:bootbar 1.4s cubic-bezier(.2,.7,.2,1) forwards}.boot.done .boot-bar i,.boot.full .boot-bar i{width:100%!important;animation:none}@keyframes bootbar{to{width:78%}}</style>`;
 const BOOT = `<div class="boot" id="boot" aria-hidden="true"><svg viewBox="0 0 256 211"><rect width="12" height="211" rx="6" fill="currentColor"/><path fill="#2f5be0"><animate attributeName="d" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" values="M16 13 Q76 1 136 13 T256 13 L256 173 Q196 185 136 173 T16 173 Z;M16 13 Q76 25 136 13 T256 13 L256 173 Q196 161 136 173 T16 173 Z;M16 13 Q76 1 136 13 T256 13 L256 173 Q196 185 136 173 T16 173 Z"/></path><path fill="#fff"><animate attributeName="d" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" values="M99 52 Q118 48 136 52 T173 52 L173 126 Q154 130 136 126 T99 126 Z;M99 52 Q118 56 136 52 T173 52 L173 126 Q154 122 136 126 T99 126 Z;M99 52 Q118 48 136 52 T173 52 L173 126 Q154 130 136 126 T99 126 Z"/></path></svg><div class="boot-bar"><i></i></div></div>
 <script>(function(){var b=document.getElementById('boot');if(!b||document.documentElement.classList.contains('no-boot'))return;var t0=Date.now();function go(){b.classList.add('full');setTimeout(function(){b.classList.add('done');setTimeout(function(){b.remove()},500)},Math.max(0,700-(Date.now()-t0)))}if(document.readyState==='complete')go();else addEventListener('load',go);setTimeout(go,2500)})();</script>`;
 // The announcement strip. Dismissable; it hides itself after Cyber Monday.
-const STRIP = `<div class="strip" id="strip" role="region" aria-label="Announcement"><div class="strip-in"><span class="strip-tag">Cyber Monday · Nov 30</span><span class="strip-text">Early birds get <b>50% off self-hosted plans</b>. Join the waitlist to lock in the price.</span><span class="strip-short">Early birds: <b>50% off self-hosted</b></span><a class="strip-cta" href="/waitlist/?plan=pro">Join the waitlist →</a></div><button class="strip-x" type="button" data-strip-close aria-label="Hide this announcement">×</button></div>`;
+const STRIP = BETA ? `<div class="strip" id="strip" role="region" aria-label="Private beta"><div class="strip-in"><span class="strip-tag">Private beta</span><span class="strip-text">This is the SIGSHIP beta. Everything here is live for testers; the public launch is in January.</span><span class="strip-short">SIGSHIP private beta</span><a class="strip-cta" href="${APP_URL}/signin">Open the app →</a></div></div>` : `<div class="strip" id="strip" role="region" aria-label="Announcement"><div class="strip-in"><span class="strip-tag">Cyber Monday · Nov 30</span><span class="strip-text">Early birds get <b>50% off self-hosted plans</b>. Join the waitlist to lock in the price.</span><span class="strip-short">Early birds: <b>50% off self-hosted</b></span><a class="strip-cta" href="/waitlist/?plan=pro">Join the waitlist →</a></div><button class="strip-x" type="button" data-strip-close aria-label="Hide this announcement">×</button></div>`;
 
 // Every indexed page gets social tags, breadcrumbs and FAQ data built from its own visible questions.
-const page = ({ title, description, path, body, trail, ld: extra = [], ogType = 'website', canonical, noindex = false }) => {
+const page = ({ title, description, path, body, trail, ld: extra = [], ogType = 'website', canonical, noindex = BETA }) => {
+  if (BETA) noindex = true;
   const url = `${ORIGIN}${canonical || path}`;
   const og = `${ORIGIN}${ogFor(canonical || path)}`;
   const graph = noindex ? [] : [crumbs(trail || [['Home', '/'], [title.split(' — ')[0], path]]), faqFromHtml(body), ...extra].filter(Boolean);
@@ -224,8 +230,8 @@ const byId = Object.fromEntries(TRACKS.flatMap((t) => t.plans).map((p) => [p.id,
 // The small status label next to a paid feature: at launch, or the month it rolls out by.
 const stTag = (k) => (k && FEATURE_STATUS[k] ? `<span class="st-tag" style="--c:var(--${FEATURE_STATUS[k].c})" title="${esc(FEATURE_STATUS[k].long)}">${esc(FEATURE_STATUS[k].label)}</span>` : '');
 const planCard = (p, { hot = false, live = false, href, cta } = {}) => {
-  const buy = CHECKOUT[p.id] || '';
-  const tag = live ? 'Live' : buy ? 'On sale' : 'Waitlist';
+  const buy = CHECKOUT[p.id] || (BETA && p.monthly ? `${APP_URL}/signin` : '');
+  const tag = live ? 'Live' : buy ? (BETA && p.monthly ? 'Beta' : 'On sale') : 'Waitlist';
   const note = p.note ? `${p.note}${buy ? ` ${REFUND_LINE}` : ''}` : live ? 'Open source under MIT. No account, no card, no limits.' : 'Early estimate. You pay nothing until it opens.';
   return `<div class="plan card rv${hot ? ' hot spectrum-border' : ''}">
 <div class="row"><h3>${esc(p.name)}</h3><span class="tag${live || buy ? '' : ' tag-plain'}" style="--c:var(--go)">${tag}</span></div>
