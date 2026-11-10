@@ -1,8 +1,8 @@
 {
-  "tool": "sigship 0.3.2",
-  "version": "0.3.2",
+  "tool": "sigship 0.4.0",
+  "version": "0.4.0",
   "node": ">=22",
-  "capturedAt": "2026-11-08",
+  "capturedAt": "2026-11-10",
   "rules": {
     "total": 17,
     "block": 11,
@@ -16,9 +16,9 @@
     "verdict": "NO-GO",
     "filesRead": 6,
     "checksRun": 17,
-    "scanMs": 27,
-    "textScanMs": 25,
-    "wallMs": 62,
+    "scanMs": 34,
+    "textScanMs": 33,
+    "wallMs": 82,
     "counts": {
       "sev1": 2,
       "sev2": 1,
@@ -56,7 +56,7 @@
         "fix": "Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard."
       }
     ],
-    "text": "\nSIGSHIP read 6 files in 25 ms, ran 17 checks\n\nPostmortem, written before the outage. Worst first.\n\nSEV-1  Your Stripe webhook accepts anything\n       src/api/stripe-webhook.ts:3  Handles Stripe events with no signature check in this file.\n       Someone posts a fake \"payment succeeded\" event to your endpoint and\n       gets your paid plan for free.\n\nSEV-1  A database table has no row level security\n       supabase/migrations/001_init.sql:1  Table profiles is created without row level security.\n       Anyone with your public Supabase key can read this table. That key\n       ships in your JavaScript.\n\nSEV-2  Your AI route has no spending brake\n       src/api/chat.ts:2  This route calls a paid AI API and the project has no rate limiter.\n       One script loops on this endpoint overnight and you wake up to the\n       invoice.\n\nNO-GO  2 SEV-1, 1 SEV-2, 0 SEV-3. Exit 1.\nPaste the fixes into your AI tool: npx sigship --prompt\n\n",
+    "text": "\nSIGSHIP read 6 files in 33 ms, ran 17 checks\n\nPostmortem, written before the outage. Worst first.\n\nSEV-1  Your Stripe webhook accepts anything\n       src/api/stripe-webhook.ts:3  Handles Stripe events with no signature check in this file.\n       Someone posts a fake \"payment succeeded\" event to your endpoint and\n       gets your paid plan for free.\n\nSEV-1  A database table has no row level security\n       supabase/migrations/001_init.sql:1  Table profiles is created without row level security.\n       Anyone with your public Supabase key can read this table. That key\n       ships in your JavaScript.\n\nSEV-2  Your AI route has no spending brake\n       src/api/chat.ts:2  This route calls a paid AI API and the project has no rate limiter.\n       One script loops on this endpoint overnight and you wake up to the\n       invoice.\n\nNO-GO  2 SEV-1, 1 SEV-2, 0 SEV-3. Exit 1.\nPaste the fixes into your AI tool: npx sigship --prompt\n\n",
     "prompt": "Fix these production problems in order. Change only what each fix needs.\nAfter the fixes, run `npx sigship` again and keep going until it exits 0.\nIf a fix needs a key rotated or a dashboard changed, stop and tell me what to do.\n\n1. [SEV-1] Your Stripe webhook accepts anything\n   Where: src/api/stripe-webhook.ts:3\n   Fix: Verify every event with stripe.webhooks.constructEvent, using the raw request body and your webhook signing secret, before you act on it.\n2. [SEV-1] A database table has no row level security\n   Where: supabase/migrations/001_init.sql:1\n   Fix: Add \"alter table <name> enable row level security;\" in a new migration, then write a policy that limits each row to its owner.\n3. [SEV-2] Your AI route has no spending brake\n   Where: src/api/chat.ts:2\n   Fix: Add a per-user and per-IP rate limit in front of this route, plus a monthly spending cap in your AI provider dashboard.\n"
   },
   "run2": {
@@ -65,16 +65,16 @@
     "verdict": "GO",
     "filesRead": 6,
     "checksRun": 17,
-    "scanMs": 17,
-    "textScanMs": 18,
-    "wallMs": 53,
+    "scanMs": 22,
+    "textScanMs": 24,
+    "wallMs": 74,
     "counts": {
       "sev1": 0,
       "sev2": 0,
       "sev3": 0
     },
     "findings": [],
-    "text": "\nSIGSHIP read 6 files in 18 ms, ran 17 checks\n\nGO  0 SEV-1, 0 SEV-2, 0 SEV-3. Exit 0.\nThis means these checks found nothing that blocks launch. It does not prove the app is safe.\n\n",
+    "text": "\nSIGSHIP read 6 files in 24 ms, ran 17 checks\n\nGO  0 SEV-1, 0 SEV-2, 0 SEV-3. Exit 0.\nThis means these checks found nothing that blocks launch. It does not prove the app is safe.\nShow it with: npx sigship badge <site>\n\n",
     "prompt": "SIGSHIP found nothing blocking. Nothing to fix.\n"
   }
 }
