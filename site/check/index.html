@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Check your app in the browser — SIGSHIP</title>
+<meta name="description" content="Pick your project folder or a zip and get a Ready or Fix-first verdict in seconds. The 17 checks run in your browser. Nothing is uploaded.">
+<link rel="canonical" href="https://sigship.dev/check/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Zoof04 Inc.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SIGSHIP">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Check your app in the browser — SIGSHIP">
+<meta property="og:description" content="Pick your project folder or a zip and get a Ready or Fix-first verdict in seconds. The 17 checks run in your browser. Nothing is uploaded.">
+<meta property="og:url" content="https://sigship.dev/check/">
+<meta property="og:image" content="https://sigship.dev/og.png">
+<meta property="og:image:alt" content="Check your app in the browser — SIGSHIP">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Check your app in the browser — SIGSHIP">
+<meta name="twitter:description" content="Pick your project folder or a zip and get a Ready or Fix-first verdict in seconds. The 17 checks run in your browser. Nothing is uploaded.">
+<meta name="twitter:image" content="https://sigship.dev/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt">
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#121316">
+<meta name="color-scheme" content="dark light">
+<style>.boot{position:fixed;inset:0;z-index:300;display:grid;place-content:center;justify-items:center;gap:22px;background:#121316;transition:opacity .45s ease,visibility .45s}html.light .boot{background:#f9f9fb}html.no-boot .boot,.boot.done{opacity:0;visibility:hidden}.boot svg{width:96px;height:79px;color:#f4f4f6}html.light .boot svg{color:#16171b}.boot-bar{width:128px;height:3px;overflow:hidden;border-radius:999px;background:rgba(128,128,140,.25)}.boot-bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#b48cf2,#7cc4f0,#86d8d0,#c7f26b,#f2c66b,#f09b7a);transition:width .35s ease;animation:bootbar 1.4s cubic-bezier(.2,.7,.2,1) forwards}.boot.done .boot-bar i,.boot.full .boot-bar i{width:100%!important;animation:none}@keyframes bootbar{to{width:78%}}</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sigship.dev/"},{"@type":"ListItem","position":2,"name":"Check your app","item":"https://sigship.dev/check/"}]},{"@type":"WebApplication","name":"SIGSHIP browser check","url":"https://sigship.dev/check/","applicationCategory":"DeveloperApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Pick your project folder or a zip and get a Ready or Fix-first verdict in seconds. The 17 checks run in your browser. Nothing is uploaded."}]}</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');var t=null,m=null,x=null,b=null;try{t=localStorage.getItem('sigship-theme');m=localStorage.getItem('sigship-dev');x=localStorage.getItem('sigship-strip-cm26');b=sessionStorage.getItem('sigship-boot');sessionStorage.setItem('sigship-boot','1')}catch(e){}if(t==='light')d.classList.add('light');if(m==='1'||(m===null&&/github\.com|npmjs\.com/.test(document.referrer)))d.setAttribute('data-dev','1');var q=new URLSearchParams(location.search);if(q.get('theme')==='light')d.classList.add('light');if(q.get('theme')==='dark')d.classList.remove('light');if(q.get('mode')==='dev')d.setAttribute('data-dev','1');if(q.get('mode')==='plain')d.removeAttribute('data-dev');if(!x&&Date.now()<Date.parse('2026-12-01T08:00:00Z'))d.classList.add('has-strip');if(b||matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('no-boot');})();</script>
+<link rel="stylesheet" href="/app.css">
+<script src="/app.js" defer></script>
+<script type="module" src="/check/check.js"></script>
+</head>
+<body class="grain">
+<a class="skip" href="#main">Skip to content</a>
+<div class="boot" id="boot" aria-hidden="true"><svg viewBox="0 0 256 211"><rect width="12" height="211" rx="6" fill="currentColor"/><path fill="#2f5be0"><animate attributeName="d" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" values="M16 13 Q76 1 136 13 T256 13 L256 173 Q196 185 136 173 T16 173 Z;M16 13 Q76 25 136 13 T256 13 L256 173 Q196 161 136 173 T16 173 Z;M16 13 Q76 1 136 13 T256 13 L256 173 Q196 185 136 173 T16 173 Z"/></path><path fill="#fff"><animate attributeName="d" dur="1.5s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" values="M99 52 Q118 48 136 52 T173 52 L173 126 Q154 130 136 126 T99 126 Z;M99 52 Q118 56 136 52 T173 52 L173 126 Q154 122 136 126 T99 126 Z;M99 52 Q118 48 136 52 T173 52 L173 126 Q154 130 136 126 T99 126 Z"/></path></svg><div class="boot-bar"><i></i></div></div>
+<script>(function(){var b=document.getElementById('boot');if(!b||document.documentElement.classList.contains('no-boot'))return;var t0=Date.now();function go(){b.classList.add('full');setTimeout(function(){b.classList.add('done');setTimeout(function(){b.remove()},500)},Math.max(0,700-(Date.now()-t0)))}if(document.readyState==='complete')go();else addEventListener('load',go);setTimeout(go,2500)})();</script>
+<div class="strip" id="strip" role="region" aria-label="Announcement"><div class="strip-in"><span class="strip-tag">Cyber Monday · Nov 30</span><span class="strip-text">Early birds get <b>50% off self-hosted plans</b>. Join the waitlist to lock in the price.</span><span class="strip-short">Early birds: <b>50% off self-hosted</b></span><a class="strip-cta" href="/waitlist/?plan=pro">Join the waitlist →</a></div><button class="strip-x" type="button" data-strip-close aria-label="Hide this announcement">×</button></div>
+<header class="top">
+<nav class="navbar" aria-label="Main">
+  <a class="logo" href="/" aria-label="SIGSHIP home"><svg width="27" height="22" viewBox="0 0 256 211" aria-hidden="true"><rect width="12" height="211" rx="6" fill="currentColor"/><rect x="16" y="12.8" width="240" height="160" rx="9.6" fill="var(--brand)"/><rect x="99.2" y="56" width="73.6" height="73.6" fill="#fff"/></svg><b>SIGSHIP</b></a>
+  <div class="menus">
+    <div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Product</button><div class="mega"><a href="/checks/"><b>The 17 checks</b><span>What we look for, in plain words</span></a><a href="/cloud/"><b>SIGSHIP Cloud</b><span>Nightly checks + dashboard</span></a><a href="/badge/"><b>Verified badge</b><span>Show customers you checked</span></a><a href="/lookout/"><b>Lookout</b><span>New threats, caught early</span></a><a href="/pricing/"><b>Pricing</b><span>Free forever, plans soon</span></a><a href="/waitlist/"><b>Waitlist</b><span>Early-bird pricing for paid plans</span></a></div></div><div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Developers</button><div class="mega"><a href="/docs/"><b>Docs</b><span>Install, flags, exit codes</span></a><a href="/agents/"><b>AI agents</b><span>Claude Code, Cursor, MCP</span></a><a href="/api/"><b>API</b><span>Connect SIGSHIP Cloud</span></a><a href="/changelog/"><b>Changelog</b><span>Every change, dated</span></a><a href="/releases/"><b>Releases</b><span>Versions and downloads</span></a></div></div><div class="menu"><button class="menu-btn" type="button" aria-expanded="false">Resources</button><div class="mega"><a href="/resources/"><b>Guides</b><span>Check your Lovable or Bolt app</span></a><a href="/glossary/"><b>Jargon, explained</b><span>Every term in plain words</span></a><a href="/open-source/"><b>Open source</b><span>MIT, built in public</span></a><a href="/community/"><b>Community</b><span>GitHub, Discord and help</span></a></div></div>
+    <a class="nav-link" href="/pricing/">Pricing</a>
+  </div>
+  <div class="nav-acts">
+    <button class="mode-sw" type="button" data-mode-toggle aria-pressed="false" aria-label="Switch between simple and dev wording"><span class="knob"><i></i></span><span class="s">simple</span><span class="d">dev mode</span></button>
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between dark and light"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg></button>
+    <a class="icon-btn social" href="https://github.com/sigship/sigship" target="_blank" rel="noopener" aria-label="GitHub (opens in a new tab)"><svg width="18" height="18" viewBox="0 0 24 24" role="img" aria-label="GitHub"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg></a>
+    <a class="icon-btn social" href="https://discord.gg/hKG6rNM4W" target="_blank" rel="noopener" aria-label="Discord (opens in a new tab)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.32 4.37A19.8 19.8 0 0 0 15.43 2.8a13.7 13.7 0 0 0-.63 1.28 18.4 18.4 0 0 0-5.6 0 13.7 13.7 0 0 0-.63-1.28 19.7 19.7 0 0 0-4.89 1.52C.6 9.03-.24 13.57.18 18.05a19.9 19.9 0 0 0 6 3.03 14.6 14.6 0 0 0 1.28-2.1 12.9 12.9 0 0 1-2.02-.97l.5-.38a14.2 14.2 0 0 0 12.12 0l.5.38c-.64.38-1.32.71-2.02.97.37.74.8 1.44 1.28 2.1a19.8 19.8 0 0 0 6-3.03c.5-5.18-.84-9.68-3.5-13.68zM8.02 15.33c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.34-.95 2.42-2.15 2.42zm7.96 0c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.34-.94 2.42-2.15 2.42z"/></svg></a>
+    <a class="btn btn-primary btn-sm nav-cta" href="/resources/">Check my app</a>
+    <button class="burger" type="button" data-mobile-toggle aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" hidden>
+  <div class="links"><a href="/checks/">The 17 checks</a><a href="/cloud/">SIGSHIP Cloud</a><a href="/badge/">Verified badge</a><a href="/lookout/">Lookout</a><a href="/pricing/">Pricing</a><a href="/waitlist/">Waitlist</a><a href="/docs/">Docs</a><a href="/agents/">AI agents</a><a href="/api/">API</a><a href="/changelog/">Changelog</a><a href="/releases/">Releases</a><a href="/resources/">Guides</a><a href="/glossary/">Jargon, explained</a><a href="/open-source/">Open source</a><a href="/community/">Community</a></div>
+  <div class="row"><button type="button" data-mode-toggle aria-pressed="false"><span class="s">Dev mode: off</span><span class="d">Dev mode: on</span></button><button type="button" data-theme-toggle aria-label="Switch between dark and light"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg> Theme</button></div>
+  <div class="row"><a href="https://github.com/sigship/sigship" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" role="img" aria-label="GitHub"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg> GitHub</a><a href="https://discord.gg/hKG6rNM4W" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.32 4.37A19.8 19.8 0 0 0 15.43 2.8a13.7 13.7 0 0 0-.63 1.28 18.4 18.4 0 0 0-5.6 0 13.7 13.7 0 0 0-.63-1.28 19.7 19.7 0 0 0-4.89 1.52C.6 9.03-.24 13.57.18 18.05a19.9 19.9 0 0 0 6 3.03 14.6 14.6 0 0 0 1.28-2.1 12.9 12.9 0 0 1-2.02-.97l.5-.38a14.2 14.2 0 0 0 12.12 0l.5.38c-.64.38-1.32.71-2.02.97.37.74.8 1.44 1.28 2.1a19.8 19.8 0 0 0 6-3.03c.5-5.18-.84-9.68-3.5-13.68zM8.02 15.33c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.34-.95 2.42-2.15 2.42zm7.96 0c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.34-.94 2.42-2.15 2.42z"/></svg> Discord</a></div>
+  <div class="row"><a class="btn btn-primary" href="/resources/">Check my app</a></div>
+</div>
+</header>
+<main id="main">
+<section class="page-hero"><div class="grid-bg"></div><div class="glow" style="--c:var(--teal)"></div><div class="in">
+<div class="eyebrow" style="--c:var(--teal)"><i></i>Free · runs in your browser</div>
+<h1 class="display">Check your app without installing anything.</h1>
+<p class="lede"><span class="s">Pick your project folder or a zip of it. We read it right here in this tab, and nothing leaves your computer.</span><span class="d">Pick the repo folder or a zip of it. The 17 checks run in a Web Worker in this tab. No upload, and no request after the page loads.</span></p>
+</div></section>
+<section class="sec sec-tight"><div class="wrap">
+<style>
+.ck { max-width: 52rem; margin: 0 auto; display: grid; gap: 20px; }
+.ck-step { position: relative; padding: 24px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); }
+.ck-step .n { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-bottom: 12px; border-radius: 50%; background: var(--surface-2); color: var(--muted-foreground); font: 600 12px var(--mono); }
+.ck-step h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -.02em; }
+.ck-step .sub { margin-top: 6px; color: var(--muted-foreground); font-size: .9rem; }
+.ck-step[hidden] { display: none; }
+.ck-acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.drop { margin-top: 16px; padding: 32px 20px; border: 2px dashed var(--input); border-radius: 18px; background: var(--background); text-align: center; transition: border-color .2s, background .2s; }
+.drop.over { border-color: var(--sky); background: color-mix(in oklab, var(--sky) 8%, var(--background)); }
+.drop p { color: var(--muted-foreground); font-size: .9rem; }
+.drop .ck-acts { justify-content: center; }
+.ck-status { display: flex; align-items: center; gap: 10px; min-height: 24px; margin-top: 14px; color: var(--muted-foreground); font: 500 .8rem var(--mono); }
+.ck-status[data-tone="stop"] { color: var(--stop); }
+.ck-bar { flex: 1; max-width: 220px; height: 4px; overflow: hidden; border-radius: 999px; background: var(--surface-2); }
+.ck-bar i { display: block; width: 40%; height: 100%; border-radius: 999px; background: var(--gradient-spectrum); animation: ckbar 1.1s var(--ease) infinite alternate; }
+@keyframes ckbar { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+.ck-fine { margin-top: 14px; color: var(--muted-foreground); font-size: .75rem; }
+.ck-fine code { padding: 1px 6px; border-radius: 6px; background: var(--surface-2); }
+.ck-verdict { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 16px; padding: 18px 20px; border-radius: 16px; background: color-mix(in oklab, var(--stop) 10%, transparent); color: var(--stop); }
+.ck-verdict.go { background: color-mix(in oklab, var(--go) 15%, transparent); color: var(--go); }
+.ck-verdict b { font-size: 1.6rem; font-weight: 700; letter-spacing: -.03em; }
+.ck-verdict span { font: 500 .8rem var(--mono); }
+.ck-caveat { margin-top: 12px; color: var(--muted-foreground); font-size: .85rem; }
+.ck-group { margin-top: 20px; }
+.ck-group h3 { display: flex; align-items: center; gap: 8px; color: var(--c); font: 600 .75rem var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.ck-group h3 i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.ck-list { display: grid; gap: 10px; margin-top: 10px; }
+.finding { padding: 14px 16px; border: 1px solid var(--border); border-left: 3px solid var(--c); border-radius: 12px; background: var(--background); }
+.finding b { display: block; font-size: .95rem; font-weight: 600; }
+.finding .where { display: block; margin-top: 4px; color: var(--muted-foreground); font: 400 12px var(--mono); overflow-wrap: anywhere; }
+.finding p { margin-top: 8px; font-size: .875rem; line-height: 1.55; }
+.finding p span { color: var(--muted-foreground); }
+.ck-empty { margin-top: 16px; color: var(--muted-foreground); font-size: .9rem; }
+.ck-code { margin-top: 16px; }
+.ck-code pre { max-height: 22rem; overflow: auto; }
+.ck-embed { display: grid; gap: 12px; margin-top: 16px; }
+.ck-embed label { font-size: .8rem; font-weight: 600; }
+.ck-embed input { width: 100%; max-width: 420px; height: 44px; padding: 0 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); color: var(--foreground); font: 500 .95rem var(--mono); }
+.ck-embed .code pre { white-space: pre-wrap; word-break: break-all; }
+.ck-badge-pill { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 4px; padding: 18px; border-radius: 14px; background: var(--surface-2); }
+.ck-keep { margin-top: 16px; padding: 14px 16px; border-radius: 14px; border: 1px solid color-mix(in oklab, var(--sky) 30%, transparent); background: color-mix(in oklab, var(--sky) 8%, var(--surface)); font-size: .9rem; }
+.ck-keep a { color: var(--sky); text-decoration: underline; text-underline-offset: 3px; }
+.ck-alt { margin-top: 28px; text-align: center; color: var(--muted-foreground); font-size: .85rem; }
+.ck-alt code { padding: 2px 8px; border-radius: 6px; background: var(--surface-2); font-size: .9em; }
+.ck noscript p { margin-top: 16px; padding: 14px 16px; border-radius: 14px; background: color-mix(in oklab, var(--warn) 14%, transparent); font-size: .9rem; }
+@media (prefers-reduced-motion: reduce) { .ck-bar i { animation: none; width: 100%; } .drop { transition: none; } }
+@media (max-width: 480px) { .ck-step { padding: 20px 16px; border-radius: 18px; } .ck-verdict b { font-size: 1.35rem; } }
+</style>
+<div class="ck" id="check" data-check>
+<noscript><p><span class="s">This check runs inside your browser and needs JavaScript turned on. Or open a terminal in your project and run <code>npx sigship</code>.</span><span class="d">JavaScript is off. Run <code>npx sigship</code> in the repo instead; it is the same engine.</span></p></noscript>
+
+<div class="ck-step" id="step-pick">
+<div class="n">1</div>
+<h2><span class="s">Pick your project</span><span class="d">Pick the repo</span></h2>
+<p class="sub"><span class="s">The folder you downloaded from Lovable, Bolt or GitHub, or the one Cursor and Replit put on your computer. A zip of it works too.</span><span class="d">The folder or a zip export. node_modules, .git and build folders are skipped; text files up to 1 MB are read.</span></p>
+<div class="drop" data-drop>
+<p data-drop-text><span class="s">Drop a folder or a zip here</span><span class="d">Drop a folder or a zip here</span></p>
+<div class="ck-acts">
+<button class="btn btn-primary" type="button" data-pick-folder>Choose a folder</button>
+<button class="btn btn-ghost" type="button" data-pick-zip>Choose a zip</button>
+</div>
+<input type="file" accept=".zip,application/zip,application/x-zip-compressed" data-zip-input hidden>
+<input type="file" webkitdirectory directory multiple data-folder-input hidden>
+</div>
+<div class="ck-status" data-status aria-live="polite"></div>
+<p class="ck-fine"><span class="s">Nothing is uploaded. If you like, turn off your Wi-Fi first and the check still works.</span><span class="d">No network calls: open the network tab and watch. The worker only reads what you picked.</span></p>
+</div>
+
+<div class="ck-step" id="step-verdict" hidden>
+<div class="n">2</div>
+<h2><span class="s">Read the verdict</span><span class="d">The verdict</span></h2>
+<p class="sub"><span class="s">Ready means you can launch. Fix first means something serious needs attention before you do.</span><span class="d">GO or NO-GO, same as the CLI exit code: SEV-1 and SEV-2 block, SEV-3 is advice.</span></p>
+<div class="ck-verdict" data-verdict role="status"></div>
+<p class="ck-caveat" data-caveat></p>
+<div data-findings></div>
+</div>
+
+<div class="ck-step" id="step-fix" hidden>
+<div class="n">3</div>
+<h2>Copy the fix</h2>
+<p class="sub"><span class="s">Paste this into Lovable, Bolt, Cursor, or whichever AI tool built your app. It knows what to do with it.</span><span class="d">The same text as <code>npx sigship --prompt</code>: blocking findings in order, each with file:line and the fix.</span></p>
+<div class="ck-acts"><button class="btn btn-primary" type="button" data-copy="" data-copy-fix><span class="copy-label">Copy the fix</span></button></div>
+<div class="code ck-code"><div class="code-t code-row"><span>What gets copied</span><button class="copy-btn" type="button" data-copy="" data-copy-fix><span class="copy-label">copy</span></button></div><pre><code data-prompt></code></pre></div>
+</div>
+
+<div class="ck-step" id="step-again" hidden>
+<div class="n">4</div>
+<h2>Check again</h2>
+<p class="sub"><span class="s">After your AI tool makes the changes, run the check once more. Keep going until it says Ready.</span><span class="d">Re-reads the same folder. For a zip, export it again and pick the new file.</span></p>
+<div class="ck-acts"><button class="btn btn-primary" type="button" data-again>Check again</button><button class="btn btn-ghost" type="button" data-pick-other>Pick something else</button></div>
+</div>
+
+<div class="ck-step" id="step-badge" hidden>
+<div class="n">5</div>
+<h2><span class="s">Show it with a badge</span><span class="d">Add the Self-checked badge</span></h2>
+<p class="sub"><span class="s">Your app passed. Put the Self-checked badge on your site so customers can see you checked. It is free and needs no account.</span><span class="d">The Self-checked badge is self-declared and free. Its ID is computed from your site name, so it only fits the site it was made for.</span></p>
+<div class="ck-embed"><label for="ck-site">Your site</label><input id="ck-site" data-site value="myapp.com" maxlength="80" autocomplete="off" spellcheck="false" inputmode="url">
+<div class="ck-badge-pill"><a class="sg-pill m-steel" data-badge-link href="/verify/?id=&amp;site=" aria-label="SIGSHIP badge: Self-checked, level 1 of 5 (Steel)"><svg class="mk" viewBox="0 0 90 90" aria-hidden="true"><rect x="6" y="0" width="6" height="90" rx="3" fill="currentColor"/><rect x="14" y="6" width="72" height="50" rx="2" fill="#2f5be0"/><rect x="38" y="22.7" width="24" height="16.6" fill="#fff"/></svg><span class="brand">SIGSHIP</span><span class="t">Self-checked</span><span class="dot" aria-hidden="true"></span><span class="lvl" aria-hidden="true"><i class="f"></i><i></i><i></i><i></i><i></i></span><span class="id" data-badge-id></span></a><span class="muted">Badge ID <b class="mono" data-badge-id></b></span></div>
+<div class="code"><div class="code-t code-row"><span>Paste into your site</span><button class="copy-btn" type="button" data-copy="" data-badge-copy><span class="copy-label">copy</span></button></div><pre><code data-badge-code></code></pre></div></div>
+<p class="ck-keep"><span class="s">Want it checked every night, with a badge that proves it? <a href="/cloud/">SIGSHIP Cloud</a> keeps watch and tells you the moment something changes.</span><span class="d">For nightly runs on every push and a Live-checked badge, see <a href="/cloud/">SIGSHIP Cloud</a>.</span></p>
+</div>
+</div>
+<p class="ck-alt"><span class="s">Prefer the terminal? Open one in your project and run <code>npx sigship</code>. Same checks, same verdict.</span><span class="d">CLI: <code>npx sigship</code> in the repo. MCP and CI in the <a href="/docs/" style="text-decoration:underline">docs</a>.</span></p>
+</div></section>
+</main>
+<footer class="foot">
+<div class="foot-grid">
+  <div><a class="logo" href="/" aria-label="SIGSHIP home"><svg width="27" height="22" viewBox="0 0 256 211" aria-hidden="true"><rect width="12" height="211" rx="6" fill="currentColor"/><rect x="16" y="12.8" width="240" height="160" rx="9.6" fill="var(--brand)"/><rect x="99.2" y="56" width="73.6" height="73.6" fill="#fff"/></svg><b>SIGSHIP</b></a><p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p><div class="foot-badge" title="sigship.dev holds the top SIGSHIP badge. Click it to see the record."><a class="sg-pill m-obs" href="/verify/?id=SG-T-Z2Y6MQ&amp;site=sigship.dev" data-letter="T" aria-label="SIGSHIP badge: Expert and live, level 5 of 5 (Black platinum), ID SG-T-Z2Y6MQ. Check this badge on sigship.dev"><svg class="mk" viewBox="0 0 90 90" aria-hidden="true"><rect x="6" y="0" width="6" height="90" rx="3" fill="currentColor"/><rect x="14" y="6" width="72" height="50" rx="2" fill="#2f5be0"/><rect x="38" y="22.7" width="24" height="16.6" fill="#fff"/></svg><span class="brand">SIGSHIP</span><span class="t">Expert & live</span><span class="dot" aria-hidden="true"></span><span class="lvl" aria-hidden="true"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><span class="id" data-badge-id>SG-T-Z2Y6MQ</span></a></div></div>
+  <div class="col"><div class="k">Product</div><ul><li><a href="/checks/">17 checks</a></li><li><a href="/cloud/">Cloud</a></li><li><a href="/badge/">Verified badge</a></li><li><a href="/lookout/">Lookout</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="/waitlist/">Waitlist</a></li></ul></div><div class="col"><div class="k">Developers</div><ul><li><a href="/docs/">Docs</a></li><li><a href="/agents/">AI agents</a></li><li><a href="/api/">API</a></li><li><a href="/changelog/">Changelog</a></li><li><a href="/releases/">Releases</a></li></ul></div><div class="col"><div class="k">Company</div><ul><li><a href="/resources/">Resources</a></li><li><a href="/guides/">Guides</a></li><li><a href="/open-source/">Open source</a></li><li><a href="/community/">Community</a></li><li><a href="/brand/">Brand</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="word" aria-hidden="true">SIGSHIP</div>
+<div class="legal"><span>© 2026 SIGSHIP by Zoof04 Inc. · MIT licensed · <a href="mailto:support@sigship.dev">support@sigship.dev</a></span><span>A GO means our checks found nothing blocking launch. It does not prove the app is safe.</span></div>
+</footer>
+<p class="sr" id="live" aria-live="polite"></p>
+</body>
+</html>
