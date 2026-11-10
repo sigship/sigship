@@ -2,7 +2,7 @@
 
 All notable changes to SIGSHIP are listed here. Versions follow [Semantic Versioning](https://semver.org).
 
-## Unreleased
+## 0.4.0
 
 ### Added
 - MCP 0.4: `path` is optional and defaults to the folder the server was started in. `sigship_check` returns structured content with a schema: the verdict, counts, accepted risks, findings grouped by check with up to 10 places each and a count of the rest, `since` (fixed, left, new compared with the last run of the same folder, kept in a small file in the cache folder), and a fix brief worded for the connected client. New tool `sigship_badge` for the badge code after a GO, and the `launch-check` prompt. `sigship_explain` is unchanged. No tool accepts a risk.
