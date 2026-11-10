@@ -373,19 +373,49 @@ Where you see it
 The score and its history come with every Cloud plan, rolling out by January. The free check gives you the verdict and the list of findings today.
 
 ## Accuracy
-Being built
+The numbers
 
-The benchmark is being built now and we aim to publish it in December. This page will show its results, by check, the day they exist. Until then we make no accuracy claims.
+Measured on 2026-11-10 with sigship 0.3.2. For each check, the benchmark runs it over files that must set it off and look-alike files that must not.
 
-What it will measure
+CheckRight when it flagsFinds what is thereCases
 
-For each of the 17 checks, about 20 files that must set it off and 20 look-alike files that must not.
+A live secret is sitting in your code90.9%83.3%
 
-How often a check is right when it flags something, and how often it finds a problem that is really there.
+Your .env file is committed70.8%85%
 
-A run over public apps built with AI tools, labelled by hand once, with a separate set kept back so we can’t tune to it.
+A server secret has a browser-visible name81.8%85.7%
 
-A release is blocked if any check gets worse than its last published number.
+Your AI key runs in the browser84.2%80%
+
+A database table has no row level security94.7%90%
+
+A database policy lets anyone write94.4%85%
+
+Your Stripe webhook accepts anything65.2%75%
+
+User input may be pasted into a SQL query88.2%75%
+
+Your AI route has no spending brake81.3%65%
+
+Admin access is decided in the browser94.1%76.2%
+
+Raw HTML goes straight onto the page71.4%71.4%
+
+Any website can call your API82.4%66.7%
+
+A secret may be going to your logs72.2%61.9%
+
+One crash takes down the whole screen81.8%85.7%
+
+You will hear about errors from your users75%100%
+
+Nothing checks that a change did not break login100%59.1%
+
+Your deploys are not repeatable90.5%95%
+
+How to read it
+
+100% on both lines means the check never cried wolf and never missed a planted problem in the benchmark. Real apps are messier, so treat these as the best case.
 
 ## Expert review protocol
 What a review covers
