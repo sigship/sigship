@@ -1,0 +1,9 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vue-router": "^4.4.0"
+  }
+}

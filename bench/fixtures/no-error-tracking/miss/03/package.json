@@ -1,0 +1,9 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "express": "^4.19.2",
+    "@sentry/node": "^8.26.0"
+  }
+}

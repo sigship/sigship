@@ -1,0 +1,624 @@
+{
+  "date": "2026-11-10",
+  "version": "0.3.2",
+  "summary": {
+    "repos": 30,
+    "scanned": 30,
+    "failed": 0,
+    "noGo": 12,
+    "perCheck": {
+      "secret-in-code": {
+        "repos": 0,
+        "findings": 0
+      },
+      "env-file-committed": {
+        "repos": 2,
+        "findings": 4
+      },
+      "public-env-secret": {
+        "repos": 0,
+        "findings": 0
+      },
+      "ai-key-in-browser": {
+        "repos": 0,
+        "findings": 0
+      },
+      "rls-missing": {
+        "repos": 2,
+        "findings": 4
+      },
+      "rls-open-write": {
+        "repos": 4,
+        "findings": 51
+      },
+      "stripe-webhook-unverified": {
+        "repos": 1,
+        "findings": 2
+      },
+      "sql-string-concat": {
+        "repos": 0,
+        "findings": 0
+      },
+      "ai-route-no-rate-limit": {
+        "repos": 3,
+        "findings": 4
+      },
+      "role-in-local-storage": {
+        "repos": 0,
+        "findings": 0
+      },
+      "unsanitized-html": {
+        "repos": 3,
+        "findings": 4
+      },
+      "cors-wildcard": {
+        "repos": 7,
+        "findings": 44
+      },
+      "secret-in-logs": {
+        "repos": 7,
+        "findings": 25
+      },
+      "no-error-boundary": {
+        "repos": 19,
+        "findings": 19
+      },
+      "no-error-tracking": {
+        "repos": 26,
+        "findings": 26
+      },
+      "no-tests": {
+        "repos": 17,
+        "findings": 17
+      },
+      "no-lockfile": {
+        "repos": 1,
+        "findings": 1
+      }
+    }
+  },
+  "repos": [
+    {
+      "url": "https://github.com/cfircoo/aws-sso-manager",
+      "tool": "lovable",
+      "set": "held-out",
+      "commit": "f807dcf9537f8204bf82fbea04c542b136ca073f",
+      "filesRead": 147,
+      "ms": 84,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "secret-in-logs": 1
+      }
+    },
+    {
+      "url": "https://github.com/eryngordon/quiz-lead-magnet-maker",
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "ee2cdcfbe4dc89da22aee66434bd8d257429eb65",
+      "filesRead": 86,
+      "ms": 40,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 4
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1,
+        "cors-wildcard": 1
+      }
+    },
+    {
+      "url": "https://github.com/josephkamau32/LinguaLearn",
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "f1cc2e2ea82ec7e7504da0d931503112e80ec25e",
+      "filesRead": 153,
+      "ms": 49,
+      "counts": {
+        "sev1": 0,
+        "sev2": 1,
+        "sev3": 7
+      },
+      "checks": {
+        "ai-route-no-rate-limit": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1,
+        "cors-wildcard": 5
+      }
+    },
+    {
+      "url": "https://github.com/karthik558/GuestIT-Portal",
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "43e5066475f0474d751aa760b0ae1bec15361e7f",
+      "filesRead": 108,
+      "ms": 39,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 5
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1,
+        "cors-wildcard": 2
+      }
+    },
+    {
+      "url": "https://github.com/thefixer3x/sync-plan-flow",
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "9bbf2bf4b86d9a193d3ac37a09f7be7b3a4db0e1",
+      "filesRead": 168,
+      "ms": 153,
+      "counts": {
+        "sev1": 10,
+        "sev2": 0,
+        "sev3": 1
+      },
+      "checks": {
+        "rls-open-write": 10,
+        "no-error-tracking": 1
+      }
+    },
+    {
+      "url": "https://github.com/JatinxKumar/Campus-Connect-Hub",
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "328a8b5a35d7458da28fc99a62ebec718cef71fb",
+      "filesRead": 164,
+      "ms": 61,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 5
+      },
+      "checks": {
+        "secret-in-logs": 5
+      }
+    },
+    {
+      "url": "https://github.com/SankrityaT/InstaCare",
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "41d34138d3297d12096e4816e11fb65401394020",
+      "filesRead": 103,
+      "ms": 47,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/mugisha-gordon/semkat-hub",
+      "tool": "lovable",
+      "set": "held-out",
+      "commit": "49c972a20e96b7bc247cd835cae33fc99daa3e2d",
+      "filesRead": 211,
+      "ms": 56,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 2
+      },
+      "checks": {
+        "no-error-tracking": 1,
+        "secret-in-logs": 1
+      }
+    },
+    {
+      "url": "https://github.com/thamarakandabada/physicalmediavault",
+      "tool": "lovable",
+      "set": "dev",
+      "commit": "c411c1698cf6cc68541536e3981526a51e7606ba",
+      "filesRead": 89,
+      "ms": 46,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 6
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "cors-wildcard": 4
+      }
+    },
+    {
+      "url": "https://github.com/jotaefe373/gh-account-manager",
+      "tool": "lovable",
+      "set": "held-out",
+      "commit": "8039683a7efff52b6f0b8bc96fe8d8567d175bea",
+      "filesRead": 103,
+      "ms": 47,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 7
+      },
+      "checks": {
+        "secret-in-logs": 4,
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/lucianlavric/Gaslytics",
+      "tool": "bolt",
+      "set": "dev",
+      "commit": "ad6c3cfaf8aa7467bd53606642cc55c618a8b800",
+      "filesRead": 38,
+      "ms": 38,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/MohammedSardarSaajit4488/URL-Shortener-Pro",
+      "tool": "bolt",
+      "set": "dev",
+      "commit": "870a139a38a88bbcfafc13eec32fe5b3c65844d0",
+      "filesRead": 21,
+      "ms": 32,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/Rahultaxi123/taxiNearMe",
+      "tool": "bolt",
+      "set": "dev",
+      "commit": "fc4a11737def870dc6a16e967c10a1aeb3b826e4",
+      "filesRead": 86,
+      "ms": 47,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/Wonderlyve/guestly",
+      "tool": "bolt",
+      "set": "dev",
+      "commit": "14288273e0a30dbf91b781534ae8c3bfb9af7c52",
+      "filesRead": 97,
+      "ms": 46,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/JeromeLamarr/ucc-ipo-repo",
+      "tool": "bolt",
+      "set": "held-out",
+      "commit": "4298f5736dab503a3b51ff2bc512dbe1dadea923",
+      "filesRead": 766,
+      "ms": 153,
+      "counts": {
+        "sev1": 14,
+        "sev2": 0,
+        "sev3": 43
+      },
+      "checks": {
+        "rls-open-write": 11,
+        "rls-missing": 3,
+        "no-error-tracking": 1,
+        "no-lockfile": 1,
+        "cors-wildcard": 30,
+        "secret-in-logs": 11
+      }
+    },
+    {
+      "url": "https://github.com/Salvador0302/AhorrApp",
+      "tool": "bolt",
+      "set": "held-out",
+      "commit": "986023d0aa9c980f4af796bdfbfd9aa6a44bebac",
+      "filesRead": 43,
+      "ms": 36,
+      "counts": {
+        "sev1": 0,
+        "sev2": 1,
+        "sev3": 3
+      },
+      "checks": {
+        "ai-route-no-rate-limit": 1,
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/SamanthaJeanneb/Portfolio-site",
+      "tool": "v0",
+      "set": "dev",
+      "commit": "651ae9529645c0a2321da8954c4236f7ece0bdaa",
+      "filesRead": 44,
+      "ms": 37,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 5
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1,
+        "secret-in-logs": 2
+      }
+    },
+    {
+      "url": "https://github.com/ZESCODE/Zes-Dashboard",
+      "tool": "v0",
+      "set": "dev",
+      "commit": "26282cf348b7c7782a6f701b74a804ba4fe55eee",
+      "filesRead": 264,
+      "ms": 63,
+      "counts": {
+        "sev1": 0,
+        "sev2": 2,
+        "sev3": 3
+      },
+      "checks": {
+        "unsanitized-html": 2,
+        "cors-wildcard": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/jrodolforojas/votarimporta.cr",
+      "tool": "v0",
+      "set": "dev",
+      "commit": "6fc4a6eb27a007087882ff313d3ad40d84e3c608",
+      "filesRead": 212,
+      "ms": 51,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/danij91/resonanceDeckBuilder",
+      "tool": "v0",
+      "set": "dev",
+      "commit": "4a0aca2ab167bc49eb41a11674b67cf1dffc305f",
+      "filesRead": 135,
+      "ms": 72,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/akshayborade09/coverio",
+      "tool": "v0",
+      "set": "held-out",
+      "commit": "cb9d801749952fa9f7294048a03b4a030e204e8b",
+      "filesRead": 98,
+      "ms": 36,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/Sam15b/FirstNextjs",
+      "tool": "v0",
+      "set": "held-out",
+      "commit": "9c774064a4d414e93071ca037dfb2dd2eda8201e",
+      "filesRead": 77,
+      "ms": 41,
+      "counts": {
+        "sev1": 0,
+        "sev2": 3,
+        "sev3": 3
+      },
+      "checks": {
+        "ai-route-no-rate-limit": 2,
+        "unsanitized-html": 1,
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/Melv1C/CompetitionManagerSaaS",
+      "tool": "cursor",
+      "set": "dev",
+      "commit": "db2b5ffaa6e5b7eadfa7149ad604395d4167cc28",
+      "filesRead": 535,
+      "ms": 68,
+      "counts": {
+        "sev1": 0,
+        "sev2": 1,
+        "sev3": 0
+      },
+      "checks": {
+        "unsanitized-html": 1
+      }
+    },
+    {
+      "url": "https://github.com/papotte/stundenzettel",
+      "tool": "cursor",
+      "set": "dev",
+      "commit": "7f579727680fc8317beff115245738e5e4ab9a33",
+      "filesRead": 454,
+      "ms": 73,
+      "counts": {
+        "sev1": 2,
+        "sev2": 0,
+        "sev3": 2
+      },
+      "checks": {
+        "stripe-webhook-unverified": 2,
+        "no-error-boundary": 1,
+        "no-error-tracking": 1
+      }
+    },
+    {
+      "url": "https://github.com/maneki-neeko/dojo-dash-portal",
+      "tool": "cursor",
+      "set": "held-out",
+      "commit": "d29ef8c9a1c948fc496bf9184fde984ca1d7e725",
+      "filesRead": 159,
+      "ms": 42,
+      "counts": {
+        "sev1": 1,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "env-file-committed": 1,
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "no-tests": 1
+      }
+    },
+    {
+      "url": "https://github.com/benesvoj/hazenasvinov-nextjs",
+      "tool": "claude-code",
+      "set": "dev",
+      "commit": "a5229af4bfae0282636dec38ebe626656d634c0f",
+      "filesRead": 1694,
+      "ms": 257,
+      "counts": {
+        "sev1": 25,
+        "sev2": 0,
+        "sev3": 1
+      },
+      "checks": {
+        "rls-open-write": 24,
+        "rls-missing": 1,
+        "no-error-tracking": 1
+      }
+    },
+    {
+      "url": "https://github.com/kmgrassi/PopcornReady",
+      "tool": "claude-code",
+      "set": "held-out",
+      "commit": "d36e5d6a9a603f6396f7ea6aa04785f618d6e05c",
+      "filesRead": 1505,
+      "ms": 168,
+      "counts": {
+        "sev1": 6,
+        "sev2": 0,
+        "sev3": 0
+      },
+      "checks": {
+        "rls-open-write": 6
+      }
+    },
+    {
+      "url": "https://github.com/umarallure/mvalawyersportal",
+      "tool": "windsurf",
+      "set": "dev",
+      "commit": "301a932a62a3db9a8c24fe147c495668f012b21d",
+      "filesRead": 161,
+      "ms": 48,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 2
+      },
+      "checks": {
+        "no-error-tracking": 1,
+        "cors-wildcard": 1
+      }
+    },
+    {
+      "url": "https://github.com/Peym4n/viennaflow-app",
+      "tool": "windsurf",
+      "set": "held-out",
+      "commit": "5bae0d8f12c4ae33fc84267ca806502e180fcd2f",
+      "filesRead": 72,
+      "ms": 79,
+      "counts": {
+        "sev1": 3,
+        "sev2": 0,
+        "sev3": 0
+      },
+      "checks": {
+        "env-file-committed": 3
+      }
+    },
+    {
+      "url": "https://github.com/Vishalsnw/WhatsOrder",
+      "tool": "replit",
+      "set": "dev",
+      "commit": "5a3f92a0ed5bee268abde0afa91a7f8299400f27",
+      "filesRead": 84,
+      "ms": 41,
+      "counts": {
+        "sev1": 0,
+        "sev2": 0,
+        "sev3": 3
+      },
+      "checks": {
+        "no-error-boundary": 1,
+        "no-error-tracking": 1,
+        "secret-in-logs": 1
+      }
+    }
+  ]
+}
