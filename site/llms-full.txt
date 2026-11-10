@@ -330,6 +330,141 @@ A: GitHub's secret scanning catches many known key formats in public repositorie
 Q: Can I just make the repository private?
 A: It helps going forward, but anyone who saw or copied the key while it was public still has it. Replace the key first.
 
+## Readiness score
+The formula
+
+Every app starts at 100. Each problem the check finds takes points away, by how serious it is. The score can’t go below 0.
+
+FindingPoints offCounted at most
+
+Fix now30 each2
+
+Fix soon12 each3
+
+Nice to fix4 each5
+
+So the lowest an app can score is 100 minus 60, 36 and 20, which is 0. A clean app scores 100.
+
+What does not count
+
+A problem you have marked as an accepted risk, with a reason and an expiry date, is left out of the score.
+
+What the score is for
+
+The score is for the graph: it shows your app getting safer over time, and it lets you compare two days. It never decides the verdict.
+
+A score of 100 means these checks found nothing that blocks launch. It does not prove the app is safe.
+Worked examples
+
+FindingsScoreVerdict
+
+None100GO
+
+1 Nice to fix96GO
+
+1 Fix soon, 2 Nice to fix80NO-GO
+
+1 Fix now, 1 Fix soon58NO-GO
+
+3 Fix now (only 2 count), 4 Fix soon (only 3 count)4NO-GO
+
+Where you see it
+
+The score and its history come with every Cloud plan, rolling out by January. The free check gives you the verdict and the list of findings today.
+
+## Accuracy
+Being built
+
+The benchmark is being built now and we aim to publish it in December. This page will show its results, by check, the day they exist. Until then we make no accuracy claims.
+
+What it will measure
+
+For each of the 17 checks, about 20 files that must set it off and 20 look-alike files that must not.
+
+How often a check is right when it flags something, and how often it finds a problem that is really there.
+
+A run over public apps built with AI tools, labelled by hand once, with a separate set kept back so we can’t tune to it.
+
+A release is blocked if any check gets worse than its last published number.
+
+## Expert review protocol
+What a review covers
+
+A SIGSHIP expert engineer reads your code by hand, in this order, and writes down what they found under each heading.
+
+Logins and access. Who can sign in, who can see or change what, and whether an admin is decided on the server, not in the browser.
+
+User data. Where personal data lives, who can read it, and whether a stranger can read another user’s rows.
+
+Payments. That a payment message really came from your payment provider before anything is unlocked, and that prices and amounts are set on the server.
+
+Secret keys. That no key is in the code, the browser or the git history, and that each one has the least power it needs.
+
+AI spending. That no feature can run up your AI bill without limit, and that what users type can’t take over your AI’s instructions.
+
+The review also runs the full SIGSHIP check, including the Pro pack, so the written review starts where the scanner stops.
+
+What it does not cover
+
+A review reads your code. It does not test your live site from the outside, does not review your hosting account or dashboards, and is not a penetration test or a compliance audit. Anything out of scope is listed in the report so nobody assumes it was checked.
+
+Who signs it
+
+One named SIGSHIP expert engineer does the review and signs the report with their name and the review date. The same person is available for the 30-minute call.
+
+How many we take
+
+At most three reviews a week, so each one gets a full read. If the week is full you get the next open slot, and you can cancel for a full refund until work starts.
+
+What the report page shows
+
+An app that passes gets the Expert-reviewed badge, and the badge links to a report page that anyone can open. It shows:
+
+What was checked, under the five headings above.
+
+What was found and fixed before the badge was issued, in plain words, without details that would help an attacker.
+
+What was out of scope.
+
+The engineer’s name, the review date, and the SIGSHIP version used.
+
+The badge is valid for 12 months from the review date and the report says so. An app that changes a lot is reviewed again before the badge is renewed.
+
+An expert review is a careful read by one person with a written protocol. It is not a guarantee that the app is safe, and the report never says it is.
+Price
+
+From $499, with a ranked, written review within 48 hours and a 30-minute call. Available now. Request an expert review.
+
+## Incident rule
+The rule
+
+If an app that carries a SIGSHIP badge is breached through something one of our checks should have caught, we revoke the badge, publish a write-up, and add a new check through the Lookout.
+What counts
+
+It counts when the way in was a problem a check already looks for, or one our checks should have looked for given what they promise: a leaked key, an open database table, an unverified payment message, an AI route with no limit, and the rest of the list.
+
+What happens
+
+The badge is revoked. Within one working day of confirming the breach, the badge switches to Revoked and its record page says why.
+
+We write it up. A public notice in the Lookout: what happened, what our check saw, what it should have seen, and what we changed. No details that would help an attacker, and nothing that names the victim without their agreement.
+
+A new check. Within 14 days, the gap becomes a new check, or an existing check is widened, and it ships to the free tool as well as the paid plans.
+
+The badge comes back. After the fix, a fresh pass of the check restores the badge. For an Expert-reviewed badge the engineer reviews the fix first.
+
+What this does not mean
+
+A badge is not insurance and not a promise that the app is safe. It means the checks at that level found nothing that blocks launch, on the date shown. This rule is how we own it when the checks were not good enough.
+
+Reporting a breach
+
+Owners, researchers and users can report one to support@sigship.dev. We reply within one working day. Reports about SIGSHIP itself follow our security policy.
+
+Incidents so far
+
+None. This page lists every one, with a link to its write-up, the day there is one.
+
 ## Glossary
 - API key: A secret password that lets your app use a paid service, such as OpenAI, Stripe or Resend. Whoever has it can spend your money, so it must never be in code that visitors can see.
 - Environment variable (.env): A setting kept outside your code, often in a file called .env or in your host's dashboard. It is where secret keys belong.

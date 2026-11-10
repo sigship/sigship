@@ -216,7 +216,7 @@ For the nightly check and pull request comments, add the key as the repository s
 
 - SIGSHIP uses pattern checks. It can miss real problems and flag safe code.
 - It reads your repo, so it can't see settings changed only in a dashboard, such as Supabase policies created in the web console.
-- A GO is not a security audit. For a human review, see the [pilot review](https://sigship.dev/#pricing).
+- A GO is not a security audit. For a human review by a SIGSHIP expert engineer, see the [review protocol](https://sigship.dev/expert-review/protocol/).
 
 ## Contributing and security
 

@@ -822,3 +822,19 @@ a.sg-pill:hover { transform: translateY(-1px); filter: brightness(1.05); }
 @media (max-width: 480px) { a.sg-pill .brand { display: none; } .badge-demo { padding: 24px 12px; } .badge-demo .sg-pill { min-width: 0; width: 100%; } }
 @media (max-width: 480px) { .lv-c .sg-pill .lvl { display: none; } }
 .mfoot .sg-pill { flex: none; }
+
+/* Feature status: at launch, or the month a paid feature rolls out by (scripts/pricing.js STATUS). */
+.st-tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: color-mix(in oklab, var(--c, var(--muted-foreground)) 14%, transparent); color: var(--c, var(--muted-foreground)); font: 600 10px/1.6 var(--sans); letter-spacing: .02em; white-space: nowrap; vertical-align: 1px; }
+.cmp td:first-child .st-tag { vertical-align: 2px; }
+.cmp td .st-tag:only-child, .cmp td .check + .st-tag { display: block; margin: 4px auto 0; width: max-content; }
+.plan li .st-tag { margin-left: 6px; }
+.status-key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 20px; color: var(--muted-foreground); font-size: .78rem; line-height: 1.5; }
+.status-key span { display: inline-flex; align-items: center; gap: 6px; }
+.status-key i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+@media (max-width: 640px) { .plan li .st-tag { display: block; margin: 2px 0 0; width: max-content; } }
+
+/* One-click installs on /agents/ */
+.install-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.install-row .btn { gap: 8px; }
+.page-hero .extra .fine { text-align: left; }
+.page-hero .extra .fine code { padding: 1px 5px; border-radius: 5px; background: var(--surface-2); font-size: .95em; }

@@ -227,14 +227,31 @@
     else if (!site) { state = 'Site missing'; tone = 'warn'; title = 'Which site shows this badge?'; rows = [row('Badge ID', id), row('Level', `${lv[0]} · ${lv[1]}`), row('Next step', 'Add the site’s address below. An ID only fits the site it was made for.')]; }
     else if (badgeId(L, site) !== id) { state = 'Doesn’t match'; tone = 'stop'; title = `This ID doesn’t belong to ${esc(site)}`; rows = [row('Badge ID', id), row('Site', esc(site)), row('What it means', 'The badge was copied from another site or edited. Treat it as not genuine.')]; }
     else if (site === 'myapp.com') { state = 'Example'; tone = 'sky'; title = 'This is a sample badge'; img = 'SD'.includes(L); rows = [row('Badge ID', id), row('Level', `${lv[0]} · ${lv[1]}`), row('Where it’s from', 'The examples on <a href="/badge/">sigship.dev/badge</a>. Real badges carry the ID of the site that shows them.')]; }
-    else if ('SD'.includes(L)) { state = 'Self-declared'; tone = 'warn'; img = true; title = `${esc(site)} says it passed the ${L === 'S' ? 'free' : 'Pro'} check`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Who checked', `The site’s owner, on their own computer, with ${L === 'S' ? 'the 17 core checks' : 'the core checks and the Pro pack'}. The free check sends nothing to SIGSHIP, so we can’t confirm the result. That is why this level is self-declared.`), row('Stronger proof', 'Checked daily and Live-checked badges are run and drawn by sigship.dev itself. <a href="/badge/">See the levels</a>.')]; }
-    else { state = 'Not in our records'; tone = 'warn'; title = `No ${esc(lv[1])} record for ${esc(site)}`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('What it means', 'This level is issued by sigship.dev, and we have no record of it for this site. Treat the badge as not verified, and ask the owner to contact support@sigship.dev.')]; }
-    const st = $('[data-rec-state]', app); st.textContent = state; st.style.setProperty('--c', `var(--${tone})`);
-    $('[data-rec-id]', app).textContent = ok ? id : '';
-    $('[data-rec-title]', app).innerHTML = title;
-    $('[data-rec-list]', app).innerHTML = rows.join('');
-    const b = $('[data-rec-badge]', app); b.innerHTML = img ? `<img src="/b/${id}.svg" height="32" alt="SIGSHIP badge ${id}">` : ''; b.hidden = !img;
-    document.title = `${ok ? id : 'Badge'} — check a SIGSHIP badge`;
+    else if (L === 'S') { state = 'Self-declared'; tone = 'warn'; img = true; title = `${esc(site)} says it passed the free check`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Who checked', 'The site’s owner, on their own computer, with the 17 core checks. The free check sends nothing to SIGSHIP, so we can’t confirm the result. That is why this level is self-declared.'), row('Stronger proof', 'Checked daily and Live-checked badges are run and drawn by sigship.dev itself. <a href="/badge/">See the levels</a>.')]; }
+    else { state = 'Checking our records…'; tone = 'sky'; title = `Looking up ${esc(lv[1])} for ${esc(site)}`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`)]; }
+    const paint = () => {
+      const st = $('[data-rec-state]', app); st.textContent = state; st.style.setProperty('--c', `var(--${tone})`);
+      $('[data-rec-id]', app).textContent = ok ? id : '';
+      $('[data-rec-title]', app).innerHTML = title;
+      $('[data-rec-list]', app).innerHTML = rows.join('');
+      const b = $('[data-rec-badge]', app); b.innerHTML = img ? `<img src="/b/${id}.svg" height="32" alt="SIGSHIP badge ${id}">` : ''; b.hidden = !img;
+      document.title = `${ok ? id : 'Badge'} — check a SIGSHIP badge`;
+    };
+    paint();
+    if (state !== 'Checking our records…') continue;
+    // Issued levels (Deep self-check and up) have a record in the SIGSHIP Cloud API; Deep self-check also in the licence server.
+    const when = (iso) => { const d = new Date(iso); return Number.isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }); };
+    const sources = [`https://app.sigship.dev/api/v1/badges/${id}`, ...(L === 'D' ? [`https://api.sigship.dev/v1/badge/${id}`] : [])];
+    (async () => {
+      let rec = null;
+      for (const url of sources) { try { const r = await fetch(url, { headers: { accept: 'application/json' } }); if (r.ok) { const j = await r.json(); if (j && j.id === id) { rec = j; break; } } } catch { /* next */ } }
+      const who = { D: 'The site’s owner, with a SIGSHIP licence, using the core checks and the Pro pack. The licence server confirms the site is registered to that licence.', C: 'SIGSHIP ran the check itself, every night, and drew this badge.', L: 'SIGSHIP ran the check on every change to the code and drew this badge.', X: 'A SIGSHIP expert engineer reviewed the code by hand against the <a href="/expert-review/protocol/">review protocol</a>.', T: 'A SIGSHIP expert engineer reviewed the code by hand, and SIGSHIP re-checks it on every change.' }[L];
+      if (!rec || rec.site && host(rec.site) !== site) { state = 'Not in our records'; tone = 'warn'; title = `No ${esc(lv[1])} record for ${esc(site)}`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('What it means', 'This level is issued by sigship.dev, and we have no record of it for this site. Treat the badge as not verified, and ask the owner to contact support@sigship.dev.')]; }
+      else if (rec.state === 'revoked') { state = 'Revoked'; tone = 'stop'; img = true; title = `The ${esc(lv[1])} badge for ${esc(site)} was revoked`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Why', 'A problem a check should have caught. The <a href="/incident-rule/">incident rule</a> says what happens next, and the write-up is in the <a href="/lookout/">Lookout</a>.')]; }
+      else if (rec.state === 'paused') { state = 'Paused'; tone = 'warn'; img = true; title = `The ${esc(lv[1])} badge for ${esc(site)} is paused`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Why', 'The last check did not pass. The badge comes back by itself when a check passes again.'), row('Last pass', rec.lastPass ? when(rec.lastPass) : 'None recorded')]; }
+      else { state = 'Genuine · issued by SIGSHIP'; tone = 'go'; img = true; title = `${esc(site)} holds the ${esc(lv[1])} badge`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Who checked', who), ...(rec.lastPass ? [row('Last pass', when(rec.lastPass))] : []), ...(rec.streakSince ? [row('Clean since', when(rec.streakSince))] : [])]; }
+      paint();
+    })();
   }
 
   // ---------- Badge: type an app name, tilt with the pointer ----------

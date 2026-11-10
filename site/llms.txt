@@ -17,6 +17,10 @@
 - [SIGSHIP Cloud](https://sigship.dev/cloud/): nightly checks and a Verified badge, coming soon
 - [Lookout](https://sigship.dev/lookout/): new threats and what SIGSHIP does about each
 - [Glossary](https://sigship.dev/glossary/): app security terms in plain English
+- [Readiness score](https://sigship.dev/score/): the published formula behind the 0 to 100 score
+- [Accuracy](https://sigship.dev/accuracy/): how often each check is right, from the public benchmark
+- [Expert review protocol](https://sigship.dev/expert-review/protocol/): what a SIGSHIP expert engineer checks by hand
+- [Incident rule](https://sigship.dev/incident-rule/): what happens when a badge-holding app is breached through something a check should have caught
 - [Full text for language models](https://sigship.dev/llms-full.txt)
 
 ## Guides
