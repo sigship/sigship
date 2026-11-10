@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from 'node:fs';
+import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 const WORKFLOW = `name: SIGSHIP
@@ -81,8 +81,65 @@ Before saying work is finished, run \`npx sigship\`.
 If it exits 1, fix what it reports and run it again. Only say the work is done after it exits 0.
 `;
 
+const HOOK_LINE = 'npx --yes sigship hook';
+
+// The pre-commit hook. It runs only the secret checks, on staged files only, so it takes well under a second.
+const HOOK = `#!/bin/sh
+# SIGSHIP: blocks a commit that adds a secret. Checks the staged files only. Delete this file to stop.
+if npx --no-install sigship --version >/dev/null 2>&1; then exec npx --no-install sigship hook; fi
+exec ${HOOK_LINE}
+`;
+
+// Writes the pre-commit hook: into .husky/ when the project uses Husky, else into .git/hooks/.
+function addHook(root, done) {
+  const husky = join(root, '.husky');
+  if (existsSync(husky)) {
+    const file = join(husky, 'pre-commit');
+    const current = existsSync(file) ? readFileSync(file, 'utf8') : '';
+    if (current.includes('sigship')) {
+      done.push('Kept .husky/pre-commit (SIGSHIP already there).');
+    } else {
+      appendFileSync(file, `${current && !current.endsWith('\n') ? '\n' : ''}${HOOK_LINE}\n`);
+      chmodSync(file, 0o755);
+      done.push(`${current ? 'Added SIGSHIP to' : 'Added'} .husky/pre-commit. A commit that adds a secret is now blocked.`);
+    }
+    return;
+  }
+  const git = join(root, '.git');
+  if (!existsSync(git)) {
+    done.push('No .git folder here, so no pre-commit hook was added. Run git init first, or add a .husky folder.');
+    return;
+  }
+  const file = join(git, 'hooks', 'pre-commit');
+  if (existsSync(file)) {
+    const current = readFileSync(file, 'utf8');
+    done.push(current.includes('sigship') ? 'Kept .git/hooks/pre-commit (SIGSHIP already there).' : `Kept .git/hooks/pre-commit (already there). Add this line to it yourself: ${HOOK_LINE}`);
+    return;
+  }
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, HOOK);
+  chmodSync(file, 0o755);
+  done.push('Added .git/hooks/pre-commit. A commit that adds a secret is now blocked.');
+}
+
+// Adds the definition of done to one agent file. Creates AGENTS.md; only appends to CLAUDE.md when it exists.
+function addRule(root, name, done, { create }) {
+  const file = join(root, name);
+  if (!existsSync(file)) {
+    if (!create) return;
+    appendFileSync(file, AGENT_RULE);
+    done.push(`Added the definition of done to ${name}.`);
+    return;
+  }
+  if (readFileSync(file, 'utf8').includes('npx sigship')) done.push(`Kept ${name} (rule already there).`);
+  else {
+    appendFileSync(file, AGENT_RULE);
+    done.push(`Added the definition of done to ${name}.`);
+  }
+}
+
 // Adds the CI gate and the agent rule. Never overwrites a file that already exists.
-export function init(target = '.', { pro = false } = {}) {
+export function init(target = '.', { pro = false, hook = false } = {}) {
   const root = resolve(target);
   const done = [];
 
@@ -106,13 +163,8 @@ export function init(target = '.', { pro = false } = {}) {
     done.push('Add your licence key as the repository secret SIGSHIP_KEY. On Team, add SLACK_WEBHOOK_URL too for Slack alerts.');
   }
 
-  const agents = join(root, 'AGENTS.md');
-  const current = existsSync(agents) ? readFileSync(agents, 'utf8') : '';
-  if (current.includes('npx sigship')) {
-    done.push('Kept AGENTS.md (rule already there).');
-  } else {
-    appendFileSync(agents, AGENT_RULE);
-    done.push('Added the definition of done to AGENTS.md.');
-  }
+  addRule(root, 'AGENTS.md', done, { create: true });
+  addRule(root, 'CLAUDE.md', done, { create: false });
+  if (hook) addHook(root, done);
   return done;
 }

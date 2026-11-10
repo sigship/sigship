@@ -15,9 +15,18 @@ unless you set SIGSHIP_KEY, and then only the key and a one-way repo fingerprint
 
 Usage
   npx sigship [folder]        Check a project. Exits 0 for GO, 1 for NO-GO.
-  npx sigship init [folder]   Add the pull request check and the agent rule.
+  npx sigship init [folder]   Add the pull request check and the agent rule to
+                              AGENTS.md and, when it exists, CLAUDE.md.
+                              With --hook, add a pre-commit hook that blocks a
+                              commit that adds a secret (staged files only, fast).
                               With --pro, the check comments on pull requests and
                               a nightly check runs too (Solo and Team).
+  npx sigship history [folder]  Find secrets committed in the past, even if a later
+                              commit removed them. Reads git log for up to 5,000
+                              commits or 50 MB. Prints the commit and file, never
+                              the value. Exits 1 when it finds one.
+  npx sigship hook [folder]   What the pre-commit hook runs: the secret checks on
+                              the staged files. Exits 1 when it finds one.
   npx sigship ui [folder]     Open the dashboard in your browser. It runs on this
                               computer only. Press Ctrl+C to stop it.
   npx sigship mcp             Start the MCP server for Claude Code, Cursor and others.
@@ -84,7 +93,7 @@ async function main() {
   if (flags.has('--help') || flags.has('-h')) return void process.stdout.write(HELP);
   if (flags.has('--version') || flags.has('-v')) return void console.log(version);
 
-  const known = new Set(['--prompt', '--json', '--markdown', '--sarif', '--strict', '--report', '--pro', '--no-open', ...VALUE_FLAGS]);
+  const known = new Set(['--prompt', '--json', '--markdown', '--sarif', '--strict', '--report', '--pro', '--hook', '--no-open', ...VALUE_FLAGS]);
   const unknown = [...flags].filter((f) => !known.has(f));
   if (unknown.length) {
     console.error(`Unknown option ${unknown[0]}. Run npx sigship --help to see the options.`);
@@ -110,7 +119,33 @@ async function main() {
     return;
   }
   if (words[0] === 'init') {
-    for (const line of init(words[1], { pro: flags.has('--pro') })) console.log(line);
+    for (const line of init(words[1], { pro: flags.has('--pro'), hook: flags.has('--hook') })) console.log(line);
+    return;
+  }
+  if (words[0] === 'hook') {
+    const { checkStaged } = await import('../src/history.js');
+    const { files, findings } = checkStaged(words[1] ?? '.');
+    if (!findings.length) return;
+    console.error(`SIGSHIP: ${findings.length === 1 ? 'a secret is' : `${findings.length} secrets are`} in what you are about to commit (checked ${files} staged files).`);
+    for (const f of findings) console.error(`  ${f.file}:${f.line}  ${f.detail}`);
+    console.error('Move it to an environment variable, then stage the change and commit again. Value hidden.');
+    process.exitCode = 1;
+    return;
+  }
+  if (words[0] === 'history') {
+    const { history } = await import('../src/history.js');
+    const { commits, capped, secrets } = await history(words[1] ?? '.');
+    if (flags.has('--json')) {
+      console.log(JSON.stringify({ commits, capped, secrets }, null, 2));
+    } else {
+      console.log(`SIGSHIP read ${commits} commits${capped ? ' (stopped at the cap)' : ''}.`);
+      for (const s of secrets) {
+        console.log(`${s.removed ? 'REMOVED ' : 'PRESENT '} ${s.file}  ${s.detail}`);
+        console.log(`         committed ${s.commit} on ${s.date}${s.removed ? `, removed ${s.removed.commit} on ${s.removed.date}` : ', still in the history and the code'}`);
+      }
+      console.log(secrets.length ? '\nA removed secret is still in the history and in every clone. Rotate it. Then rewrite history or leave it, as it is already exposed.' : 'No secret was found in the history.');
+    }
+    process.exitCode = secrets.length ? 1 : 0;
     return;
   }
 
