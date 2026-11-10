@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS "public"."todos" ("id" uuid PRIMARY KEY);
+ALTER TABLE "public"."todos" ENABLE ROW LEVEL SECURITY;
