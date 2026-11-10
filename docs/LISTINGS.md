@@ -8,8 +8,8 @@ Checked against the live docs on 10 Nov 2026.
 
 | Listing | Status | What is left |
 | --- | --- | --- |
-| npm package `sigship` | done (0.3.2 is live) | From 0.4.0 the release publishes it, see "npm trusted publishing". |
-| Official MCP Registry `io.github.sigship/sigship` | done, but stale | Live versions are 0.1.1 and 0.3.1; 0.3.2 never reached it. `publish-mcp.yml` runs when a GitHub release is published, so publishing the 0.4.0 release puts 0.4.0 there. Nothing to rewrite. **owner:** create the release. |
+| npm package `sigship` | done (0.4.0 is live, with a provenance attestation) | The GitHub release publishes it, see "npm trusted publishing". |
+| Official MCP Registry `io.github.sigship/sigship` | done (0.4.0 is latest) | `publish-mcp.yml` runs when a GitHub release is published. If it runs before npm has finished processing the version, rerun the failed job. |
 | Claude Code plugin marketplace | done | `claude plugin marketplace add sigship/sigship` then `claude plugin install sigship@sigship`. Works once this branch is on `main`. |
 | Anthropic directory (claude.ai) | owner | Needs a paid claude.ai plan. Submit `plugins/sigship` at claude.ai/directory/manage. Run `claude plugin validate plugins/sigship --strict` first and the pre-submission checklist on claude.com. The hook does not load on claude.ai or in Cowork; the skill and MCP server do. The stdio MCP server there is not a hosted connector, so the connector route **needs the remote server**. |
 | Agent Plugins folder (Codex, Copilot, VS Code, Kiro) | done in repo, listing not submitted | `agent-plugins/sigship`. See "Agent Plugins: what was confirmed". |
