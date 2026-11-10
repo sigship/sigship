@@ -6,23 +6,23 @@ export const LEVELS = [
   { id: 'self', n: 1, metal: 'steel', metalName: 'Steel', title: 'Self-checked', short: 'Self-checked', comes: 'The free check', plans: 'Free', status: 'Available now', live: true, mark: 'dot-q', shield: '17/17 passed',
     items: ['You ran the <b>17 core checks</b> and all passed', 'Shows the SIGSHIP version you used', 'Links to a public page that explains what was checked'],
     why: 'Shows you care. But it is your own word and anyone can paste it, so visitors give it less weight.' },
-  { id: 'deep', n: 2, metal: 'bronze', metalName: 'Bronze', title: 'Deep self-check', short: 'Deep self-check', comes: 'Pro and Business', plans: 'Pro · Business', status: 'Waitlist', mark: 'dot-q', shield: 'deep · 17/17',
+  { id: 'deep', n: 2, metal: 'bronze', metalName: 'Bronze', title: 'Deep self-check', short: 'Deep self-check', comes: 'Pro and Business', plans: 'Pro · Business', status: 'By December', mark: 'dot-q', shield: 'deep · 17/17',
     items: ['Core checks <b>plus the Pro pack</b>', 'Same self-declared badge, more ground covered', '“Deep” on the badge'],
     alt: '<b>Business</b> gives the same badge to every app your team ships.',
     why: 'Covers more of your app. Still your own word, so it stays bronze, below the metals SIGSHIP checks itself.' },
-  { id: 'daily', n: 3, metal: 'silver', metalName: 'Silver', title: 'Checked daily', short: 'Checked daily', comes: 'Cloud Solo', plans: 'Solo', status: 'With Cloud', mark: 'dot', shield: 'daily · 9 Nov',
+  { id: 'daily', n: 3, metal: 'silver', metalName: 'Silver', title: 'Checked daily', short: 'Checked daily', comes: 'Cloud Solo', plans: 'Solo', status: 'By January', mark: 'dot', shield: 'daily · 9 Nov',
     items: ['<b>SIGSHIP re-runs the check</b> itself, every night', 'Badge is drawn by sigship.dev with <b>today’s date</b>', '<b>Turns off by itself</b> if a check fails', 'Your own verification page'],
     why: 'The first badge we stand behind. It cannot go stale or be copied, because we draw it.' },
-  { id: 'live', n: 4, metal: 'gold', metalName: 'Gold', title: 'Live-checked', short: 'Live-checked', comes: 'Cloud Team and Agency', plans: 'Team · Agency', status: 'With Cloud', mark: 'dot', shield: '42 days clean', pop: true,
+  { id: 'live', n: 4, metal: 'gold', metalName: 'Gold', title: 'Live-checked', short: 'Live-checked', comes: 'Cloud Team and Agency', plans: 'Team · Agency', status: 'By February', mark: 'dot', shield: '42 days clean', pop: true,
     items: ['Everything in Checked daily', 'Checked <b>every time your code changes</b>, not just daily', 'A <b>clean-days streak</b> on the badge', '<b>Public history page</b> buyers and investors can open'],
     alt: '<b>Agency</b> shows it on client apps as “via your studio”.',
-    why: 'The streak grows every day you stay clean. Time is the proof nobody can fake.' },
+    why: 'The streak grows every day you stay clean. Time is the proof nobody can fake. sigship.dev itself carries this badge: the check runs on every change to the site.' },
   { id: 'expert', n: 5, metal: 'plat', metalName: 'Platinum', title: 'Expert-reviewed', short: 'Expert-reviewed', comes: 'An expert review', plans: 'Expert review', status: 'Available now', live: true, mark: 'chk', shield: 'Nov 2026',
-    items: ['A <b>SIGSHIP expert engineer</b> reviews your code by hand', 'Follows the <b>SIGSHIP review protocol</b>: logins and access, user data, payments, secret keys, AI spending', 'Signed with the <b>engineer’s name and review date</b>', 'A report page: what was checked, what was found, what was out of scope'],
-    why: 'The answer to “did an expert actually look?” A person with a protocol, not only a scanner.' },
+    items: ['A <b>SIGSHIP expert engineer</b> reviews your code by hand', 'Follows the <b><a href="/expert-review/protocol/">SIGSHIP review protocol</a></b>: logins and access, user data, payments, secret keys, AI spending', 'Signed with the <b>engineer’s name and review date</b>', 'A report page: what was checked, what was found, what was out of scope'],
+    why: 'The answer to “did an expert actually look?” A person with a protocol, not only a scanner. Nobody holds this badge yet, including us.' },
 ];
 export const TOP = { id: 'top', n: 5, metal: 'obs', metalName: 'Black platinum', title: 'Expert-reviewed & live-checked', short: 'Expert & live', comes: 'Team or Agency, plus an expert review', plans: 'Team · Agency + review', status: 'Top level', mark: 'dot', shield: 'expert & live',
-  text: 'A SIGSHIP expert engineer reviewed the code <b>and</b> SIGSHIP re-checks it every time the code changes. Any Team or Agency plan plus an expert review in the last 12 months. The black platinum finish is reserved for this, so it stays rare.' };
+  text: 'A SIGSHIP expert engineer reviewed the code <b>and</b> SIGSHIP re-checks it every time the code changes. Any Team or Agency plan plus an expert review in the last 12 months. The black platinum finish is reserved for this, so it stays rare. Nobody holds it yet.' };
 
 const MK = '<svg class="mk" viewBox="0 0 90 90" aria-hidden="true"><rect x="6" y="0" width="6" height="90" rx="3" fill="currentColor"/><rect x="14" y="6" width="72" height="50" rx="2" fill="#2f5be0"/><rect x="38" y="22.7" width="24" height="16.6" fill="#fff"/></svg>';
 const MKW = '<svg class="mk" viewBox="0 0 90 90" aria-hidden="true"><rect x="6" y="0" width="6" height="90" rx="3" fill="#fff" opacity=".85"/><rect x="14" y="6" width="72" height="50" rx="2" fill="#2f5be0"/><rect x="38" y="22.7" width="24" height="16.6" fill="#fff"/></svg>';

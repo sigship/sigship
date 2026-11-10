@@ -46,5 +46,8 @@ Everything comes from one file: `scripts/lookout.js`. The home page section, the
 
 ## The email list
 
-The "Monday notice by email" form posts to the same Worker as the waitlist with `plan=lookout`, so sign-ups land in
-the waitlist sheet with that plan. Sending the email itself is manual for now (filter the sheet by `lookout`).
+The "Monday notice by email" form posts to `/api/lookout` on the site Worker (`worker/site.js`). When the Worker secret
+`LOOKOUT_API` is set to the cloud subscribe address (`https://app.sigship.dev/api/v1/lookout/subscribe`), the Worker forwards
+the address there and the cloud API confirms it by email and sends the notice. Until then the Worker writes it to the waitlist
+sheet with `plan=lookout`, and sending the email is manual (filter the sheet by `lookout`). Set it with
+`npx wrangler secret put LOOKOUT_API`.
