@@ -1,10 +1,14 @@
+// Loads a project from disk, then hands it to the engine. Everything that touches the file system
+// or git lives here, so src/engine.js stays free of both.
 import { execFileSync } from 'node:child_process';
 import { lstatSync, readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, relative, resolve, sep } from 'node:path';
-import { RULES } from './rules.js';
+import { scanFiles, verdict } from './engine.js';
 
-const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.next', '.nuxt', '.output', '.vercel', '.turbo', 'coverage', 'vendor', '.venv', '__pycache__', '.cache']);
-const TEXT = /\.(c|m)?(j|t)sx?$|\.vue$|\.svelte$|\.astro$|\.py$|\.sql$|\.json$|\.ya?ml$|\.toml$|\.html$|\.md$|\.txt$|\.sh$|\.rules$|\.tf$|(^|\/)\.env(\.[a-z]+)?$/i;
+export { verdict };
+
+export const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.next', '.nuxt', '.output', '.vercel', '.turbo', 'coverage', 'vendor', '.venv', '__pycache__', '.cache']);
+export const TEXT = /\.(c|m)?(j|t)sx?$|\.vue$|\.svelte$|\.astro$|\.py$|\.sql$|\.json$|\.ya?ml$|\.toml$|\.html$|\.md$|\.txt$|\.sh$|\.rules$|\.tf$|\.lock$|(^|\/)\.env(\.[a-z]+)?$/i;
 const MAX_BYTES = 1_000_000;
 
 const toPosix = (p) => p.split(sep).join('/');
@@ -45,7 +49,8 @@ function ignoresEnv(root) {
   return readFileSync(file, 'utf8').split('\n').some((l) => /^\s*\/?\.env(\*|\.\*)?\s*$/.test(l));
 }
 
-function loadContext(root) {
+// Reads the project: every path, which of them git tracks, and the text of each file a check can read.
+export function loadContext(root) {
   const git = gitFiles(root);
   const paths = (git ? git.all : walk(root)).filter((p) => !p.split('/').some((part) => SKIP_DIRS.has(part)));
   // Outside a git repo, treat a .env file as committed unless .gitignore covers it.
@@ -63,20 +68,7 @@ function loadContext(root) {
       // A file removed during the scan is not a finding.
     }
   }
-
-  let pkg = null;
-  const pkgFile = files.find((f) => f.path === 'package.json');
-  if (pkgFile) {
-    try {
-      pkg = JSON.parse(pkgFile.text);
-    } catch {
-      pkg = null;
-    }
-  }
-  const deps = { ...pkg?.dependencies, ...pkg?.devDependencies };
-  const sql = files.filter((f) => /\.sql$/i.test(f.path));
-  const usesSupabase = Object.keys(deps).some((d) => d.startsWith('@supabase/')) || paths.some((p) => /(^|\/)supabase\/(migrations|config\.toml)/.test(p));
-  return { root, paths, tracked, files, sql, pkg, deps, usesSupabase };
+  return { root, paths, tracked, files };
 }
 
 export function scan(target = '.', { extraRules = [] } = {}) {
@@ -86,35 +78,15 @@ export function scan(target = '.', { extraRules = [] } = {}) {
   }
   const started = performance.now();
   const ctx = loadContext(root);
-  const rules = [...RULES, ...extraRules];
-  const findings = rules.flatMap((rule) =>
-    rule.run(ctx).map((hit) => ({
-      id: rule.id,
-      severity: rule.severity,
-      title: rule.title,
-      forecast: rule.forecast,
-      fix: rule.fix,
-      file: hit.file,
-      line: hit.line,
-      detail: hit.detail,
-    })),
-  ).sort((a, b) => a.severity - b.severity || a.file.localeCompare(b.file) || a.line - b.line);
-
-  const counts = { sev1: 0, sev2: 0, sev3: 0 };
-  for (const f of findings) counts[`sev${f.severity}`] += 1;
-
+  const result = scanFiles({ files: ctx.files, tracked: ctx.tracked, paths: ctx.paths, extraRules });
   return {
     root,
     filesRead: ctx.files.length,
-    checksRun: rules.length,
+    checksRun: result.checksRun,
     ms: Math.round(performance.now() - started),
-    counts,
-    findings,
+    counts: result.counts,
+    findings: result.findings,
+    accepted: result.accepted,
+    warnings: result.warnings,
   };
-}
-
-export function verdict(result, { strict = false } = {}) {
-  const { sev1, sev2, sev3 } = result.counts;
-  const blocked = sev1 + sev2 + (strict ? sev3 : 0) > 0;
-  return { go: !blocked, label: blocked ? 'NO-GO' : 'GO', exitCode: blocked ? 1 : 0 };
 }
