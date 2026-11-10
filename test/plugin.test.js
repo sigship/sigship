@@ -6,6 +6,9 @@ import { tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+// A signed-in machine would report every CLI run these tests make. Keep the tests off the network.
+process.env.SIGSHIP_NO_REPORT = '1';
+
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const read = (p) => readFileSync(join(root, p), 'utf8')
 const json = (p) => JSON.parse(read(p))

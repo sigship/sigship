@@ -8,6 +8,9 @@ import { fileURLToPath } from 'node:url';
 import { init } from '../src/init.js';
 import { checkStaged, history } from '../src/history.js';
 
+// A signed-in machine would report every CLI run these tests make. Keep the tests off the network.
+process.env.SIGSHIP_NO_REPORT = '1';
+
 const CLI = join(dirname(fileURLToPath(import.meta.url)), '../bin/sigship.js');
 const cli = (args, cwd) => spawnSync('node', [CLI, ...args], { cwd, encoding: 'utf8', env: { ...process.env, NO_COLOR: '1' } });
 const FAKE_STRIPE = ['sk', 'live', '51Hx0aB2cD3eF4gH5iJ6kL7mN8'].join('_');
