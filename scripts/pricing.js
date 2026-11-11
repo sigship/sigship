@@ -7,7 +7,6 @@ export const PLAN_IDS = ['free', 'pro', 'business', 'solo', 'team', 'agency'];
 // Feature status: the label shown on the site, and its colour.
 export const STATUS = {
   launch: { label: 'At launch', long: 'Built and in use today', c: 'go' },
-  dec: { label: 'By December', long: 'Rolling out by December 2026', c: 'amber' },
   jan: { label: 'By January', long: 'Rolling out by January 2027', c: 'amber' },
   feb: { label: 'By February', long: 'Rolling out by February 2027', c: 'amber' },
 };
@@ -41,7 +40,7 @@ export const TRACKS = [
           'Open source under MIT',
           'Community support on GitHub',
           'Self-checked badge for your site',
-          ['Known vulnerable packages, opt-in online check', 'dec'],
+          ['Known vulnerable packages, opt-in online check', 'jan'],
         ],
       },
       {
@@ -60,15 +59,15 @@ export const TRACKS = [
           ['Client-ready HTML report', 'launch'],
           ['Pull request comments and nightly checks', 'launch'],
           ['Slack alert when a nightly check fails', 'launch'],
-          ['Deep Supabase policy check', 'dec'],
-          ['Security headers and login rate limits', 'dec'],
-          ['Hallucinated and look-alike packages', 'dec'],
-          ['Secrets in your git history', 'dec'],
-          ['Prompts tuned for Lovable, Cursor, Bolt and more', 'dec'],
-          ['Pre-commit hook and GitHub code scanning', 'dec'],
-          ['Accepted risks file', 'dec'],
-          ['Pre-launch checklist PDF', 'dec'],
-          ['Deep self-check badge', 'dec'],
+          ['Deep Supabase policy check', 'jan'],
+          ['Security headers and login rate limits', 'jan'],
+          ['Hallucinated and look-alike packages', 'jan'],
+          ['Secrets in your git history', 'jan'],
+          ['Prompts tuned for Lovable, Cursor, Bolt and more', 'jan'],
+          ['Pre-commit hook and GitHub code scanning', 'jan'],
+          ['Accepted risks file', 'jan'],
+          ['Pre-launch checklist PDF', 'jan'],
+          ['Deep self-check badge', 'jan'],
           '5 repos, unlimited team members',
           'Email support',
         ],
@@ -83,7 +82,7 @@ export const TRACKS = [
         tagline: 'For studios and agencies shipping client apps.',
         cta: { label: 'Join the waitlist', plan: 'business' },
         lead: 'Everything in Pro, plus',
-        items: ['25 repos', ['White-label client reports', 'dec'], 'Priority support', 'Unlimited team members'],
+        items: ['25 repos', ['White-label client reports', 'jan'], 'Priority support', 'Unlimited team members'],
       },
     ],
   },
@@ -165,7 +164,7 @@ const all = [true, true, true, true, true, true];
 const paid = [false, true, true, true, true, true];
 const cloud = [false, false, false, true, true, true];
 const selfPaid = [false, true, true, false, false, false];
-const selfDec = ['', 'dec', 'dec', 'jan', 'jan', 'jan'];
+const selfDec = ['', 'jan', 'jan', 'jan', 'jan', 'jan'];
 
 export const FEATURES = [
   {
@@ -181,7 +180,7 @@ export const FEATURES = [
     rows: [
       ['17 core checks', 'Leaked keys, committed .env files, open Supabase tables, unverified Stripe webhooks, AI routes with no spending brake and more.', all],
       ['Pro pack, 7 checks', 'Open Firebase rules, public storage buckets, routes that change data with no auth, Razorpay webhooks, upload limits, open redirects and weak session cookies.', paid, ['', 'launch', 'launch', 'jan', 'jan', 'jan']],
-      ['Known vulnerable packages', 'An opt-in online check: add --online and SIGSHIP sends package names and versions to the OSV advisory database, nothing else. Free for everyone.', all, 'dec'],
+      ['Known vulnerable packages', 'An opt-in online check: add --online and SIGSHIP sends package names and versions to the OSV advisory database, nothing else. Free for everyone.', all, 'jan'],
       ['Deep Supabase policy check', 'Finds policies that exist but do not restrict anything, the service key used in the browser, and email confirmation turned off.', paid, selfDec],
       ['Security headers', 'Content security policy, clickjacking protection and HSTS in your Next.js, Vercel or Netlify config.', paid, selfDec],
       ['Login and signup rate limits', 'Catches auth endpoints anyone can hammer with guesses.', paid, selfDec],
@@ -205,7 +204,7 @@ export const FEATURES = [
     rows: [
       ['Terminal, browser dashboard and MCP', 'Run it yourself, click through results in your browser, or give it to your coding agent.', all],
       ['Pull request check', 'A GitHub check that fails when a change brings a serious problem back.', all],
-      ['Pre-commit hook', 'Stops a secret before it is ever committed.', selfPaid, 'dec'],
+      ['Pre-commit hook', 'Stops a secret before it is ever committed.', selfPaid, 'jan'],
       ['GitHub code scanning', 'Findings appear in the Security tab of your GitHub repo.', paid, selfDec],
       ['Pull request comments and nightly checks', 'Results posted on each pull request, and a check every night.', paid, ['', 'launch', 'launch', 'jan', 'jan', 'jan']],
       ['Connect through GitHub', 'Connect apps from Lovable, Bolt, Replit and v0 through their GitHub sync. Nothing to install.', cloud, 'jan'],
@@ -226,9 +225,9 @@ export const FEATURES = [
       ['Terminal, JSON and Markdown output', 'For people, scripts and pull request comments.', all],
       ['Client-ready report', 'A clean HTML report to send to a client or investor.', paid, ['', 'launch', 'launch', 'jan', 'jan', 'jan']],
       ['Pre-launch checklist', 'A one-page checklist showing what was checked before launch. Print it to PDF.', paid, selfDec],
-      ['White-label reports', 'Your logo and name on client reports.', [false, false, true, false, false, true], ['', '', 'dec', '', '', 'feb']],
+      ['White-label reports', 'Your logo and name on client reports.', [false, false, true, false, false, true], ['', '', 'jan', '', '', 'feb']],
       ['Launch readiness score and history', 'A score from 0 to 100 with a published formula, and a graph of your app getting safer.', cloud, 'jan'],
-      ['Badge for your site', 'Comes with the plan, never sold alone. Each badge has its own ID and links to its record on sigship.dev. It never claims your app is certified.', ['Self-checked', 'Deep self-check', 'Deep self-check', 'Checked daily', 'Live-checked', 'Live-checked'], ['', 'dec', 'dec', 'jan', 'feb', 'feb']],
+      ['Badge for your site', 'Comes with the plan, never sold alone. Each badge has its own ID and links to its record on sigship.dev. It never claims your app is certified.', ['Self-checked', 'Deep self-check', 'Deep self-check', 'Checked daily', 'Live-checked', 'Live-checked'], ['', 'jan', 'jan', 'jan', 'feb', 'feb']],
     ],
   },
   {
