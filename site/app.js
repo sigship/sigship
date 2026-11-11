@@ -341,9 +341,9 @@
     if (started) started.value = String(Date.now());
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = $('input[type="email"]', form);
       const err = $('.wl-err', form);
-      if (!email.checkValidity()) { if (err) { err.hidden = false; err.textContent = 'Enter an email address, like you@example.com.'; } email.focus(); return; }
+      const bad = $$('input', form).find((i) => !i.checkValidity());
+      if (bad) { if (err) { err.hidden = false; err.textContent = bad.type === 'email' ? 'Enter an email address, like you@example.com.' : bad.type === 'url' ? 'The link should look like https://yourapp.com.' : `Please fill in ${(bad.labels && bad.labels[0] ? bad.labels[0].childNodes[0].textContent : 'this field').trim().toLowerCase().replace(/:$/, '')}.`; } bad.focus(); return; }
       const btn = $('button[type="submit"]', form);
       btn.disabled = true;
       try {

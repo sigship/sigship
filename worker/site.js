@@ -68,7 +68,10 @@ export async function waitlist(request, env, { fetch = globalThis.fetch, now = D
   const tool = clean(data.tool, 20).toLowerCase();
   if (!PLANS.has(plan)) return reply(400, false, 'Choose a plan.');
   if (!env.WAITLIST_URL) return reply(503, false, 'The waitlist is not open yet. Email support@sigship.dev and we will add you.');
-  const row = { email: cell(email), name: cell(clean(data.name, 80)), plan, tool: TOOLS.has(tool) ? tool : '', country: clean(request.headers.get('cf-ipcountry') ?? '', 4), at: new Date(now()).toISOString() };
+  let link = clean(data.link, 200);
+  if (link && !/^https?:\/\//i.test(link)) link = `https://${link}`;
+  if (link && !/^https?:\/\/[\w.-]+\.[a-z]{2,}(?:[/?#][^\s]*)?$/i.test(link)) return reply(400, false, 'The link should look like https://yourapp.com.');
+  const row = { email: cell(email), name: cell(clean(data.name, 80)), building: cell(clean(data.building, 300)), link: cell(link), plan, tool: TOOLS.has(tool) ? tool : '', country: clean(request.headers.get('cf-ipcountry') ?? '', 4), at: new Date(now()).toISOString() };
   return (await toSheet(row, env, fetch)) ? reply(200, true) : reply(502, false, SORRY);
 }
 

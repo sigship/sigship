@@ -24,9 +24,19 @@ const post = (body, json = true, path = '/api/waitlist') =>
     body: json ? JSON.stringify(body) : new URLSearchParams(body),
   });
 
-const good = { email: 'Maker@Example.com', name: 'Asha', plan: 'team', tool: 'lovable', started };
+const good = { email: 'Maker@Example.com', name: 'Asha', plan: 'team', tool: 'lovable', started, building: 'A booking app for yoga studios', link: 'yogabook.app' };
 
 describe('waitlist', () => {
+  it('refuses a link that is not a web address, and keeps an empty one empty', async () => {
+    const s = sheet();
+    const res = await waitlist(post({ ...good, link: 'not a link' }), ENV, { fetch: s.fetch, now: NOW });
+    assert.equal(res.status, 400);
+    assert.equal(s.rows.length, 0);
+    const res2 = await waitlist(post({ ...good, link: '' }), ENV, { fetch: s.fetch, now: NOW });
+    assert.equal(res2.status, 200);
+    assert.equal(s.rows[0].row.link, '');
+  });
+
   it('adds a sign-up to the sheet with the shared secret', async () => {
     const s = sheet();
     const res = await waitlist(post(good), ENV, { fetch: s.fetch, now: NOW });
@@ -40,6 +50,8 @@ describe('waitlist', () => {
     assert.equal(row.plan, 'team');
     assert.equal(row.tool, 'lovable');
     assert.equal(row.country, 'IN');
+    assert.equal(row.building, 'A booking app for yoga studios');
+    assert.equal(row.link, 'https://yogabook.app', 'a bare domain gets https://');
   });
 
   it('never sends the secret or sheet address back to the visitor', async () => {

@@ -10,7 +10,8 @@ Until `WAITLIST_URL` is set, the form says the waitlist is not open yet and poin
 ## Set it up once
 
 1. Create a Google Sheet called **SIGSHIP waitlist**. In row 1, add these headers:
-   `Time`, `Email`, `Name`, `Plan`, `Tool`, `Country`.
+   `Time`, `Email`, `Name`, `Plan`, `Tool`, `Country`, `Building`, `Link`.
+   (`Building` is what they are building, in their words; `Link` is their site, store page or repo, when they gave one.)
 2. In the Sheet, open **Extensions → Apps Script**, delete what is there, and paste the script below. Save.
 3. Click **Deploy → New deployment**, choose **Web app**, set **Execute as: Me** and **Who has access: Anyone**. Deploy, approve access, and copy the web app URL (it ends in `/exec`).
 4. In `~/sigship`, run this and paste the URL when asked:
@@ -46,7 +47,7 @@ function doPost(e) {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
     const emails = sheet.getRange(2, 2, Math.max(sheet.getLastRow() - 1, 1), 1).getValues().flat();
     if (!emails.includes(data.email)) {
-      sheet.appendRow([data.at, data.email, data.name, data.plan, data.tool, data.country]);
+      sheet.appendRow([data.at, data.email, data.name, data.plan, data.tool, data.country, data.building || '', data.link || '']);
     }
   } finally {
     lock.releaseLock();
