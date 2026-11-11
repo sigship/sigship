@@ -6,7 +6,7 @@ export const LEVELS = [
   { id: 'self', n: 1, metal: 'steel', metalName: 'Steel', title: 'Self-checked', short: 'Self-checked', comes: 'The free check', plans: 'Free', status: 'Available now', live: true, mark: 'dot-q', shield: '17/17 passed',
     items: ['You ran the <b>17 core checks</b> and all passed', 'Shows the SIGSHIP version you used', 'Links to a public page that explains what was checked'],
     why: 'Shows you care. But it is your own word and anyone can paste it, so visitors give it less weight.' },
-  { id: 'deep', n: 2, metal: 'bronze', metalName: 'Bronze', title: 'Deep self-check', short: 'Deep self-check', comes: 'Pro and Business', plans: 'Pro · Business', status: 'By December', mark: 'dot-q', shield: 'deep · 17/17',
+  { id: 'deep', n: 2, metal: 'bronze', metalName: 'Bronze', title: 'Deep self-check', short: 'Deep self-check', comes: 'Pro and Business', plans: 'Pro · Business', status: 'By January', mark: 'dot-q', shield: 'deep · 17/17',
     items: ['Core checks <b>plus the Pro pack</b>', 'Same self-declared badge, more ground covered', '“Deep” on the badge'],
     alt: '<b>Business</b> gives the same badge to every app your team ships.',
     why: 'Covers more of your app. Still your own word, so it stays bronze, below the metals SIGSHIP checks itself.' },
