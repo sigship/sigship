@@ -73,6 +73,20 @@ describe('sigship ui', () => {
     assert.equal(res.status, 403);
   });
 
+  it('has a viewport tag, a reduced-motion rule and only cheap animations', async () => {
+    const { body } = await get(ui.url);
+    assert.match(body, /<meta name="viewport" content="width=device-width, initial-scale=1">/);
+    const css = body.match(/<style[^>]*>([\s\S]*?)<\/style>/)[1];
+    assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+    const frames = [...css.matchAll(/@keyframes\s+([\w-]+)\s*\{((?:[^{}]*\{[^{}]*\}\s*)+)\}/g)];
+    assert.ok(frames.length > 0);
+    for (const [, name, inner] of frames) {
+      const props = [...inner.matchAll(/([\w-]+)\s*:/g)].map((m) => m[1]);
+      assert.ok(props.length > 0, `@keyframes ${name} animates nothing`);
+      for (const prop of props) assert.ok(['transform', 'opacity', 'filter'].includes(prop), `@keyframes ${name} animates ${prop}`);
+    }
+  });
+
   it('serves one self-contained page with no external URLs', async () => {
     const res = await get(ui.url);
     assert.equal(res.status, 200);
