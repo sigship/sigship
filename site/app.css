@@ -676,6 +676,14 @@ html.has-strip .strip { display: flex; }
 .pick input:focus-visible + span { outline: 2px solid var(--ring); outline-offset: 2px; }
 .wl-label { display: block; margin-bottom: 8px; font-weight: 600; }
 .wl-page .wl-form input { background: var(--background); }
+.wl-fields { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+.wl-field { display: grid; }
+.wl-field.wide { grid-column: 1 / -1; }
+.wl-field input { min-height: 48px; padding: 0 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--background); color: var(--foreground); font: inherit; outline: none; }
+.wl-field input:focus { border-color: color-mix(in oklab, var(--sky) 60%, transparent); }
+.wl-field input:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.wl-hint { display: block; margin-top: 2px; color: var(--muted-foreground); font-size: .8rem; font-weight: 400; }
+@media (max-width: 600px) { .wl-fields { grid-template-columns: 1fr; } }
 
 /* ---------- Tidy-ups ---------- */
 [id] { scroll-margin-top: calc(var(--strip-h) + 92px); }

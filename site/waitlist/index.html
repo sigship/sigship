@@ -73,8 +73,14 @@
 
 </div></section><section class="sec sec-tight"><div class="wrap wrap-5"><form class="card wl-page" method="post" action="/api/waitlist" data-waitlist novalidate>
 <fieldset class="plan-pick"><legend>Which plan?</legend><label class="pick"><input type="radio" name="plan" value="pro" checked><span><b>Pro</b><small>$149 one-time · self-hosted</small></span></label><label class="pick"><input type="radio" name="plan" value="business"><span><b>Business</b><small>$499 one-time · self-hosted</small></span></label><label class="pick"><input type="radio" name="plan" value="solo"><span><b>Solo</b><small>$19 a month · cloud</small></span></label><label class="pick"><input type="radio" name="plan" value="team"><span><b>Team</b><small>$59 a month · cloud</small></span></label><label class="pick"><input type="radio" name="plan" value="agency"><span><b>Agency</b><small>$149 a month · cloud</small></span></label></fieldset>
-<label class="wl-label" for="wl-email">Your email</label>
-<div class="wl-form" style="max-width:none"><input id="wl-email" type="email" name="email" placeholder="you@startup.com" autocomplete="email" inputmode="email" required><input type="hidden" name="started" value=""><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn btn-primary" type="submit">Join the waitlist</button></div>
+<div class="wl-fields">
+<div class="wl-field"><label class="wl-label" for="wl-name">Your name</label><input id="wl-name" type="text" name="name" placeholder="Asha Rao" autocomplete="name" maxlength="80" required></div>
+<div class="wl-field"><label class="wl-label" for="wl-email">Your email</label><input id="wl-email" type="email" name="email" placeholder="you@startup.com" autocomplete="email" inputmode="email" required></div>
+<div class="wl-field wide"><label class="wl-label" for="wl-building">What are you building? <span class="wl-hint">One line is enough. It helps us pick which checks to write next.</span></label><input id="wl-building" type="text" name="building" placeholder="A booking app for yoga studios, built with Lovable and Supabase" maxlength="300" required></div>
+<div class="wl-field wide"><label class="wl-label" for="wl-link">Link to it <span class="wl-hint">Optional: your site, app store page or repo.</span></label><input id="wl-link" type="url" name="link" placeholder="https://" inputmode="url" maxlength="200"></div>
+</div>
+<input type="hidden" name="started" value=""><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<div class="wl-form" style="max-width:none;margin-top:16px"><button class="btn btn-primary" type="submit">Join the waitlist</button></div>
 <p class="wl-err" hidden></p>
 <p class="muted" style="margin-top:16px;font-size:.85rem">One email when your plan opens in January, with your 50% code. Prices shown are early estimates. <a href="/privacy/" style="text-decoration:underline">Privacy</a>.</p>
 </form><div class="wl-ok card" hidden tabindex="-1">You're on the list 🎉 We'll email you once, when your plan opens in January, with your 50% code.</div>
