@@ -96,7 +96,7 @@ const FOOT_COLS = [
 ];
 const footer = () => `<footer class="foot">
 <div class="foot-grid">
-  <div>${logo()}<p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p><div class="foot-badge" title="sigship.dev holds the Live-checked badge. Click it to see the record.">${pill(OWN_LEVEL, { site: OWN_SITE })}</div></div>
+  <div>${logo()}<p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p><div class="foot-badge" title="sigship.dev holds the Live-checked badge. Click it to see the record.">${pill(OWN_LEVEL, { site: OWN_SITE })}</div><a class="featured" href="https://startupfa.me" target="_blank" rel="noopener" title="SIGSHIP on Startup Fame"><img class="on-dark" src="/media/startup-fame-dark.svg" width="171" height="54" alt="Featured on Startup Fame" loading="lazy" decoding="async"><img class="on-light" src="/media/startup-fame-light.svg" width="171" height="54" alt="Featured on Startup Fame" loading="lazy" decoding="async"></a></div>
   ${FOOT_COLS.map(([h, links]) => `<div class="col"><div class="k">${h}</div><ul>${links.map(([to, t]) => `<li><a href="${to}">${t}</a></li>`).join('')}</ul></div>`).join('')}
 </div>
 <div class="word" aria-hidden="true">SIGSHIP</div>
