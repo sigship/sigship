@@ -461,13 +461,9 @@ The engineer’s name, the review date, and the SIGSHIP version used.
 The badge is valid for 12 months from the review date and the report says so. An app that changes a lot is reviewed again before the badge is renewed.
 
 An expert review is a careful read by one person with a written protocol. It is not a guarantee that the app is safe, and the report never says it is.
-Same protocol, whatever the fee
+Price
 
-Every review follows this protocol and passes or fails the same way, whether it was paid in full, discounted or free. If we review an app at no cost, the report says so, and we ask the owner to say so too wherever they talk about the badge.
-
-Price and booking
-
-From $499, with a ranked, written review within 48 hours and a 30-minute call. You get a fixed quote before you pay. The review is invoiced separately by Zoof04 Inc., and work starts once the invoice is paid. Book a review.
+From $499, with a ranked, written review within 48 hours and a 30-minute call. Available now. Request an expert review.
 
 ## Incident rule
 The rule

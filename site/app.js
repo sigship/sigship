@@ -203,12 +203,12 @@
     const input = $('[data-embed-site]', card);
     const paint = () => {
       const site = host(input.value) || 'myapp.com', id = badgeId('S', site), rec = `https://sigship.dev/verify/?id=${id}&site=${encodeURIComponent(site)}`;
-      const code = `<a href="${rec}" title="Check this SIGSHIP badge">\n  <img src="https://sigship.dev/b/${id}.svg?site=${encodeURIComponent(site)}"\n       alt="Self-checked with SIGSHIP, badge ${id}" height="32" referrerpolicy="origin">\n</a>`;
+      const code = `<a href="${rec}" title="Check this SIGSHIP badge">\n  <img src="https://sigship.dev/b/${id}.svg"\n       alt="Self-checked with SIGSHIP, badge ${id}" height="32">\n</a>`;
       $('[data-embed-code]', card).textContent = code;
       $('[data-embed-copy]', card).dataset.copy = code;
       $('[data-embed-id]', card).textContent = id;
       $('[data-embed-link]', card).href = rec.replace('https://sigship.dev', '');
-      const img = $('[data-embed-img]', card); img.src = `/b/${id}.svg?site=${encodeURIComponent(site)}`; img.alt = `Self-checked with SIGSHIP, badge ${id}`;
+      const img = $('[data-embed-img]', card); img.src = `/b/${id}.svg`; img.alt = `Self-checked with SIGSHIP, badge ${id}`;
     };
     input.addEventListener('input', paint); paint();
   }
@@ -234,24 +234,14 @@
       $('[data-rec-id]', app).textContent = ok ? id : '';
       $('[data-rec-title]', app).innerHTML = title;
       $('[data-rec-list]', app).innerHTML = rows.join('');
-      const b = $('[data-rec-badge]', app); b.innerHTML = img ? `<img src="/b/${id}.svg${site ? `?site=${encodeURIComponent(site)}` : ''}" height="32" alt="SIGSHIP badge ${id}">` : ''; b.hidden = !img;
+      const b = $('[data-rec-badge]', app); b.innerHTML = img ? `<img src="/b/${id}.svg" height="32" alt="SIGSHIP badge ${id}">` : ''; b.hidden = !img;
       document.title = `${ok ? id : 'Badge'} — check a SIGSHIP badge`;
     };
-    // The page the visitor came from. A badge link clicked on another site means the badge was copied there.
-    const from = (() => { try { return host(new URL(document.referrer).hostname); } catch { return ''; } })();
-    const fits = (h) => { const parts = h.split('.'); for (let i = 0; i <= parts.length - 2; i++) if (badgeId(L, parts.slice(i).join('.')) === id) return true; return false; };
-    const shownElsewhere = () => {
-      if (!ok || !site || !from || /(^|\.)(sigship\.dev|localhost|github\.com)$/.test(from) || fits(from)) return;
-      state = 'Shown on another site'; tone = 'stop'; img = false; title = `This badge belongs to ${esc(site)}, not ${esc(from)}`;
-      rows = [row('Badge ID', id), row('Made for', esc(site)), row('You came from', esc(from)), row('What it means', `The badge was copied from ${esc(site)} onto ${esc(from)}. Whatever it says, it says nothing about ${esc(from)}. Treat it as not genuine there.`)];
-      paint();
-    };
-    if (state !== 'Checking our records…') shownElsewhere();
     paint();
     if (state !== 'Checking our records…') continue;
     // Issued levels (Deep self-check and up) have a record in the SIGSHIP Cloud API; Deep self-check also in the licence server.
     const when = (iso) => { const d = new Date(iso); return Number.isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }); };
-    const sources = [`/api/record/${id}`];
+    const sources = [`https://app.sigship.dev/api/v1/badges/${id}`, ...(L === 'D' ? [`https://api.sigship.dev/v1/badge/${id}`] : [])];
     (async () => {
       let rec = null;
       for (const url of sources) { try { const r = await fetch(url, { headers: { accept: 'application/json' } }); if (r.ok) { const j = await r.json(); if (j && j.id === id) { rec = j; break; } } } catch { /* next */ } }
@@ -259,10 +249,7 @@
       if (!rec || rec.site && host(rec.site) !== site) { state = 'Not in our records'; tone = 'warn'; title = `No ${esc(lv[1])} record for ${esc(site)}`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('What it means', 'This level is issued by sigship.dev, and we have no record of it for this site. Treat the badge as not verified, and ask the owner to contact support@sigship.dev.')]; }
       else if (rec.state === 'revoked') { state = 'Revoked'; tone = 'stop'; img = true; title = `The ${esc(lv[1])} badge for ${esc(site)} was revoked`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Why', 'A problem a check should have caught. The <a href="/incident-rule/">incident rule</a> says what happens next, and the write-up is in the <a href="/lookout/">Lookout</a>.')]; }
       else if (rec.state === 'paused') { state = 'Paused'; tone = 'warn'; img = true; title = `The ${esc(lv[1])} badge for ${esc(site)} is paused`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Why', 'The last check did not pass. The badge comes back by itself when a check passes again.'), row('Last pass', rec.lastPass ? when(rec.lastPass) : 'None recorded')]; }
-      else if ('XT'.includes(L) && rec.validUntil && new Date(rec.validUntil).getTime() < Date.now()) { state = 'Review expired'; tone = 'warn'; img = true; title = `The expert review of ${esc(site)} has expired`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Reviewed', rec.reviewedAt ? when(rec.reviewedAt) : 'Not recorded'), row('Valid until', when(rec.validUntil)), row('What it means', 'An expert review is valid for 12 months. This one has run out, so the badge is grey until the app is reviewed again.')]; }
-      else { state = 'Genuine · issued by SIGSHIP'; tone = 'go'; img = true; title = `${esc(site)} holds the ${esc(lv[1])} badge`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Who checked', who), ...(rec.reviewer ? [row('Signed by', esc(rec.reviewer))] : []), ...(rec.reviewedAt ? [row('Reviewed', when(rec.reviewedAt))] : []), ...(rec.validUntil ? [row('Valid until', when(rec.validUntil))] : []), ...(rec.report ? [row('Report', `<a href="${esc(rec.report)}" rel="noopener">Open the review report</a>`)] : []), ...(rec.lastPass ? [row('Last pass', when(rec.lastPass))] : []), ...(rec.streakSince ? [row('Clean since', when(rec.streakSince))] : [])]; }
-      shownElsewhere();
-      if (state !== 'Genuine · issued by SIGSHIP') shownElsewhere();
+      else { state = 'Genuine · issued by SIGSHIP'; tone = 'go'; img = true; title = `${esc(site)} holds the ${esc(lv[1])} badge`; rows = [row('Badge ID', id), row('Site', esc(site)), row('Level', `${lv[0]} · ${lv[1]}`), row('Who checked', who), ...(rec.lastPass ? [row('Last pass', when(rec.lastPass))] : []), ...(rec.streakSince ? [row('Clean since', when(rec.streakSince))] : [])]; }
       paint();
     })();
   }
@@ -355,7 +342,7 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const err = $('.wl-err', form);
-      const bad = $$('input, select, textarea', form).find((i) => !i.checkValidity());
+      const bad = $$('input', form).find((i) => !i.checkValidity());
       if (bad) { if (err) { err.hidden = false; err.textContent = bad.type === 'email' ? 'Enter an email address, like you@example.com.' : bad.type === 'url' ? 'The link should look like https://yourapp.com.' : `Please fill in ${(bad.labels && bad.labels[0] ? bad.labels[0].childNodes[0].textContent : 'this field').trim().toLowerCase().replace(/:$/, '')}.`; } bad.focus(); return; }
       const btn = $('button[type="submit"]', form);
       btn.disabled = true;
@@ -366,7 +353,7 @@
         const ok = form.nextElementSibling;
         form.hidden = true;
         if (ok && ok.classList.contains('wl-ok')) { ok.hidden = false; ok.focus?.(); }
-        say(form.dataset.say || 'Received. We will email you once, when it opens.');
+        say('Received. We will email you once, when it opens.');
       } catch (ex) {
         if (err) { err.hidden = false; err.textContent = ex.message || 'Please try again.'; }
         btn.disabled = false;
