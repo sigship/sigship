@@ -849,3 +849,10 @@ a.sg-pill:hover { transform: translateY(-1px); filter: brightness(1.05); }
 .install-row .btn { gap: 8px; }
 .page-hero .extra .fine { text-align: left; }
 .page-hero .extra .fine code { padding: 1px 5px; border-radius: 5px; background: var(--surface-2); font-size: .95em; }
+
+/* Footer: the Startup Fame listing badge (self-hosted), one picture per theme. */
+.featured { display: block; width: fit-content; margin-top: 16px; border-radius: 6px; }
+.featured img { display: block; width: 136px; height: auto; }
+.featured .on-light, html.light .featured .on-dark { display: none; }
+html.light .featured .on-light { display: block; }
+.featured:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
