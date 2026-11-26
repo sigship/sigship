@@ -190,10 +190,10 @@ describe('check page', () => {
     assert.ok(html.includes('<main id="main">') && html.includes('</main>'));
     const urls = [...html.matchAll(/\b(?:src|href)="([^"]*)"/g)].map((m) => m[1]);
     const external = urls.filter((u) => /^(https?:)?\/\//.test(u) && !/^https:\/\/sigship\.dev\//.test(u));
-    // The header and footer link out to GitHub, Discord, zoof04 and Startup Fame; those are links, not loads.
+    // The header and footer link out to GitHub, Discord, zoof04, Startup Fame and Product Hunt; those are links, not loads.
     const loads = [...html.matchAll(/<(?:script|link|img|iframe|video|audio|source)\b[^>]*\b(?:src|href)="([^"]*)"/g)].map((m) => m[1]);
     assert.deepEqual(loads.filter((u) => /^(https?:)?\/\//.test(u) && !/^https:\/\/sigship\.dev\//.test(u)), [], 'every script, stylesheet and image is served from this site');
-    assert.ok(external.every((u) => /^https:\/\/(github\.com|discord\.gg|zoof04\.com|startupfa\.me)(\/|$)/.test(u)), external.join(' '));
+    assert.ok(external.every((u) => /^https:\/\/(github\.com|discord\.gg|zoof04\.com|startupfa\.me|www\.producthunt\.com)(\/|$)/.test(u)), external.join(' '));
     assert.ok(/It does not prove the app is safe/.test(html));
     assert.ok(html.includes('/check/check.js') && html.includes('/app.css'));
     for (const f of ['engine.js', 'worker.js', 'check.js', 'unzip.js']) {

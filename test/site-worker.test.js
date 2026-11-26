@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import site, { badge, lookout, waitlist } from '../worker/site.js';
+import site, { badge, lookout, waitlist, productHuntBadge, safeSvg } from '../worker/site.js';
 import { OWN_ID, badgeId } from '../scripts/badge-id.js';
 
 const ENV = { WAITLIST_URL: 'https://script.example/exec', WAITLIST_SECRET: 'test-shared-secret' };
@@ -259,5 +259,41 @@ describe('badge pictures', () => {
   it('refuses anything that is not an ID', async () => {
     assert.equal((await badge('/b/<script>.svg', {}, { fetch: api().fetch })).status, 404);
     assert.equal((await badge('/b/SG-S-AAAAAA.png', {}, { fetch: api().fetch })).status, 404);
+  });
+});
+
+describe('Product Hunt badge', () => {
+  const live = '<?xml version="1.0" encoding="UTF-8"?>\n<svg width="250" height="54" xmlns="http://www.w3.org/2000/svg"><text>142</text></svg>';
+  const saved = '<svg width="250" height="54" xmlns="http://www.w3.org/2000/svg"><text>Product Hunt</text></svg>';
+  const ASSETS = { fetch: async (req) => (new URL(req.url).pathname === '/media/product-hunt-dark.svg' ? new Response(saved) : new Response('', { status: 404 })) };
+
+  it('serves Product Hunt\'s live badge from our own address, with a short cache', async () => {
+    let asked = '';
+    const res = await productHuntBadge('dark', { ASSETS }, { fetch: async (url) => { asked = url; return new Response(live); } });
+    assert.equal(res.status, 200);
+    assert.match(asked, /featured\.svg\?post_id=1308610&theme=dark$/);
+    assert.equal(await res.text(), live);
+    assert.match(res.headers.get('content-type'), /image\/svg\+xml/);
+    assert.match(res.headers.get('cache-control'), /max-age=300/);
+    assert.match(res.headers.get('content-security-policy'), /default-src 'none'/);
+  });
+
+  it('falls back to the saved badge without a count when Product Hunt fails or sends something unsafe', async () => {
+    for (const reply of [async () => { throw new Error('down'); }, async () => new Response('', { status: 503 }), async () => new Response('<svg><script>alert(1)</script></svg>')]) {
+      const res = await productHuntBadge('dark', { ASSETS }, { fetch: reply });
+      assert.equal(res.status, 200);
+      assert.equal(await res.text(), saved);
+    }
+  });
+
+  it('accepts only plain SVG and only the two themes', async () => {
+    assert.ok(safeSvg(live));
+    for (const bad of ['<html></html>', '<svg onload="x()"></svg>', '<svg><image href="https://evil.example/a.png"/></svg>', '<svg><foreignObject/></svg>', '<svg style="background:url(https://x.example/a)"></svg>']) assert.ok(!safeSvg(bad), bad);
+    assert.equal((await productHuntBadge('pink', { ASSETS }, { fetch: async () => new Response(live) })).status, 404);
+  });
+
+  it('is routed at /ph/featured-<theme>.svg', async () => {
+    const res = await site.fetch(new Request('https://sigship.dev/ph/featured-blue.svg'), { ASSETS });
+    assert.equal(res.status, 404);
   });
 });

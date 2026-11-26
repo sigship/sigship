@@ -54,6 +54,17 @@
   }));
   if (mobile) mobile.addEventListener('click', (e) => { if (e.target.closest('a')) mobile.hidden = true; });
 
+  // ---------- Product Hunt strip: the words follow the launch date, so nothing needs editing on the day ----------
+  const ph = document.querySelector('[data-ph-launch]');
+  if (ph) {
+    const now = Date.now(), start = Date.parse(ph.dataset.start), end = Date.parse(ph.dataset.end);
+    const set = (title, sub, cta) => { ph.querySelector('[data-ph-title]').textContent = title; ph.querySelector('[data-ph-sub]').textContent = sub; ph.querySelector('[data-ph-cta]').textContent = cta; };
+    const day = new Date(start).toLocaleDateString(undefined, { day: 'numeric', month: 'long' });
+    if (now < start) set(`Launching on Product Hunt on ${day}`, 'Follow the page to get a note when we go live. Your upvote on the day helps other makers find a free launch check.', 'Follow us on Product Hunt →');
+    else if (now < end) { ph.classList.add('is-live'); set('We are live on Product Hunt today', 'Come say hi, ask us anything, and upvote if SIGSHIP helped you.', 'Upvote on Product Hunt →'); }
+    else set('Featured on Product Hunt', 'Read what other makers said, or leave a review of your own.', 'See SIGSHIP on Product Hunt →');
+  }
+
   // ---------- Copy buttons ----------
   document.addEventListener('click', async (e) => {
     const b = e.target.closest('[data-copy]');

@@ -124,12 +124,33 @@ export async function badge(pathname, env = {}, { fetch = globalThis.fetch, now 
   return new Response(badgeSvg(id, rec, now()), { headers: { ...headers, 'cache-control': `public, max-age=${RECORD_TTL}` } });
 }
 
+// ---------- Product Hunt badge: fetched here so visitors never load anything from Product Hunt ----------
+// The badge carries a live upvote count. The Worker fetches it at most every few minutes and serves it from
+// sigship.dev. If Product Hunt is down or sends anything but a plain SVG, the saved copy without a count is served,
+// so the page never shows a wrong number.
+const PH_POST = '1308610';
+const PH_TTL = 300;
+const SVG_HEADERS = { 'content-type': 'image/svg+xml; charset=utf-8', 'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'", 'x-content-type-options': 'nosniff' };
+export const safeSvg = (text) => typeof text === 'string' && text.length < 20000 && /^\s*(<\?xml[^>]*>\s*)?<svg[\s>]/.test(text) && !/<script|<foreignObject|\son[a-z]+\s*=|(?:href|src)\s*=\s*["']\s*(?:https?:|\/\/|javascript:|data:)|url\(\s*["']?\s*(?:https?:|\/\/)/i.test(text);
+export async function productHuntBadge(theme, env = {}, { fetch = globalThis.fetch } = {}) {
+  if (theme !== 'light' && theme !== 'dark') return new Response('Not found.', { status: 404 });
+  try {
+    const res = await fetch(`https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=${PH_POST}&theme=${theme}`, { cf: { cacheTtl: PH_TTL, cacheEverything: true } });
+    const text = res.ok ? await res.text() : '';
+    if (safeSvg(text)) return new Response(text, { headers: { ...SVG_HEADERS, 'cache-control': `public, max-age=${PH_TTL}` } });
+  } catch {}
+  const saved = env.ASSETS ? await env.ASSETS.fetch(new Request(`https://sigship.dev/media/product-hunt-${theme}.svg`)) : null;
+  return new Response(saved && saved.ok ? await saved.text() : '', { status: saved && saved.ok ? 200 : 502, headers: { ...SVG_HEADERS, 'cache-control': 'public, max-age=60' } });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/api/waitlist') return waitlist(request, env);
     if (url.pathname === '/api/lookout') return lookout(request, env);
     if (url.pathname.startsWith('/b/')) return badge(url.pathname, env);
+    const ph = url.pathname.match(/^\/ph\/featured-(light|dark)\.svg$/);
+    if (ph) return productHuntBadge(ph[1], env);
     return env.ASSETS.fetch(request);
   },
 };
