@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -102,11 +102,41 @@ describe('Pro pack', () => {
     assert.equal(result.code, 1);
   });
 
-  it('uses the cache for a day instead of asking again', async () => {
+  it('asks the server on every run, so an ended key stops at once', async () => {
     await cli(['.'], { SIGSHIP_KEY: KEY });
+    reply = () => [403, { error: 'The subscription behind this licence key has ended.' }];
     const second = await cli(['.'], { SIGSHIP_KEY: KEY });
-    assert.equal(requests.length, 1);
-    assert.match(second.out, /Pro pack: 1 extra checks included/);
+    assert.equal(requests.length, 2);
+    assert.match(second.out, /has ended. Ran the free checks/);
+    assert.equal(readdirSync(join(cache, 'sigship')).length, 0);
+  });
+
+  it('uses a download less than 3 days old when the server is down', async () => {
+    await cli(['.'], { SIGSHIP_KEY: KEY });
+    const result = await cli(['.'], { SIGSHIP_KEY: KEY, SIGSHIP_API: 'http://127.0.0.1:9/v1/pack' });
+    assert.match(result.out, /Pro pack came from your last download/);
+  });
+
+  it('drops a download more than 3 days old when the server is down', async () => {
+    await cli(['.'], { SIGSHIP_KEY: KEY });
+    const [name] = readdirSync(join(cache, 'sigship'));
+    const file = join(cache, 'sigship', name);
+    const saved = JSON.parse(readFileSync(file, 'utf8'));
+    writeFileSync(file, JSON.stringify({ ...saved, savedAt: Date.now() - 4 * 24 * 60 * 60 * 1000 }));
+    const result = await cli(['.'], { SIGSHIP_KEY: KEY, SIGSHIP_API: 'http://127.0.0.1:9/v1/pack' });
+    assert.match(result.out, /more than 3 days old. Ran the free checks/);
+    assert.doesNotMatch(result.out, /Pro pack: 1 extra checks/);
+    assert.equal(existsSync(file), false);
+  });
+
+  it('does not trust a download dated in the future', async () => {
+    await cli(['.'], { SIGSHIP_KEY: KEY });
+    const [name] = readdirSync(join(cache, 'sigship'));
+    const file = join(cache, 'sigship', name);
+    const saved = JSON.parse(readFileSync(file, 'utf8'));
+    writeFileSync(file, JSON.stringify({ ...saved, savedAt: Date.now() + 365 * 24 * 60 * 60 * 1000 }));
+    const result = await cli(['.'], { SIGSHIP_KEY: KEY, SIGSHIP_API: 'http://127.0.0.1:9/v1/pack' });
+    assert.match(result.out, /Ran the free checks/);
   });
 
   it('never fails a scan when the server is down', async () => {

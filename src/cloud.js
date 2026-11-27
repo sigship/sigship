@@ -104,14 +104,17 @@ export function runReport(result, { root, version, token, now = new Date() } = {
   };
 }
 
-// Reports a run to SIGSHIP Cloud. Silent and never throws, so it can neither block nor fail a scan.
-// Does nothing without a saved token or with SIGSHIP_NO_REPORT set.
-export async function reportRun(result, { root, version, env = process.env, fetch = globalThis.fetch } = {}) {
+// Reports a run to SIGSHIP Cloud. Never throws, so it can neither block nor fail a scan.
+// Does nothing without a saved token or with SIGSHIP_NO_REPORT set. It prints one line only when
+// Cloud refuses the run for a reason the person can act on: the sign-in ended, or it needs a plan.
+export async function reportRun(result, { root, version, env = process.env, fetch = globalThis.fetch, log = console.error } = {}) {
   if (env.SIGSHIP_NO_REPORT && env.SIGSHIP_NO_REPORT !== '0') return false;
   const token = readToken(env);
   if (!token) return false;
   try {
     const sent = await call(appUrl(env), '/runs', { method: 'POST', body: runReport(result, { root, version, token }), token, fetch, timeout: REPORT_TIMEOUT_MS });
+    if (sent.status === 401) log('SIGSHIP Cloud: your sign-in has ended, so this run was not recorded. Run npx sigship login to sign in again.');
+    if (sent.status === 402) log(`SIGSHIP Cloud: this run was not recorded. ${typeof sent.data.error === 'string' ? sent.data.error.replaceAll(token, '[token]') : 'It needs a trial or a plan.'} See https://sigship.dev/pricing/`);
     return sent.ok;
   } catch {
     return false;

@@ -1,6 +1,7 @@
 // Loads the Pro pack for Solo and Team. Without SIGSHIP_KEY this does nothing and makes no network call.
 // With a key it sends the key and a one-way repo fingerprint, never code, file names or findings.
-// A network problem never fails a scan: it falls back to the cache, then to the free checks.
+// It asks the server on every run, so a key that has ended stops working on the next run.
+// A network problem never fails a scan: it falls back to a download less than 3 days old, then to the free checks.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -10,6 +11,7 @@ import { compilePack } from './pack.js';
 
 const API = 'https://api.sigship.dev/v1/pack';
 const DAY_MS = 24 * 60 * 60 * 1000;
+export const OFFLINE_MS = 3 * DAY_MS;
 const TIMEOUT_MS = 8000;
 
 const sha256 = (text) => createHash('sha256').update(text).digest('hex');
@@ -64,8 +66,10 @@ export async function loadPro(target = '.', { env = process.env, fetch = globalT
 
   const repo = repoFingerprint(resolve(target), key);
   const file = cacheFile(key, repo, env);
-  const cached = readCache(file);
-  if (cached && cached.age < DAY_MS) return fromPack(cached.pack, 'cached');
+  const saved = readCache(file);
+  // Only a recent download stands in when the server can't be reached. An older one is deleted.
+  const cached = saved && saved.age >= 0 && saved.age < OFFLINE_MS ? saved : null;
+  if (saved && !cached) rmSync(file, { force: true });
 
   let response;
   try {
@@ -77,6 +81,7 @@ export async function loadPro(target = '.', { env = process.env, fetch = globalT
     });
   } catch {
     if (cached) return fromPack(cached.pack, 'cached', 'Could not reach the SIGSHIP server, so the Pro pack came from your last download.');
+    if (saved) return { rules: [], status: 'free', message: 'Could not reach the SIGSHIP server, and your last Pro pack download is more than 3 days old. Ran the free checks.' };
     return { rules: [], status: 'free', message: 'Could not reach the SIGSHIP server. Ran the free checks.' };
   }
 

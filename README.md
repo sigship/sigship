@@ -265,7 +265,7 @@ SIGSHIP_KEY=your-key npx sigship --report --brand "Your Studio" --logo logo.png 
 npx sigship init --pro                      # pull request comments and a nightly check
 ```
 
-For the nightly check and pull request comments, add the key as the repository secret `SIGSHIP_KEY`, and optionally `SLACK_WEBHOOK_URL` for Slack alerts. If the licence server can't be reached, SIGSHIP uses its last download of the Pro pack, or the free checks. A network problem never fails a scan.
+For the nightly check and pull request comments, add the key as the repository secret `SIGSHIP_KEY`, and optionally `SLACK_WEBHOOK_URL` for Slack alerts. SIGSHIP checks the key on every run, so Pro checks stop on the first run after a subscription ends. If the licence server can't be reached, it uses its last download of the Pro pack if that is less than 3 days old, or else the free checks. A network problem never fails a scan.
 
 ## Limits
 

@@ -247,7 +247,7 @@ export function createServer({ version = '0.0.0', cwd = process.cwd(), env = pro
     const result = scan(root, { extraRules: pro.rules });
     const v = verdict(result, options);
     const since = sinceLastRun(root, result.findings, { env });
-    void reportRun(result, { root, version, env, fetch });
+    void reportRun(result, { root, version, env, fetch, log: () => {} });
     const summary = summaryLine(result, v, since);
     return structured(summary, {
       verdict: v.label,

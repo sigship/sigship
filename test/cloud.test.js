@@ -119,6 +119,20 @@ describe('sigship login', () => {
 });
 
 describe('run reports', () => {
+  it('says in one line why Cloud refused a run, and never prints the token', async () => {
+    await login({ env, log: () => {}, sleep: () => Promise.resolve() });
+    const reply = (status, body) => async () => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
+    const lines = [];
+    const log = (l) => lines.push(l);
+    assert.equal(await reportRun(scan(root), { root, version: '0.0.0', env, log, fetch: reply(401, { error: 'Sign in again.' }) }), false);
+    assert.equal(await reportRun(scan(root), { root, version: '0.0.0', env, log, fetch: reply(402, { error: `Token ${TOKEN} needs a plan.` }) }), false);
+    assert.equal(await reportRun(scan(root), { root, version: '0.0.0', env, log, fetch: reply(500, {}) }), false);
+    assert.equal(lines.length, 2);
+    assert.match(lines[0], /sign-in has ended.*npx sigship login/);
+    assert.match(lines[1], /needs a plan.*sigship\.dev\/pricing/);
+    assert.ok(lines.every((l) => !l.includes(TOKEN)));
+  });
+
   it('sends nothing when there is no token', async () => {
     const result = await cli(['.']);
     assert.equal(result.code, 0);
