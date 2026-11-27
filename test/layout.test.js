@@ -100,3 +100,17 @@ describe('site layout guards', { skip: !built && 'run npm run docs first' }, () 
     assert.doesNotMatch(css, /\.score-num\s*\{[^}]*margin-top:\s*-/, 'the score number must not sit on a negative margin');
   });
 });
+
+// LiftOff's free launch needs its badge on every public page, as an official picture, linked without nofollow
+// (lift-off.sh/legal/badge-policy). If a page drops it, LiftOff can pull the launch's link.
+describe('LiftOff badge', { skip: !built && 'run npm run docs first' }, () => {
+  it('is on every page, with both official pictures and a followed link', () => {
+    for (const f of pages) {
+      const html = readFileSync(f, 'utf8');
+      const a = html.match(/<a class="launch-badge" href="https:\/\/lift-off\.sh\/p\/sigship"[^>]*>(.*?)<\/a>/s);
+      assert.ok(a, `${f} has no LiftOff badge`);
+      assert.doesNotMatch(a[0].match(/^<a[^>]*>/)[0], /\brel="[^"]*\b(nofollow|sponsored|ugc)\b/, `${f}: the LiftOff link must be followed`);
+      for (const t of ['Light', 'Dark']) assert.ok(a[1].includes(`src="https://lift-off.sh/images/badges/badgeLaunched${t}.webp"`), `${f} lacks the ${t} LiftOff picture`);
+    }
+  });
+});

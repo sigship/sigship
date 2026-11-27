@@ -850,12 +850,18 @@ a.sg-pill:hover { transform: translateY(-1px); filter: brightness(1.05); }
 .page-hero .extra .fine { text-align: left; }
 .page-hero .extra .fine code { padding: 1px 5px; border-radius: 5px; background: var(--surface-2); font-size: .95em; }
 
-/* Footer: the Startup Fame listing badge (self-hosted), one picture per theme. */
-.featured { display: block; width: fit-content; margin-top: 16px; border-radius: 6px; }
-.featured img { display: block; width: 136px; height: auto; }
-.featured .on-light, html.light .featured .on-dark { display: none; }
-html.light .featured .on-light { display: block; }
-.featured:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+/* Footer: the launch sites row under the columns, on every page. All badges the same height; one picture per theme where
+   the site offers two. LiftOff requires its badge on every page and clearly visible, so it is never hidden or faded here. */
+.foot-launch { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; max-width: 72rem; margin: 48px auto 0; }
+.launch-badge { display: block; width: fit-content; border-radius: 8px; }
+.launch-badge img { display: block; }
+.foot-launch .launch-badge img { width: auto; height: 48px; }
+.launch-badge .on-light, html.light .launch-badge .on-dark { display: none; }
+html.light .launch-badge .on-light { display: block; }
+.launch-badge:focus-visible, .launch-link:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+.launch-link { color: var(--muted-foreground); font-size: .875rem; text-decoration: underline; text-underline-offset: 3px; }
+.launch-link:hover { color: var(--foreground); }
+@media (max-width: 600px) { .foot-launch .launch-badge img { height: 40px; } }
 
 /* Product Hunt: badge (served from /ph/ by the Worker), one picture per theme, and the launch strip on the home page. */
 .ph-badge { display: block; width: fit-content; border-radius: 10px; }
@@ -864,12 +870,9 @@ html.light .featured .on-light { display: block; }
 html.light .ph-badge .on-light { display: block; }
 .ph-badge:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
 .hero-ph { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; margin-top: 18px; animation: rise .8s var(--ease) both 1.05s; }
-.featured-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; }
-.featured-row .featured { margin-top: 0; }
-.ph-badge.featured img { width: auto; height: 43px; }
 /* PeerPush: badge served from /pp/ by the Worker. One picture for both themes, the same height as the Product Hunt badge. */
 .pp-badge { display: block; width: fit-content; border-radius: 8px; }
-.pp-badge img, .pp-badge.featured img { display: block; width: auto; height: 43px; }
+.pp-badge img { display: block; width: auto; height: 43px; }
 .pp-badge:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
 .ph-strip { padding: 0 16px; margin: 8px auto 0; max-width: 72rem; }
 .ph-in { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 20px; padding: 18px 22px; border: 1px solid color-mix(in oklab, #FF6154 45%, var(--border)); border-radius: 18px; background: linear-gradient(100deg, color-mix(in oklab, #FF6154 12%, transparent), transparent 70%); }
