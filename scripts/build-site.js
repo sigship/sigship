@@ -58,6 +58,9 @@ const splitH = (text, tag = 'h2', cls = 'display h2') => `<${tag} class="${cls} 
 const PH_URL = 'https://www.producthunt.com/products/sigship?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-sigship';
 const PH_LAUNCH = { start: '2026-11-30T08:01:00Z', end: '2026-12-01T08:00:00Z' }; // 12:01 am to midnight Pacific, launch day
 const phBadge = (cls = '', lazy = true) => `<a class="ph-badge ${cls}" href="${esc(PH_URL)}" target="_blank" rel="noopener" title="SIGSHIP on Product Hunt">${['dark', 'light'].map((t) => `<img class="on-${t}" src="/ph/featured-${t}.svg" width="250" height="54" alt="SIGSHIP on Product Hunt"${lazy ? ' loading="lazy"' : ''} decoding="async">`).join('')}</a>`;
+// PeerPush: the badge is served by our own Worker (/pp/…) too. PeerPush redraws it as the launch goes on.
+const PP_URL = 'https://peerpush.com/p/sigship';
+const ppBadge = (cls = '', lazy = true) => `<a class="pp-badge ${cls}" href="${esc(PP_URL)}" target="_blank" rel="noopener" title="SIGSHIP on PeerPush"><img src="/pp/badge.png" width="230" height="65" alt="SIGSHIP on PeerPush"${lazy ? ' loading="lazy"' : ''} decoding="async"></a>`;
 const phStrip = () => `<section class="ph-strip" data-ph-launch data-start="${PH_LAUNCH.start}" data-end="${PH_LAUNCH.end}" aria-label="SIGSHIP on Product Hunt"><div class="ph-in">
 <svg class="ph-mark" width="34" height="34" viewBox="0 0 31 31" aria-hidden="true"><circle cx="15.5" cy="15.5" r="15.5" fill="#FF6154"/><path fill="#fff" d="M17.43 15.96h-4.34v-4.65h4.34a2.3 2.3 0 0 1 0 4.65m0-7.75h-7.4v15.5h3.06v-4.65h4.34a5.4 5.4 0 0 0 0-10.85"/></svg>
 <p class="ph-msg"><b data-ph-title>Find SIGSHIP on Product Hunt</b><span data-ph-sub>Upvotes and questions help other makers find a free launch check.</span></p>
@@ -104,7 +107,7 @@ const FOOT_COLS = [
 ];
 const footer = () => `<footer class="foot">
 <div class="foot-grid">
-  <div>${logo()}<p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p><div class="foot-badge" title="sigship.dev holds the Live-checked badge. Click it to see the record.">${pill(OWN_LEVEL, { site: OWN_SITE })}</div><div class="featured-row"><a class="featured" href="https://startupfa.me/sigship341" target="_blank" rel="noopener" title="SIGSHIP on Startup Fame"><img class="on-dark" src="/media/startup-fame-dark.svg" width="171" height="54" alt="Featured on Startup Fame" loading="lazy" decoding="async"><img class="on-light" src="/media/startup-fame-light.svg" width="171" height="54" alt="Featured on Startup Fame" loading="lazy" decoding="async"></a>${phBadge('featured')}</div></div>
+  <div>${logo()}<p class="about">The launch check for apps built with AI. Free and open source.</p><p class="by">Powered and backed by <a class="text-spectrum" href="https://zoof04.com" target="_blank" rel="noopener">zoof04</a></p><div class="foot-badge" title="sigship.dev holds the Live-checked badge. Click it to see the record.">${pill(OWN_LEVEL, { site: OWN_SITE })}</div><div class="featured-row"><a class="featured" href="https://startupfa.me/sigship341" target="_blank" rel="noopener" title="SIGSHIP on Startup Fame"><img class="on-dark" src="/media/startup-fame-dark.svg" width="171" height="54" alt="Featured on Startup Fame" loading="lazy" decoding="async"><img class="on-light" src="/media/startup-fame-light.svg" width="171" height="54" alt="Featured on Startup Fame" loading="lazy" decoding="async"></a>${phBadge('featured')}${ppBadge('featured')}</div></div>
   ${FOOT_COLS.map(([h, links]) => `<div class="col"><div class="k">${h}</div><ul>${links.map(([to, t]) => `<li><a href="${to}">${t}</a></li>`).join('')}</ul></div>`).join('')}
 </div>
 <div class="word" aria-hidden="true">SIGSHIP</div>
@@ -271,7 +274,7 @@ const home = () => `<section class="hero"><div class="grid-bg"></div><div class=
   <p class="lede hero-lede">${T('Made your app with Lovable, Cursor or Bolt? SIGSHIP spots the mistakes hackers look for, explains them like a friend, and gives you a fix to paste back into your AI.', `${RULES.length} deterministic checks for AI-generated code. Runs offline, zero deps, exit 0 only on GO — a real ‘definition of done’ for your coding agent.`)}</p>
   <div class="hero-acts"><a class="btn btn-primary btn-lg" href="${CHECK}">Check my app — free</a>${copyPill()}</div>
   <p class="fine">No sign-up · Nothing uploaded · Your code never leaves your computer</p>
-  <div class="hero-ph">${phBadge('', false)}</div>
+  <div class="hero-ph">${phBadge('', false)}${ppBadge('', false)}</div>
   <div class="window-wrap"><div class="app-window" role="img" aria-label="Demo: a launch check on a small app finds three problems, each gets fixed, and the verdict turns to Ready.">
     <div class="win-bar"><i></i><i></i><i></i><span>demo-app · launch check · real findings from sigship ${VERSION}</span></div>
     <div class="win-body">

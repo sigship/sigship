@@ -143,6 +143,30 @@ export async function productHuntBadge(theme, env = {}, { fetch = globalThis.fet
   return new Response(saved && saved.ok ? await saved.text() : '', { status: saved && saved.ok ? 200 : 502, headers: { ...SVG_HEADERS, 'cache-control': 'public, max-age=60' } });
 }
 
+// ---------- PeerPush badge: fetched here for the same reason, so visitors never load anything from PeerPush ----------
+// PeerPush redraws the picture as the launch goes on ("Coming soon", then live). The Worker fetches it at most every
+// few minutes and serves it from sigship.dev. If PeerPush is down or sends anything but a small PNG, the saved copy is served.
+const PP_BADGE = 'https://peerpush.com/p/sigship/badge.png';
+const PP_TTL = 300;
+const PP_MAX_BYTES = 200000;
+const PNG_HEADERS = { 'content-type': 'image/png', 'x-content-type-options': 'nosniff' };
+const PNG_SIGNATURE = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+export const safePng = (buf) => {
+  if (!(buf instanceof ArrayBuffer) || buf.byteLength <= PNG_SIGNATURE.length || buf.byteLength > PP_MAX_BYTES) return false;
+  const head = new Uint8Array(buf, 0, PNG_SIGNATURE.length);
+  return PNG_SIGNATURE.every((b, i) => head[i] === b);
+};
+export async function peerPushBadge(env = {}, { fetch = globalThis.fetch } = {}) {
+  try {
+    const res = await fetch(PP_BADGE, { cf: { cacheTtl: PP_TTL, cacheEverything: true } });
+    const tooBig = Number(res.headers.get('content-length') ?? 0) > PP_MAX_BYTES;
+    const body = res.ok && !tooBig ? await res.arrayBuffer() : null;
+    if (safePng(body)) return new Response(body, { headers: { ...PNG_HEADERS, 'cache-control': `public, max-age=${PP_TTL}` } });
+  } catch {}
+  const saved = env.ASSETS ? await env.ASSETS.fetch(new Request('https://sigship.dev/media/peerpush.png')) : null;
+  return new Response(saved && saved.ok ? await saved.arrayBuffer() : null, { status: saved && saved.ok ? 200 : 502, headers: { ...PNG_HEADERS, 'cache-control': 'public, max-age=60' } });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -151,6 +175,7 @@ export default {
     if (url.pathname.startsWith('/b/')) return badge(url.pathname, env);
     const ph = url.pathname.match(/^\/ph\/featured-(light|dark)\.svg$/);
     if (ph) return productHuntBadge(ph[1], env);
+    if (url.pathname === '/pp/badge.png') return peerPushBadge(env);
     return env.ASSETS.fetch(request);
   },
 };

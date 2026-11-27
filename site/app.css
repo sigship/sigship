@@ -863,10 +863,14 @@ html.light .featured .on-light { display: block; }
 .ph-badge .on-light, html.light .ph-badge .on-dark { display: none; }
 html.light .ph-badge .on-light { display: block; }
 .ph-badge:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
-.hero-ph { display: flex; justify-content: center; margin-top: 18px; animation: rise .8s var(--ease) both 1.05s; }
+.hero-ph { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; margin-top: 18px; animation: rise .8s var(--ease) both 1.05s; }
 .featured-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; }
 .featured-row .featured { margin-top: 0; }
 .ph-badge.featured img { width: auto; height: 43px; }
+/* PeerPush: badge served from /pp/ by the Worker. One picture for both themes, the same height as the Product Hunt badge. */
+.pp-badge { display: block; width: fit-content; border-radius: 8px; }
+.pp-badge img, .pp-badge.featured img { display: block; width: auto; height: 43px; }
+.pp-badge:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
 .ph-strip { padding: 0 16px; margin: 8px auto 0; max-width: 72rem; }
 .ph-in { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 20px; padding: 18px 22px; border: 1px solid color-mix(in oklab, #FF6154 45%, var(--border)); border-radius: 18px; background: linear-gradient(100deg, color-mix(in oklab, #FF6154 12%, transparent), transparent 70%); }
 .ph-mark { flex-shrink: 0; }

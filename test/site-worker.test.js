@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import site, { badge, lookout, waitlist, productHuntBadge, safeSvg } from '../worker/site.js';
+import site, { badge, lookout, waitlist, productHuntBadge, safeSvg, peerPushBadge, safePng } from '../worker/site.js';
 import { OWN_ID, badgeId } from '../scripts/badge-id.js';
 
 const ENV = { WAITLIST_URL: 'https://script.example/exec', WAITLIST_SECRET: 'test-shared-secret' };
@@ -295,5 +295,55 @@ describe('Product Hunt badge', () => {
   it('is routed at /ph/featured-<theme>.svg', async () => {
     const res = await site.fetch(new Request('https://sigship.dev/ph/featured-blue.svg'), { ASSETS });
     assert.equal(res.status, 404);
+  });
+});
+
+describe('PeerPush badge', () => {
+  const png = (...rest) => new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, ...rest]).buffer;
+  const live = png(1, 2, 3);
+  const saved = png(9, 9, 9);
+  const bytes = async (res) => [...new Uint8Array(await res.arrayBuffer())];
+  const ASSETS = { fetch: async (req) => (new URL(req.url).pathname === '/media/peerpush.png' ? new Response(saved) : new Response('', { status: 404 })) };
+
+  it('serves PeerPush\'s live badge from our own address, with a short cache', async () => {
+    let asked = '';
+    const res = await peerPushBadge({ ASSETS }, { fetch: async (url) => { asked = url; return new Response(live); } });
+    assert.equal(res.status, 200);
+    assert.equal(asked, 'https://peerpush.com/p/sigship/badge.png');
+    assert.deepEqual(await bytes(res), [...new Uint8Array(live)]);
+    assert.equal(res.headers.get('content-type'), 'image/png');
+    assert.match(res.headers.get('cache-control'), /max-age=300/);
+    assert.equal(res.headers.get('x-content-type-options'), 'nosniff');
+  });
+
+  it('falls back to the saved badge when PeerPush fails or sends something that is not a small PNG', async () => {
+    const huge = new Uint8Array(200001); huge.set(new Uint8Array(png()));
+    for (const reply of [
+      async () => { throw new Error('down'); },
+      async () => new Response('', { status: 503 }),
+      async () => new Response('<html>not a picture</html>'),
+      async () => new Response(huge.buffer),
+      async () => new Response(live, { headers: { 'content-length': '999999' } }),
+    ]) {
+      const res = await peerPushBadge({ ASSETS }, { fetch: reply });
+      assert.equal(res.status, 200);
+      assert.deepEqual(await bytes(res), [...new Uint8Array(saved)]);
+      assert.match(res.headers.get('cache-control'), /max-age=60/);
+    }
+  });
+
+  it('accepts only PNG bytes', () => {
+    assert.ok(safePng(live));
+    for (const bad of [null, '', new TextEncoder().encode('<svg></svg>').buffer, png()]) assert.ok(!safePng(bad));
+  });
+
+  it('is routed at /pp/badge.png', async () => {
+    const original = globalThis.fetch;
+    globalThis.fetch = async () => new Response(live);
+    try {
+      const res = await site.fetch(new Request('https://sigship.dev/pp/badge.png'), { ASSETS });
+      assert.equal(res.status, 200);
+      assert.equal(res.headers.get('content-type'), 'image/png');
+    } finally { globalThis.fetch = original; }
   });
 });
