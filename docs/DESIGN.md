@@ -1,7 +1,8 @@
 # The site design
 
 sigship.dev is a static site built by `scripts/build-site.js` into `site/`. One stylesheet (`site/app.css`), one script
-(`site/app.js`), no framework and no third-party requests. Dark is the default; every page also works in the light theme.
+(`site/app.js`), no framework, and every file is served from sigship.dev except the LiftOff launch badge picture in the
+footer. Dark is the default; every page also works in the light theme.
 
 ## Two switches, on every page
 
@@ -31,10 +32,9 @@ through demo apps. Everything stops for `prefers-reduced-motion`, and every elem
 - **Loader**: flag P waves with a short progress bar while the page loads, once per tab, never for reduced motion (`BOOT` and `BOOT_CSS`).
 - **Cloud billing**: yearly prices are the ones in `scripts/pricing.js`; monthly is 25% more (`monthly`), behind the Yearly / Monthly switch.
 - **Feature status**: every paid feature in `scripts/pricing.js` carries a status key from `STATUS` (`launch` for built and in use today, or `dec`, `jan`, `feb` for the month it rolls out by). A plan item is `'text'` or `['text', status]`; a comparison row's fourth field is one key for the row or one per plan. The build renders it as a small `.st-tag` label and prints `REFUND_LINE` ("A feature that misses its date is refunded on request") next to the 14-day refund line. Keep the labels true: move a feature to `launch` only when it ships.
-- **Checkout**: set `SIGSHIP_CHECKOUT_PRO` and `SIGSHIP_CHECKOUT_BUSINESS` in the build environment (`SIGSHIP_CHECKOUT_PRO=https://pay.example/... npm run build`) to the checkout links. The Pro and Business buttons then say "Buy" and go to checkout, the plan tag says "On sale", and the docs, terms and FAQ wording follows. Without them the buttons stay on the waitlist. The links must be `https://pay.example/` or `https://*.pay.example/` addresses; the build refuses anything else. Cloud plans stay on the waitlist until Solo opens.
 - **Check my app**: every "Check my app" button goes to `/check/`, the in-browser check (`scripts/build-check.js`, `site/check/`). The sitemap lists it only when `site/check/index.html` exists.
-- **Badges**: `scripts/badges.js` holds the levels (each says which plan it comes with and its status; badges have no price of their own). `scripts/badge-id.js` gives every badge an ID like `SG-S-4K7Q2M` from its level and site, used by the build, by `site/app.js` and by the Worker. The Worker draws `/b/<ID>.svg`: Self-checked (S) from the formula, every other level from its record at `app.sigship.dev/api/v1/badges/<ID>` (JSON `{ id, level, state, site, lastPass, streakSince }`, cached five minutes; Deep self-check (D) also tries the licence server at `api.sigship.dev/v1/badge/<ID>`). No record, or a paused or revoked one, draws a grey badge. `/verify/` looks the same records up in the browser. Every ID links to its record on `/verify/`. The footer carries sigship.dev's own badge, which is Live-checked (the check runs on every change to the site), not Expert-reviewed, until an outside engineer signs a review.
-- **Lookout email**: the form on `/lookout/` posts to `/api/lookout` on the Worker, which forwards to the cloud API when the secret `LOOKOUT_API` holds the subscribe address (`https://app.sigship.dev/api/v1/lookout/subscribe`), otherwise to the waitlist store as plan `lookout`.
+- **Badges**: `scripts/badges.js` holds the levels (each says which plan it comes with and its status; badges have no price of their own). `scripts/badge-id.js` gives every badge an ID like `SG-S-4K7Q2M` from its level and site, used by the build, by `site/app.js` and by the Worker. The Worker draws `/b/<ID>.svg`: Self-checked (S) from the formula, every other level from its record. No record, or a paused or revoked one, draws a grey badge. `/verify/` looks the same records up in the browser. Every ID links to its record on `/verify/`. The footer carries sigship.dev's own badge, which is Live-checked (the check runs on every change to the site), not Expert-reviewed, until an outside engineer signs a review.
+- **Lookout email**: the form on `/lookout/` posts to `/api/lookout` on the Worker.
 - **Pages with no code behind them**: `/score/` (the readiness score formula, both voices), `/accuracy/` (reads `bench/results.json` when it exists, otherwise says the benchmark is being built), `/expert-review/protocol/` and `/incident-rule/` are written in `scripts/build-site.js` and repeated in `llms-full.txt`.
 - **Social pictures**: `scripts/og-pages.js` lists one per page; `scripts/build-og.js` draws them.
 

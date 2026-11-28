@@ -250,7 +250,7 @@
     };
     paint();
     if (state !== 'Checking our records…') continue;
-    // Issued levels (Deep self-check and up) have a record in the SIGSHIP Cloud API; Deep self-check also in the licence server.
+    // Issued levels (Deep self-check and up) have a record, looked up here.
     const when = (iso) => { const d = new Date(iso); return Number.isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }); };
     const sources = [`https://app.sigship.dev/api/v1/badges/${id}`, ...(L === 'D' ? [`https://api.sigship.dev/v1/badge/${id}`] : [])];
     (async () => {

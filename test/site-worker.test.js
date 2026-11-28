@@ -54,14 +54,14 @@ describe('waitlist', () => {
     assert.equal(row.link, 'https://yogabook.app', 'a bare domain gets https://');
   });
 
-  it('never sends the secret or sheet address back to the visitor', async () => {
+  it('never sends the secret or store address back to the visitor', async () => {
     for (const reply of [{ status: 200, body: { ok: true } }, { status: 500, body: {} }, 'down']) {
       const text = await (await waitlist(post(good), ENV, { fetch: store(reply).fetch, now: NOW })).text();
       assert.ok(!text.includes(ENV.WAITLIST_SECRET) && !text.includes(ENV.WAITLIST_URL));
     }
   });
 
-  it('rejects a bad email or plan without calling the sheet', async () => {
+  it('rejects a bad email or plan without calling the store', async () => {
     const s = store();
     assert.equal((await waitlist(post({ ...good, email: 'nope' }), ENV, { fetch: s.fetch, now: NOW })).status, 400);
     assert.equal((await waitlist(post({ ...good, plan: 'free' }), ENV, { fetch: s.fetch, now: NOW })).status, 400);
@@ -85,13 +85,13 @@ describe('waitlist', () => {
     assert.equal(s.rows[0].row.tool, '');
   });
 
-  it('keeps names from running as formulas in the sheet', async () => {
+  it('keeps names from running as formulas in the store', async () => {
     const s = store();
     await waitlist(post({ ...good, name: '=HYPERLINK("x")' }), ENV, { fetch: s.fetch, now: NOW });
     assert.equal(s.rows[0].row.name, `'=HYPERLINK("x")`);
   });
 
-  it('works with only the sheet address, sending no secret', async () => {
+  it('works with only the store address, sending no secret', async () => {
     const s = store();
     const res = await waitlist(post(good), { WAITLIST_URL: ENV.WAITLIST_URL }, { fetch: s.fetch, now: NOW });
     assert.equal(res.status, 200);
@@ -104,7 +104,7 @@ describe('waitlist', () => {
     assert.match((await res.json()).error, /support@sigship.dev/);
   });
 
-  it('reports a sheet problem without losing the visitor', async () => {
+  it('reports a store problem without losing the visitor', async () => {
     assert.equal((await waitlist(post(good), ENV, { fetch: store('down').fetch, now: NOW })).status, 502);
     assert.equal((await waitlist(post(good), ENV, { fetch: store({ status: 200, body: { ok: false } }).fetch, now: NOW })).status, 502);
   });
@@ -132,7 +132,7 @@ describe('lookout sign-up', () => {
   const entry = { email: 'reader@example.com', started };
   const lp = (body, json = true) => post(body, json, '/api/lookout');
 
-  it('forwards to the cloud API when LOOKOUT_API is set, and never to the store', async () => {
+  it('forwards to LOOKOUT_API when it is set, and never to the waitlist store', async () => {
     const calls = [];
     const fetch = async (url, init) => { calls.push({ url, body: JSON.parse(init.body) }); return new Response('{"ok":true}', { status: 200 }); };
     const res = await lookout(lp(entry), { ...ENV, LOOKOUT_API }, { fetch, now: NOW });
@@ -237,7 +237,7 @@ describe('badge pictures', () => {
     assert.match(await (await badge(`/b/${wrong}.svg`, {}, { fetch: api().fetch })).text(), /Not issued/);
   });
 
-  it('asks the licence Worker for a Deep self-check record when the cloud API has none', async () => {
+  it('asks the second record source for a Deep self-check record when the first has none', async () => {
     const id = badgeId('D', 'studio.example');
     RECORDS[`licence:${id}`] = { id, level: 'deep', state: 'live', site: 'studio.example' };
     const a = api();

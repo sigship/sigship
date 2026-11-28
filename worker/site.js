@@ -1,22 +1,20 @@
 // The sigship.dev Worker. It serves the static site, takes waitlist and Lookout sign-ups, and draws badge pictures at /b/<ID>.svg.
 import { ID_RE, OWN_ID, OWN_SITE, badgeSvg } from '../scripts/badge-id.js';
-// Sign-ups go to a private store. Its address is the Worker secret
-// WAITLIST_URL and never appears in the page. WAITLIST_SECRET is an optional second lock.
-// 'lookout' is the Monday notice from /lookout/. It goes to the cloud API when LOOKOUT_API is set
-// (the subscribe address, https://app.sigship.dev/api/v1/lookout/subscribe), otherwise to the same store.
+// Sign-ups are passed on to private addresses held in the Worker secrets WAITLIST_URL and LOOKOUT_API,
+// which never appear in the page. WAITLIST_SECRET is an optional second lock. 'lookout' is the Monday notice.
 const PLANS = new Set(['pro', 'business', 'solo', 'team', 'agency', 'cloud', 'lookout']);
 const TOOLS = new Set(['lovable', 'bolt', 'replit', 'v0', 'cursor', 'claude-code', 'codex', 'copilot', 'windsurf', 'other']);
 const EMAIL = /^[^\s@<>"']{1,64}@[^\s@<>"']{1,190}\.[a-z]{2,24}$/i;
 // A real person takes a few seconds to fill the form. Bots post at once.
 const MIN_FILL_MS = 2500;
-// Badge records live in the cloud API; Deep self-check records also in the licence Worker until the cloud API exists.
+// Where the records of issued badges are looked up.
 const BADGE_API = 'https://app.sigship.dev/api/v1/badges/';
 const LICENCE_BADGE_API = 'https://api.sigship.dev/v1/badge/';
 const RECORD_TTL = 300;
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 const clean = (value, max) => (typeof value === 'string' ? value.replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, max) : '');
-// A cell that starts with = + - or @ can run as a formula in a spreadsheet. A leading quote keeps it plain text.
+// A value that starts with = + - or @ can run as a formula if it is ever opened in a spreadsheet. A leading quote keeps it plain text.
 const cell = (text) => (/^[=+\-@]/.test(text) ? `'${text}` : text);
 const SORRY = 'Something went wrong on our side. Try again in a minute.';
 
@@ -75,7 +73,7 @@ export async function waitlist(request, env, { fetch = globalThis.fetch, now = D
   return (await store(row, env, fetch)) ? reply(200, true) : reply(502, false, SORRY);
 }
 
-// The Monday notice sign-up from /lookout/. The cloud API confirms the address by email (double opt-in) once LOOKOUT_API is set.
+// The Monday notice sign-up from /lookout/.
 export async function lookout(request, env, { fetch = globalThis.fetch, now = Date.now } = {}) {
   const in_ = await intake(request, { now, back: '/lookout/', key: 'lookout' });
   if (in_ instanceof Response) return in_;
@@ -96,8 +94,7 @@ export async function lookout(request, env, { fetch = globalThis.fetch, now = Da
   return (await store(row, env, fetch)) ? reply(200, true) : reply(502, false, SORRY);
 }
 
-// The badge record for an issued level, from the cloud API, with the licence Worker as the second source for Deep self-check.
-// Cached for five minutes at the edge. A missing or broken record is null, which draws the grey "not issued" badge.
+// The record for an issued badge level. Cached for five minutes. A missing or broken record is null, which draws the grey "not issued" badge.
 async function record(id, env, fetch) {
   const sources = [`${env.BADGE_API || BADGE_API}${id}`];
   if (id[3] === 'D') sources.push(`${env.LICENCE_BADGE_API || LICENCE_BADGE_API}${id}`);

@@ -2,7 +2,6 @@ name: Publish to npm
 # Publishes the package to npm when a GitHub release is published, or by hand.
 # npm trusted publishing: GitHub's OIDC token proves the run comes from this repo and this
 # workflow file, so there is no npm token secret. Provenance is attached to the package.
-# One-time setup on npmjs.com is in docs/LISTINGS.md.
 on:
   release:
     types: [published]

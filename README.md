@@ -208,7 +208,7 @@ While you are signed in, every check reports its result to SIGSHIP Cloud so your
 
 ## Plugins
 
-Claude Code: `claude plugin marketplace add sigship/sigship`, then `claude plugin install sigship@sigship`. You get the MCP server, a `/sigship:launch` skill that fixes findings and re-runs until GO, and an optional launch mode that will not let a session finish on NO-GO (off until you switch it on, see [`plugins/sigship`](plugins/sigship/README.md)). Cursor, Codex, Copilot, VS Code and Kiro can load the folder in [`agent-plugins/sigship`](agent-plugins/sigship/README.md). Where SIGSHIP is listed is in [`docs/LISTINGS.md`](docs/LISTINGS.md).
+Claude Code: `claude plugin marketplace add sigship/sigship`, then `claude plugin install sigship@sigship`. You get the MCP server, a `/sigship:launch` skill that fixes findings and re-runs until GO, and an optional launch mode that will not let a session finish on NO-GO (off until you switch it on, see [`plugins/sigship`](plugins/sigship/README.md)). Cursor, Codex, Copilot, VS Code and Kiro can load the folder in [`agent-plugins/sigship`](agent-plugins/sigship/README.md).
 
 ## What it checks
 

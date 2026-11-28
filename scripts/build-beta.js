@@ -1,6 +1,6 @@
 // Builds the private beta site into site-beta/: a copy of site/ (fonts, images, styles, the browser check)
 // with every page rebuilt in beta mode by build-site.js and build-check.js. site-beta/ is not committed.
-// Run with: npm run beta. Deploy with: npx wrangler deploy --env beta
+// Run with SIGSHIP_APP_URL set: SIGSHIP_APP_URL=<beta app address> npm run beta. Its deploy config is kept privately.
 import { cpSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
