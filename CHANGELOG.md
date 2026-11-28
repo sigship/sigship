@@ -2,6 +2,13 @@
 
 All notable changes to SIGSHIP are listed here. Versions follow [Semantic Versioning](https://semver.org).
 
+## 0.4.1 — 2026-11-28
+
+### Changed
+- Pro licence: with `SIGSHIP_KEY` set, the key is checked on every run, so the Pro checks stop on the first run after a subscription ends. When the SIGSHIP server can't be reached, your last Pro pack download stands in only if it is less than 3 days old; an older one is deleted and the free checks run. Before, a download was reused for up to a day, and for ever while offline.
+- SIGSHIP Cloud: when Cloud declines to record a run, the CLI prints one line saying why, either that your sign-in has ended (run `npx sigship login`) or that the run needs a trial or a plan. The check itself is never failed, and the MCP server stays silent.
+- `npx sigship ui`: layout fixes. Long titles and paths wrap, the verdict scales with its card, the flags keep one row, and the header fits on a phone.
+
 ## 0.4.0 — 2026-11-10
 
 ### Added
