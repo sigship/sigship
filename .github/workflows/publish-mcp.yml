@@ -18,6 +18,18 @@ jobs:
           pkg=$(node -p "require('./package.json').version")
           srv=$(node -p "require('./server.json').version")
           test "$pkg" = "$srv" || { echo "package.json is $pkg but server.json is $srv"; exit 1; }
+      - name: Wait for this version on npm
+        # The npm workflow runs at the same time, and the registry refuses a version npm does not show yet.
+        run: |
+          name=$(node -p "require('./package.json').name")
+          pkg=$(node -p "require('./package.json').version")
+          for i in $(seq 1 40); do
+            npm view "$name@$pkg" version >/dev/null 2>&1 && exit 0
+            echo "$name@$pkg is not on npm yet, waiting 15 seconds"
+            sleep 15
+          done
+          echo "$name@$pkg did not appear on npm within 10 minutes"
+          exit 1
       - name: Install mcp-publisher
         run: curl -sSL "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.7/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
       - name: Sign in with GitHub OIDC
